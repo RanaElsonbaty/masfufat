@@ -12,7 +12,7 @@ pool:
 steps:
 - task: Gradle@2
   inputs:
-    workingDirectory: '/Users/mhmd/StudioProjects/masfufat'
+    workingDirectory: '/Users/mhmd/StudioProjects/masfufat/'
     gradleWrapperFile: 'gradlew'
     gradleOptions: '-Xmx3072m'
     publishJUnitResults: false
