@@ -11,6 +11,7 @@ import 'package:flutter_sixvalley_ecommerce/features/auth/widgets/sign_up_widget
 import 'package:provider/provider.dart';
 
 
+
 class AuthScreen extends StatefulWidget{
   final bool fromLogout;
   const AuthScreen({super.key, this.fromLogout = false});
