@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 
 
 
+
 class AuthScreen extends StatefulWidget{
   final bool fromLogout;
   const AuthScreen({super.key, this.fromLogout = false});
