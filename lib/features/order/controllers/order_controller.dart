@@ -171,4 +171,11 @@ if(element.orderStatus==getTranslated('pending', context)||element.orderStatus==
     return apiResponse;
   }
 
+  int _selectType=0;
+  int get selectType=>_selectType;
+  void getOrderType(int index){
+    _selectType =index;
+    notifyListeners();
+  }
+
 }

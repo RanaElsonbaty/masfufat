@@ -71,8 +71,8 @@ class ShippingAndBillingWidget extends StatelessWidget {
                       Expanded(
                         child: IconWithTextRowWidget(
                           icon: Icons.call,
-                          text: '${orderProvider.orders!.shippingAddressData != null ?
-                          orderProvider.orders!.shippingAddressData!.phone : ''}',),
+                          text: orderProvider.orders!.shippingAddressData != null ?
+                          orderProvider.orders!.shippingAddressData!.phone : '',),
                       ),
                     ],
                   ),
@@ -86,8 +86,8 @@ class ShippingAndBillingWidget extends StatelessWidget {
 
                         Expanded(child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 1),
-                          child: Text('${orderProvider.orders!.shippingAddressData != null ?
-                          orderProvider.orders!.shippingAddressData!.address : ''}',
+                          child: Text(orderProvider.orders!.shippingAddressData != null ?
+                          orderProvider.orders!.shippingAddressData!.address : '',
                               maxLines: 3, overflow: TextOverflow.ellipsis,
                               style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault))))]),
 
@@ -106,67 +106,67 @@ class ShippingAndBillingWidget extends StatelessWidget {
                   //         orderProvider.orders!.shippingAddressData!.zip : ''}',))]),
                   ],
                 ):const SizedBox(),
-                Divider(thickness: .25, color: Theme.of(context).primaryColor.withOpacity(0.50),),
+                // Divider(thickness: .25, color: Theme.of(context).primaryColor.withOpacity(0.50),),
 
 
-                orderProvider.orders!.billingAddressData != null?
-                Padding(
-                  padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        Text(getTranslated('billing', context)!, style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
-                        const SizedBox(height: Dimensions.marginSizeSmall),
-                        
-                        
-                        Row(
-                          children: [
-                            Expanded(
-                              child: IconWithTextRowWidget(
-                                  icon: Icons.person,
-                                  text: '${orderProvider.orders!.billingAddressData != null ?
-                                  orderProvider.orders!.billingAddressData!.contactPersonName : ''}'),
-                            ),
-                            
-
-                            Expanded(
-                              child: IconWithTextRowWidget(icon: Icons.call,
-                                  text: '${orderProvider.orders!.billingAddressData != null ?
-                                  orderProvider.orders!.billingAddressData!.phone : ''}'),
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: Dimensions.marginSizeSmall),
-
-                        Row(mainAxisAlignment:MainAxisAlignment.start,
-                          crossAxisAlignment:CrossAxisAlignment.start, children: [
-                            Icon(Icons.location_on, color: Provider.of<ThemeController>(context, listen: false).darkTheme?
-                            Colors.white : Theme.of(context).primaryColor.withOpacity(.30)),
-                            const SizedBox(width: Dimensions.marginSizeSmall),
-
-                            Expanded(child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 1),
-                              child: Text('  orderProvider.orders!.billingAddressData!.address',
-                                  maxLines: 3, overflow: TextOverflow.ellipsis,
-                                  style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault)),
-                            )),
-                          ],
-                        ),
-                    const SizedBox(height: Dimensions.paddingSizeSmall,),
-
-                    // Row(children: [
-                    //   Expanded(child: IconWithTextRowWidget(
-                    //       imageIcon: Images.country,
-                    //       icon: Icons.location_city,
-                    //       text: '${orderProvider.orders!.billingAddressData?.country != null ?
-                    //       orderProvider.orders!.billingAddressData!.country : ''}')),
-                    //
-                    //   Expanded(child: IconWithTextRowWidget(
-                    //       imageIcon: Images.city,
-                    //       icon: Icons.location_city,
-                    //       text: '${orderProvider.orders!.billingAddressData != null ?
-                    //       orderProvider.orders!.billingAddressData!.zip : ''}'))]),
-                    ]
-                  ),
-                ):const SizedBox(),
+                // orderProvider.orders!.billingAddressData != null?
+                // Padding(
+                //   padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
+                //   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                //         Text(getTranslated('billing', context)!, style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                //         const SizedBox(height: Dimensions.marginSizeSmall),
+                //
+                //
+                //         Row(
+                //           children: [
+                //             Expanded(
+                //               child: IconWithTextRowWidget(
+                //                   icon: Icons.person,
+                //                   text: '${orderProvider.orders!.billingAddressData != null ?
+                //                   orderProvider.orders!.billingAddressData!.contactPersonName : ''}'),
+                //             ),
+                //
+                //
+                //             Expanded(
+                //               child: IconWithTextRowWidget(icon: Icons.call,
+                //                   text: '${orderProvider.orders!.billingAddressData != null ?
+                //                   orderProvider.orders!.billingAddressData!.phone : ''}'),
+                //             )
+                //           ],
+                //         ),
+                //         const SizedBox(height: Dimensions.marginSizeSmall),
+                //
+                //         Row(mainAxisAlignment:MainAxisAlignment.start,
+                //           crossAxisAlignment:CrossAxisAlignment.start, children: [
+                //             Icon(Icons.location_on, color: Provider.of<ThemeController>(context, listen: false).darkTheme?
+                //             Colors.white : Theme.of(context).primaryColor.withOpacity(.30)),
+                //             const SizedBox(width: Dimensions.marginSizeSmall),
+                //
+                //             Expanded(child: Padding(
+                //               padding: const EdgeInsets.symmetric(vertical: 1),
+                //               child: Text('  orderProvider.orders!.billingAddressData!.address',
+                //                   maxLines: 3, overflow: TextOverflow.ellipsis,
+                //                   style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault)),
+                //             )),
+                //           ],
+                //         ),
+                //     const SizedBox(height: Dimensions.paddingSizeSmall,),
+                //
+                //     // Row(children: [
+                //     //   Expanded(child: IconWithTextRowWidget(
+                //     //       imageIcon: Images.country,
+                //     //       icon: Icons.location_city,
+                //     //       text: '${orderProvider.orders!.billingAddressData?.country != null ?
+                //     //       orderProvider.orders!.billingAddressData!.country : ''}')),
+                //     //
+                //     //   Expanded(child: IconWithTextRowWidget(
+                //     //       imageIcon: Images.city,
+                //     //       icon: Icons.location_city,
+                //     //       text: '${orderProvider.orders!.billingAddressData != null ?
+                //     //       orderProvider.orders!.billingAddressData!.zip : ''}'))]),
+                //     ]
+                //   ),
+                // ):const SizedBox(),
               ],
             ),
 

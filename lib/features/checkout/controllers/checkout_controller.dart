@@ -49,11 +49,14 @@ class CheckoutController with ChangeNotifier {
   List<String> inputValueList = [];
 
 
-
+void getLoading(bool val){
+  _isLoading =val;
+  notifyListeners();
+}
   Future<void> placeOrder({required Function callback, String? addressID,
         String? couponCode, String? couponAmount,
         String? billingAddressId, String? orderNote, String? transactionId,
-        String? paymentNote, int? id, String? name,bool isfOffline = false, bool wallet = false}) async {
+        String? paymentNote, int? id, String? name,bool isfOffline = false, bool wallet = false,bool delayed=false}) async {
     for(TextEditingController textEditingController in inputFieldControllerList) {
       inputValueList.add(textEditingController.text.trim());
 
@@ -67,6 +70,7 @@ class CheckoutController with ChangeNotifier {
     apiResponse = await checkoutServiceInterface.offlinePaymentPlaceOrder(addressID, couponCode,couponAmount, billingAddressId, orderNote, keyList, inputValueList, offlineMethodSelectedId, offlineMethodSelectedName, paymentNote, _isCheckCreateAccount, passwordController.text.trim()):
     wallet?
     apiResponse = await checkoutServiceInterface.walletPaymentPlaceOrder(addressID, couponCode,couponAmount, billingAddressId, orderNote, _isCheckCreateAccount, passwordController.text.trim()):
+    delayed? apiResponse= await checkoutServiceInterface.delayedPaymentPlaceOrder(addressID, couponCode, couponAmount, billingAddressId, orderNote, isCheckCreateAccount, passwordController.text.trim()):
     apiResponse = await checkoutServiceInterface.cashOnDeliveryPlaceOrder(addressID, couponCode,couponAmount, billingAddressId, orderNote, _isCheckCreateAccount, passwordController.text.trim());
 
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
@@ -157,9 +161,11 @@ class CheckoutController with ChangeNotifier {
 
 
   String selectedDigitalPaymentMethodName = '';
+  int? selectedDigitalPaymentMethodId ;
 
-  void setDigitalPaymentMethodName(int index, String name) {
+  void setDigitalPaymentMethodName(int index, String name,int id) {
     _paymentMethodIndex = index;
+    selectedDigitalPaymentMethodId=id;
     selectedDigitalPaymentMethodName = name;
     codChecked = false;
     walletChecked = false;

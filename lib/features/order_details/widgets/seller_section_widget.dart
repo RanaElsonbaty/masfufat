@@ -37,7 +37,7 @@ class SellerSectionWidget extends StatelessWidget {
                 // order!.orderDetails![0].order?.sellerIs == 'admin' ?
                 // "${Provider.of<SplashController>(context, listen: false).configModel?.companyFavIcon?.path}"
                 //     :
-                order!.orderDetails![0].seller?.name,
+                order!.orderDetails![0].seller?.image,
               )));
 
 

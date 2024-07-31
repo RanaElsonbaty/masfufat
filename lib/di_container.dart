@@ -95,6 +95,10 @@ import 'package:flutter_sixvalley_ecommerce/features/order_details/domain/reposi
 import 'package:flutter_sixvalley_ecommerce/features/order_details/domain/repositories/order_details_repository_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/domain/services/order_details_service.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/domain/services/order_details_service_interface.dart';
+import 'package:flutter_sixvalley_ecommerce/features/payment%20/controller/payment_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/features/payment%20/domain/repositories/payment_repository.dart';
+import 'package:flutter_sixvalley_ecommerce/features/payment%20/domain/services/payment_service.dart';
+import 'package:flutter_sixvalley_ecommerce/features/payment%20/domain/services/payment_service_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/controllers/product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/controllers/seller_product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/domain/repositories/product_repository.dart';
@@ -152,6 +156,11 @@ import 'package:flutter_sixvalley_ecommerce/features/support/domain/repositories
 import 'package:flutter_sixvalley_ecommerce/features/support/domain/repositories/support_ticket_repository_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/features/support/domain/services/support_ticket_service.dart';
 import 'package:flutter_sixvalley_ecommerce/features/support/domain/services/support_ticket_service_interface.dart';
+import 'package:flutter_sixvalley_ecommerce/features/sync%20order/controllers/sync_order_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/features/sync%20order/domain/repositories/sync_order_repository.dart';
+import 'package:flutter_sixvalley_ecommerce/features/sync%20order/domain/repositories/sync_order_repository_interface.dart';
+import 'package:flutter_sixvalley_ecommerce/features/sync%20order/domain/services/sync_order_service.dart';
+import 'package:flutter_sixvalley_ecommerce/features/sync%20order/domain/services/sync_order_service_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wallet/controllers/wallet_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wallet/domain/repositories/wallet_repository.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wallet/domain/repositories/wallet_repository_interface.dart';
@@ -180,6 +189,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'data/datasource/remote/dio/logging_interceptor.dart';
 import 'features/loyaltyPoint/domain/repositories/loyalty_point_repository.dart';
 import 'features/my shop/controllers/my_shop_controller.dart';
+import 'features/payment /domain/repositories/payment_repository_interface.dart';
 import 'features/search_product/domain/repositories/search_product_repository.dart';
 
 final sl = GetIt.instance;
@@ -197,6 +207,7 @@ Future<void> init() async {
   // Repository
   sl.registerLazySingleton(() => CategoryRepository(dioClient: sl()));
   sl.registerLazySingleton(() => FlashDealRepository(dioClient: sl()));
+  sl.registerLazySingleton(() => PaymentRepository(dioClient: sl()));
   sl.registerLazySingleton(() => FeaturedDealRepository(dioClient: sl()));
   sl.registerLazySingleton(() => BrandRepository(dioClient: sl()));
   sl.registerLazySingleton(() => ProductRepository(dioClient: sl()));
@@ -225,6 +236,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ShippingRepository(dioClient: sl()));
   sl.registerLazySingleton(() => ContactUsRepository(dioClient: sl()));
   sl.registerLazySingleton(() => SellerProductRepository(dioClient: sl()));
+  sl.registerLazySingleton(() => SyncOrderRepository(dioClient: sl()));
   sl.registerLazySingleton(() => OrderDetailsRepository(dioClient: sl()));
   sl.registerLazySingleton(() => RefundRepository(dioClient: sl()));
   sl.registerLazySingleton(() => ReOrderRepository(dioClient: sl()));
@@ -236,6 +248,7 @@ Future<void> init() async {
   sl.registerFactory(() => FlashDealController(flashDealServiceInterface: sl()));
   sl.registerFactory(() => FeaturedDealController(featuredDealServiceInterface: sl()));
   sl.registerFactory(() => BrandController(brandRepo: sl()));
+  sl.registerFactory(() => PaymentController(paymentServiceInterface: sl()));
   sl.registerFactory(() => ProductController(productServiceInterface: sl()));
   sl.registerFactory(() => BannerController(bannerServiceInterface: sl()));
   sl.registerFactory(() => OnBoardingController(onBoardingServiceInterface: sl()));
@@ -257,6 +270,7 @@ Future<void> init() async {
   sl.registerFactory(() => GoogleSignInController());
   sl.registerFactory(() => FacebookLoginController());
   sl.registerFactory(() => AddressController(addressServiceInterface: sl()));
+  sl.registerFactory(() => SyncOrderController(syncOrderServiceInterface: sl()));
   sl.registerFactory(() => WalletController(walletServiceInterface: sl()));
   sl.registerFactory(() => CompareController(compareServiceInterface: sl()));
   sl.registerFactory(() => LoyaltyPointController(loyaltyPointServiceInterface: sl()));
@@ -275,6 +289,16 @@ Future<void> init() async {
   sl.registerLazySingleton(() => addressRepoInterface);
   AddressServiceInterface addressServiceInterface = AddressService(addressRepoInterface: sl());
   sl.registerLazySingleton(() => addressServiceInterface);
+
+  SyncOrderRepositoryInterface syncOrderRepositoryInterface = SyncOrderRepository(dioClient: sl());
+  sl.registerLazySingleton(() => syncOrderRepositoryInterface);
+  SyncOrderServiceInterface syncOrderServiceInterface = SyncOrderService(syncOrderRepositoryInterface: sl());
+  sl.registerLazySingleton(() => syncOrderServiceInterface);
+
+  PaymentRepositoryInterface paymentRepositoryInterface = PaymentRepository(dioClient: sl());
+  sl.registerLazySingleton(() => paymentRepositoryInterface);
+  PaymentServiceInterface paymentServiceInterface = PaymentsService(paymentRepositoryInterface: sl());
+  sl.registerLazySingleton(() => paymentServiceInterface);
 
   AuthRepoInterface authRepoInterface = AuthRepository(dioClient: sl(), sharedPreferences: sl());
   sl.registerLazySingleton(() => authRepoInterface);
@@ -461,6 +485,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ChatService(chatRepositoryInterface : sl()));
   sl.registerLazySingleton(() => ShippingService(shippingRepositoryInterface : sl()));
   sl.registerLazySingleton(() => CheckoutService(checkoutRepositoryInterface : sl()));
+  sl.registerLazySingleton(() => SyncOrderService(syncOrderRepositoryInterface : sl()));
   sl.registerLazySingleton(() => CompareService(compareRepositoryInterface : sl()));
   sl.registerLazySingleton(() => ContactUsService(contactUsRepositoryInterface : sl()));
   sl.registerLazySingleton(() => CouponService(couponRepositoryInterface : sl()));

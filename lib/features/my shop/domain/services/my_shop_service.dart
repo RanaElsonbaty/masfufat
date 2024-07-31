@@ -14,6 +14,27 @@ class MyShopService implements MyShopServiceInterface{
     return myShopServiceInterface.getList(offset: offset);
   }
 
+ @override
+  Future delete(int id) async{
+    return myShopServiceInterface.delete(id);
+  }
+  @override
+  Future deleteLinked(int id) async{
+    return myShopServiceInterface.deleteLinked(id);
+  }
+  @override
+  Future addPriceToProduct(int id,String price) async{
+    return myShopServiceInterface.addPriceToProduct(id,price);
+  } @override
+  Future syncProduct() async{
+    return myShopServiceInterface.syncProduct();
+  } @override
+
+
+  Future addProduct(int id) async{
+    return myShopServiceInterface.addProduct( id);
+  }
+
 
 
 

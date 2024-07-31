@@ -20,6 +20,7 @@ import 'package:flutter_sixvalley_ecommerce/features/notification/controllers/no
 import 'package:flutter_sixvalley_ecommerce/features/onboarding/controllers/onboarding_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order/controllers/order_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/controllers/order_details_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/features/payment%20/controller/payment_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/controllers/product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/controllers/seller_product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/controllers/product_details_controller.dart';
@@ -31,6 +32,7 @@ import 'package:flutter_sixvalley_ecommerce/features/shipping/controllers/shippi
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/screens/splash_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/support/controllers/support_ticket_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/features/sync%20order/controllers/sync_order_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wallet/controllers/wallet_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wishlist/controllers/wishlist_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/controllers/localization_controller.dart';
@@ -49,6 +51,7 @@ import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.d
 import 'package:flutter_sixvalley_ecommerce/theme/dark_theme.dart';
 import 'package:flutter_sixvalley_ecommerce/theme/light_theme.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:provider/provider.dart';
 import 'di_container.dart' as di;
 import 'helper/custom_delegate.dart';
@@ -98,6 +101,8 @@ if(Firebase.apps.isEmpty){
       ChangeNotifierProvider(create: (context) => di.sl<FlashDealController>()),
       ChangeNotifierProvider(create: (context) => di.sl<FeaturedDealController>()),
       ChangeNotifierProvider(create: (context) => di.sl<BrandController>()),
+      ChangeNotifierProvider(create: (context) => di.sl<PaymentController>()),
+      ChangeNotifierProvider(create: (context) => di.sl<SyncOrderController>()),
       ChangeNotifierProvider(create: (context) => di.sl<ProductController>()),
       ChangeNotifierProvider(create: (context) => di.sl<MyShopController>()),
       ChangeNotifierProvider(create: (context) => di.sl<BannerController>()),
@@ -153,6 +158,8 @@ class MyApp extends StatelessWidget {
           title: AppConstants.appName,
           navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
+          // here
+          // builder:,
           theme: themeController.darkTheme ? dark : light(
             primaryColor: themeController.selectedPrimaryColor,
             secondaryColor: themeController.selectedPrimaryColor,

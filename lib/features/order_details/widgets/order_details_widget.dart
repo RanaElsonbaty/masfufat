@@ -52,12 +52,12 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
   void initState() {
     super.initState();
 
-    IsolateNameServer.registerPortWithName(_port.sendPort, 'downloader_send_port');
-    _port.listen((dynamic data) {
-      setState((){ });
-    });
-
-    FlutterDownloader.registerCallback(downloadCallback);
+    // IsolateNameServer.registerPortWithName(_port.sendPort, 'downloader_send_port');
+    // _port.listen((dynamic data) {
+    //   setState((){ });
+    // });
+    //
+    // FlutterDownloader.registerCallback(downloadCallback);
   }
 
   void downloadCallback(String id, int status, int progress) async {
@@ -145,47 +145,7 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                           SizedBox(height: (widget.orderDetailsModel.productDetails != null &&
                               widget.orderDetailsModel.productDetails?.productType =='digital' && widget.paymentStatus == 'paid')?
                           Dimensions.paddingSizeExtraLarge : 0),
-                          widget.orderDetailsModel.productDetails?.productType =='digital' && widget.paymentStatus == 'paid'?
-                          Consumer<OrderDetailsController>(
-                              builder: (context, orderProvider, _) {
-                                return InkWell(onTap : () async {
-                                  if(widget.orderDetailsModel.productDetails!.digitalProductType == 'ready_after_sell' &&
-                                      widget.orderDetailsModel.digitalFileAfterSell == null ){
 
-                                    showCustomSnackBar(getTranslated('product_not_uploaded_yet', context), context, isToaster: true);
-                                  }else{
-                                    if(Provider.of<AuthController>(context, listen: false).isLoggedIn() && widget.isGuest == 0){
-                                      _downloadProduct();
-                                    }else{
-                                      orderProvider.downloadDigitalProduct(orderDetailsId: widget.orderDetailsModel.id!).then((value){
-                                        if(value.response?.statusCode == 200){
-                                          Navigator.push(context, MaterialPageRoute(builder: (_)=>  VerificationScreen('', '', '',
-                                            orderId: widget.orderDetailsModel.id, fromDigitalProduct: true,)));
-                                        }
-                                      });
-                                    }
-                                  }
-                                },
-                                  child: Align(alignment: Alignment.centerRight,
-                                      child: Builder(
-                                        builder: (context) {
-                                          return Container(width: 130, padding: const EdgeInsets.only(left: 5), height: 38,
-                                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
-                                                color: Theme.of(context).primaryColor),
-                                            alignment: Alignment.center,
-                                            child: (orderProvider.isDownloaodLoading &&  orderProvider.downloaodIndex == widget.index) ? const SizedBox(height: 28,  width: 28, child: CircularProgressIndicator(color: Colors.white)) : Center(child:  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                              Text('${getTranslated('download', context)}',
-                                                style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault,color: Theme.of(context).cardColor),),
-                                              const SizedBox(width: Dimensions.paddingSizeSmall),
-                                              SizedBox(width: Dimensions.iconSizeDefault,
-                                                  child: Image.asset(Images.fileDownload, color: Theme.of(context).cardColor))])));
-                                        }
-                                      )),
-                                );
-                              }
-                          ) : const SizedBox(),
-
-                          const SizedBox(width: 10),
                         ]),
 
 

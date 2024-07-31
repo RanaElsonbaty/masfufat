@@ -139,6 +139,15 @@ class CheckoutRepository implements CheckoutRepositoryInterface{
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
+  @override
+  Future delayedPaymentPlaceOrder(String? addressID, String? couponCode, String? couponDiscountAmount, String? billingAddressId, String? orderNote, bool? isCheckCreateAccount, String? password) async{
+try{
+    final response = await dioClient!.get('${AppConstants.delayedPayment}?address_id=$addressID&coupon_code=$couponCode&coupon_discount=$couponDiscountAmount&billing_address_id=$billingAddressId&payment_note=$orderNote&transaction_ref=&payment_by=', );
+    return ApiResponse.withSuccess(response);
+  } catch (e) {
+  return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+  }
+  }
 
   @override
   Future add(value) {
@@ -169,4 +178,6 @@ class CheckoutRepository implements CheckoutRepositoryInterface{
     // TODO: implement update
     throw UnimplementedError();
   }
+
+
 }

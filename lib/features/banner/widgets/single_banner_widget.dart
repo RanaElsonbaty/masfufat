@@ -31,7 +31,7 @@ class SingleBannersWidget extends StatelessWidget {
                 decoration:  BoxDecoration(borderRadius: BorderRadius.all(noRadius?
                 const Radius.circular(0): const Radius.circular(5))),
                 child: ClipRRect(borderRadius: BorderRadius.all(Radius.circular(noRadius?0:5)),
-                  child: CustomImageWidget(image: '${bannerModel?.photo}')))));
+                  child: CustomImageWidget(image: '${bannerModel?.photo}',fit: BoxFit.fill,)))));
     },
     ),],
     );

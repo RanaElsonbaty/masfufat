@@ -46,6 +46,8 @@ import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:provider/provider.dart';
 
+import '../../payment /controller/payment_controller.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -74,7 +76,13 @@ class HomePage extends StatefulWidget {
     if(Provider.of<AuthController>(Get.context!, listen: false).isLoggedIn()){
       await  Provider.of<ProfileController>(Get.context!, listen: false).getUserInfo(Get.context!);
     }
-
+    Provider.of<PaymentController>(Get.context!,listen: false).getIsLoading(true,false);
+    await   Provider.of<PaymentController>(Get.context!,listen: false).getAmount(( 0));
+    await  Provider.of<PaymentController>(Get.context!,listen: false).getApiKey(Get.context!);
+    await Provider.of<PaymentController>(Get.context!,listen: false).initiate(Get.context!);
+    await Provider.of<PaymentController>(Get.context!,listen: false).getPaymentMethod(Get.context!,'cart');
+    Provider.of<PaymentController>(Get.context!,listen: false).cardViewStyle();
+    Provider.of<PaymentController>(Get.context!,listen: false).getIsLoading(false,true);
   }
 
 }

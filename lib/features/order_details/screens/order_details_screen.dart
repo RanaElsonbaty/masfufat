@@ -150,20 +150,20 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
 
 
-                        InkWell(
-                          onTap: (){
-                            orderProvider.getOrderInvoice(orderProvider.orders!.id.toString(), context);
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                              border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.15)),
-                            ),
-                            padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                            child:  orderProvider.isInvoiceLoading ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator()) :
-                            Image.asset(Images.downloadIcon, height: 15, width: 15),
-                          ),
-                        ),
+                        // InkWell(
+                        //   onTap: (){
+                        //     orderProvider.getOrderInvoice(orderProvider.orders!.id.toString(), context);
+                        //   },
+                        //   child: Container(
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                        //       border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.15)),
+                        //     ),
+                        //     padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                        //     child:  orderProvider.isInvoiceLoading ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator()) :
+                        //     Image.asset(Images.downloadIcon, height: 15, width: 15),
+                        //   ),
+                        // ),
 
                       ],
                     ),
@@ -203,47 +203,47 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
                   const SizedBox(height: Dimensions.paddingSizeSmall,),
 
-                  orderProvider.orders!.deliveryMan != null?
-                  Container(padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-                      decoration: BoxDecoration(color: Theme.of(context).highlightColor,
-                          boxShadow: [BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.2), spreadRadius:2, blurRadius: 10)]),
-                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('${getTranslated('shipping_info', context)}', style: robotoBold),
-                            CallAndChatWidget(orderProvider: orderProvider, orderModel: orderProvider.orders),
-                          ],
-                        ),
-                        const SizedBox(height: Dimensions.marginSizeExtraSmall),
+                  // orderProvider.orders!.deliveryMan != null?
+                  // Container(padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                  //     decoration: BoxDecoration(color: Theme.of(context).highlightColor,
+                  //         boxShadow: [BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.2), spreadRadius:2, blurRadius: 10)]),
+                  //     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  //       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //         children: [
+                  //           Text('${getTranslated('shipping_info', context)}', style: robotoBold),
+                  //           CallAndChatWidget(orderProvider: orderProvider, orderModel: orderProvider.orders),
+                  //         ],
+                  //       ),
+                  //       const SizedBox(height: Dimensions.marginSizeExtraSmall),
+                  //
+                  //       Row( children: [
+                  //         Text('${getTranslated('name', context)} : ',
+                  //             style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault)),
+                  //
+                  //
+                  //         Text((orderProvider.orders!.deliveryMan != null ) ?
+                  //         '${orderProvider.orders?.deliveryMan} ${orderProvider.orders?.deliveryMan}':'',
+                  //             style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault))]),
+                  //
+                  //       const SizedBox(height: 10,),
+                  //       Row( children: [
+                  //         Text('${getTranslated('email', context)} : ',
+                  //             style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault)),
+                  //
+                  //
+                  //         Text((orderProvider.orders!.deliveryMan != null ) ?
+                  //         '${orderProvider.orders?.deliveryMan}':'',
+                  //             style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault))]),
+                  //
+                  //       const SizedBox(height: Dimensions.paddingSizeDefault),
+                  //
+                  //
+                  //
+                  //     ])):
 
-                        Row( children: [
-                          Text('${getTranslated('name', context)} : ',
-                              style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault)),
 
-
-                          Text((orderProvider.orders!.deliveryMan != null ) ?
-                          '${orderProvider.orders?.deliveryMan?.fName} ${orderProvider.orders?.deliveryMan?.lName}':'',
-                              style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault))]),
-
-                        const SizedBox(height: 10,),
-                        Row( children: [
-                          Text('${getTranslated('email', context)} : ',
-                              style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault)),
-
-
-                          Text((orderProvider.orders!.deliveryMan != null ) ?
-                          '${orderProvider.orders?.deliveryMan?.email}':'',
-                              style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault))]),
-
-                        const SizedBox(height: Dimensions.paddingSizeDefault),
-
-
-
-                      ])):
-
-
-                  orderProvider.orders!.deliveryServiceName != null?
-                  ShippingInfoWidget(order: orderProvider):const SizedBox(),
+                  // orderProvider.orders!.deliveryServiceName != null?
+                  ShippingInfoWidget(order: orderProvider),
 
 
 

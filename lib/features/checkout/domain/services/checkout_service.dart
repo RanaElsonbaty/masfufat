@@ -32,4 +32,9 @@ class CheckoutService implements CheckoutServiceInterface{
     return await checkoutRepositoryInterface.walletPaymentPlaceOrder(addressID, couponCode, couponDiscountAmount, billingAddressId, orderNote, isCheckCreateAccount, password);
   }
 
+  @override
+  Future delayedPaymentPlaceOrder(String? addressID, String? couponCode, String? couponDiscountAmount, String? billingAddressId, String? orderNote, bool? isCheckCreateAccount, String? password) {
+    return checkoutRepositoryInterface.delayedPaymentPlaceOrder(addressID, couponCode, couponDiscountAmount, billingAddressId, orderNote, isCheckCreateAccount, password);
+  }
+
 }

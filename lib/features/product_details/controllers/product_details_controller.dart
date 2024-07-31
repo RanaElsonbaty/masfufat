@@ -44,7 +44,7 @@ class ProductDetailsController extends ChangeNotifier {
   Future<void> getProductDetails(BuildContext context, String productId, String slug) async {
     _isDetails = true;
     log("=====slug===>$slug/ $productId");
-    ApiResponse apiResponse = await productDetailsServiceInterface.get(slug);
+    ApiResponse apiResponse = await productDetailsServiceInterface.get(productId);
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       _isDetails = false;
       _productDetailsModel = ProductDetailsModel.fromJson(apiResponse.response!.data);

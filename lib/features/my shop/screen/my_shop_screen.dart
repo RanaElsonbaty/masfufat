@@ -1,13 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/features/my%20shop/shimmers/sync_shimmers.dart';
+import 'package:flutter_sixvalley_ecommerce/features/my%20shop/widget/products/linked_product_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../../utill/images.dart';
 import '../widget/header.dart';
 import '../widget/search_widget.dart';
 import '../widget/select_type_section.dart';
+import '../widget/products/sync_product_widget.dart';
 
 class MyShopScreen extends StatefulWidget {
   const MyShopScreen({super.key});
@@ -19,14 +23,29 @@ class MyShopScreen extends StatefulWidget {
 class _MyShopScreenState extends State<MyShopScreen> {
   ScrollController scrollController =ScrollController();
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initData();
+  }
+  Future initData()async{
+  await  Provider.of<MyShopController>(context,listen: false).getList();
+    Provider.of<MyShopController>(context,listen: false).initController();
+
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
 body:  SafeArea(
   child: RefreshIndicator(
-    onRefresh: ()async{},
+    onRefresh: ()async{
+    await  initData();
+
+    },
     child: CustomScrollView(
+
       controller: scrollController,
-      physics: const BouncingScrollPhysics(),
+      physics: const AlwaysScrollableScrollPhysics(),
       slivers: [
         SliverAppBar(
           floating: true,
@@ -47,20 +66,63 @@ body:  SafeArea(
             )
           ],),
         ),
-        SliverPersistentHeader(pinned: true,
-
-            delegate: SliverDelegate(
-          child: Consumer<MyShopController>(builder:(context, myShopProvider, child) =>  HeaderSection(index:myShopProvider.selectIndex ,))
-        )),
         SliverPersistentHeader(pinned: false,
 
             delegate: SliverDelegate(
-          child: Consumer<MyShopController>(builder:(context, myShopProvider, child) => myShopProvider.isSearch? const MyShopSearchWidget():SizedBox.shrink())
+          child: Consumer<MyShopController>(builder:(context, myShopProvider, child) =>  HeaderSection(index:myShopProvider.selectIndex ,pending: myShopProvider.selectIndex==0,))
         )),
-        const SliverToBoxAdapter(
-          child: Column(children: [
+        Consumer<MyShopController>(
+          builder:(context, myShopProvider, child) =>  SliverPersistentHeader(pinned: false,
 
-          ],),
+              delegate: SliverDelegate(
+                height:myShopProvider.isSearch?70:10 ,
+
+            child: myShopProvider.isSearch? const MyShopSearchWidget():const SizedBox.shrink()
+          )),
+        ),
+         SliverToBoxAdapter(
+          child: Consumer<MyShopController>(
+            builder:(context, myShopProvider, child) =>   myShopProvider.isLoading==false?  Column(children: [
+if(myShopProvider.selectIndex==0)
+  myShopProvider.pendingList.isNotEmpty? ListView.builder(
+    itemCount:myShopProvider.searchActive?myShopProvider.pendingListSearch.length: myShopProvider.pendingList.length,
+    padding: const EdgeInsets.all(0),
+    shrinkWrap: true,
+    physics: const NeverScrollableScrollPhysics(),
+    itemBuilder: (context, index) {
+
+
+      return SyncProductWidget(
+          pending:myShopProvider.searchActive?myShopProvider.pendingListSearch[index]: myShopProvider.pendingList[index],
+          controller: myShopProvider.controller[index],
+        index: index,
+        );
+    },):const NoInternetOrDataScreenWidget(isNoInternet: false),
+              if(myShopProvider.selectIndex==1)
+                myShopProvider.linkedList.isNotEmpty?ListView.builder(
+                  itemCount:myShopProvider.searchActive?myShopProvider.linkedListSearch.length: myShopProvider.linkedList.length,
+                  padding: const EdgeInsets.all(0),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return LinkedProductWidget(
+                      linked:myShopProvider.searchActive?myShopProvider.linkedListSearch[index]: myShopProvider.linkedList[index],
+                    );
+                  },):const NoInternetOrDataScreenWidget(isNoInternet: false),
+              if(myShopProvider.selectIndex==2)
+                myShopProvider.deleteList.isNotEmpty?ListView.builder(
+                  itemCount: myShopProvider.searchActive?myShopProvider.deleteListSearch.length:myShopProvider.deleteList.length,
+                  padding: const EdgeInsets.all(0),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return LinkedProductWidget(
+                      linked:myShopProvider.searchActive?myShopProvider.deleteListSearch[index]:myShopProvider.deleteList[index],
+                    );
+                  },):const NoInternetOrDataScreenWidget(isNoInternet: false),
+
+            ],):const SyncShimmers(),
+          ),
         )
       ],
     ),

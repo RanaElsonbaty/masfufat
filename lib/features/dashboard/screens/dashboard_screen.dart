@@ -21,6 +21,7 @@ import 'package:flutter_sixvalley_ecommerce/features/order/screens/order_screen.
 import 'package:provider/provider.dart';
 
 import '../../my shop/screen/my_shop_screen.dart';
+import '../../order/screens/order_page_builder.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({super.key});
@@ -64,7 +65,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
 
       _screens = [
         NavigationModel(
-          name: 'home',
+          name: 'Home',
           icon: Images.homeImage,
           screen:
             // (splashController.configModel!.activeTheme == "default")
@@ -74,9 +75,9 @@ class DashBoardScreenState extends State<DashBoardScreen> {
               // ? const AsterThemeHomeScreen(): const FashionThemeHomePage(),
         ),
 
-        NavigationModel(name: 'my store', icon: Images.shopImage, screen: const MyShopScreen()),
+        NavigationModel(name: 'my_store', icon: Images.shopImage, screen: const MyShopScreen()),
         NavigationModel(name: 'cart', icon: Images.cartArrowDownImage, screen: const CartScreen(showBackButton: false), showCartIcon: true),
-        NavigationModel(name: 'orders', icon: Images.shoppingImage, screen:  const OrderScreen(isBacButtonExist: false)),
+        NavigationModel(name: 'orders', icon: Images.shoppingImage, screen:  const OrderPageBuilder(isBacButtonExist: false)),
         NavigationModel(name: 'more', icon: Images.moreImage, screen:  const MoreScreen()),
 
       ];
@@ -124,7 +125,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
         key: _scaffoldKey,
 
         body: PageStorage(bucket: bucket, child: _screens[_pageIndex].screen),
-        bottomNavigationBar: Container(height: 68,
+        bottomNavigationBar: Container(height: 75,
           decoration: BoxDecoration(borderRadius: const BorderRadius.vertical(
               top: Radius.circular(Dimensions.paddingSizeLarge)),
             color: Theme.of(context).cardColor,

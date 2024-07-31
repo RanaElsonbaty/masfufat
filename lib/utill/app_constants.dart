@@ -72,7 +72,18 @@ class AppConstants {
   static const String tokenUri = '/api/v1/customer/cm-firebase-token';
   static const String notificationUri = '/api/v1/notifications';
   static const String linkedProduct = '/api/v1/products/linked-products';
+  static const String deletePendingProducts =
+      '/api/v1/products/delete-pending-products';
+  static const String deleteLinkedProducts =
+      '/api/v1/products/delete-linked-products';
+  static const String addLinkedProductToSyncing =
+      '/api/v1/products/price-linked-products';
+  static const String syncLinkedProducts =
+      '/api/v1/products/sync-linked-products';
   static const String seenNotificationUri = '/api/v1/notifications/seen';
+  static const String syncOrderList = '/api/v1/customer/sync-order/list?status=';
+  static const String syncOrderDetailsList = '/api/v1/customer/sync-order/details/';
+  static const String addProductToStore = '/api/v1/products/add-linked-products?product_id=';
   static const String getCartDataUri = '/api/v1/cart';
   static const String addToCartUri = '/api/v1/cart/add';
   static const String updateCartQuantityUri = '/api/v1/cart/update';
@@ -108,6 +119,8 @@ class AppConstants {
   static const String sellerWiseCouponListApi = '/api/v1/coupons/';
   static const String sellerWiseBestSellingProduct = '/api/v1/seller/';
   static const String digitalPayment = '/api/v1/digital-payment';
+  static const String delayedPayment = '/api/v1/customer/order/place-by-offline-payment';
+  static const String checkoutBankTransfer = '/api/v1/customer/order/place_bank_transfer';
   static const String offlinePaymentList = '/api/v1/customer/order/offline-payment-method-list';
   static const String sellerWiseCategoryList = '/api/v1/categories?seller_id=';
   static const String sellerWiseBrandList = '/api/v1/brands?seller_id=';

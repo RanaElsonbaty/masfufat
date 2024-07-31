@@ -122,6 +122,7 @@ class _AddFundDialogueWidgetState extends State<AddFundDialogueWidget> {
                                     return  CustomCheckBoxWidget(index: index,
                                       icon:paymentMethods[index].image,
                                       name: paymentMethods[index].name,
+                                      id: 0,
                                       title:'');
                                   },
                                 );

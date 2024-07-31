@@ -41,6 +41,7 @@ class _SelectTypeSectionState extends State<SelectTypeSection> {
                 Text(
                   '${getTranslated(widget.title, context)}',
                   textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.tajawal(
                   fontSize: 15
                       ,
@@ -49,6 +50,7 @@ class _SelectTypeSectionState extends State<SelectTypeSection> {
                 ),),
                   widget.subTitle!=''? Text("${getTranslated(widget.subTitle, context)}",
                   textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
 
                   style: GoogleFonts.tajawal(
                     fontSize: 11,

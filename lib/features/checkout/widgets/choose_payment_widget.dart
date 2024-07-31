@@ -19,7 +19,9 @@ class ChoosePaymentWidget extends StatelessWidget {
       builder: (context, orderProvider,_) {
         return Consumer<SplashController>(
           builder: (context, configProvider, _) {
-            return Card(child: Container(padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+            return Card(
+              child: Container(
+              padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeDefault),
                   color: Theme.of(context).cardColor),
                 child: Column(crossAxisAlignment:CrossAxisAlignment.start, children: [
@@ -31,31 +33,23 @@ class ChoosePaymentWidget extends StatelessWidget {
                       InkWell(onTap: () => showModalBottomSheet(context: context,
                           isScrollControlled: true, backgroundColor: Colors.transparent,
                           builder: (c) =>   PaymentMethodBottomSheetWidget(onlyDigital: onlyDigital,)),
-                          child: SizedBox(width: 20, child: Image.asset(Images.edit, scale: 3)))]),
-                    const SizedBox(height: Dimensions.paddingSizeDefault,),
+                          child: SizedBox(width: 20, child: Image.asset(Images.edit,color: Theme.of(context).primaryColor, scale: 3)))]),
+                    // const SizedBox(height: Dimensions.paddingSizeDefault,),
 
-                    Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      const Divider(thickness: .125,),
-                      (orderProvider.paymentMethodIndex != -1)?
-                      Row(children: [
-                        // SizedBox(width: 40, child: CustomImageWidget(
-                        //     image: '${configProvider.configModel!.paymentMethods![orderProvider.paymentMethodIndex].additionalDatas!.gatewayImage??''}')),
-                        // Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-                        //   child: Text(configProvider.configModel!.paymentMethods![orderProvider.paymentMethodIndex].additionalDatas!.gatewayTitle??''),),
-                      ],):orderProvider.codChecked?
-                      Text(getTranslated('cash_on_delivery', context)??'') :orderProvider.offlineChecked?
-                      Text(getTranslated('offline_payment', context)??'') :orderProvider.walletChecked?
-                      Text(getTranslated('wallet_payment', context)??'') :
-
-                      InkWell(onTap: () => showModalBottomSheet(context: context,
-                          isScrollControlled: true, backgroundColor: Colors.transparent,
-                          builder: (c) =>   PaymentMethodBottomSheetWidget(onlyDigital: onlyDigital,)),
-                        child: Row(children: [
-                          Padding(padding: const EdgeInsets.only(right: Dimensions.paddingSizeSmall),
-                            child: Icon(Icons.add_circle_outline_outlined, size: 20, color: Theme.of(context).primaryColor),),
-                            Text('${getTranslated('add_payment_method', context)}',
-                              style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
-                              maxLines: 3, overflow: TextOverflow.fade)]))]),
+                    // Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    //   const Divider(thickness: .125,),
+                    //   // orderProvider.selectedDigitalPaymentMethodName=='fatoorah'?
+                    //
+                    //   // InkWell(onTap: () => showModalBottomSheet(context: context,
+                    //   //     isScrollControlled: true, backgroundColor: Colors.transparent,
+                    //   //     builder: (c) =>   PaymentMethodBottomSheetWidget(onlyDigital: onlyDigital,)),
+                    //   //   child: Row(children: [
+                    //   //     Padding(padding: const EdgeInsets.only(right: Dimensions.paddingSizeSmall),
+                    //   //       child: Icon(Icons.add_circle_outline_outlined, size: 20, color: Theme.of(context).primaryColor),),
+                    //   //       Text('${getTranslated('add_payment_method', context)}',
+                    //   //         style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
+                    //   //         maxLines: 3, overflow: TextOverflow.fade)]))
+                    // ]),
                   ],
                 ),
               ),

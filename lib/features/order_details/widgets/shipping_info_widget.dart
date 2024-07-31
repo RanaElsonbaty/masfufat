@@ -20,9 +20,7 @@ class ShippingInfoWidget extends StatelessWidget {
               Text('${getTranslated('delivery_service_name', context)} : ',
                   style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
 
-              Text((order!.orders!.deliveryServiceName != null &&
-                  order!.orders!.deliveryServiceName!.isNotEmpty) ?
-                  order!.orders!.deliveryServiceName!:'',
+              Text(order!.orders!.shippingType!.toString(),
                 style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeSmall))]),
             const SizedBox(height: Dimensions.marginSizeExtraSmall),
 
@@ -31,8 +29,8 @@ class ShippingInfoWidget extends StatelessWidget {
                   Text('${getTranslated('tracking_id', context)} : ',
                       style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
 
-                  Text(order!.orders!.thirdPartyDeliveryTrackingId != null ?
-                  order!.orders!.thirdPartyDeliveryTrackingId! : '',
+                  Text(
+                  order!.orders!.id.toString(),
                       style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
                 ]),
           ]),

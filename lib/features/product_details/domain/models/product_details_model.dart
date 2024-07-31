@@ -389,7 +389,7 @@ class ProductDetailsModel {
     _refundable = json['refundable'];
     _digitalProductType = json['digital_product_type'];
     _digitalFileReady = json['digital_file_ready'];
-    _images = json['images'].cast<String>();
+    _images = json['images']!=null?json['images'].cast<String>():[];
     // if (json['images_full_url'] != null) {
     //   _imagesFullUrl = <ImageFullUrl>[];
     //   _productImagesNull = true;

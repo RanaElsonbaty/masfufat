@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/controllers/checkout_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/features/payment%20/controller/payment_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/controllers/localization_controller.dart';
@@ -23,7 +24,6 @@ class PaymentMethodBottomSheetWidget extends StatefulWidget {
 }
 class PaymentMethodBottomSheetWidgetState extends State<PaymentMethodBottomSheetWidget> {
 
-List<PaymentMethod> paymentMethods=[];
   @override
   Widget build(BuildContext context) {
     return Consumer<CheckoutController>(
@@ -47,82 +47,27 @@ List<PaymentMethod> paymentMethods=[];
                   Text(getTranslated('choose_payment_method', context)??'',
                       style: titilliumSemiBold.copyWith(fontSize: Dimensions.fontSizeDefault)),
 
-                  Expanded(child: Padding(padding: const EdgeInsets.only(left: Dimensions.paddingSizeExtraSmall),
-                      child: Text('${getTranslated('click_one_of_the_option_below', context)}',
-                          style: textRegular.copyWith(color: Theme.of(context).hintColor,
-                              fontSize: Dimensions.fontSizeSmall))))])),
+                    ])),
 
 
               Column(crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min, children: [
 
 
-                  Row(children: [
-                    if(Provider.of<SplashController>(context, listen: false).configModel != null &&
-                        Provider.of<SplashController>(context, listen: false).configModel!.cashOnDelivery && !widget.onlyDigital)
-                    Expanded(child: CustomButton(
-                        isBorder: true,
-                      leftIcon: Images.cod,
-                      backgroundColor: checkoutProvider.codChecked? Theme.of(context).primaryColor : Theme.of(context).cardColor,
-                        textColor:  checkoutProvider.codChecked? Colors.white : Theme.of(context).textTheme.bodyLarge?.color,
-                        fontSize: Dimensions.fontSizeSmall,
-                        onTap: () => checkoutProvider.setOfflineChecked('cod'),
-                        buttonText: '${getTranslated('cash_on_delivery', context)}')),
-                    const SizedBox(width: Dimensions.paddingSizeDefault),
-
-                    if(Provider.of<SplashController>(context, listen: false).configModel != null &&
-                        Provider.of<SplashController>(context, listen: false).configModel!.walletStatus == 1 &&
-                        Provider.of<AuthController>(context, listen: false).isLoggedIn())
-
-                    Expanded(child: CustomButton(onTap: () => checkoutProvider.setOfflineChecked('wallet'),
-                        isBorder: true,
-                        leftIcon: Images.payWallet,
-                        backgroundColor: checkoutProvider.walletChecked ? Theme.of(context).primaryColor : Theme.of(context).cardColor,
-                        textColor:  checkoutProvider.walletChecked? Colors.white : Theme.of(context).textTheme.bodyLarge?.color,
-                        fontSize: Dimensions.fontSizeSmall,
-                        buttonText: '${getTranslated('pay_via_wallet', context)}'))],),
-
-
-
-                  // if(Provider.of<SplashController>(context, listen: false).configModel != null &&
-                  //     Provider.of<SplashController>(context, listen: false).configModel!.digitalPayment!)
-                  Padding(padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall, top: Dimensions.paddingSizeDefault),
-                    child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        Text('${getTranslated('pay_via_online', context)}', style: textRegular),
-                        Expanded(child: Padding(padding: const EdgeInsets.only(left: Dimensions.paddingSizeExtraSmall),
-                            child: Text('${getTranslated('fast_and_secure', context)}',
-                                style: textRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
-                                    color: Theme.of(context).hintColor)),))])),
-
-
-                  // if(Provider.of<SplashController>(context, listen: false).configModel != null &&
-                  //     Provider.of<SplashController>(context, listen: false).configModel!.digitalPayment!)
-                    Consumer<SplashController>(
+                               Consumer<PaymentController>(
                       builder: (context, configProvider,_) {
-                        paymentMethods =[
-                        if(configProvider.configModel!.paymentMethods.delayed.enabled)
-                            PaymentMethod(  configProvider.configModel!.paymentMethods.delayed.name.toString(),   configProvider.configModel!.paymentMethods.delayed.logo, 0),
-                          if(configProvider.configModel!.paymentMethods.wallet.enabled)
-                          PaymentMethod(  configProvider.configModel!.paymentMethods.wallet.name.toString(),   configProvider.configModel!.paymentMethods.wallet.logo, 1),
-                        if(configProvider.configModel!.paymentMethods.fatoorah.enabled==1)
-                          PaymentMethod(  configProvider.configModel!.paymentMethods.fatoorah.name.toString(),   configProvider.configModel!.paymentMethods.fatoorah.logo, 2),
-                       if(configProvider.configModel!.paymentMethods.bankTransfer.enabled==1)
-                          PaymentMethod(  configProvider.configModel!.paymentMethods.bankTransfer.name.toString(),   configProvider.configModel!.paymentMethods.bankTransfer.logo, 2),
-                         if(configProvider.configModel!.paymentMethods.cashOnDelivery.enabled)
-                          PaymentMethod(  configProvider.configModel!.paymentMethods.cashOnDelivery.name.toString(),   configProvider.configModel!.paymentMethods.cashOnDelivery.logo, 2),
 
-                        ];
-                        // paymentMethods.add(configProvider.configModel?.paymentMethods)
                         return ListView.builder(
                           padding: EdgeInsets.zero,
-                          itemCount: paymentMethods.length??0,
+                          itemCount: configProvider.paymentMethod.length,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index){
                             return  CustomCheckBoxWidget(index: index,
-                              icon: paymentMethods[index].image,
-                              name: paymentMethods[index].name,
+                              icon: configProvider.paymentMethod[index].image,
+                              name:configProvider. paymentMethod[index].name,
                               title:'',
+                              id: configProvider. paymentMethod[index].id,
                             );
                           },
                         );
@@ -130,69 +75,6 @@ List<PaymentMethod> paymentMethods=[];
                   ),
 
 
-                  // if(Provider.of<SplashController>(context, listen: false).configModel != null &&
-                  //     Provider.of<SplashController>(context, listen: false).configModel!.offlinePayment != null && Provider.of<SplashController>(context, listen: false).configModel!.digitalPayment)
-                  Padding(padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault),
-                    child: Container(decoration: BoxDecoration(
-                        color: checkoutProvider.offlineChecked?Theme.of(context).primaryColor.withOpacity(.15): null,
-                        borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall)),
-                      child: Column(children: [
-
-                        InkWell(onTap: () {
-                            if(checkoutProvider.offlinePaymentModel?.offlineMethods != null &&
-                                checkoutProvider.offlinePaymentModel!.offlineMethods!.isNotEmpty){
-                              checkoutProvider.setOfflineChecked('offline');
-                            }
-                          },
-                          child: Padding(padding: const EdgeInsets.all(8.0),
-                            child: Container(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),),
-                              child: Row(children: [
-                                Theme(data: Theme.of(context).copyWith(
-                                  unselectedWidgetColor: Theme.of(context).primaryColor.withOpacity(.25),),
-                                  child: Checkbox(visualDensity: VisualDensity.compact,
-                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraLarge)),
-                                      checkColor: Colors.white,
-                                      value: checkoutProvider.offlineChecked, activeColor: Colors.green,
-                                      onChanged: (bool? isChecked){
-                                        if(checkoutProvider.offlinePaymentModel?.offlineMethods != null &&
-                                            checkoutProvider.offlinePaymentModel!.offlineMethods!.isNotEmpty){
-                                          checkoutProvider.setOfflineChecked('offline');}})),
-                                Text('${getTranslated('pay_offline', context)}', style: textRegular.copyWith(),)])))),
-
-
-                      if(checkoutProvider.offlinePaymentModel != null && checkoutProvider.offlinePaymentModel!.offlineMethods != null &&
-                          checkoutProvider.offlinePaymentModel!.offlineMethods!.isNotEmpty && checkoutProvider.offlineChecked)
-                        Padding(padding: EdgeInsets.only(left: Provider.of<LocalizationController>(context, listen: false).isLtr?
-                        Dimensions.paddingSizeDefault : 0, bottom: Dimensions.paddingSizeDefault,
-                            right: Provider.of<LocalizationController>(context, listen: false).isLtr?
-                            0 : Dimensions.paddingSizeDefault, top: Dimensions.paddingSizeSmall),
-                          child: SizedBox(height: 40,
-                            child: ListView.builder(
-                                padding: EdgeInsets.zero,
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: checkoutProvider.offlinePaymentModel!.offlineMethods!.length,
-                                itemBuilder: (context, index){
-                                  return InkWell(onTap: (){
-                                      if(checkoutProvider.offlinePaymentModel?.offlineMethods != null &&
-                                          checkoutProvider.offlinePaymentModel!.offlineMethods!.isNotEmpty) {
-                                        checkoutProvider.setOfflinePaymentMethodSelectedIndex(index);
-                                      }
-                                    },
-                                    child: Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
-                                      child: Container(decoration: BoxDecoration(color: Theme.of(context).cardColor,
-                                          borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
-                                          border: checkoutProvider.offlineMethodSelectedIndex == index ?
-                                          Border.all(color: Theme.of(context).primaryColor, width: 2):
-                                          Border.all(color: Theme.of(context).primaryColor.withOpacity(.5), width: .25)),
-                                          child: Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
-                                            child: Center(child: Text(checkoutProvider.offlinePaymentModel!.offlineMethods![index].methodName??'')),
-                                          )),
-                                    ));
-                                })))
-                      ]))),
 
                   CustomButton(buttonText: '${getTranslated('save', context)}',
                   onTap: ()=> Navigator.of(context).pop()),

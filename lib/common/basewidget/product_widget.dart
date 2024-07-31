@@ -42,11 +42,13 @@ class ProductWidget extends StatelessWidget {
               ),
               child: Stack(
                 children: [
-                  CustomImageWidget(
-                    image: "${productModel.imagesFullUrl!=null&&productModel.imagesFullUrl!.isNotEmpty? productModel.images!.first!:''}",
-                    fit: BoxFit.fill,
-                    height: boxConstraint.maxWidth * 0.82,
-                    width: boxConstraint.maxWidth,
+                  Consumer<SplashController>(
+                    builder: (context, splashProvider, child) =>  CustomImageWidget(
+                      image: productModel.imagesFullUrl!=null&&productModel.imagesFullUrl!.isNotEmpty? productModel.imagesFullUrl!:productModel.images!=null&&productModel.images!.first!=productModel.images!.first?'':'',
+                      fit: BoxFit.fill,
+                      height: boxConstraint.maxWidth * 0.82,
+                      width: boxConstraint.maxWidth,
+                    ),
                   ),
 
                   if(productModel.currentStock! == 0 && productModel.productType == 'physical')...[

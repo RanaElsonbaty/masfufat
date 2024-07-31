@@ -8,9 +8,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class HeaderSection extends StatefulWidget {
-  const HeaderSection({super.key, required this.index});
+  const HeaderSection({super.key, required this.index, required this.pending});
   final int index;
-
+final bool pending;
   @override
   State<HeaderSection> createState() => _HeaderSectionState();
 }
@@ -23,8 +23,10 @@ class _HeaderSectionState extends State<HeaderSection> {
         height: 100,
         child: Row(children: [
           Checkbox(
-            value: true,
-            onChanged: (val){},
+            value: myShopProvider.selectAll,
+            onChanged: (val){
+              myShopProvider.getSelectProduct(myShopProvider.selectIndex);
+            },
             checkColor: Colors.white,
             activeColor: Theme.of(context).primaryColor,
             shape: RoundedRectangleBorder(
@@ -34,7 +36,7 @@ class _HeaderSectionState extends State<HeaderSection> {
        widget.index==0?   Expanded(
             child: InkWell(
 onTap: (){
-  showModalBottomSheet(context: context, builder: (BuildContext context)=>ShowModalBottomSheetShop(delete: false,));
+  showModalBottomSheet(context: context, builder: (BuildContext context)=>const ShowModalBottomSheetShop(delete: false,));
 
 },
               child: Container(
@@ -100,7 +102,7 @@ onTap: (){
           ),   const SizedBox(width: 10,),
           InkWell(
              onTap: () {
-               showModalBottomSheet(context: context, builder: (BuildContext context)=>ShowModalBottomSheetShop(delete: true,));
+               showModalBottomSheet(context: context, builder: (BuildContext context)=> ShowModalBottomSheetShop(delete: true));
              },
             child: Container(
               height: 45,

@@ -22,6 +22,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/title_row_widget.d
 import 'package:flutter_sixvalley_ecommerce/features/shop/widgets/shop_product_view_list.dart';
 import 'package:provider/provider.dart';
 
+import '../../my shop/controllers/my_shop_controller.dart';
+
 class ProductDetails extends StatefulWidget {
   final int? productId;
   final String? slug;
@@ -38,13 +40,14 @@ class _ProductDetailsState extends State<ProductDetails> {
   Size widgetSize = const Size(100, 400);
 
   _loadData( BuildContext context) async{
+    Provider.of<MyShopController>(context,listen: false).getList();
     Provider.of<ProductDetailsController>(context, listen: false).getProductDetails(context, widget.productId.toString(), widget.productId.toString());
-    Provider.of<ReviewController>(context, listen: false).removePrevReview();
-    Provider.of<ProductDetailsController>(context, listen: false).removePrevLink();
+    // Provider.of<ReviewController>(context, listen: false).removePrevReview();
+    // Provider.of<ProductDetailsController>(context, listen: false).removePrevLink();
     Provider.of<ReviewController>(context, listen: false).getReviewList(widget.productId, widget.slug, context);
-    Provider.of<ProductController>(context, listen: false).removePrevRelatedProduct();
-    Provider.of<ProductController>(context, listen: false).initRelatedProductList(widget.productId.toString(), context);
-    Provider.of<ProductDetailsController>(context, listen: false).getCount(widget.productId.toString(), context);
+    // Provider.of<ProductController>(context, listen: false).removePrevRelatedProduct();
+    // Provider.of<ProductController>(context, listen: false).initRelatedProductList(widget.productId.toString(), context);
+    // Provider.of<ProductDetailsController>(context, listen: false).getCount(widget.productId.toString(), context);
     Provider.of<ProductDetailsController>(context, listen: false).getSharableLink(widget.slug.toString(), context);
   }
 

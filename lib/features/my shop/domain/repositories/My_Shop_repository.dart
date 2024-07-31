@@ -3,7 +3,6 @@ import 'package:flutter_sixvalley_ecommerce/data/datasource/remote/dio/dio_clien
 import 'package:flutter_sixvalley_ecommerce/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/domain/repositories/My_Shop_repository_interface.dart';
-import 'package:flutter_sixvalley_ecommerce/features/notification/domain/repositories/notification_repository_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
 
 class MyShopRepository implements MyShopRepositoryInterface{
@@ -19,6 +18,66 @@ class MyShopRepository implements MyShopRepositoryInterface{
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
+  @override
+  Future<ApiResponse>  delete(int id,) async {
+    try {
+      var data = {"id": id};
+      Response response = await dioClient!.post(AppConstants.deletePendingProducts
+      ,data: data
+      );
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  }
+  @override
+  Future<ApiResponse>  deleteLinked(int id,) async {
+    try {
+      var data = {"id": id};
+      Response response = await dioClient!.post(AppConstants.deleteLinkedProducts
+      ,data: data
+      );
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  }  @override
+  Future<ApiResponse>  addProduct(int id,) async {
+    try {
+
+      Response response = await dioClient!.post('${AppConstants.addProductToStore}$id'
+      ,
+      );
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  } @override
+  Future<ApiResponse>  addPriceToProduct(int id,String price) async {
+    try {
+      var data = {
+        'product_id': id,
+        "price": price,
+      };
+      Response response = await dioClient!.post(AppConstants.addLinkedProductToSyncing
+      ,data: data
+      );
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  }@override
+  Future<ApiResponse>  syncProduct() async {
+    try {
+
+      Response response = await dioClient!.post(AppConstants.syncLinkedProducts
+      ,
+      );
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  }
 
 
 
@@ -28,11 +87,6 @@ class MyShopRepository implements MyShopRepositoryInterface{
     throw UnimplementedError();
   }
 
-  @override
-  Future delete(int id) {
-    // TODO: implement delete
-    throw UnimplementedError();
-  }
 
   @override
   Future get(String id) {

@@ -50,7 +50,9 @@ class _ShippingDetailsWidgetState extends State<ShippingDetailsWidget> {
                           SizedBox(width: 18, child: Image.asset(Images.deliveryTo)),
                           Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
                             child: Text('${getTranslated('delivery_to', context)}',
-                                style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge)))])),
+                                style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge)))
+                        ]
+                        )),
 
 
                         InkWell(onTap: () => Navigator.of(context).push(
@@ -114,10 +116,12 @@ class _ShippingDetailsWidgetState extends State<ShippingDetailsWidget> {
                           child: Column(crossAxisAlignment:CrossAxisAlignment.start, children: [
                             Row(mainAxisAlignment:MainAxisAlignment.start, crossAxisAlignment:CrossAxisAlignment.start, children: [
                               Expanded(child: Row(children: [
-                                SizedBox(width: 18, child: Image.asset(Images.billingTo)),
+                                SizedBox(width: 20, child: Image.asset(Images.billingTo,color: Theme.of(context).primaryColor,)),
                                 Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
-                                    child: Text('${getTranslated('billing_to', context)}',
-                                        style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge)))])),
+                                    child: Text('${getTranslated('select_a_shipping_address', context)}',
+                                        style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge))
+                                )
+                              ])),
 
 
                               InkWell(onTap: () => Navigator.of(context).push(MaterialPageRoute(
@@ -127,18 +131,15 @@ class _ShippingDetailsWidgetState extends State<ShippingDetailsWidget> {
 
                               const SizedBox(height: Dimensions.paddingSizeDefault,),
                             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                              Text((shippingProvider.billingAddressIndex != null && (locationProvider.addressList?.isNotEmpty ?? false))
-                                  ? locationProvider.addressList![shippingProvider.billingAddressIndex!].addressType!.capitalize()
-                                  : '${getTranslated('address_type', context)}',
 
-                                style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault),
-                                maxLines: 1, overflow: TextOverflow.fade,
-                              ),
                               const Divider(thickness: .125),
 
                               (shippingProvider.billingAddressIndex != null && (locationProvider.addressList?.isNotEmpty ?? false))
                                   ? Column(children: [
-                                AddressInfoItem(icon: Images.user,
+                                AddressInfoItem(icon:locationProvider.addressList?[shippingProvider.billingAddressIndex!].addressType=='home'?
+                                Images.homeImage:locationProvider.addressList?[shippingProvider.billingAddressIndex!].addressType=='permanent'?Images.officeImage:Images.address,
+                                    title: getTranslated(locationProvider.addressList?[shippingProvider.billingAddressIndex!].addressType, context)??''),
+                              AddressInfoItem(icon: Images.user,
                                     title: locationProvider.addressList?[shippingProvider.billingAddressIndex!].contactPersonName??''),
                                 AddressInfoItem(icon: Images.callIcon,
                                     title: locationProvider.addressList?[shippingProvider.billingAddressIndex!].phone??''),
@@ -199,7 +200,7 @@ class AddressInfoItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
       child: Row(children: [
-        SizedBox(width: 18, child: Image.asset(icon!)),
+        SizedBox(width: 18, child: Image.asset(icon!,color: Theme.of(context).primaryColor,)),
         Expanded(child: Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
             child: Text(title??'',style: textRegular.copyWith(),maxLines: 2, overflow: TextOverflow.fade )))]),
     );

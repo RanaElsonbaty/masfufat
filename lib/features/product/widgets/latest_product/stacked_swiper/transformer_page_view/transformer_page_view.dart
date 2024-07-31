@@ -44,9 +44,9 @@ class TransformInfo {
 
   /// The `position` of the widget pass to [PageTransformer.transform]
   ///  A `position` describes how visible the widget is.
-  ///  The widget in the center of the screen' which is  full visible, position is 0.0.
-  ///  The widget in the left ,may be hidden, of the screen's position is less than 0.0, -1.0 when out of the screen.
-  ///  The widget in the right ,may be hidden, of the screen's position is greater than 0.0,  1.0 when out of the screen
+  ///  The widget in the center of the screens' which is  full visible, position is 0.0.
+  ///  The widget in the left ,may be hidden, of the screens's position is less than 0.0, -1.0 when out of the screens.
+  ///  The widget in the right ,may be hidden, of the screens's position is greater than 0.0,  1.0 when out of the screens
   ///
   ///
   final double? position;
