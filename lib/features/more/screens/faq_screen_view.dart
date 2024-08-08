@@ -23,9 +23,9 @@ class FaqScreenState extends State<FaqScreen> {
       body: Column(children: [
         CustomAppBar(title: widget.title),
 
-        splashController.configModel!.faq != null && splashController.configModel!.faq!.isNotEmpty? Expanded(
+        splashController.configModel!.faq.isNotEmpty? Expanded(
           child: ListView.builder(
-              itemCount: Provider.of<SplashController>(context, listen: false).configModel!.faq!.length,
+              itemCount: Provider.of<SplashController>(context, listen: false).configModel!.faq.length,
               itemBuilder: (ctx, index){
                 return  Consumer<SplashController>(
                   builder: (ctx, faq, child){
@@ -34,12 +34,12 @@ class FaqScreenState extends State<FaqScreen> {
                           Flexible(child: ExpansionTile(
                               expandedAlignment: Alignment.topLeft,
                               iconColor: Theme.of(context).primaryColor,
-                              title: Text(faq.configModel!.faq![index].question!,
+                              title: Text(faq.configModel!.faq[index].question,
                                   style: robotoBold.copyWith(color: ColorResources.getTextTitle(context))),
                               leading: Icon(Icons.collections_bookmark_outlined,color:ColorResources.getTextTitle(context)),
                               children: [
                                 Padding(padding: const EdgeInsets.symmetric(horizontal: 40, vertical: Dimensions.paddingSizeSmall),
-                                  child: Text(faq.configModel!.faq![index].answer!,style: textRegular, textAlign: TextAlign.justify))])),
+                                  child: Text(faq.configModel!.faq[index].answer,style: textRegular, textAlign: TextAlign.justify))])),
                           ]),
                       ],);
                   },

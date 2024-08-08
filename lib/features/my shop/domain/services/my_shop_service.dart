@@ -1,7 +1,4 @@
-import 'package:flutter_sixvalley_ecommerce/features/my%20shop/domain/repositories/My_Shop_repository.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/domain/repositories/My_Shop_repository_interface.dart';
-import 'package:flutter_sixvalley_ecommerce/features/notification/domain/repositories/notification_repository_interface.dart';
-import 'package:flutter_sixvalley_ecommerce/features/notification/domain/services/notification_service_interface.dart';
 
 import 'my_shop_service_interface.dart';
 

@@ -1,15 +1,12 @@
 import 'dart:developer';
-import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/domain/models/social_login_model.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/facebook_login_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/google_login_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
@@ -36,7 +33,7 @@ class SocialLoginWidgetState extends State<SocialLoginWidget> {
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const DashBoardScreen()), (route) => false);
 
       }else if(temporaryToken != null && temporaryToken.isNotEmpty){
-        if(Provider.of<SplashController>(context,listen: false).configModel!.emailVerification!){
+        if(Provider.of<SplashController>(context,listen: false).configModel!.emailVerification){
           Provider.of<AuthController>(context, listen: false).sendOtpToEmail(socialLogin.email.toString(),
               temporaryToken).then((value) async {
             if (value.response?.statusCode == 200) {

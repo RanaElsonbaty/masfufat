@@ -126,10 +126,10 @@ class _AsterThemeHomeScreenState extends State<AsterThemeHomeScreen> {
               backgroundColor: Theme.of(context).highlightColor,
               title: Image.asset(Images.logoWithNameImage, height: 35)),
 
-            SliverToBoxAdapter(child: Provider.of<SplashController>(context, listen: false).configModel!.announcement!.status == '1'?
+            SliverToBoxAdapter(child: Provider.of<SplashController>(context, listen: false).configModel!.announcement.status == '1'?
               Consumer<SplashController>(
                 builder: (context, announcement, _){
-                  return (announcement.configModel!.announcement!.announcement != null && announcement.onOff)?
+                  return (announcement.onOff)?
                   AnnouncementWidget(announcement: announcement.configModel!.announcement):const SizedBox();
                 },):const SizedBox(),),
 

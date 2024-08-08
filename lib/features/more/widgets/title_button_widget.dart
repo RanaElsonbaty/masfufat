@@ -21,14 +21,14 @@ class MenuButtonWidget extends StatelessWidget {
         trailing: isNotification? Consumer<NotificationController>(
             builder: (context, notificationController, _) {
               return CircleAvatar(radius: 12, backgroundColor: Theme.of(context).primaryColor,
-                child: Text(notificationController.totalOffset.toString() ?? '0',
+                child: Text(notificationController.totalNotification.toString(),
                     style: textRegular.copyWith(color: ColorResources.white, fontSize: Dimensions.fontSizeSmall)),
               );}):
 
         isProfile? Consumer<ProfileController>(
             builder: (context, profileProvider, _) {
               return CircleAvatar(radius: 12, backgroundColor: Theme.of(context).primaryColor,
-                  child: Text('profileProvider.userInfoModel?.referCount.toString()' ?? '0',
+                  child: Text('profileProvider.userInfoModel?.referCount.toString()',
                       style: textRegular.copyWith(color: ColorResources.white,
                           fontSize: Dimensions.fontSizeSmall)));}):
         const SizedBox(),

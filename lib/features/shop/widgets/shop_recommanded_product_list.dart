@@ -24,7 +24,6 @@ class _ShopRecommandedProductViewListState extends State<ShopRecommandedProductV
           (productController.sellerWiseRecommandedProduct != null && productController.sellerWiseRecommandedProduct!.products != null &&
               productController.sellerWiseRecommandedProduct!.products!.isNotEmpty)?
           PaginatedListView(scrollController: widget.scrollController,
-              onPaginate: (offset) async => await productController.getSellerProductList(widget.sellerId.toString(), offset!, ""),
               totalSize: productController.sellerWiseRecommandedProduct?.totalSize,
               offset: productController.sellerWiseRecommandedProduct?.offset,
               itemView: MasonryGridView.count(
@@ -36,7 +35,7 @@ class _ShopRecommandedProductViewListState extends State<ShopRecommandedProductV
                 itemBuilder: (BuildContext context, int index) {
                   return ProductWidget(productModel: productController.sellerWiseRecommandedProduct!.products![index]);
                 },
-              )) : const SizedBox() : ProductShimmer(isEnabled: productController.sellerWiseRecommandedProduct == null, isHomePage: false);
+              ), onPaginate: (int? offset) {  },) : const SizedBox() : ProductShimmer(isEnabled: productController.sellerWiseRecommandedProduct == null, isHomePage: false);
         }
     );
   }

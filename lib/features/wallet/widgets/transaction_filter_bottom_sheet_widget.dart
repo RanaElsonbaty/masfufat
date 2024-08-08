@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wallet/controllers/wallet_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +39,7 @@ class TransactionFilterBottomSheetWidget extends StatelessWidget {
                         child: Row(children: [
                           Padding(padding: EdgeInsets.symmetric(horizontal:transactionProvider.selectedIndexForFilter == index?
                           Dimensions.paddingSizeSmall:0),
-                            child: Text(transactionProvider.filterTypes[index],
+                            child: Text(getTranslated(transactionProvider.filterTypes[index], context)!,
                               style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault,
                               color: transactionProvider.selectedIndexForFilter == index? Theme.of(context).primaryColor:
                               Theme.of(context).textTheme.bodyLarge?.color)))]))));}),

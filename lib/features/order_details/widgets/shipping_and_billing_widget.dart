@@ -64,15 +64,15 @@ class ShippingAndBillingWidget extends StatelessWidget {
                       Expanded(
                         child: IconWithTextRowWidget(
                           icon: Icons.person,
-                          text: '${orderProvider.orders!.shippingAddressData != null ?
-                          orderProvider.orders!.shippingAddressData!.contactPersonName : ''}',),
+                          text:
+                          orderProvider.orders!.shippingAddressData.contactPersonName,),
                       ),
 
                       Expanded(
                         child: IconWithTextRowWidget(
                           icon: Icons.call,
-                          text: orderProvider.orders!.shippingAddressData != null ?
-                          orderProvider.orders!.shippingAddressData!.phone : '',),
+                          text:
+                          orderProvider.orders!.shippingAddressData.phone ,),
                       ),
                     ],
                   ),
@@ -86,8 +86,8 @@ class ShippingAndBillingWidget extends StatelessWidget {
 
                         Expanded(child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 1),
-                          child: Text(orderProvider.orders!.shippingAddressData != null ?
-                          orderProvider.orders!.shippingAddressData!.address : '',
+                          child: Text(
+                          orderProvider.orders!.shippingAddressData.address,
                               maxLines: 3, overflow: TextOverflow.ellipsis,
                               style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault))))]),
 

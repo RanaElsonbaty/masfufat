@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/controllers/product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/controllers/seller_product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/controllers/product_details_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/bottom_cart_widget.dart';
@@ -7,7 +6,6 @@ import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/pro
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/product_specification_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/product_title_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/promise_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/related_product_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/review_and_specification_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/shop_info_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/youtube_video_widget.dart';
@@ -16,10 +14,10 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_wid
 import 'package:flutter_sixvalley_ecommerce/features/home/shimmers/product_details_shimmer.dart';
 import 'package:flutter_sixvalley_ecommerce/features/review/widgets/review_section.dart';
 import 'package:flutter_sixvalley_ecommerce/features/shop/screens/shop_screen.dart';
+import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/title_row_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/shop/widgets/shop_product_view_list.dart';
 import 'package:provider/provider.dart';
 
 import '../../my shop/controllers/my_shop_controller.dart';
@@ -103,11 +101,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                     ) : const SizedBox(),
 
-                    (details.productDetailsModel?.videoUrl != null && details.isValidYouTubeUrl(details.productDetailsModel!.videoUrl!))?
-                    YoutubeVideoWidget(url: details.productDetailsModel!.videoUrl):const SizedBox(),
+                    (details.productDetailsModel?.videoUrl != null && details.isValidYouTubeUrl(details.productDetailsModel!.videoUrl.toString()))?
+                    YoutubeVideoWidget(url: details.productDetailsModel!.videoUrl.toString()):const SizedBox(),
 
 
-                    (details.productDetailsModel != null ) ?
+                    (details.productDetailsModel != null &&Provider.of<SplashController>(context,listen: false).configModel!.showSellersSection!=1) ?
                     ShopInfoWidget(sellerId: details.productDetailsModel!.addedBy == 'seller'? details.productDetailsModel!.userId.toString() : "0") : const SizedBox.shrink(),
 
                     const SizedBox(height: Dimensions.paddingSizeLarge,),
@@ -152,30 +150,32 @@ class _ProductDetailsProductListWidget extends StatelessWidget {
     return Consumer<ProductDetailsController>(
         builder: (context, productDetailsController, _) {
           return Column(children: [
-            Consumer<SellerProductController>(
-                builder: (context, sellerProductController, _) {
-                  return (sellerProductController.sellerProduct != null && sellerProductController.sellerProduct != null &&
-                      sellerProductController.sellerProduct!.isNotEmpty)?
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical : Dimensions.paddingSizeDefault),
-                    child: TitleRowWidget(title: getTranslated('more_from_the_shop', context),
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => TopSellerProductScreen(
-                          fromMore: true,
-                          sellerId: productDetailsController.productDetailsModel?.seller?.id,
-                          temporaryClose: productDetailsController.productDetailsModel?.seller?.temporaryClose==1,
-                          vacationStatus: productDetailsController.productDetailsModel?.seller?.vacationStatus==1??false,
-                          vacationEndDate: productDetailsController.productDetailsModel?.seller?.vacationEndDate,
-                          vacationStartDate: productDetailsController.productDetailsModel?.seller?.vacationStartDate,
-                          name: productDetailsController.productDetailsModel?.seller?.name,
-                          banner: productDetailsController.productDetailsModel?.seller?.banner,
-                          image: productDetailsController.productDetailsModel?.seller?.image,
-                        )));
+            Consumer<SplashController>(
+              builder:(context, splash, child) =>  Consumer<SellerProductController>(
+                  builder: (context, sellerProductController, _) {
+                    return (splash.configModel!.showSellersSection==1&&sellerProductController.sellerProduct != null && sellerProductController.sellerProduct != null &&
+                        sellerProductController.sellerProduct!.isNotEmpty)?
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical : Dimensions.paddingSizeDefault),
+                      child: TitleRowWidget(title: getTranslated('more_from_the_shop', context),
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (_) => TopSellerProductScreen(
+                            fromMore: true,
+                            sellerId: productDetailsController.productDetailsModel?.seller?.id,
+                            temporaryClose: productDetailsController.productDetailsModel?.seller?.temporaryClose==1,
+                            vacationStatus: productDetailsController.productDetailsModel?.seller?.vacationStatus==1,
+                            vacationEndDate: productDetailsController.productDetailsModel?.seller?.vacationEndDate,
+                            vacationStartDate: productDetailsController.productDetailsModel?.seller?.vacationStartDate,
+                            name: productDetailsController.productDetailsModel?.seller?.name,
+                            banner: productDetailsController.productDetailsModel?.seller?.banner,
+                            image: productDetailsController.productDetailsModel?.seller?.image,
+                          )));
 
-                      },
-                    ),
-                  ):const SizedBox();
-                }
+                        },
+                      ),
+                    ):const SizedBox();
+                  }
+              ),
             ),
 
             // Padding(padding: const EdgeInsets.symmetric(horizontal : Dimensions.paddingSizeSmall),

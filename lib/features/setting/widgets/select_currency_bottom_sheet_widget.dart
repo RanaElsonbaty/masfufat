@@ -43,14 +43,14 @@ class _SelectCurrencyBottomSheetWidgetState extends State<SelectCurrencyBottomSh
                 Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall, bottom: Dimensions.paddingSizeSmall),
                   child: Text('${getTranslated('choose_your_currency_to_proceed', context)}',textAlign: TextAlign.center, style: textRegular),),
 
-                if(currencyProvider.configModel != null && currencyProvider.configModel!.currencyList != null && currencyProvider.configModel!.currencyList!.isNotEmpty)
+                if(currencyProvider.configModel != null && currencyProvider.configModel!.currencyList.isNotEmpty)
                 ListView.builder(
                   padding: EdgeInsets.zero,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: currencyProvider.configModel?.currencyList?.length,
+                    itemCount: currencyProvider.configModel?.currencyList.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index){
-                      return InkWell(
+                      return currencyProvider.configModel?.currencyList[index].status==1?InkWell(
                         onTap: (){
                           setState(() {
                             selectedIndex = index;
@@ -67,18 +67,18 @@ class _SelectCurrencyBottomSheetWidgetState extends State<SelectCurrencyBottomSh
                                     decoration:BoxDecoration(shape: BoxShape.circle,
                                         color: selectedIndex == index? Theme.of(context).primaryColor: Theme.of(context).primaryColor.withOpacity(.5)) ,
                                     child: Center(
-                                      child: Text(currencyProvider.configModel!.currencyList![index].symbol??'',
+                                      child: Text(currencyProvider.configModel!.currencyList[index].symbol,
                                           style: textRegular.copyWith(color : Colors.white)),
                                     )),
 
                                 Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                                   child: Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                                    child: Text(currencyProvider.configModel!.currencyList![index].name!)))
+                                    child: Text(currencyProvider.configModel!.currencyList[index].name)))
 
                               ],),
                             ),),
                         ),
-                      );
+                      ):const SizedBox.shrink();
 
                     }),
 

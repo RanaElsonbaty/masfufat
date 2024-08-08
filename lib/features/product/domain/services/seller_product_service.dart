@@ -7,8 +7,10 @@ class SellerProductService implements SellerProductServiceInterface{
   SellerProductService({required this.sellerProductRepositoryInterface});
 
   @override
-  Future getSellerProductList(String sellerId, String offset, String productId, {String search = '', String? categoryIds, String? brandIds}) async{
-    return await sellerProductRepositoryInterface.getSellerProductList(sellerId, offset, productId, search: search, categoryIds: categoryIds, brandIds: brandIds);
+  Future getSellerProductList(String sellerId, String offset, String productId,String search ,   String orderBy ,
+    String productType ,
+    String priceFilter , ) async{
+    return await sellerProductRepositoryInterface.getSellerProductList(sellerId, offset, productId,  search,orderBy, productType, priceFilter, );
   }
 
   @override

@@ -1,7 +1,6 @@
 
 import 'package:flutter_sixvalley_ecommerce/data/model/image_full_url.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product_details/domain/models/product_details_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/shop/domain/models/seller_model.dart';
 
 class OrderDetailsModel {
@@ -28,7 +27,7 @@ class OrderDetailsModel {
   Order? order;
   Product? product;
   bool? isExpanded;
-  List<DigitalVariation>? digitalVariation;
+  // List<DigitalVariation>? digitalVariation;
   ImageFullUrl? digitalFileAfterSellFullUrl;
   ImageFullUrl? digitalFileReadyFullUrl;
   Review? _reviewData;
@@ -87,7 +86,7 @@ class OrderDetailsModel {
     this.order;
     product;
     isExpanded;
-    digitalVariation;
+    // digitalVariation;
     digitalFileAfterSellFullUrl;
     digitalFileReadyFullUrl;
     _reviewData = review;
@@ -128,10 +127,10 @@ class OrderDetailsModel {
       _productDetails = Product.fromJson(json['product_details']);
     }
     _qty = json['qty'];
-    _price = json['price'].toDouble();
-    _tax = json['tax'].toDouble();
+    _price = json['price']!=null?json['price'].toDouble()??0.00:0.00;
+    _tax = json['tax']!=null? json['tax'].toDouble():0.00;
     _taxModel = json['tax_model'];
-    _discount = json['discount'].toDouble();
+    _discount = json['discount']!=null?json['discount'].toDouble():0.00;
     _deliveryStatus = json['delivery_status'];
     _paymentStatus = json['payment_status'];
     _createdAt = json['created_at'];
@@ -151,10 +150,10 @@ class OrderDetailsModel {
       product = Product.fromJson(json['product']);
     }
     if (json['digital_variation'] != null) {
-      digitalVariation = <DigitalVariation>[];
-      json['digital_variation'].forEach((v) {
-        digitalVariation!.add(DigitalVariation.fromJson(v));
-      });
+      // digitalVariation = <DigitalVariation>[];
+      // json['digital_variation'].forEach((v) {
+      //   digitalVariation!.add(DigitalVariation.fromJson(v));
+      // });
     }
 
     digitalFileAfterSellFullUrl = json['digital_file_after_sell_full_url'] != null

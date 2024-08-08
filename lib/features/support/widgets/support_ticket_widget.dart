@@ -45,7 +45,7 @@ class SupportTicketWidget extends StatelessWidget {
                 supportTicketModel.type == 'Complaint'? Images.complaint : supportTicketModel.type == 'Partner request'?
                 Images.partnerRequest : Images.infoQuery)),
                 const SizedBox(width: Dimensions.paddingSizeSmall,),
-                Expanded(child: Text(supportTicketModel.type!, style: textBold.copyWith(
+                Expanded(child: Text(getTranslated(supportTicketModel.type!, context)!, style: textBold.copyWith(
                     color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(.75)))),
 
                 Container(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeExtraSmall),

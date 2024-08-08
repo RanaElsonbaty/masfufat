@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_sixvalley_ecommerce/data/datasource/remote/dio/dio_client.dart';
 import 'package:flutter_sixvalley_ecommerce/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
@@ -5,14 +6,7 @@ import 'package:flutter_sixvalley_ecommerce/features/support/domain/models/suppo
 import 'package:flutter_sixvalley_ecommerce/features/support/domain/repositories/support_ticket_repository_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter_sixvalley_ecommerce/main.dart';
-import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
-import 'package:http/http.dart' as http;
 import 'dart:async';
-import 'package:path/path.dart';
-import 'package:http_parser/http_parser.dart';
-import 'package:flutter/foundation.dart';
-import 'package:provider/provider.dart';
 
 
 
@@ -23,25 +17,16 @@ class SupportTicketRepository implements SupportTicketRepositoryInterface{
 
 
   @override
-  Future<http.StreamedResponse> createNewSupportTicket(SupportTicketBody supportTicketModel, List<XFile?> file) async {
-    http.MultipartRequest request = http.MultipartRequest('POST', Uri.parse('${AppConstants.baseUrl}${AppConstants.supportTicketUri}'));
-    request.headers.addAll(<String,String>{'Authorization': 'Bearer ${Provider.of<AuthController>(Get.context!, listen: false).getUserToken()}'});
-    for(int i=0; i<file.length;i++){
-      Uint8List list = await file[i]!.readAsBytes();
-      var part = http.MultipartFile('image[]', file[i]!.readAsBytes().asStream(),
-          list.length, filename: basename(file[i]!.path), contentType: MediaType('image', 'jpg'));
-      request.files.add(part);
+  Future<ApiResponse> createNewSupportTicket(SupportTicketBody supportTicketModel,) async {
+    try {
+      print('asdasdasdasdasda-----> ${supportTicketModel.toJson()}');
+      final response = await dioClient!.post(AppConstants.supportTicketUri,
+          data: supportTicketModel.toJson()
+      );
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
-    Map<String, String> fields = {};
-    request.fields.addAll(<String, String>{
-      'type': supportTicketModel.type??'',
-      'subject': supportTicketModel.subject??'',
-      'description': supportTicketModel.description??'',
-      'priority': supportTicketModel.priority??'',
-    });
-    request.fields.addAll(fields);
-    http.StreamedResponse response = await request.send();
-    return response;
   }
 
 
@@ -67,22 +52,42 @@ class SupportTicketRepository implements SupportTicketRepositoryInterface{
 
 
   @override
-  Future<http.StreamedResponse> sendReply(String ticketID, String message, List<XFile?> file) async {
-    http.MultipartRequest request = http.MultipartRequest('POST', Uri.parse('${AppConstants.baseUrl}${AppConstants.supportTicketReplyUri}$ticketID'));
-    request.headers.addAll(<String,String>{'Authorization': 'Bearer ${Provider.of<AuthController>(Get.context!, listen: false).getUserToken()}'});
-    for(int i=0; i<file.length;i++){
-      Uint8List list = await file[i]!.readAsBytes();
-      var part = http.MultipartFile('image[]', file[i]!.readAsBytes().asStream(),
-          list.length, filename: basename(file[i]!.path), contentType: MediaType('image', 'jpg'));
-      request.files.add(part);
+  Future<ApiResponse> sendReply(String ticketID, String message, List<XFile?> file) async {
+    // http.MultipartRequest request = http.MultipartRequest('POST', Uri.parse('${AppConstants.baseUrl}${AppConstants.supportTicketReplyUri}$ticketID'));
+    // request.headers.addAll(<String,String>{'Authorization': 'Bearer ${Provider.of<AuthController>(Get.context!, listen: false).getUserToken()}'});
+    // for(int i=0; i<file.length;i++){
+    //   Uint8List list = await file[i]!.readAsBytes();
+    //   var part = http.MultipartFile('image[]', file[i]!.readAsBytes().asStream(),
+    //       list.length, filename: basename(file[i]!.path), contentType: MediaType('image', 'jpg'));
+    //   request.files.add(part);
+    // }
+    // Map<String, String> fields = {};
+    // request.fields.addAll(<String, String>{
+    //   'message': message,
+    // });
+    // request.fields.addAll(fields);
+    // http.StreamedResponse response = await request.send();
+    // return response;
+    try {
+      List<MultipartFile> attachmentFile=[];
+
+      if(file.isNotEmpty){
+      for (var element in file) {
+        attachmentFile.add(
+          await MultipartFile.fromFile(element!.path, filename: element.path),
+        );
+      }
+      }
+
+
+      var data =
+      FormData.fromMap({'attachments[]': attachmentFile, 'message': message});
+
+      final response = await dioClient!.post('${AppConstants.supportTicketReplyUri}$ticketID',data: data);
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
-    Map<String, String> fields = {};
-    request.fields.addAll(<String, String>{
-      'message': message,
-    });
-    request.fields.addAll(fields);
-    http.StreamedResponse response = await request.send();
-    return response;
   }
 
 

@@ -11,7 +11,6 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen
 import 'package:flutter_sixvalley_ecommerce/features/address/widgets/address_type_widget.dart';
 import 'package:provider/provider.dart';
 import '../../location/screens/select_location_screen.dart';
-import 'add_new_address_screen.dart';
 
 
 

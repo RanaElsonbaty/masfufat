@@ -315,9 +315,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
                                 }else{
                                   MessageBody messageBody = MessageBody(id : widget.id,  message: _controller.text);
-                                  chatProvider.sendMessage(messageBody, userType: widget.userType).then((value){
-                                    _controller.clear();
-                                  });
+                                  chatProvider.sendMessage(messageBody, userType: widget.userType);
                                 }
                               },
 

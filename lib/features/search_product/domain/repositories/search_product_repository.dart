@@ -1,6 +1,4 @@
 
-import 'dart:convert';
-import 'dart:developer';
 import 'package:flutter_sixvalley_ecommerce/data/datasource/remote/dio/dio_client.dart';
 import 'package:flutter_sixvalley_ecommerce/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
@@ -14,7 +12,7 @@ class SearchProductRepository implements SearchProductRepositoryInterface{
   SearchProductRepository({required this.dioClient, required this.sharedPreferences});
 
   @override
-  Future<ApiResponse> getSearchProductList(String query, String? categoryIds, String? brandIds, String? sort, String? priceMin, String? priceMax, int offset) async {
+  Future<ApiResponse> getSearchProductList(String query,bool?brand,  String? categoryIds, String? brandIds, String? sort, String? priceMin, String? priceMax, int offset,String? syncFilter) async {
     // Map<dynamic, dynamic> data = {'search' : base64.encode(utf8.encode(query)),
     //   'category': categoryIds??'[]',
     //   'brand' : brandIds??'[]',
@@ -27,17 +25,12 @@ class SearchProductRepository implements SearchProductRepositoryInterface{
 
 
     try {
-      log("===limit==>" );
-      final response = await dioClient!.get("${AppConstants.baseUrl}${AppConstants.searchUri}category=0&page=$offset&search=$query",
-          // data: {'search' : base64.encode(utf8.encode(query)),
-          //   'category': categoryIds??'[]',
-          //   'brand' : brandIds??'[]',
-          //   'sort_by': sort,
-          //   'price_min' : priceMin,
-          //   'price_max' : priceMax,
-          //   'limit' : '20',
-          //   'offset' : offset,
-          //   'guest_id' : '1'}
+
+      // &from_price=$startingPrice&to_price=$endingPrice
+      // order_by
+      // product_type
+      final response = await dioClient!.get("${AppConstants.baseUrl}${AppConstants.searchUri}${brand==false?'category=${categoryIds??0}':'brand=${categoryIds??0}'}&page=$offset&search=$query&product_type=$syncFilter&order_by=${sort ?? ''}&${(priceMax!='0.0'?"from_price=$priceMin&to_price=$priceMax":'')}",
+
             );
       return ApiResponse.withSuccess(response);
     } catch (e) {

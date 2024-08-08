@@ -16,12 +16,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widg
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_textfield_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/screens/mobile_verify_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/auth/widgets/social_login_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/dashboard/screens/dashboard_screen.dart';
 import 'package:provider/provider.dart';
-import '../../chat/screens/inbox_screen.dart';
-import '../../notification/screens/notification_screen.dart';
-import '../../order_details/screens/order_details_screen.dart';
 import '../screens/otp_verification_screen.dart';
 
 class SignInWidget extends StatefulWidget {
@@ -95,7 +91,7 @@ class SignInWidgetState extends State<SignInWidget> {
   route(bool isRoute, String? token, String? temporaryToken, String? errorMessage) async {
     if (isRoute) {
       if(token == null || token.isEmpty){
-        if(Provider.of<SplashController>(context,listen: false).configModel!.emailVerification!){
+        if(Provider.of<SplashController>(context,listen: false).configModel!.emailVerification){
           Provider.of<AuthController>(context, listen: false).sendOtpToEmail(_emailController!.text.toString(),
               temporaryToken!).then((value) async {
             if (value.response?.statusCode == 200) {
@@ -105,7 +101,7 @@ class SignInWidgetState extends State<SignInWidget> {
 
             }
           });
-        }else if(Provider.of<SplashController>(context,listen: false).configModel!.phoneVerification!){
+        }else if(Provider.of<SplashController>(context,listen: false).configModel!.phoneVerification){
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => MobileVerificationScreen(temporaryToken!)), (route) => false);
         }
       }

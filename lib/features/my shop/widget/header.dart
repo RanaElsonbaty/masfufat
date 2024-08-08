@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/widget/show_Modal_Bottom_Sheet.dart';
@@ -6,6 +5,8 @@ import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dar
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
+import 'bottomSheet.dart';
 
 class HeaderSection extends StatefulWidget {
   const HeaderSection({super.key, required this.index, required this.pending});
@@ -74,6 +75,31 @@ onTap: (){
           ):const SizedBox.shrink(),
          widget.index!=0? const Spacer():const SizedBox.shrink(),
           const SizedBox(width: 10,),
+          myShopProvider.selectIndex==2?InkWell(
+            onTap: (){
+              showModalBottomSheet(
+                context: context, isScrollControlled: true, backgroundColor: Colors.transparent,
+                builder: (c) =>   const StoreBottomSheet(),
+              );
+            },
+            child: Container(
+              height: 45,
+              width: 55,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Theme.of(context).cardColor,
+                  boxShadow: [
+                    BoxShadow(
+                        color:
+                        Colors.black.withOpacity(0.3),
+                        spreadRadius: 1,
+                        blurRadius: 2)
+                  ]
+              ),
+              child: const Icon(Icons.filter_list),
+            ),
+          ):const SizedBox.shrink(),
+          const SizedBox(width: 10,),
           InkWell(
             onTap:    () {
               myShopProvider.getSearch();
@@ -102,7 +128,7 @@ onTap: (){
           ),   const SizedBox(width: 10,),
           InkWell(
              onTap: () {
-               showModalBottomSheet(context: context, builder: (BuildContext context)=> ShowModalBottomSheetShop(delete: true));
+               showModalBottomSheet(context: context, builder: (BuildContext context)=> const ShowModalBottomSheetShop(delete: true));
              },
             child: Container(
               height: 45,

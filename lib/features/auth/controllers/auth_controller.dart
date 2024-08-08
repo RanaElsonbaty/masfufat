@@ -10,13 +10,83 @@ import 'package:flutter_sixvalley_ecommerce/features/auth/screens/auth_screen.da
 import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/controllers/localization_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
-import 'package:provider/provider.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:geocoding/geocoding.dart' as geocoding;
+
+import 'package:flutter_google_places/flutter_google_places.dart' as loc;
+import 'package:google_api_headers/google_api_headers.dart' as header;
+import 'package:google_maps_webservice/places.dart' as places;
+import 'package:location/location.dart';
 
 class AuthController with ChangeNotifier {
   final AuthServiceInterface authServiceInterface;
   AuthController( {required this.authServiceInterface});
+  final TextEditingController companyName = TextEditingController();
+  final TextEditingController licenseHolderName = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+
+  final FocusNode fNameFocus = FocusNode();
+  final FocusNode lNameFocus = FocusNode();
+  final FocusNode emailFocus = FocusNode();
+  final FocusNode phoneFocus = FocusNode();
+  final FocusNode passwordFocus = FocusNode();
+  final FocusNode confirmPasswordFocus = FocusNode();
+  // sec
+  final TextEditingController commercialRegistrationNo = TextEditingController();
+  final TextEditingController taxNumber = TextEditingController();
+  final TextEditingController storeLink = TextEditingController();
+  final TextEditingController governorate = TextEditingController();
+  final TextEditingController address = TextEditingController();
+  final TextEditingController lan = TextEditingController();
+  final TextEditingController lot = TextEditingController();
+  XFile? storeImage;
+  XFile? commercialRegisterImage;
+  XFile? certificateImage;
+  final TextEditingController walletCouponCode = TextEditingController();
+
+  final FocusNode commercialRegistrationNoFocus = FocusNode();
+  final FocusNode taxNumberFocus = FocusNode();
+  final FocusNode storeLinkFocus = FocusNode();
+  final FocusNode governorateFocus = FocusNode();
+  final FocusNode addressFocus = FocusNode();
+  final FocusNode lanFocus = FocusNode();
+  final FocusNode lotFocus = FocusNode();
+  final FocusNode walletCouponCodeFocus = FocusNode();
+
+  void pickImage(bool isRemove,int? index) async {
+    if(isRemove) {
+      if(index != null){
+        // pickedImageFileStored.removeAt(index);
+      }
+    }else {
+      if(index==0){
+      storeImage = await ImagePicker().pickImage(imageQuality: 40, source: ImageSource.gallery);
+      }else if(index ==1){
+        commercialRegisterImage = await ImagePicker().pickImage(imageQuality: 40, source: ImageSource.gallery);
+
+      }else {
+        certificateImage = await ImagePicker().pickImage(imageQuality: 40, source: ImageSource.gallery);
+
+      }
+      // pickedImageFileStored.addAll(_pickedImageFiles);
+    }
+    notifyListeners();
+  }
+
+int _pageIndex=0;
+int get pageIndex=>_pageIndex;
+void initPageIndex (bool first){
+  _pageIndex =first?0:1;
+  notifyListeners();
+  }
+
 
   bool _isLoading = false;
   bool? _isRemember = false;
@@ -27,7 +97,7 @@ class AuthController with ChangeNotifier {
   bool get isAcceptTerms => _isAcceptTerms;
 
 
-  String countryDialCode = '+880';
+  String countryDialCode = '+966';
   void setCountryCode( String countryCode, {bool notify = true}){
     countryDialCode  = countryCode;
     if(notify){
@@ -116,10 +186,14 @@ class AuthController with ChangeNotifier {
 
 
   Future logOut() async {
+  try{
     ApiResponse apiResponse = await authServiceInterface.logout();
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
 
     }
+  }catch(e){
+
+  }
   }
 
   // Future<void> setCurrentLanguage(String currentLanguage) async {
@@ -406,6 +480,193 @@ class AuthController with ChangeNotifier {
     notifyListeners();
   }
 
+// google map
+  GoogleMapController? controller;
+  final TextEditingController locationController = TextEditingController();
+  CameraPosition? cameraPosition=const CameraPosition(target: LatLng(0.0,0.0));
+  List<geocoding.Placemark> ?placemarks;
+  Location location = Location();
+  final Map<String, Marker> _markers = {};
+  String searchResult='';
+  double latitude = 0;
+  double longitude = 0;
+
+  Future<void> handleSearch() async {
+    places.Prediction? p = await loc.PlacesAutocomplete.show(
+        context: Get.context!,
+        apiKey: 'AIzaSyC2BO1gDok2Pt8pa-MFypDjiOnfZjZWruc',
+        onError: onError, // call the onError function below
+        mode: loc.Mode.overlay,
+        language: 'en', //you can set any language for search
+        strictbounds: false,
+        types: [],
+
+        decoration: InputDecoration(
+            hintText: 'search',
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: const BorderSide(color: Colors.white))),
+        components: [
+
+        ]// you can determine search for just one country
+    );
+
+    // p.
+    displayPrediction(p!, ScaffoldState());
+    notifyListeners();
+
+  }
+
+  void onError(places.PlacesAutocompleteResponse response) {
+    ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+      elevation: 0,
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+      content: AwesomeSnackbarContent(
+        title: 'Message',
+        message: response.errorMessage!,
+        contentType: ContentType.failure,
+      ),
+    ));
+    notifyListeners();
+
+  }
+
+  Future<void> displayPrediction(
+      places.Prediction p, ScaffoldState? currentState) async {
+    places.GoogleMapsPlaces placess = places.GoogleMapsPlaces(
+        apiKey: 'AIzaSyC2BO1gDok2Pt8pa-MFypDjiOnfZjZWruc',
+        apiHeaders: await const header.GoogleApiHeaders().getHeaders());
+    places.PlacesDetailsResponse detail =
+    await placess.getDetailsByPlaceId(p.placeId!);
+    cameraPosition =CameraPosition(target: LatLng(detail.result.geometry!.location.lat, detail.result.geometry!.location.lng));
+  controller!.animateCamera(CameraUpdate.newLatLng(LatLng(detail.result.geometry!.location.lat, detail.result.geometry!.location.lng)));
+    notifyListeners();
+
+    placemarks = await geocoding.placemarkFromCoordinates(detail.result.geometry!.location.lat,  detail.result.geometry!.location.lng);
+    print('placeId ---> ${detail.result.placeId}');
+      longitude=detail.result.geometry!.location.lng;
+      latitude=detail.result.geometry!.location.lat;
+      searchResult=placemarks!.first.street!;
+      lan.text=detail.result.geometry!.location.lng.toString();
+      lot.text=detail.result.geometry!.location.lat.toString();
+      notifyListeners();
+    _markers.clear(); //clear old marker and set new one
+    final marker = Marker(
+      markerId: const MarkerId('deliveryMarker'),
+      position: LatLng(detail.result.geometry!.location.lat,  detail.result.geometry!.location.lng),
+      infoWindow: const InfoWindow(
+        title: '',
+      ),
+    );
+    // setState(() {
+      _markers['myLocation'] = marker;
+      controller?.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(detail.result.geometry!.location.lat, detail.result.geometry!.location.lng), zoom: zoom),
+        ),
+
+      );
+      notifyListeners();
+    // });
+  }
+  getCurrentLocation() async {
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+
+    try{
+      serviceEnabled = await location.serviceEnabled();
+      if (!serviceEnabled) {
+        serviceEnabled = await location.requestService();
+        if (!serviceEnabled) {
+          print('object');
+          return;
+        }
+      }
+
+    }catch(e){
+      print('object');
+
+    }
+
+
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
+        print('object');
+
+        return;
+      }
+    }
+
+    LocationData currentPosition = await location.getLocation();
+    latitude = currentPosition.latitude!;
+    longitude = currentPosition.longitude!;
+    final marker = Marker(
+      markerId: const MarkerId('myLocation'),
+      position: LatLng(latitude, longitude),
+      infoWindow: const InfoWindow(
+        title: 'you can add any message here',
+      ),
+    );
+    // setState(() {
+      _markers['myLocation'] = marker;
+      controller?.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(latitude, longitude), zoom: 10),
+        ),
+
+      );
+    cameraPosition=CameraPosition(target: LatLng(latitude, longitude), zoom: 10);
+
+    notifyListeners();
+
+  }
+  double _zoom =15;
+  double get zoom =>_zoom;
+  void getZoom(bool add){
+    if(add){
+      _zoom=_zoom+5.0;
+
+    }else{
+      _zoom=_zoom-5.0;
+
+    }
+
+    cameraPosition=CameraPosition(target: LatLng(latitude, longitude), zoom: zoom);
+
+    notifyListeners();
+  }
+bool _consent=false;
+bool get consent=>_consent;
+void getConsent(){
+  _consent=!_consent;
+  notifyListeners();
+}
+  void getCurrentLocations(BuildContext context, ) async {
+    notifyListeners();
+    Position myPosition;
+    try {
+      Position newLocalData = await Geolocator.getCurrentPosition();
+      myPosition = newLocalData;
+    }catch(e) {
+      myPosition = Position(
+        latitude: double.parse('0'),
+        longitude: double.parse('0'),
+        timestamp: DateTime.now(), accuracy: 1, altitude: 1, heading: 1, speed: 1, speedAccuracy: 1, altitudeAccuracy: 1, headingAccuracy: 1,
+      );
+    }
+    // pickPosition = myPosition;
+    if (controller != null) {
+      controller!.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(myPosition.latitude, myPosition.longitude), zoom: 17),
+      ));
+    }
+    // Placemark myPlaceMark;
+
+    notifyListeners();
+  }
 
 }
 

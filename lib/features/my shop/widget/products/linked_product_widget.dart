@@ -13,8 +13,9 @@ import '../../controllers/my_shop_controller.dart';
 import '../show_Modal_Bottom_Sheet.dart';
 
 class LinkedProductWidget extends StatefulWidget {
-  const LinkedProductWidget({super.key, required this.linked});
+  const LinkedProductWidget({super.key, required this.linked, this.unSync=false});
 final Linked linked;
+final bool ?unSync;
   @override
   State<LinkedProductWidget> createState() => _LinkedProductWidgetState();
 }
@@ -40,6 +41,7 @@ class _LinkedProductWidgetState extends State<LinkedProductWidget> {
                 );
               },
             ),
+
             ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child:  CustomImageWidget(image: widget.linked.imageUrl!,height: 82,width: 84,)),
@@ -68,7 +70,7 @@ class _LinkedProductWidgetState extends State<LinkedProductWidget> {
                   width: 50,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: const Color(0xFFFCFCFC)
+                      color: Theme.of(context).cardColor
 
 
                   ),
@@ -80,12 +82,13 @@ class _LinkedProductWidgetState extends State<LinkedProductWidget> {
         ),
         const SizedBox(height: 5,),
         Container(
-          decoration: const BoxDecoration(
-              color: Color(0xFFFCFCFC)
+          decoration:  const BoxDecoration(
+            // borderRadius: BorderRadius.circular(12),
+              // color: Theme.of(context).cardColor
 
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 5),
             child: Column(children: [
               InkWell(
                 onTap: (){
@@ -100,7 +103,7 @@ class _LinkedProductWidgetState extends State<LinkedProductWidget> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('رقم المنتج',style: GoogleFonts.tajawal(
+                    Text(getTranslated('Product_number', context)!,style: GoogleFonts.tajawal(
                         fontSize: 16,fontWeight: FontWeight.w500
                     ),),
 
@@ -126,7 +129,7 @@ class _LinkedProductWidgetState extends State<LinkedProductWidget> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('باركود المنتج sku',style: GoogleFonts.tajawal(
+                    Text(getTranslated('Product_barcode_sku', context)!,style: GoogleFonts.tajawal(
                         fontSize: 16,fontWeight: FontWeight.w500
                     ),),
                     Text(widget.linked.code!,style: GoogleFonts.tajawal(
@@ -141,7 +144,7 @@ class _LinkedProductWidgetState extends State<LinkedProductWidget> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('التكلفة',style: GoogleFonts.tajawal(
+                  Text(getTranslated('cost', context)!,style: GoogleFonts.tajawal(
                       fontSize: 16,fontWeight: FontWeight.w500
                   ),),
                   Text(PriceConverter.convertPrice(context,widget.linked.pricings!.value!),style: GoogleFonts.tajawal(
@@ -155,7 +158,7 @@ class _LinkedProductWidgetState extends State<LinkedProductWidget> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('سعر البيع المقترح',style: GoogleFonts.tajawal(
+                  Text(getTranslated('Suggested_selling_price', context)!,style: GoogleFonts.tajawal(
                       fontSize: 16,fontWeight: FontWeight.w500
                   ),),
                   Text(PriceConverter.convertPrice(context, widget.linked.pricings!.suggestedPrice!),style: GoogleFonts.tajawal(
@@ -169,10 +172,10 @@ class _LinkedProductWidgetState extends State<LinkedProductWidget> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('سعر البيع في متجري',style: GoogleFonts.tajawal(
+                  Text(getTranslated('Selling_price_in_my_store', context)!,style: GoogleFonts.tajawal(
                       fontSize: 16,fontWeight: FontWeight.w500
                   ),),
-                  Text(PriceConverter.convertPrice(context, widget.linked.ownPrice!=null? widget.linked.ownPrice:0.00),style: GoogleFonts.tajawal(
+                  Text(PriceConverter.convertPrice(context, widget.linked.ownPrice ?? 0.00),style: GoogleFonts.tajawal(
                       fontSize: 16,fontWeight: FontWeight.w500
                   ),),
                   // SizedBox(

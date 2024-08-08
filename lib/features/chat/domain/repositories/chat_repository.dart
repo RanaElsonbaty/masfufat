@@ -1,19 +1,13 @@
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_sixvalley_ecommerce/data/datasource/remote/dio/dio_client.dart';
 import 'package:flutter_sixvalley_ecommerce/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:flutter_sixvalley_ecommerce/features/chat/domain/models/message_body.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
 import 'package:flutter_sixvalley_ecommerce/features/chat/domain/repositories/chat_repository_interface.dart';
-import 'package:flutter_sixvalley_ecommerce/main.dart';
-import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
-import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'dart:async';
-import 'package:path/path.dart';
-import 'package:http_parser/http_parser.dart';
-import 'package:flutter/foundation.dart';
-import 'package:provider/provider.dart';
 
 class ChatRepository implements ChatRepositoryInterface {
   final DioClient? dioClient;
@@ -67,29 +61,43 @@ class ChatRepository implements ChatRepositoryInterface {
 
 
   @override
-  Future<http.StreamedResponse> sendMessage(MessageBody messageBody, String type, List<XFile?> file, List<PlatformFile>? platformFile) async {
-    http.MultipartRequest request = http.MultipartRequest('POST', Uri.parse('${AppConstants.baseUrl}${AppConstants.sendMessageUri}$type'));
-    request.headers.addAll(<String,String>{'Authorization': 'Bearer ${Provider.of<AuthController>(Get.context!, listen: false).getUserToken()}'});
-    for(int i=0; i<file.length;i++){
-      Uint8List list = await file[i]!.readAsBytes();
-      var part = http.MultipartFile('image[]', file[i]!.readAsBytes().asStream(), list.length, filename: basename(file[i]!.path), contentType: MediaType('image', 'jpg'));
-      request.files.add(part);
+  Future<ApiResponse> sendMessage(MessageBody messageBody, String type, List<XFile?> file, List<PlatformFile>? platformFile) async {
+    // http.MultipartRequest request = http.MultipartRequest('POST', Uri.parse('${AppConstants.baseUrl}${AppConstants.sendMessageUri}$type'));
+    // request.headers.addAll(<String,String>{'Authorization': 'Bearer ${Provider.of<AuthController>(Get.context!, listen: false).getUserToken()}'});
+    // for(int i=0; i<file.length;i++){
+    //   Uint8List list = await file[i]!.readAsBytes();
+    //   var part = http.MultipartFile('image[]', file[i]!.readAsBytes().asStream(), list.length, filename: basename(file[i]!.path), contentType: MediaType('image', 'jpg'));
+    //   request.files.add(part);
+    // }
+    //
+    // if(platformFile != null ) {
+    //   if(platformFile.isNotEmpty) {
+    //     for(PlatformFile pfile in platformFile) {
+    //       request.files.add(http.MultipartFile('file[]', pfile.readStream!, pfile.size, filename: basename(pfile.name)));
+    //     }
+    //   }
+    try {
+      var data = FormData.fromMap({
+        'attachments[]': file,
+        'message': messageBody.message!,
+        'id': messageBody.id
+      });
+      print('asdasdadad${messageBody.id}');
+      final response = await dioClient!
+          .post('${AppConstants.sendMessageUri}$type', data: data);
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
-
-    if(platformFile != null ) {
-      if(platformFile.isNotEmpty) {
-        for(PlatformFile pfile in platformFile) {
-          request.files.add(http.MultipartFile('file[]', pfile.readStream!, pfile.size, filename: basename(pfile.name)));
-        }
-      }
-    }
-
-    Map<String, String> fields = {};
-    request.fields.addAll(<String, String>{'id': messageBody.id.toString(), 'message': messageBody.message??''});
-    request.fields.addAll(fields);
-    http.StreamedResponse response = await request.send();
-    return response;
   }
+    // }
+
+  //   Map<String, String> fields = {};
+  //   request.fields.addAll(<String, String>{'id': messageBody.id.toString(), 'message': messageBody.message??''});
+  //   request.fields.addAll(fields);
+  //   http.StreamedResponse response = await request.send();
+  //   return response;
+  // }
 
   @override
   Future add(value) {

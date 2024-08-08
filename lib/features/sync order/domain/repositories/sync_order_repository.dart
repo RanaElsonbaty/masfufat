@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_sixvalley_ecommerce/data/datasource/remote/dio/dio_client.dart';
 import 'package:flutter_sixvalley_ecommerce/features/sync%20order/domain/repositories/sync_order_repository_interface.dart';
 
@@ -27,8 +28,32 @@ class SyncOrderRepository implements SyncOrderRepositoryInterface{
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
-  }
+  }@override
+  Future<ApiResponse> placeBankTransferOrder( String id,String paymentMethod) async{
+    try {
+      var data = FormData.fromMap({
+        "id": id,
+        "payment_method": paymentMethod,
+      });
+      final response = await dioClient!.post(AppConstants.placeBankTransferOrder,
 
+      data: data);
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  }
+  @override
+  Future<ApiResponse> placeSyncWalletOrder(String id) async{
+    var data = {"id": id};
+
+    try {
+      final response = await dioClient!.post(AppConstants.placeSyncWalletOrder,data: data);
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  }
   @override
   Future get(String id) {
     // TODO: implement get

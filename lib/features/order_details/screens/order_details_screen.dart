@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order/controllers/order_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/controllers/order_details_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/order_details/widgets/cal_chat_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/widgets/cancel_and_support_center_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/widgets/order_amount_calculation.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/widgets/order_details_status_widget.dart';
@@ -21,7 +20,6 @@ import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dar
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:provider/provider.dart';
 
 class OrderDetailsScreen extends StatefulWidget {
@@ -44,7 +42,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       await Provider.of<OrderController>(Get.context!, listen: false).initTrackingInfo(widget.orderId.toString());
       await Provider.of<OrderDetailsController>(Get.context!, listen: false).getOrderFromOrderId(widget.orderId.toString());
     }else{
-      await Provider.of<OrderDetailsController>(Get.context!, listen: false).trackOrder(orderId: widget.orderId.toString(), phoneNumber: widget.phone, isUpdate: false);
+      await Provider.of<OrderDetailsController>(Get.context!, listen: false).trackOrder(orderId: widget.orderId.toString(),  isUpdate: false);
       await Provider.of<OrderDetailsController>(Get.context!, listen: false).getOrderFromOrderId(widget.orderId.toString());
     }
   }
@@ -117,7 +115,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
                   if(orderProvider.orders != null && orderProvider.orders!.orderType == 'POS'){
                     if(orderProvider.orders!.extraDiscountType == 'percent'){
-                      eeDiscount = itemTotalAmount * (orderProvider.orders!.extraDiscount!/100);
+                      eeDiscount = itemTotalAmount * (orderProvider.orders!.extraDiscount/100);
                     }else{
                       eeDiscount = orderProvider.orders!.extraDiscount;
                     }

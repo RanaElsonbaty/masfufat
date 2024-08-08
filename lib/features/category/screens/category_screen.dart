@@ -23,7 +23,7 @@ class CategoryScreen extends StatefulWidget {
 class _CategoryScreenState extends State<CategoryScreen> {
   @override
   void initState() {
-    Provider.of<ProductController>(context, listen: false).initBrandOrCategoryProductList(false, Provider.of<CategoryController>(context, listen: false).categoryList[0].id.toString(), context,1,true);
+    Provider.of<ProductController>(context, listen: false).initBrandOrCategoryProductList(false, Provider.of<CategoryController>(context, listen: false).categoryList[0].id.toString(), context,1,true,'','','','');
     super.initState();
   }
   @override
@@ -59,11 +59,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                    itemCount: categoryProvider.categoryList[categoryProvider.categorySelectedIndex!].childes!.length+1,
+                    itemCount: categoryProvider.categoryList[categoryProvider.categorySelectedIndex!].childes.length+1,
                     itemBuilder: (context, index) {
                       late CategoryModel subCategory;
                       if(index != 0) {
-                        subCategory = categoryProvider.categoryList[categoryProvider.categorySelectedIndex!].childes![index-1];
+                        subCategory = categoryProvider.categoryList[categoryProvider.categorySelectedIndex!].childes[index-1];
                       }
                       if(index == 0) {
                         return Ink(color: Theme.of(context).highlightColor,
@@ -84,7 +84,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         return Ink(
                           color: Theme.of(context).highlightColor,
                           child: ListTile(
-                            title: Text(subCategory.name!, style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault), maxLines: 2, overflow: TextOverflow.ellipsis),
+                            title: Text(subCategory.name, style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault), maxLines: 2, overflow: TextOverflow.ellipsis),
                             trailing: Icon(Icons.navigate_next, color: Theme.of(context).textTheme.bodyLarge!.color),
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(builder: (_) => BrandAndCategoryProductScreen(

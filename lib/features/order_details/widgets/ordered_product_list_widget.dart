@@ -26,7 +26,7 @@ class OrderProductListWidget extends StatelessWidget {
               isGuest: isGuest,
               fromTrack: fromTrack,
               callback: () {showCustomSnackBar('${getTranslated('review_submitted_successfully', context)}', context, isError: false);},
-              orderType: orderType!, paymentStatus: orderDetailsController.orders!.paymentStatus!, orderId: orderId!, index: i),
+              orderType: orderType!, paymentStatus: orderDetailsController.orders!.paymentStatus, orderId: orderId!, index: i),
         );
       }
     );

@@ -230,10 +230,10 @@ class Shop {
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
     _banner = json['banner'];
-    _temporaryClose = json['temporary_close']==1??false;
+    _temporaryClose = json['temporary_close']==1;
     _vacationEndDate = json['vacation_end_date'];
     _vacationStartDate = json['vacation_start_date'];
-    _vacationStatus = json['vacation_status']==1??false;
+    _vacationStatus = json['vacation_status']==1;
     _imageFullUrl = json['image_full_url'] != null
         ? ImageFullUrl.fromJson(json['image_full_url'])
         : null;

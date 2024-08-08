@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/dashboard/screens/dashboard_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/controllers/localization_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/widgets/sign_in_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/auth/widgets/sign_up_widget.dart';
 import 'package:provider/provider.dart';
+
+import '../widgets/sign_up_pageBuilder.dart';
 
 
 
@@ -65,25 +65,25 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
                   Container(height: 200, decoration: BoxDecoration(color: Theme.of(context).primaryColor)),
                   Image.asset(Images.loginBg,fit: BoxFit.cover,height: 200, opacity : const AlwaysStoppedAnimation(.15)),
 
-                  Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * .05),
+                  Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * .02),
                     child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      Image.asset(Images.splashLogo, width: 130, height: 100)])),
+                        Image.asset(Images.logoWithNameImage, width: 200, height: 200,fit: BoxFit.fill,)])),
 
-                  Positioned(
-                    top: Dimensions.paddingSizeThirtyFive,
-                    left:  Provider.of<LocalizationController>(context, listen: false).isLtr ? Dimensions.paddingSizeLarge : null,
-                    right: Provider.of<LocalizationController>(context, listen: false).isLtr ? null : Dimensions.paddingSizeLarge,
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back_ios, size: 30, color: Colors.white),
-                      onPressed: () {
-                        if(widget.fromLogout) {
-                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const DashBoardScreen()), (route) => false);
-                        } else {
-                          Navigator.of(context).pop();
-                        }
-                      },
-                    )
-                  ),
+                  // Positioned(
+                  //   top: Dimensions.paddingSizeThirtyFive,
+                  //   left:  Provider.of<LocalizationController>(context, listen: false).isLtr ? Dimensions.paddingSizeLarge : null,
+                  //   right: Provider.of<LocalizationController>(context, listen: false).isLtr ? null : Dimensions.paddingSizeLarge,
+                  //   child: IconButton(
+                  //     icon: const Icon(Icons.arrow_back_ios, size: 30, color: Colors.white),
+                  //     onPressed: () {
+                  //       if(widget.fromLogout) {
+                  //         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const DashBoardScreen()), (route) => false);
+                  //       } else {
+                  //         Navigator.of(context).pop();
+                  //       }
+                  //     },
+                  //   )
+                  // ),
 
                 ]),
 
@@ -123,8 +123,9 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
                 ),
 
               Expanded(child:  SingleChildScrollView(
+                
                 padding: EdgeInsets.zero,
-                child: authProvider.selectedIndex == 0 ? const SignInWidget() : const SignUpWidget(),
+                child: authProvider.selectedIndex == 0 ? const SignInWidget() : const SignUpPageBuilder(),
               )),
 
             ],

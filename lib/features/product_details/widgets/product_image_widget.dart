@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/features/compare/controllers/compare_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/controllers/product_details_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/domain/models/product_details_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/screens/product_image_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/controllers/localization_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
@@ -14,7 +12,6 @@ import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/not_logged_in_bottom_sheet_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/favourite_button_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -27,15 +24,17 @@ class ProductImageWidget extends StatelessWidget {
   final PageController _controller = PageController(initialPage: 0);
   @override
   Widget build(BuildContext context) {
-    var splashController = Provider.of<SplashController>(context,listen: false);
+    Provider.of<SplashController>(context,listen: false);
     return productModel != null?
     Consumer<ProductDetailsController>(
       builder: (context, productController,_) {
         return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-            InkWell(onTap: ()=>  productModel!.productImagesNull! ? null :
+            InkWell(onTap: () {
+              // productModel!.productImagesNull! ? null :
                 Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) =>
-                  ProductImageScreen(title: getTranslated('product_image', context),imageList: productModel!.imagesFullUrl))),
+                  ProductImageScreen(title: getTranslated('product_image', context),imageList: productModel!.images!)));
+            },
               child: (productModel != null && productModel!.images !=null) ?
 
 
@@ -177,7 +176,7 @@ class ProductImageWidget extends StatelessWidget {
                             borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall)),
                           child: ClipRRect(borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
                             child: CustomImageWidget(height: 50, width: 50,
-                                image: '${productModel!.images![index]}'),
+                                image: productModel!.images![index]),
                           )))));
                 },),
             ),

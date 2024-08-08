@@ -1,5 +1,8 @@
 abstract class SellerProductServiceInterface{
-  Future<dynamic> getSellerProductList(String sellerId, String offset, String productId, {String search = '', String? categoryIds, String? brandIds, });
+  Future<dynamic> getSellerProductList(String sellerId, String offset, String productId, String search ,
+    String orderBy ,
+    String productType,
+    String priceFilter , );
 
   Future<dynamic> getSellerWiseBestSellingProductList(String sellerId, String offset);
 

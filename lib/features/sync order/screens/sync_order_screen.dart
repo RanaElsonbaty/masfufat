@@ -118,7 +118,7 @@ class _SyncOrderScreenState extends State<SyncOrderScreen> {
                       );
                     },
                     firstPageProgressIndicatorBuilder: (context) {
-                      return Container(
+                      return const SizedBox(
                           height: 1000,
                           child: OrderShimmerWidget());
                     },

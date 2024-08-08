@@ -61,7 +61,7 @@ class FooterBannerSliderWidget extends StatelessWidget {
                             color: Provider.of<ThemeController>(context, listen: false).darkTheme?
                             Theme.of(context).primaryColor.withOpacity(.1) :
                             Theme.of(context).primaryColor.withOpacity(.05)),
-                            child: CustomImageWidget(image: '${bannerList[index].photo}')
+                            child: CustomImageWidget(image: bannerList[index].photo)
                         ),
                       ),
                     );

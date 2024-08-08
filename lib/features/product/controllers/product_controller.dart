@@ -9,7 +9,6 @@ import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/enums/product_type.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class ProductController extends ChangeNotifier {
   final ProductServiceInterface? productServiceInterface;
@@ -203,33 +202,17 @@ int selectedProductTypeIndex = 0;
 
   List<Product> get brandOrCategoryProductList => _brandOrCategoryProductList;
   bool? get hasData => _hasData;
-  Future<List<Product>> initBrandOrCategoryProductList(bool isBrand, String id, BuildContext context,int offset,bool reloud) async {
-    // if(reloud==true){
-    //   _productOffset= 1;
-    //   _productTotalSize=0;
+  Future<List<Product>> initBrandOrCategoryProductList(bool isBrand, String id, BuildContext context,int offset,bool reloud,String search,String syncFilter,String filter,String price) async {
       _brandOrCategoryProductList =[];
 
-    // }else{
-    //   _productOffset= _productOffset+=1;
-    // }
-    // _hasData = true;
-    ApiResponse apiResponse = await productServiceInterface!.getBrandOrCategoryProductList(isBrand, id,offset,reloud);
+    ApiResponse apiResponse = await productServiceInterface!.getBrandOrCategoryProductList(isBrand, id,offset,reloud,search,syncFilter,filter,price);
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       apiResponse.response!.data['products']['data'].forEach((product) => _brandOrCategoryProductList.add(Product.fromJson(product)));
-      // _hasData = apiResponse.response!.data['products']['data'].length  > 1;
-      // _productTotalSize=apiResponse.response!.data['products']['total'];
-// _hasData = _brandOrCategoryProductList.length ==_productTotalSize?false:true;
-      // List<Product> products = [];
-      // products.addAll(_brandOrCategoryProductList);
-      // _brandOrCategoryProductList.clear();
-      // _brandOrCategoryProductList.addAll(products);
-      // notifyListeners();
       return _brandOrCategoryProductList;
     } else {
       ApiChecker.checkApi( apiResponse);
       return [];
     }
-    notifyListeners();
   }
 
 

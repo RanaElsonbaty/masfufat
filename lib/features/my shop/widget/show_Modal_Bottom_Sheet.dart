@@ -1,12 +1,12 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
+import '../../../common/basewidget/show_custom_snakbar_widget.dart';
 
 class ShowModalBottomSheetShop extends StatefulWidget {
   const ShowModalBottomSheetShop({super.key, required this.delete});
@@ -141,11 +141,20 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
                     Dialog('Products_are_being_synced');
 
                    await addPrice(myShopController).then((value) async{
-                    await myShopController.syncProduct();
+                    await myShopController.syncProduct().then((value)async {
+                      if(value==true){
+                        await myShopController.getList();
+                        myShopController. initController();
+                      }else{
+                      // Products_sync_failed
+                        showCustomSnackBar('${getTranslated('Products_sync_failed', Get.context!)}', Get.context!, isError: true);
+
+                      }
+
+                    });
                    });
-                    await myShopController.getList();
-                    myShopController. initController();
                     Navigator.pop(diagloContext);
+
 
                   },
                       child: Container(
@@ -216,7 +225,7 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
           decoration: BoxDecoration(
 
             borderRadius: BorderRadius.circular(12),
-            color: Colors.white,
+            color: Theme.of(context).cardColor,
 
           ),
             child: Column(

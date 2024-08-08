@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/brand/controllers/brand_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/brand/widgets/brand_shimmer_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/screens/brand_and_category_product_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/responsive_helper.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/controllers/localization_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:provider/provider.dart';
 
-import '../../../common/basewidget/paginated_list_view_widget.dart';
 import '../../../main.dart';
 import '../domain/models/brand_model.dart';
 
@@ -105,7 +98,7 @@ class _BrandListWidgetState extends State<BrandListWidget> {
                                           null :[BoxShadow(color: Colors.grey.withOpacity(0.12), spreadRadius: 1, blurRadius: 1, offset: const Offset(0, 1))]),
                                       child: Consumer<SplashController>(
                                         builder:(context, splashProvider, child) =>  ClipRRect(borderRadius: const BorderRadius.all(Radius.circular(5)),
-                                            child: CustomImageWidget(image: '${splashProvider.baseUrls?.brandImageUrl!}/${brand.image}',fit: BoxFit.fill)),
+                                            child: CustomImageWidget(image: '${splashProvider.baseUrls?.brandImageUrl}/${brand.image}',fit: BoxFit.fill)),
                                       ),
                                     ),
                                   ],
@@ -193,7 +186,7 @@ class _BrandListWidgetState extends State<BrandListWidget> {
                           null :[BoxShadow(color: Colors.grey.withOpacity(0.12), spreadRadius: 1, blurRadius: 1, offset: const Offset(0, 1))]),
                       child: Consumer<SplashController>(
                         builder:(context, splashProvider, child) =>  ClipRRect(borderRadius: const BorderRadius.all(Radius.circular(5)),
-                            child: CustomImageWidget(image: '${splashProvider.baseUrls?.brandImageUrl!}/${brand.image}',fit: BoxFit.fill)),
+                            child: CustomImageWidget(image: '${splashProvider.baseUrls?.brandImageUrl}/${brand.image}',fit: BoxFit.fill)),
                       ),
                     ),
                   ],

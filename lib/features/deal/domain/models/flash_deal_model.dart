@@ -29,20 +29,20 @@ class FlashDealModel {
         String? updatedAt,
         int? productId,
         String? dealType}) {
-    this._id = id;
-    this._title = title;
-    this._startDate = startDate;
-    this._endDate = endDate;
-    this._status = status;
-    this._featured = featured;
-    this._backgroundColor = backgroundColor;
-    this._textColor = textColor;
-    this._banner = banner;
-    this._slug = slug;
-    this._createdAt = createdAt;
-    this._updatedAt = updatedAt;
-    this._productId = productId;
-    this._dealType = dealType;
+    _id = id;
+    _title = title;
+    _startDate = startDate;
+    _endDate = endDate;
+    _status = status;
+    _featured = featured;
+    _backgroundColor = backgroundColor;
+    _textColor = textColor;
+    _banner = banner;
+    _slug = slug;
+    _createdAt = createdAt;
+    _updatedAt = updatedAt;
+    _productId = productId;
+    _dealType = dealType;
   }
 
   int? get id => _id;
@@ -78,21 +78,21 @@ class FlashDealModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this._id;
-    data['title'] = this._title;
-    data['start_date'] = this._startDate;
-    data['end_date'] = this._endDate;
-    data['status'] = this._status;
-    data['featured'] = this._featured;
-    data['background_color'] = this._backgroundColor;
-    data['text_color'] = this._textColor;
-    data['banner'] = this._banner;
-    data['slug'] = this._slug;
-    data['created_at'] = this._createdAt;
-    data['updated_at'] = this._updatedAt;
-    data['product_id'] = this._productId;
-    data['deal_type'] = this._dealType;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = _id;
+    data['title'] = _title;
+    data['start_date'] = _startDate;
+    data['end_date'] = _endDate;
+    data['status'] = _status;
+    data['featured'] = _featured;
+    data['background_color'] = _backgroundColor;
+    data['text_color'] = _textColor;
+    data['banner'] = _banner;
+    data['slug'] = _slug;
+    data['created_at'] = _createdAt;
+    data['updated_at'] = _updatedAt;
+    data['product_id'] = _productId;
+    data['deal_type'] = _dealType;
     return data;
   }
 }

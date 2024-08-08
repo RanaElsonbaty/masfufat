@@ -14,7 +14,7 @@ abstract class OrderDetailsServiceInterface {
 
   Future<dynamic> verifyDigitalProductOtp(int orderId, String otp);
 
-  Future<dynamic> trackOrder(String orderId, String phoneNumber);
+  Future<dynamic> trackOrder(String orderId, );
 
   Future<HttpClientResponse> productDownload(String url);
 

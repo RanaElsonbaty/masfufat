@@ -43,7 +43,7 @@ class RecommendedProductWidget extends StatelessWidget {
                 },
                 child: Stack(children: [
                     Positioned(top: -10, left: MediaQuery.of(context).size.width*0.35,
-                        child: Image.asset(Images.dealOfTheDay, width: 150, height: 150, opacity: const AlwaysStoppedAnimation(0.25),)),
+                        child: Image.asset(Images.dealOfTheDay, width: 150, height: 150, color:Theme.of(context).primaryColor,opacity: const AlwaysStoppedAnimation(0.25),)),
 
                     Column(children: [
 

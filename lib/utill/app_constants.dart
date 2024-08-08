@@ -68,7 +68,7 @@ class AppConstants {
   static const String chatInfoUri = '/api/v1/customer/chat/list/';
   static const String searchChat = '/api/v1/customer/chat/search/';
   static const String sendMessageUri = '/api/v1/customer/chat/send-message/';
-  static const String seenMessageUri = '/api/v1/customer/chat/seen-message/';
+  static const String seenMessageUri = '/api/v1/customer/chat/send-message/';
   static const String tokenUri = '/api/v1/customer/cm-firebase-token';
   static const String notificationUri = '/api/v1/notifications';
   static const String linkedProduct = '/api/v1/products/linked-products';
@@ -136,7 +136,7 @@ class AppConstants {
   static const String mostDemandedProduct = '/api/v1/products/most-demanded-product?guest_id=1';
   static const String shopAgainFromRecentStore = '/api/v1/products/shop-again-product';
   static const String findWhatYouNeed = '/api/v1/categories/find-what-you-need';
-  static const String orderTrack = '/api/v1/order/track-order';
+  static const String orderTrack = '/api/v1/order/track?order_id=';
   static const String addFundToWallet = '/api/v1/add-to-fund';
   static const String reorder = '/api/v1/customer/order/again';
   static const String walletBonusList = '/api/v1/customer/wallet/bonus-list';
@@ -151,8 +151,12 @@ class AppConstants {
   static const String otpVerificationForDigitalProduct = '/api/v1/customer/order/digital-product-download-otp-verify';
   static const String selectCartItemsUri = '/api/v1/cart/select-cart-items';
   static const String generateInvoice = '/api/v1/customer/order/generate-invoice?order_id=';
-
-
+  static const String placeSyncWalletOrder =
+      '/api/v1/customer/order/place_sync_wallet';
+  static const String placeBankTransferOrder =
+      '/api/v1/customer/order/place_bank_transfer';
+  static const String linkedAccount = '/api/v1/customer/linked-accounts';
+  static const String linkedAccountUnlink = '/api/v1/salla/unlink';
 
   static const String getCompareList = '/api/v1/customer/compare/list';
   static const String addToCompareList = '/api/v1/customer/compare/product-store';
@@ -182,7 +186,7 @@ class AppConstants {
   static const pi = 3.14;
   static const defaultSpread = 0.0872665;
   static const double minFilter = 0;
-  static const double maxFilter = 1000000;
+  static const double maxFilter = 100000;
 
   // order status
   static const String pending = 'pending';

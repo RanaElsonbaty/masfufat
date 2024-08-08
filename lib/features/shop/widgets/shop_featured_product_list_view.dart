@@ -24,7 +24,7 @@ class _ShopFeaturedProductViewListState extends State<ShopFeaturedProductViewLis
           return productController.sellerWiseFeaturedProduct != null?
           (productController.sellerWiseFeaturedProduct!.products != null && productController.sellerWiseFeaturedProduct!.products!.isNotEmpty)?
           PaginatedListView(scrollController: widget.scrollController,
-              onPaginate: (offset) async => await productController.getSellerProductList(widget.sellerId.toString(), offset!, ""),
+              // onPaginate: (offset) async => await productController.getSellerProductList(widget.sellerId.toString(), offset!, ""),
               totalSize: productController.sellerWiseFeaturedProduct?.totalSize,
               offset: productController.sellerWiseFeaturedProduct?.offset,
               itemView: MasonryGridView.count(
@@ -34,7 +34,7 @@ class _ShopFeaturedProductViewListState extends State<ShopFeaturedProductViewLis
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) => ProductWidget(productModel: productController.sellerWiseFeaturedProduct!.products![index]),
-              )): const SizedBox() : ProductShimmer(isEnabled: productController.sellerWiseFeaturedProduct == null, isHomePage: false);
+              ), onPaginate: (int? offset) {  },): const SizedBox() : ProductShimmer(isEnabled: productController.sellerWiseFeaturedProduct == null, isHomePage: false);
         }
     );
   }

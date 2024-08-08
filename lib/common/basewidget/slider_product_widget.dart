@@ -132,6 +132,7 @@ class SliderProductWidget extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall, vertical: Dimensions.paddingSizeSmall),
                               child: FavouriteButtonWidget(
+
                                 backgroundColor: ColorResources.getImageBg(context), productId: product.id,
                               ),
                             ),

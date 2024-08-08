@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/notification/domain/models/notification_model.dart';
+import 'package:flutter_sixvalley_ecommerce/helper/date_converter.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
 
 class NotificationDialogWidget extends StatelessWidget {
   final NotificationItemModel notificationModel;
@@ -10,37 +10,50 @@ class NotificationDialogWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(child: Column(mainAxisSize: MainAxisSize.min, children: [
-        const SizedBox(height: Dimensions.paddingSizeDefault,),
+    return Material(child: SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Column(mainAxisSize: MainAxisSize.min, children: [
+          const SizedBox(height: Dimensions.paddingSizeDefault,),
 
-        InkWell(onTap: ()=>Navigator.of(context).pop(),
-          child: Container(width: 40,height: 5,decoration: BoxDecoration(
-              color: Theme.of(context).hintColor.withOpacity(.5),
-              borderRadius: BorderRadius.circular(20)))),
-        const SizedBox(height: 20,),
+          InkWell(onTap: ()=>Navigator.of(context).pop(),
+            child: Container(width: 40,height: 5,decoration: BoxDecoration(
+                color: Theme.of(context).hintColor.withOpacity(.5),
+                borderRadius: BorderRadius.circular(20)))),
+          const SizedBox(height: 20,),
 
 
-          notificationModel.image != "null"?
-          Container(height: MediaQuery.of(context).size.width-130, width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
-            decoration: BoxDecoration( color: Theme.of(context).primaryColor.withOpacity(0.20)),
-            child: CustomImageWidget(image: '${notificationModel.image}',
-              height: MediaQuery.of(context).size.width-130, width: MediaQuery.of(context).size.width)):
-          const SizedBox(),
-          const SizedBox(height: Dimensions.paddingSizeLarge),
+            // notificationModel.image != "null"?
+            // Container(height: 100, width: 100,
+            //   margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
+            //   decoration: BoxDecoration( color: Theme.of(context).primaryColor.withOpacity(0.20),borderRadius: BorderRadius.circular(12)),
+            //   child: ClipRRect(
+            //     borderRadius: BorderRadius.circular(12),
+            //     child: CustomImageWidget(image: '${notificationModel.image}',
+            //       height:50, width: 50),
+            //   )):
+            // const SizedBox(),
+            // const SizedBox(height: Dimensions.paddingSizeLarge),
 
-          Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
-            child: Text(notificationModel.title!, textAlign: TextAlign.center,
-              style: titilliumSemiBold.copyWith(color: Theme.of(context).primaryColor,
-                  fontSize: Dimensions.fontSizeLarge))),
+            Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
+              child: Text(notificationModel.title!, textAlign: TextAlign.center,
+                style: titilliumSemiBold.copyWith(color: Theme.of(context).primaryColor,
+                    fontSize: Dimensions.fontSizeLarge+15))),
 
-          Padding(padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
-            child: Text(notificationModel.description!, textAlign: TextAlign.center,
-                style: titilliumRegular)),
+            Padding(padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+              child: Text(notificationModel.description!, textAlign: TextAlign.center,
+                  style: titilliumRegular.copyWith(
+                    fontSize: 24
+                  ))),
+        Padding(padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+            child: Text(DateConverter.isoStringToLocalDateAndTime(notificationModel.createdAt!), textAlign: TextAlign.center,
+                style: titilliumRegular.copyWith(
+                    // fontSize: 25
+                ))),
 
-        const SizedBox(height: Dimensions.paddingSizeSmall)
-        ],
-      ),
+          const SizedBox(height: Dimensions.paddingSizeSmall)
+          ],
+        ),
+    ),
     );
   }
 }

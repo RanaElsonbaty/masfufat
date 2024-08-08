@@ -1,6 +1,5 @@
 import 'package:flutter_sixvalley_ecommerce/data/model/image_full_url.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/shop/domain/models/seller_model.dart';
 class CartModel {
   int? id;
   int? productId;
@@ -43,6 +42,7 @@ class CartModel {
   bool? isChecked;
   bool? isGroupChecked;
   bool? isGroupItemChecked;
+  Product? product;
 
 
 
@@ -59,6 +59,7 @@ class CartModel {
       this.quantity,
       this.maxQuantity,
       this.variant,
+      this.product,
       this.color,
       this.variation,
       this.discount,
@@ -99,6 +100,7 @@ class CartModel {
     sellerId = int.parse(json['seller_id'].toString());
     sellerIs = json['seller_is'];
     image = json['image'];
+    product =Product.fromJson(json['product']);
     price = json['price'].toDouble();
     discountedPrice = json['discounted_price'];
     quantity = int.parse(json['quantity'].toString());

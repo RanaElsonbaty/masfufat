@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/screens/auth_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/dashboard/screens/dashboard_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/onboarding/controllers/onboarding_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
@@ -54,9 +53,9 @@ class OnBoardingScreen extends StatelessWidget {
                           if(index != onBoardingList.onBoardingList.length){
                             onBoardingList.changeSelectIndex(index);
                           }else{
-                            Provider.of<SplashController>(context, listen: false).disableIntro();
-                            Provider.of<AuthController>(context, listen: false).getGuestIdUrl();
-                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const DashBoardScreen()), (route) => false);
+                            // Provider.of<SplashController>(context, listen: false).disableIntro();
+                            // Provider.of<AuthController>(context, listen: false).getGuestIdUrl();
+                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const AuthScreen()), (route) => false);
                           }
                         })),
 
@@ -68,9 +67,9 @@ class OnBoardingScreen extends StatelessWidget {
                         radius: 5,backgroundColor: Theme.of(context).primaryColor.withOpacity(.1),
                         buttonText: getTranslated("explore", context),
                     onTap: (){
-                      Provider.of<SplashController>(context, listen: false).disableIntro();
-                      Provider.of<AuthController>(context, listen: false).getGuestIdUrl();
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const DashBoardScreen()), (route) => false);
+                      // Provider.of<SplashController>(context, listen: false).disableIntro();
+                      // Provider.of<AuthController>(context, listen: false).getGuestIdUrl();
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const AuthScreen()), (route) => false);
                     },))))
                       :
                     Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeExtraLarge),

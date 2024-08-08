@@ -4,9 +4,7 @@ import 'package:flutter_sixvalley_ecommerce/features/address/controllers/address
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/banner/controllers/banner_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/banner/widgets/banners_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/banner/widgets/footer_banner_slider_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/banner/widgets/single_banner_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/brand/controllers/brand_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/brand/screens/brands_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/brand/widgets/brand_list_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/controllers/cart_controller.dart';
@@ -27,7 +25,6 @@ import 'package:flutter_sixvalley_ecommerce/features/notification/controllers/no
 import 'package:flutter_sixvalley_ecommerce/features/product/controllers/product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/enums/product_type.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/widgets/home_category_product_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/widgets/latest_product_list_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/widgets/products_list_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/widgets/recommended_product_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/profile/controllers/profile_contrroller.dart';
@@ -55,23 +52,28 @@ class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
 
+
+
+}
+
+class _HomePageState extends State<HomePage> {
+  final ScrollController _scrollController = ScrollController();
+ final ScrollController controller =ScrollController();
   static Future<void> loadData(bool reload) async {
-    Provider.of<BannerController>(Get.context!, listen: false).getBannerList(reload,'all');
-    Provider.of<CategoryController>(Get.context!, listen: false).getCategoryList(reload);
+    await Provider.of<BannerController>(Get.context!, listen: false).getBannerList(reload,'main_banner');
+    await   Provider.of<CategoryController>(Get.context!, listen: false).getCategoryList(reload);
     await Provider.of<FlashDealController>(Get.context!, listen: false).getFlashDealList(reload, false);
-    await Provider.of<ShopController>(Get.context!, listen: false).getTopSellerList(reload, 1, type: "top");
-    await Provider.of<ProductController>(Get.context!, listen: false).getRecommendedProduct();
-    // Provider.of<BannerController>(Get.context!, listen: false).getBannerList(reload,'footer_banner');
-    Provider.of<ProductController>(Get.context!, listen: false).getHomeCategoryProductList(reload);
-
-    Provider.of<AddressController>(Get.context!, listen: false).getAddressList();
-    await Provider.of<CartController>(Get.context!, listen: false).getCartData(Get.context!);
-
-    // await Provider.of<BrandController>(Get.context!, listen: false).getBrandList(reload,1);
-    await Provider.of<ProductController>(Get.context!, listen: false).getLatestProductList(1, reload: reload);
     await Provider.of<ProductController>(Get.context!, listen: false).getFeaturedProductList('1', reload: reload);
     await Provider.of<FeaturedDealController>(Get.context!, listen: false).getFeaturedDealList(reload);
-    await Provider.of<ProductController>(Get.context!, listen: false).getLProductList('1', reload: reload);
+    await Provider.of<ShopController>(Get.context!, listen: false).getTopSellerList(reload, 1, type: "top");
+    await Provider.of<ProductController>(Get.context!, listen: false).getRecommendedProduct();
+    Provider.of<BannerController>(Get.context!, listen: false).getBannerList(reload,'main_section_banner');
+    Provider.of<ProductController>(Get.context!, listen: false).getHomeCategoryProductList(reload);
+    Provider.of<AddressController>(Get.context!, listen: false).getAddressList();
+    await Provider.of<CartController>(Get.context!, listen: false).getCartData(Get.context!);
+    await Provider.of<ProductController>(Get.context!, listen: false).getLatestProductList(1, reload: reload);
+
+    // await Provider.of<ProductController>(Get.context!, listen: false).getLProductList('1', reload: reload);
     await Provider.of<NotificationController>(Get.context!, listen: false).getNotificationList(1);
     if(Provider.of<AuthController>(Get.context!, listen: false).isLoggedIn()){
       await  Provider.of<ProfileController>(Get.context!, listen: false).getUserInfo(Get.context!);
@@ -85,13 +87,6 @@ class HomePage extends StatefulWidget {
     Provider.of<PaymentController>(Get.context!,listen: false).getIsLoading(false,true);
   }
 
-}
-
-class _HomePageState extends State<HomePage> {
-  final ScrollController _scrollController = ScrollController();
- final ScrollController controller =ScrollController();
-
-
 
   void passData(int index, String title) {
     index = index;
@@ -102,7 +97,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    // singleVendor = Provider.of<SplashController>(context, listen: false).configModel!.businessMode == "single";
+      singleVendor = Provider.of<SplashController>(context, listen: false).configModel!.showSellersSection == 1;
+print('asdasdasdasd$singleVendor');
+
   }
 
 
@@ -116,7 +113,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(resizeToAvoidBottomInset: false,
       body: SafeArea(child: RefreshIndicator(
         onRefresh: () async {
-          await HomePage.loadData( true);
+          await loadData( true);
         },
         child: CustomScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -130,10 +127,10 @@ class _HomePageState extends State<HomePage> {
             title: Image.asset(Images.logoWithNameImage, height: 150),
           ),
 
-          SliverToBoxAdapter(child:Provider.of<SplashController>(context, listen: false).configModel!=null&&Provider.of<SplashController>(context, listen: false).configModel!.announcement!.status !=null&& Provider.of<SplashController>(context, listen: false).configModel!.announcement!.status == '1'?
+          SliverToBoxAdapter(child:Provider.of<SplashController>(context, listen: false).configModel!=null&&Provider.of<SplashController>(context, listen: false).configModel!.announcement.status !=null&& Provider.of<SplashController>(context, listen: false).configModel!.announcement.status == '1'?
           Consumer<SplashController>(
               builder: (context, announcement, _){
-                return (announcement.configModel!.announcement!.announcement != null && announcement.onOff)?
+                return (announcement.onOff)?
                 AnnouncementWidget(announcement: announcement.configModel!.announcement):const SizedBox();
               }):const SizedBox(),),
 
@@ -190,7 +187,7 @@ class _HomePageState extends State<HomePage> {
                         Container(
                           width: MediaQuery.of(context).size.width,
                           height: 150,
-                          color: Theme.of(context).colorScheme.onTertiary,
+                          color: Theme.of(context).primaryColor.withOpacity(0.3),
                         ),
 
                         Column(children: [
@@ -214,9 +211,9 @@ class _HomePageState extends State<HomePage> {
 
 
               Consumer<BannerController>(builder: (context, footerBannerProvider, child){
-                return footerBannerProvider.mainSectionBanner != null ?
+                return footerBannerProvider.footerBannerList != null&&footerBannerProvider.footerBannerList!.isNotEmpty ?
                 Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
-                    child: SingleBannersWidget( bannerModel : footerBannerProvider.mainSectionBanner)):
+                    child: SingleBannersWidget( bannerModel : footerBannerProvider.footerBannerList!.first)):
                 const SizedBox();
               }),
               const SizedBox(height: Dimensions.paddingSizeDefault),
@@ -228,7 +225,7 @@ class _HomePageState extends State<HomePage> {
 
 
               // seller view
-              singleVendor?const SizedBox():
+              singleVendor?
               Consumer<ShopController>(
                   builder: (context, topSellerProvider, child) {
                     return (topSellerProvider.sellerModel != null && (topSellerProvider.sellerModel!=null && topSellerProvider.sellerModel!.isNotEmpty))?
@@ -236,15 +233,15 @@ class _HomePageState extends State<HomePage> {
                         onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_) =>
                         const AllTopSellerScreen( title: 'top_stores',)))):
                     const SizedBox();
-                  }),
-              singleVendor?const SizedBox(height: 0):const SizedBox(height: Dimensions.paddingSizeSmall),
+                  }):const SizedBox(),
+              singleVendor?const SizedBox(height: Dimensions.paddingSizeSmall):const SizedBox(height: 0),
 
-              singleVendor?const SizedBox():
+              singleVendor?
               Consumer<ShopController>(
                   builder: (context, topSellerProvider, child) {
                     return (topSellerProvider.sellerModel != null && (topSellerProvider.sellerModel!=null && topSellerProvider.sellerModel!.isNotEmpty))?
                     Padding(padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault),
-                        child: SizedBox(height: ResponsiveHelper.isTab(context)? 170 : 165, child: TopSellerView(isHomePage: true, scrollController: _scrollController,))):const SizedBox();}),
+                        child: SizedBox(height: ResponsiveHelper.isTab(context)? 170 : 165, child: TopSellerView(isHomePage: true, scrollController: _scrollController,))):const SizedBox();}):const SizedBox(),
 
 
 

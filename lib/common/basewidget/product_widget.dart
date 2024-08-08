@@ -44,7 +44,7 @@ class ProductWidget extends StatelessWidget {
                 children: [
                   Consumer<SplashController>(
                     builder: (context, splashProvider, child) =>  CustomImageWidget(
-                      image: productModel.imagesFullUrl!=null&&productModel.imagesFullUrl!.isNotEmpty? productModel.imagesFullUrl!:productModel.images!=null&&productModel.images!.first!=productModel.images!.first?'':'',
+                      image:productModel.images!=null&&productModel.images!.isNotEmpty&&productModel.images!.first.startsWith('https://platform.masfufat.com/storage/app/public/product/sa/')? productModel.images!.first:productModel.imagesFullUrl!=null&&productModel.imagesFullUrl!.isNotEmpty?productModel.imagesFullUrl!:'',
                       fit: BoxFit.fill,
                       height: boxConstraint.maxWidth * 0.82,
                       width: boxConstraint.maxWidth,
@@ -150,6 +150,7 @@ class ProductWidget extends StatelessWidget {
 
           Positioned(top: 8, right: 10,
             child: FavouriteButtonWidget(
+
               backgroundColor: ColorResources.getImageBg(context),
               productId: productModel.id,
             ),

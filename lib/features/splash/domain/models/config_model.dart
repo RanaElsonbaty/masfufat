@@ -121,7 +121,7 @@ class ConfigModel {
     chatWithSellerStatus: json['chat_with_seller_status']=='1'?true:false,
     showSellerOrders: json['show_seller_orders']=='1'?true:false,
     showSellerRatings: json['show_seller_ratings']=='1'?true:false,
-    sellersProductsCount:json['show_sellers_products_count']!=null?json['show_sellers_products_count']==0?false:false:false,
+    sellersProductsCount:json['show_sellers_products_count']!=null&&json['show_sellers_products_count']==0?false:true,
     digitalPayment: json["digital_payment"],
     cashOnDelivery: json["cash_on_delivery"],
     sellerRegistration: json["seller_registration"],
@@ -642,7 +642,7 @@ class AmazonPay {
     name: json["name"],
     enabled: json["enabled"],
     logo: json["logo"],
-    apiKey: json["api_key"]!=null?json["api_key"]:"",
+    apiKey: json["api_key"] ?? "",
     banks:json["banks"]!=null? List<Bank>.from(json["banks"].map((x) => Bank.fromJson(x))):[],
   );
 

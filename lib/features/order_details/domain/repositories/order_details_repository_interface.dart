@@ -13,7 +13,7 @@ abstract class OrderDetailsRepositoryInterface<T> extends RepositoryInterface{
 
   Future<dynamic> otpVerificationForDigitalProduct(int orderId, String otp);
 
-  Future<dynamic> trackYourOrder(String orderId, String phoneNumber);
+  Future<dynamic> trackYourOrder(String orderId, );
 
   Future<HttpClientResponse> productDownload(String url);
 

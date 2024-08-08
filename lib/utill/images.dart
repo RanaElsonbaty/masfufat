@@ -8,6 +8,7 @@ class Images {
   static const String officeImage = 'assets/images/office.png';
   static const String logoImage = 'assets/images/logo.png';
   static const String logoWithNameImage = 'assets/images/logo_Black.png';
+  static const String copy = 'assets/images/copy.png';
   static const String applePay = 'assets/images/apple-pay.png';
   static const String logoWithNameImageWhite = 'assets/images/logo_with_name_white.png';
   static const String messageImage = 'assets/images/inbox.png';
@@ -49,6 +50,7 @@ class Images {
   static const String aboutUs = 'assets/images/about_us.png';
   static const String contactUs = 'assets/images/contact_us.png';
   static const String login = 'assets/images/login.png';
+  static const String word = 'assets/images/word.png';
   static const String maintenance = 'assets/images/maintenance.png';
   static const String facebook = 'assets/images/facebook.png';
   static const String google = 'assets/images/google.png';
@@ -112,6 +114,8 @@ class Images {
   static const String walletPay = 'assets/images/wallet_pay.png';
   static const String coupon = 'assets/images/coupon.png';
   static const String iMark = 'assets/images/iMark.png';
+  static const String storeSettingImage = 'assets/images/attach-square.png';
+
   static const String share = 'assets/images/share.png';
   static const String referAndEarn = 'assets/images/referAndEarn.png';
   static const String refIcon = 'assets/images/ref_and_earn.png';

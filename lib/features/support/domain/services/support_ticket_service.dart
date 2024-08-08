@@ -14,8 +14,8 @@ class SupportTicketService implements SupportTicketServiceInterface{
   }
 
   @override
-  Future createNewSupportTicket(SupportTicketBody supportTicketModel, List<XFile?> file) async{
-    return await supportTicketRepositoryInterface.createNewSupportTicket(supportTicketModel, file);
+  Future createNewSupportTicket(SupportTicketBody supportTicketModel, ) async{
+    return await supportTicketRepositoryInterface.createNewSupportTicket(supportTicketModel, );
   }
 
   @override

@@ -20,7 +20,7 @@ class ShippingInfoWidget extends StatelessWidget {
               Text('${getTranslated('delivery_service_name', context)} : ',
                   style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
 
-              Text(order!.orders!.shippingType!.toString(),
+              Text(order!.orders!.shippingType.toString(),
                 style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeSmall))]),
             const SizedBox(height: Dimensions.marginSizeExtraSmall),
 

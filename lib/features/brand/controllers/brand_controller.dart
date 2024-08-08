@@ -65,14 +65,14 @@ class BrandController extends ChangeNotifier {
     } else if (value == 1) {
       _brandList.clear();
       _brandList.addAll(_originalBrandList);
-      _brandList.sort((a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()));
+      _brandList.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
       isTopBrand = false;
       isAZ = true;
       isZA = false;
     } else if (value == 2) {
       _brandList.clear();
       _brandList.addAll(_originalBrandList);
-      _brandList.sort((a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()));
+      _brandList.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
       Iterable iterable = _brandList.reversed;
       _brandList = iterable.toList() as List<BrandModel>;
       isTopBrand = false;

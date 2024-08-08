@@ -14,9 +14,9 @@ import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/screens/cart_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/loyaltyPoint/screens/loyalty_point_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/banner/screens/offers_product_list_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/order/screens/order_screen.dart';
 import 'package:provider/provider.dart';
+
+import '../../order/screens/order_page_builder.dart';
 
 class MoreHorizontalSection extends StatelessWidget {
   const MoreHorizontalSection({super.key});
@@ -32,8 +32,8 @@ class MoreHorizontalSection extends StatelessWidget {
                   shrinkWrap: true,
                   physics: const BouncingScrollPhysics(), children: [
                    // if(Provider.of<SplashController>(context, listen: false).configModel!.activeTheme != "theme_fashion")
-                    SquareButtonWidget(image: Images.offerIcon, title: getTranslated('offers', context),
-                      navigateTo: const OfferProductListScreen(),count: 0,hasCount: false,),
+                   //  SquareButtonWidget(image: Images.offerIcon, title: getTranslated('offers', context),
+                   //    navigateTo: const OfferProductListScreen(),count: 0,hasCount: false,),
 
                     if(!isGuestMode && Provider.of<SplashController>(context,listen: false).configModel!.walletStatus == 1)
                       SquareButtonWidget(image: Images.wallet, title: getTranslated('wallet', context),
@@ -50,7 +50,7 @@ class MoreHorizontalSection extends StatelessWidget {
                     if(!isGuestMode)
                     Consumer<OrderController>(
                       builder:(context, order, child) =>  SquareButtonWidget(image: Images.shoppingImage, title: getTranslated('orders', context),
-                        navigateTo: const OrderScreen(),count: 1,hasCount: false,isWallet: true,subTitle: 'orders',
+                        navigateTo: const OrderPageBuilder(isBacButtonExist: true,),count: 1,hasCount: false,isWallet: true,subTitle: 'orders',
                         balance: double.tryParse(order.orderModel!.length.toString()), isLoyalty: true),
                     ),
 

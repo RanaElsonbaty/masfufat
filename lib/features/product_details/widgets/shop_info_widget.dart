@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/shop/controllers/shop_controller.dart';
@@ -11,7 +10,6 @@ import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/not_logged_in_bottom_sheet_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/rating_bar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/chat/screens/chat_screen.dart';
@@ -35,7 +33,6 @@ class _ShopInfoWidgetState extends State<ShopInfoWidget> {
   }
   @override
   Widget build(BuildContext context) {
-    double sellerIconSize = 50;
 
     return Consumer<ShopController>(
       builder: (context, seller, child) {
@@ -73,7 +70,7 @@ class _ShopInfoWidgetState extends State<ShopInfoWidget> {
                                     image: seller.sellerInfoModel?.seller?.shop?.imageFullUrl?.path)));
                               }else{
                                 log("==id22=>${seller.sellerInfoModel?.seller?.toJson()}");
-                              Navigator.push(context, MaterialPageRoute(builder: (_) => TopSellerProductScreen(
+                              Navigator.push(context, MaterialPageRoute(builder: (_) => const TopSellerProductScreen(
                               sellerId: 0,
                               // temporaryClose: Provider.of<SplashController>(context, listen: false).configModel?.inhouseTemporaryClose?.status == 1 ,
                               // vacationStatus: Provider.of<SplashController>(context, listen: false).configModel?.inhouseVacationAdd?.status == 1,
@@ -177,7 +174,7 @@ class _ShopInfoWidgetState extends State<ShopInfoWidget> {
                       image: seller.sellerInfoModel?.seller?.shop?.image)));
                 }else{
                   log("==id22=>${seller.sellerInfoModel?.seller?.toJson()}");
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => TopSellerProductScreen(
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const TopSellerProductScreen(
                       sellerId: 0,
                       // temporaryClose: Provider.of<SplashController>(context, listen: false).configModel?.inhouseTemporaryClose?.status == 1 ,
                       // vacationStatus: Provider.of<SplashController>(context, listen: false).configModel?.inhouseVacationAdd?.status == 1,

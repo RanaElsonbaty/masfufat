@@ -88,11 +88,11 @@ class _SellerCardState extends State<SellerCard> {
                               '${splashController.baseUrls!=null?splashController.baseUrls!.shopImageUrl:''}/${widget.sellerModel!.image}',
                                   width: 60,height: 60))),
 
-                        if((widget.sellerModel!.temporaryClose==1 ?? false) || vacationIsOn)
+                        if((widget.sellerModel!.temporaryClose==1) || vacationIsOn)
                           Container(decoration: BoxDecoration(color: Colors.black.withOpacity(.5),
                               borderRadius: const BorderRadius.all(Radius.circular(Dimensions.paddingSizeOverLarge)))),
 
-                      (widget.sellerModel!.temporaryClose==1 ?? false) ?
+                      (widget.sellerModel!.temporaryClose==1) ?
                         Center(child: Text(getTranslated('temporary_closed', context)!, textAlign: TextAlign.center,
                           style: textRegular.copyWith(color: Colors.white, fontSize: Dimensions.fontSizeExtraSmall))):
                         vacationIsOn == true?

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order/controllers/order_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/payment%20/domain/model/payment_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/payment%20/domain/repositories/payment_repository.dart';
 import 'package:flutter_sixvalley_ecommerce/features/payment%20/domain/services/payment_service_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
@@ -80,14 +79,16 @@ class PaymentController extends ChangeNotifier {
 
   // init my fatotra
   initiate(BuildContext context) async {
+  try{
     print('api key ----> $apiKey');
-    await MFSDK.init(apiKey, MFCountry.SAUDIARABIA, MFEnvironment.LIVE);
+    await MFSDK.init(apiKey, MFCountry.SAUDIARABIA, MFEnvironment.TEST);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await initSession(context);
       await initiatePayment();
       // await initiateSession();
     });
+  }catch(e){}
   }
 
   log(Object object) {
@@ -401,12 +402,14 @@ class PaymentController extends ChangeNotifier {
       initiateSession();
       return true;
     }).catchError((error) async{
+
+    try{
       await initiate(context);
       notifyListeners();
       print('pay error message ----> ${error.message}');
       if (error.message
-              .toString()
-              .compareTo('Card details are invalid or missing!') ==
+          .toString()
+          .compareTo('Card details are invalid or missing!') ==
           0) {
         showCustomSnackBar(
             getTranslated('Card_details_are_invalid_or_missing', context),
@@ -417,6 +420,9 @@ class PaymentController extends ChangeNotifier {
             isError: true);
         initiateSession();
       }
+    }catch(e){
+
+    }
       return false;
     });
   }
@@ -450,7 +456,7 @@ class PaymentController extends ChangeNotifier {
   }
 
   Widget embeddedCardView(bool wallet, bool applePay) {
-    return Container(
+    return SizedBox(
       height: applePay == false ? 200 : 70,
 
       child: Column(
@@ -594,9 +600,9 @@ class PaymentController extends ChangeNotifier {
       _paymentMethod.add(PaymentMethod(configModel.paymentMethods.delayed.name,
           configModel.paymentMethods.delayed.logo, 5));
     }
-    _paymentMethod.forEach((element) {
+    for (var element in _paymentMethod) {
       print('_paymentMethod name --> ${element.name}');
-    });
+    }
     notifyListeners();
   }
 

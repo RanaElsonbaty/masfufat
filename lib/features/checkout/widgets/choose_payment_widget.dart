@@ -4,10 +4,10 @@ import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dar
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/checkout/widgets/payment_method_bottom_sheet_widget.dart';
 import 'package:provider/provider.dart';
+
+import '../../payment /controller/payment_controller.dart';
+import 'custom_check_box_widget.dart';
 
 class ChoosePaymentWidget extends StatelessWidget {
   final bool onlyDigital;
@@ -30,10 +30,30 @@ class ChoosePaymentWidget extends StatelessWidget {
                             style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge))),
 
 
-                      InkWell(onTap: () => showModalBottomSheet(context: context,
-                          isScrollControlled: true, backgroundColor: Colors.transparent,
-                          builder: (c) =>   PaymentMethodBottomSheetWidget(onlyDigital: onlyDigital,)),
-                          child: SizedBox(width: 20, child: Image.asset(Images.edit,color: Theme.of(context).primaryColor, scale: 3)))]),
+                      // InkWell(onTap: () => showModalBottomSheet(context: context,
+                      //     isScrollControlled: true, backgroundColor: Colors.transparent,
+                      //     builder: (c) =>   PaymentMethodBottomSheetWidget(onlyDigital: onlyDigital,)),
+                      //     child: SizedBox(width: 20, child: Image.asset(Images.edit,color: Theme.of(context).primaryColor, scale: 3)))
+                    ]),
+                  Consumer<PaymentController>(
+                      builder: (context, configProvider,_) {
+
+                        return ListView.builder(
+                          padding: EdgeInsets.zero,
+                          itemCount: configProvider.paymentMethod.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index){
+                            return  CustomCheckBoxWidget(index: index,
+                              icon: configProvider.paymentMethod[index].image,
+                              name:configProvider. paymentMethod[index].name,
+                              title:'',
+                              id: configProvider. paymentMethod[index].id,
+                            );
+                          },
+                        );
+                      }
+                  ),
                     // const SizedBox(height: Dimensions.paddingSizeDefault,),
 
                     // Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

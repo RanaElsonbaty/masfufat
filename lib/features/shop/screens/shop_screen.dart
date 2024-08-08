@@ -3,28 +3,24 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen
 import 'package:flutter_sixvalley_ecommerce/features/product/controllers/seller_product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/features/category/controllers/category_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/coupon/controllers/coupon_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/shop/controllers/shop_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/product_filter_dialog_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/search_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/home/screens/home_screens.dart';
-import 'package:flutter_sixvalley_ecommerce/features/shop/screens/overview_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/shop/widgets/shop_info_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/shop/widgets/shop_product_view_list.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/basewidget/custom_image_widget.dart';
 import '../../../common/basewidget/product_shimmer_widget.dart';
 import '../../../common/basewidget/product_widget.dart';
+import '../../../common/basewidget/show_custom_snakbar_widget.dart';
+import '../../../utill/color_resources.dart';
 import '../../product/domain/models/product_model.dart';
+import '../../search_product/controllers/search_product_controller.dart';
+import '../../search_product/widgets/search_filter_bottom_sheet_widget.dart';
 
 class TopSellerProductScreen extends StatefulWidget {
   final int? sellerId;
@@ -44,10 +40,8 @@ class TopSellerProductScreen extends StatefulWidget {
 }
 
 class _TopSellerProductScreenState extends State<TopSellerProductScreen> with TickerProviderStateMixin{
-  final ScrollController _scrollController = ScrollController();
   TextEditingController searchController = TextEditingController();
   bool vacationIsOn = false;
-  TabController? _tabController;
   int selectedIndex = 0;
 
   void _load() async{
@@ -99,9 +93,18 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
   Future<void> fetchPage(int pageKey) async {
     try {
       firstTime=true;
-      // await Provider.of<SellerProductController>(context, listen: false).getSellerProductList(widget.sellerId.toString(), 1, "");
-      //
-      final List<Product>  newItems = await Provider.of<SellerProductController>(context, listen: false).getSellerProductList(widget.sellerId.toString(), page, "");
+
+      final List<Product>  newItems = await Provider.of<SellerProductController>(context, listen: false).getSellerProductList(
+
+          widget.sellerId.toString(), page, "",
+        searchController.text,
+
+          Provider.of<SearchProductController>(context, listen: false).sortText,
+       Provider.of<SearchProductController>(context, listen: false).syncSortText,
+
+          '&from_price=${Provider.of<SearchProductController>(context, listen: false).minFilterValue.toString()}&to_price=${Provider.of<SearchProductController>(context, listen: false).maxFilterValue.toString()}'
+          ,
+       );
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         pagingController.appendLastPage(newItems);
@@ -119,6 +122,9 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
     }
     firstTime=false;
 
+  }
+  void ref(){
+    _page=1;
   }
   @override
   void initState() {
@@ -149,8 +155,8 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
       canPop: true,
       onPopInvoked: (value) {
         Provider.of<SellerProductController>(context, listen: false).clearSellerProducts();
-        Provider.of<CategoryController>(Get.context!, listen: false).emptyCategory();
-        Provider.of<CategoryController>(Get.context!, listen: false).getCategoryList(true);
+        // Provider.of<CategoryController>(Get.context!, listen: false).emptyCategory();
+        // Provider.of<CategoryController>(Get.context!, listen: false).getCategoryList(true);
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -163,7 +169,7 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
               controller: scrollController,
           slivers: [
             SliverAppBar(
-              expandedHeight: 310.0,
+              expandedHeight: 320.0,
               snap: false,
               pinned: true,
               floating: false,
@@ -204,12 +210,12 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
 
               backgroundColor: Theme.of(context).cardColor,
               flexibleSpace: FlexibleSpaceBar(
-                title: Text(''),
+                title: const Text(''),
                 // centerTitle: ,
                 background: Consumer<SplashController>(
                   builder:(context, splash, child) =>  Column(
                     children: [
-                      SizedBox(height: 120,),
+                      const SizedBox(height: 120,),
                       ShopInfoWidget(
                           vacationIsOn: vacationIsOn,
                           sellerName: widget.name ?? "",
@@ -217,51 +223,173 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
                           banner: widget.banner ?? '',
                           shopImage: widget.image ?? '',
                           temporaryClose: widget.temporaryClose!),
+                      Container(color: Theme.of(context).canvasColor,
+                          child: Stack(children: [
+                            ClipRRect(borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
+                                child: SizedBox(height: 50 , width: MediaQuery.of(context).size.width)),
+
+                            Padding(padding: const EdgeInsets.all(8.0),
+                              child: Container(width : MediaQuery.of(context).size.width, height:  50 ,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
+                                    border: Border.all(color: Theme.of(context).hintColor.withOpacity(.15))),
+                                child: Row(children: [
+                                  Expanded(child: Container(
+                                    decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all( Radius.circular(Dimensions.paddingSizeDefault))),
+
+                                    child: Padding(padding:  const EdgeInsets.symmetric(
+                                        vertical: Dimensions.paddingSizeExtraSmall,
+                                        horizontal: Dimensions.paddingSizeSmall),
+
+                                      child: TextFormField(controller: searchController,
+                                        textInputAction: TextInputAction.search,
+                                        maxLines: 1,
+                                        textAlignVertical: TextAlignVertical.center,
+                                        onFieldSubmitted: (val){
+
+                                          pagingController.refresh();
+                                          ref();
+                                          setState(() {});
+                                          fetchPage(1);
+
+                                          // sellerProductController.getSellerProductList(widget.sellerId.toString(), 1, "", search: searchController.text.trim());
+                                        },
+                                        onChanged: (val){
+                                          pagingController.refresh();
+                                          ref();
+
+                                          setState(() {});
+                                          fetchPage(1);
+                                        },
+                                        decoration: InputDecoration(
+                                          hintText: 'search',
+                                          isDense: true,
+
+                                          contentPadding: EdgeInsets.zero,
+                                          suffixIconConstraints: const BoxConstraints(maxHeight: 25),
+                                          hintStyle: textRegular.copyWith(color: Theme.of(context).hintColor),
+                                          border: InputBorder.none,
+                                          suffixIcon:searchController.text.isNotEmpty? InkWell(
+                                              onTap: (){
+                                                setState(() {
+                                                  searchController.clear();
+                                                  pagingController.refresh();
+                                                  ref();
+
+                                                  setState(() {});
+                                                  fetchPage(1);
+
+                                                  // sellerProductController.getSellerProductList(widget.sellerId.toString(), 1, "");
+
+                                                });
+
+                                              },
+                                              child: Padding(padding: const EdgeInsets.only(bottom: 3.0),
+                                                child: Icon(Icons.clear, color: ColorResources.getChatIcon(context)),
+                                              )):const SizedBox(),
+                                        ),
+                                      ),
+                                    ),
+
+                                  ),
+                                  ),
+
+                                  InkWell(
+                                    onTap:(){
+                                      if(searchController.text.trim().isEmpty){
+                                        showCustomSnackBar(getTranslated('enter_somethings', context), context);
+                                      }
+                                      else{
+
+                                        pagingController.refresh();
+                                        ref();
+
+                                        setState(() {});
+                                        fetchPage(1);
+                                        // sellerProductController.getSellerProductList(widget.sellerId.toString(), 1, "",  searchController.text.trim());
+
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(3.0),
+                                      child: Container(padding: const EdgeInsets.all(10),
+                                        width: 45,height: 50 ,decoration: BoxDecoration(color: Theme.of(context).primaryColor,
+                                            borderRadius: const BorderRadius.all(Radius.circular(Dimensions.paddingSizeSmall))),
+                                        child:  Image.asset(Images.search, color: Colors.white),
+                                      ),
+                                    ),
+                                  )
+
+
+                                ]),
+                              ),
+                            ),
+                          ])),
+                          // SearchWidget(hintText: '${getTranslated('search_hint', context)}', sellerId: widget.sellerId!, pagingController: pagingController,)),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 4),
                         child: Row(
                           children: [
+                            const SizedBox(width: 5,),
+
                             InkWell(onTap: () => showModalBottomSheet(context: context,
                                 isScrollControlled: true, backgroundColor: Colors.transparent,
-                                builder: (c) =>  ProductFilterDialog(sellerId: widget.sellerId!)),
+                                builder: (c) =>  SearchFilterBottomSheet( pagingController: pagingController,)).then((value) {
+                                  pagingController.refresh();
+                                  ref();
 
-                                child: Container(decoration: BoxDecoration(
-                                    color: Provider.of<ThemeController>(context, listen: false).darkTheme? Colors.white: Theme.of(context).cardColor,
-                                    border: Border.all(color: Theme.of(context).primaryColor.withOpacity(.5)),
-                                    borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall)),
-                                    width: 30,height: 30,
-                                    child: Padding(padding: const EdgeInsets.all(5.0),
-                                        child: Image.asset(Images.filterImage)))),
+                            setState(() {});
+                            fetchPage(1);
+                                }),
+                                child: Stack(children: [
+                                  Container(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall,
+                                      horizontal: Dimensions.paddingSizeExtraSmall),
+                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
+                                        border: Border.all(color: Theme.of(context).hintColor.withOpacity(.25))),
+                                    child: SizedBox(width: 25,height: 24,child: Image.asset(Images.sort,
+                                        color: Provider.of<ThemeController>(context, listen: false).darkTheme?
+                                        Colors.white:Theme.of(context).primaryColor)),),
+                                  // if(searchProductController.isSortingApplied)
+                                    CircleAvatar(radius: 5, backgroundColor: Theme.of(context).primaryColor,)
+                                ],
+                                )),
+
+
+
+
                           ],
                         ),
                       ),
 
 
                       // if(sellerProvider.shopMenuIndex == 1)
-                      Container(color: Theme.of(context).canvasColor,
-                          child: SearchWidget(hintText: '${getTranslated('search_hint', context)}', sellerId: widget.sellerId!)),
-                    ],
+                     ],
                   ),
                 ),
               ),
             ),
 
 
-          pagingController.itemList != null&&  pagingController.itemList!.isNotEmpty?  SliverGrid(
+          pagingController.itemList != null?  SliverGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 3,
                   mainAxisExtent: 330),
+
                   delegate:SliverChildBuilderDelegate(
                     (context, index) {
-                      return ProductWidget(productModel:  pagingController.itemList![index] as Product);;
+                      return ProductWidget(productModel:  pagingController.itemList![index] as Product);
                     },
                       childCount: pagingController.itemList!.length
                   )
 
-            ): SliverToBoxAdapter(
-            child:   firstTime? const ProductShimmer(isHomePage: false,
-                isEnabled: true):const NoInternetOrDataScreenWidget(isNoInternet: false),),
+            ): const SliverToBoxAdapter(
+            child:  ProductShimmer(isHomePage: false,
+                isEnabled: true)),
+            SliverToBoxAdapter(
+            child:  pagingController.itemList != null&& pagingController.itemList!.isEmpty?  const NoInternetOrDataScreenWidget(isNoInternet: false,
+                ):const SizedBox()),
              if(loading==true)
               SliverToBoxAdapter(child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

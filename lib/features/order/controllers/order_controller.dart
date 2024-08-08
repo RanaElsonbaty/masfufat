@@ -85,7 +85,7 @@ if(element.orderStatus==getTranslated('pending', context)||element.orderStatus==
       if(orderModel!=null){
         for (var element in orderModel!.reversed) {
           if(element.orderStatus==getTranslated('processing', context)){
-            selectTypeOrders!.add(element);
+            selectTypeOrders.add(element);
           }
         }}
       // selectedType = 'canceled';
@@ -95,7 +95,7 @@ if(element.orderStatus==getTranslated('pending', context)||element.orderStatus==
       if(orderModel!=null){
         for (var element in orderModel!.reversed) {
           if(element.orderStatus==getTranslated('out_for_delivery', context)){
-            selectTypeOrders!.add(element);
+            selectTypeOrders.add(element);
           }
         }}
       // selectedType = 'canceled';
@@ -105,7 +105,7 @@ if(element.orderStatus==getTranslated('pending', context)||element.orderStatus==
       if(orderModel!=null){
         for (var element in orderModel!.reversed) {
           if(element.orderStatus=='delivered'){
-            selectTypeOrders!.add(element);
+            selectTypeOrders.add(element);
           }
         }}
       // selectedType = 'canceled';
@@ -115,7 +115,7 @@ if(element.orderStatus==getTranslated('pending', context)||element.orderStatus==
       if(orderModel!=null){
         for (var element in orderModel!.reversed) {
           if(element.orderStatus==getTranslated('failed', context)){
-            selectTypeOrders!.add(element);
+            selectTypeOrders.add(element);
           }
         }}
       // selectedType = 'canceled';
@@ -125,7 +125,7 @@ if(element.orderStatus==getTranslated('pending', context)||element.orderStatus==
       if(orderModel!=null){
         for (var element in orderModel!.reversed) {
           if(element.orderStatus==getTranslated('returned', context)){
-            selectTypeOrders!.add(element);
+            selectTypeOrders.add(element);
           }
         }}
       // selectedType = 'canceled';
@@ -135,7 +135,7 @@ if(element.orderStatus==getTranslated('pending', context)||element.orderStatus==
       if(orderModel!=null){
         for (var element in orderModel!.reversed) {
           if(element.orderStatus==getTranslated('CANCELED', context)){
-            selectTypeOrders!.add(element);
+            selectTypeOrders.add(element);
           }
         }}
       // selectedType = 'canceled';
@@ -147,7 +147,7 @@ if(element.orderStatus==getTranslated('pending', context)||element.orderStatus==
   }
 
 
-  // Orders? trackingModel;
+  OrderModel? trackingModel;
   Future<void> initTrackingInfo(String orderID) async {
       ApiResponse apiResponse = await orderServiceInterface.getTrackingInfo(orderID);
       if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {

@@ -16,8 +16,8 @@ class BannerController extends ChangeNotifier {
   final BannerServiceInterface? bannerServiceInterface;
   BannerController({required this.bannerServiceInterface});
 
-  final List<BannerModel> _mainBannerList=[];
-  final List<BannerModel> _footerBannerList=[];
+   List<BannerModel> _mainBannerList=[];
+   List<BannerModel> _footerBannerList=[];
   BannerModel? mainSectionBanner;
   BannerModel? sideBarBanner;
   Product? _product;
@@ -41,46 +41,46 @@ class BannerController extends ChangeNotifier {
   Future<void> getBannerList(bool reload,String type) async {
       ApiResponse apiResponse = await bannerServiceInterface!.getBanner(type);
       if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-        // if(type=='footer_banner'){
-        //   _footerBannerList = [];
-        //   apiResponse.response!.data.forEach((bannerModel){
-        //     _footerBannerList!.add(BannerModel.fromJson(bannerModel));
-        //   });
-        // }else if(type =='main_banner'){
-        //   _mainBannerList = [];
-        //   apiResponse.response!.data.forEach((bannerModel){
+        if(type=='main_section_banner'){
+          _footerBannerList = [];
+          apiResponse.response!.data.forEach((bannerModel){
+            _footerBannerList.add(BannerModel.fromJson(bannerModel));
+          });
+        }else if(type =='main_banner'){
+          _mainBannerList = [];
+          apiResponse.response!.data.forEach((bannerModel){
+            _mainBannerList.add(BannerModel.fromJson(bannerModel));
+          });
+        }
+
+        // print('_mainBannerList ---> ${ apiResponse.response!.data}');
+        // apiResponse.response!.data.forEach((bannerModel) {
+        //   if(bannerModel['banner_type'] == 'Main Banner'){
         //     _mainBannerList!.add(BannerModel.fromJson(bannerModel));
-        //   });
-        // }
-        //
-        print('_mainBannerList ---> ${ apiResponse.response!.data}');
-        apiResponse.response!.data.forEach((bannerModel) {
-          if(bannerModel['banner_type'] == 'Main Banner'){
-            _mainBannerList!.add(BannerModel.fromJson(bannerModel));
-          }
-          else if(bannerModel['banner_type'] == 'Promo Banner Middle Top'){
-            promoBannerMiddleTop = BannerModel.fromJson(bannerModel);
-          }
-          else if(bannerModel['banner_type'] == 'Promo Banner Right'){
-            promoBannerRight = BannerModel.fromJson(bannerModel);
-          }else if(bannerModel['banner_type'] == 'Promo Banner Middle Bottom'){
-            promoBannerMiddleBottom = BannerModel.fromJson(bannerModel);
-          }
-          else if(bannerModel['banner_type'] == 'Promo Banner Bottom'){
-            promoBannerBottom = BannerModel.fromJson(bannerModel);
-          }
-          else if(bannerModel['banner_type'] == 'Promo Banner Left'){
-            promoBannerLeft = BannerModel.fromJson(bannerModel);
-          }else if(bannerModel['banner_type'] == 'Sidebar Banner'){
-            sideBarBanner = BannerModel.fromJson(bannerModel);
-          }else if(bannerModel['banner_type'] == 'Top Side Banner'){
-            topSideBarBannerBottom = BannerModel.fromJson(bannerModel);
-          }else if(bannerModel['banner_type'] == 'Footer Banner'){
-            _footerBannerList?.add(BannerModel.fromJson(bannerModel));
-          }else if(bannerModel['banner_type'] == 'Main Section Banner'){
-            mainSectionBanner = BannerModel.fromJson(bannerModel);
-          }
-        });
+        //   }
+        //   else if(bannerModel['banner_type'] == 'Promo Banner Middle Top'){
+        //     promoBannerMiddleTop = BannerModel.fromJson(bannerModel);
+        //   }
+        //   else if(bannerModel['banner_type'] == 'Promo Banner Right'){
+        //     promoBannerRight = BannerModel.fromJson(bannerModel);
+        //   }else if(bannerModel['banner_type'] == 'Promo Banner Middle Bottom'){
+        //     promoBannerMiddleBottom = BannerModel.fromJson(bannerModel);
+        //   }
+        //   else if(bannerModel['banner_type'] == 'Promo Banner Bottom'){
+        //     promoBannerBottom = BannerModel.fromJson(bannerModel);
+        //   }
+        //   else if(bannerModel['banner_type'] == 'Promo Banner Left'){
+        //     promoBannerLeft = BannerModel.fromJson(bannerModel);
+        //   }else if(bannerModel['banner_type'] == 'Sidebar Banner'){
+        //     sideBarBanner = BannerModel.fromJson(bannerModel);
+        //   }else if(bannerModel['banner_type'] == 'Top Side Banner'){
+        //     topSideBarBannerBottom = BannerModel.fromJson(bannerModel);
+        //   }else if(bannerModel['banner_type'] == 'Footer Banner'){
+        //     _footerBannerList?.add(BannerModel.fromJson(bannerModel));
+        //   }else if(bannerModel['banner_type'] == 'Main Section Banner'){
+        //     mainSectionBanner = BannerModel.fromJson(bannerModel);
+        //   }
+        // });
 
         _currentIndex = 0;
         notifyListeners();
@@ -107,13 +107,11 @@ class BannerController extends ChangeNotifier {
 
 
     if(type == 'category'){
-      if(Provider.of<CategoryController>(context, listen: false).categoryList[cIndex].name != null){
-        Navigator.push(context, MaterialPageRoute(builder: (_) => BrandAndCategoryProductScreen(
-          isBrand: false,
-          id: id.toString(),
-          name: Provider.of<CategoryController>(context, listen: false).categoryList[cIndex].name)));
-      }
-
+      Navigator.push(context, MaterialPageRoute(builder: (_) => BrandAndCategoryProductScreen(
+        isBrand: false,
+        id: id.toString(),
+        name: Provider.of<CategoryController>(context, listen: false).categoryList[cIndex].name)));
+    
     }else if(type == 'product'){
       if(product != null) {
         Navigator.push(context, MaterialPageRoute(builder: (_) => ProductDetails(
@@ -121,13 +119,11 @@ class BannerController extends ChangeNotifier {
       }
 
     }else if(type == 'brand'){
-      if(Provider.of<BrandController>(context, listen: false).brandList[bIndex].name != null){
-        Navigator.push(context, MaterialPageRoute(builder: (_) => BrandAndCategoryProductScreen(
-          isBrand: true,
-          id: id.toString(),
-          name: '${Provider.of<BrandController>(context, listen: false).brandList[bIndex].name}')));
-      }
-
+      Navigator.push(context, MaterialPageRoute(builder: (_) => BrandAndCategoryProductScreen(
+        isBrand: true,
+        id: id.toString(),
+        name: Provider.of<BrandController>(context, listen: false).brandList[bIndex].name)));
+    
     }else if( type == 'shop'){
       if(Provider.of<ShopController>(context, listen: false).sellerModel?[tIndex].name != null){
         Navigator.push(context, MaterialPageRoute(builder: (_) => TopSellerProductScreen(

@@ -1,17 +1,18 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../../../helper/price_converter.dart';
 import '../../../../localization/language_constrants.dart';
 import '../../../../utill/dimensions.dart';
-import '../../../../utill/images.dart';
-import '../../product/domain/models/product_model.dart';
+import '../../../common/basewidget/custom_directionality_widget.dart';
+import '../../../common/basewidget/custom_image_widget.dart';
+import '../../../utill/color_resources.dart';
+import '../../../utill/custom_themes.dart';
 import '../../product_details/domain/models/product_details_model.dart';
 import '../../sync order/domain/models/Sync_order_model.dart';
 
 class ProductSyncOrder extends StatefulWidget {
   const ProductSyncOrder({super.key, this.syncOrder, required this.products});
   final SyncOrderModel? syncOrder;
-  final  List< ProductDetailsModel> products;
+  final  List<ProductDetailsModel> products;
 
   @override
   State<ProductSyncOrder> createState() => _ProductSyncOrderState();
@@ -20,267 +21,233 @@ class ProductSyncOrder extends StatefulWidget {
 class _ProductSyncOrderState extends State<ProductSyncOrder> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    // getProduct();
 
   }
-//   List< ProductDetailsModel> products=[];
-//   void getProduct()async{
-//     widget.syncOrder!.details!.forEach((element)async {
-//       await Provider.of<ProductDetailsProvider>(context, listen: false)
-//           .getProductDetails(context, element.productId.toString()).then((value) {
-// setState(() {
-//   products.add(  Provider.of<ProductDetailsProvider>(context, listen: false).productDetailsModel!);
-//
-// });
-//
-//           });
-//     });
-//
-//
-//   }
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 3),
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(width: 0.5, color: Colors.grey)),
-        child: ListView.builder(
-            itemCount: widget.products.length,
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            padding: const EdgeInsets.all(0),
-            itemBuilder: (context, index) {
-              double? totalPrice = 0.00;
-              if(widget.products.isNotEmpty) {
-                totalPrice =
-                // 0.00
-                ((widget.products[index].unitPrice!=null?widget.products[index].unitPrice!:0.00) *
-                    widget.syncOrder!.details![index].qty!);
-              }
-              // print(
-              //     'aaaaaaaaaaaaaaaaaaaaaaaaa${totalPrice} =${(widget.syncOrder!.details![index].product!.unitPrice! * 0.15)}');
-              return widget.products.isNotEmpty
-                  ? InkWell(
-                onTap: () {
-                  Product ?productModel;
-                  productModel=Product(
-                      id: widget.products[index].id!,
-                      images:widget. products[index].images!,
-                      shippingCost:widget. products[index].shippingCost,
-                      slug:widget. products[index].slug,
-                      imagesFullUrl: widget.products[index].images!.first,
-                      addedBy:widget.products[index].addedBy ,
-                      discount: widget.products[index].discount,
-                      discountType:widget.products[index].discountType ,
-                  );
-                  // Navigator.push(
-                  //     context,
-                  //     CustomPageRouteBuilder(
-                  //       pageBuilder:
-                  //           (context, animation, secondaryAnimation) =>
-                  //           ProductsDetailsScreen(
-                  //             // index: indexx,
-                  //             productModel:productModel,
-                  //             // products[index],
-                  //             productId:widget.products[index].id!,
-                  //             images: widget.products[index].images!,
-                  //             // slug:widget. products[index].slug!,
-                  //             price:widget.products[index].unitPrice
-                  //                 .toString(),
-                  //           ),
-                  //     ));
-                },
-                child: Container(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 5),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(4),
-                                child: CachedNetworkImage(
-                                  placeholder: (context, url) => Image.asset(
-                                    Images.placeholder,
-                                    width: 50,
-                                    height: 50,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  errorWidget: (c, o, s) => Image.asset(
-                                      Images.placeholder_3x1,
-                                      width: 50,
-                                      height: 50,
-                                      fit: BoxFit.cover),
-                                  imageUrl:
-                                  widget.products[index].images!=null&&widget.products[index].images!.isNotEmpty?widget.products[index].images!.first:'',
-                                  width: 50,
-                                  height: 50,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  widget. products[index]
-                                      .name !=
-                                      null
-                                      ? widget.products[index].name!
-                                      : '',
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(width: Dimensions.paddingSizeSmall),
-                              Column(
-                                children: [
-                                  Text(
-                                    getTranslated('quantity', context)!,
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                  Text(
-                                    'x ${widget.syncOrder!.details![index].qty != null ? widget.syncOrder!.details![index].qty!.toString() : '0'}',
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                width: 3,
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    getTranslated('price', context)!,
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                  Text(
-                                    PriceConverter.convertPrice(
-                                        context,
-                                        widget.  products[index].unitPrice !=
-                                            null
-                                            ?widget.products[index]
-                                            .unitPrice
-                                            : 0.00),
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                width: 3,
-                              ),
+      child: ListView.builder(
+          itemCount: widget.products.length,
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(0),
+          itemBuilder: (context, index) {
+            return widget.products.isNotEmpty
+                ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Stack(children: [
+                                Card(color: Theme.of(context).cardColor,
+                  child: Column(children: [
+                    const SizedBox(height: Dimensions.paddingSizeLarge),
+                    Row(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      const SizedBox(width: Dimensions.marginSizeDefault),
 
-                              Column(
-                                children: [
-                                  Text(
-                                    getTranslated('TAX', context)!,
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                  Text(
-                                    widget. products[index]
-                                        .taxModel !=
-                                        'exclude'
-                                        ? PriceConverter.convertPrice(
-                                        context,
-                                        widget. products[index]
-                                            .tax !=
-                                            null
-                                            ? widget.products[index].tax
-                                            : 0.00)
-                                        : '%${widget.products[index].tax}',
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                width: 3,
-                              ),
+                      ClipRRect(borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
+                          child: Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
+                              border: Border.all(color: Theme.of(context).primaryColor.withOpacity(.125))),
+                              child: CustomImageWidget(image: widget.products[index].images!=null? widget.products[index].images!.first:'', width: 80, height: 80))),
+                      const SizedBox(width: Dimensions.marginSizeDefault),
 
-                              Column(
-                                children: [
-                                  Text(
-                                    getTranslated('SHIPPING_FEE_', context)!,
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                  Text(
-                                    PriceConverter.convertPrice(
-                                        context,
-                                        widget.products[index].shippingCost !=
-                                            null
-                                            ? widget.products[index]
-                                            .shippingCost
-                                            : 0.00),
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                width: 3,
-                              ),
+                      Expanded(flex: 3,
+                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                          Row(children: [
+                            Expanded(child: Text(widget.products[index].name??'',
+                                style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault),
+                                maxLines: 2, overflow: TextOverflow.ellipsis))]),
+                          const SizedBox(height: Dimensions.marginSizeExtraSmall),
 
-                              Column(
-                                children: [
-                                  Text(
-                                    getTranslated('total_price', context)!,
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                  Text(
-                                    PriceConverter.convertPrice(
-                                        context, totalPrice),
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                    ),
-                                  )
-                                ],
-                              ),
 
-                              // Expanded(
-                              //   child: Text(
-                              //     products[index].name!=null? products[index].name:'',
-                              //     maxLines: 2,
-                              //     overflow:
-                              //         TextOverflow.visible,
-                              //     style: TextStyle(),
-                              //   ),
-                            ],
-                          ),
+                          Row(children: [
+
+                            Text("${getTranslated('price', context)}: ",
+                              style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: 14),),
+                            Text(PriceConverter.convertPrice(context, widget.products[index].unitPrice??0.00),
+                              style: titilliumSemiBold.copyWith(color: ColorResources.getPrimary(context), fontSize: 16),),
+
+                            widget.products[index].taxModel == 'exclude'?
+                            Text('(${getTranslated('tax', context)} ${PriceConverter.convertPrice(context, widget.products[index].tax??0.00)})',
+                              style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault),):
+                            Text('(${getTranslated('tax', context)} ${widget.products[index].tax??''}%)',
+                                style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault))]),
+                          const SizedBox(height: Dimensions.marginSizeExtraSmall),
+
+                          Text('${getTranslated('qty', context)}: ${widget.syncOrder!.details![index].qty!}',
+                              style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: 14)),
+                          const SizedBox(height: Dimensions.marginSizeExtraSmall),
+
+                          // (widget.products[index].variant != null && widget.products[index].variant!.isNotEmpty) ?
+                          // Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeExtraSmall),
+                          //   child: Row(children: [
+                          //     // Text('${getTranslated('variations', context)}: ',
+                          //     //     style: titilliumSemiBold.copyWith(fontSize: Dimensions.fontSizeSmall)),
+                          //
+                          //
+                          //     // Flexible(child: Text(widget.orderDetailsModel.variant!,
+                          //     //     style: textRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
+                          //     //       color: Theme.of(context).disabledColor,))),
+                          //   ]),
+                          // ) : const SizedBox(),
+                          const SizedBox(height: Dimensions.marginSizeExtraSmall),
+
+                          ///Downloadable Product////////////
+
+                          // Row(children: [
+                          //   const Spacer(),
+                          //   SizedBox(height: (widget.products[index] != null &&
+                          //       widget.orderDetailsModel.productDetails?.productType =='digital' && widget.paymentStatus == 'paid')?
+                          //   Dimensions.paddingSizeExtraLarge : 0),
+                          //
+                          // ]),
+
+
+                          const SizedBox(height: Dimensions.paddingSizeSmall),
                         ],
+                        ),
                       ),
-                    )),
-              )
-                  : SizedBox.shrink();
-            }),
-      ),
+                    ],
+                    ),
+
+                    ///Review and Refund Request///////////////////
+                    // Consumer<SyncOrderController>(
+                    //     builder: (context, orderController, _) {
+                    //       return Padding(padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault),
+                    //           child: Row(children: [
+                    //             const Spacer(),
+                    //             orderController.orderTypeIndex == 1 && widget.orderType != "POS"?
+                    //             InkWell(onTap: () {
+                    //               if(orderController.orderTypeIndex == 1) {
+                    //                 Provider.of<ReviewController>(context, listen: false).removeData();
+                    //                 showDialog(context: context, builder: (context) => Dialog(
+                    //                     insetPadding: EdgeInsets.zero, backgroundColor: Colors.transparent,
+                    //                     child: ReviewDialog(productID: widget.orderDetailsModel.productDetails!.id.toString(),
+                    //                         orderId: widget.orderId,
+                    //                         callback: widget.callback,
+                    //                         orderDetailsModel: widget.orderDetailsModel,
+                    //                         orderType: widget.orderType)));
+                    //               }
+                    //             },
+                    //                 child: Container(decoration: BoxDecoration(color:  Colors.deepOrangeAccent,
+                    //                     borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall)),
+                    //                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
+                    //                     child: Row(children: [
+                    //                       const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                    //                       const Icon(Icons.star_outline_outlined, color: Colors.white, size: 20,),
+                    //                       const SizedBox(width: Dimensions.paddingSizeSmall),
+                    //
+                    //                       Text(getTranslated(widget.orderDetailsModel.reviewModel == null ? 'review' : 'reviewed', context)!, style: textRegular.copyWith(
+                    //                           fontSize: Dimensions.fontSizeDefault, color: ColorResources.white)),
+                    //                       const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                    //                     ]))) : const SizedBox.shrink(),
+                    //
+                    //             const SizedBox(width: Dimensions.paddingSizeSmall,),
+                    //
+                    //             Consumer<RefundController>(builder: (context,refund,_){
+                    //               return (orderController.orderTypeIndex == 1 && widget.orderDetailsModel.refundReq == 0 &&
+                    //                   widget.orderType != "POS")?
+                    //               InkWell(onTap: () {
+                    //                 Provider.of<ReviewController>(context, listen: false).removeData();
+                    //                 refund.getRefundReqInfo(widget.orderDetailsModel.id).then((value) {
+                    //                   if(value.response!.statusCode==200){
+                    //                     Navigator.push(context, MaterialPageRoute(builder: (_) =>
+                    //                         RefundBottomSheet(product: widget.orderDetailsModel.productDetails,
+                    //                           orderDetailsId: widget.orderDetailsModel.id!, orderId: widget.orderId,)));}
+                    //                 });},
+                    //
+                    //                 child: refund.isRefund ?
+                    //                 Center(child: CircularProgressIndicator(color: Theme.of(context).primaryColor)):
+                    //                 Container(margin: const EdgeInsets.only(left: Dimensions.paddingSizeSmall),
+                    //                   padding: const EdgeInsets.symmetric(vertical: 8,
+                    //                       horizontal: Dimensions.paddingSizeDefault),
+                    //                   decoration: BoxDecoration(color: ColorResources.getPrimary(context),
+                    //                     borderRadius: BorderRadius.circular(5),),
+                    //
+                    //                   child: Text(getTranslated('refund_request', context)!,
+                    //                       style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault,
+                    //                         color: Theme.of(context).highlightColor,)),),) :const SizedBox();
+                    //             }),
+                    //
+                    //
+                    //             Consumer<RefundController>(builder: (context,refundController,_){
+                    //               return (orderController.orderTypeIndex == 1 && widget.orderDetailsModel.refundReq != 0 &&
+                    //                   widget.orderType != "POS")?
+                    //
+                    //               InkWell(onTap: () {
+                    //                 Provider.of<ReviewController>(context, listen: false).removeData();
+                    //                 refundController.getRefundReqInfo(widget.orderDetailsModel.id).then((value) {
+                    //                   if(value.response!.statusCode==200){
+                    //                     Navigator.push(context, MaterialPageRoute(builder: (_) =>
+                    //                         RefundDetailsWidget(product: widget.orderDetailsModel.productDetails,
+                    //                           orderDetailsId: widget.orderDetailsModel.id,
+                    //                           orderDetailsModel:  widget.orderDetailsModel, createdAt: widget.orderDetailsModel.createdAt,)));
+                    //                   }});},
+                    //
+                    //
+                    //
+                    //                   child: refundController.isLoading?
+                    //                   Center(child: CircularProgressIndicator(color: Theme.of(context).primaryColor)):
+                    //                   Container(
+                    //                     margin: const EdgeInsets.only(left: Dimensions.paddingSizeSmall),
+                    //                     padding: const EdgeInsets.symmetric(vertical: 8,
+                    //                         horizontal: Dimensions.paddingSizeDefault),
+                    //                     decoration: BoxDecoration(color: ColorResources.getPrimary(context),
+                    //                       borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),),
+                    //
+                    //                     child: Text(getTranslated('refund_status_btn', context)??'',
+                    //                         style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault,
+                    //                           color: Theme.of(context).highlightColor,)),)) :const SizedBox();}),
+                    //             const SizedBox(width: 10)]));}),
+
+                    // widget.orderDetailsModel.deliveryStatus == 'delivered' && widget.orderType != "POS" ?
+                    // ReviewReplyWidget(orderDetailsModel: widget.products[index], index: widget.index) : const SizedBox(),
+
+                    const SizedBox(height: Dimensions.paddingSizeSmall),
+
+                    //widget.orderDetailsModel.refundReq == 0 && widget.orderType != "POS"?
+                    //const SizedBox(height: Dimensions.paddingSizeLarge) : const SizedBox(),
+
+                  ],
+                  ),
+                                ),
+
+                                if(widget.products[index].discount! > 0) Positioned(
+                  top: 5,
+                  left:  5,
+                  right:  5,
+                  child: Container(
+                    height: 20,
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: const BorderRadius.horizontal(
+                        right: Radius.circular( Dimensions.paddingSizeExtraSmall ),
+                        left: Radius.circular( Dimensions.paddingSizeExtraSmall),
+                      ),
+                    ),
+                    child: CustomDirectionalityWidget(
+                      child: Text(
+                        PriceConverter.percentageCalculation(
+                          context,
+                          (widget.products[index].unitPrice! * widget.products[index].currentStock!),
+                          widget.products[index].discount,
+                          getTranslated('amount', context),
+                        ),
+                        style: titilliumRegular.copyWith(
+                          fontSize: Dimensions.fontSizeExtraSmall,
+                          color: ColorResources.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                                )
+
+                              ],
+                              ),
+                )
+                : const SizedBox.shrink();
+          }),
     );
   }
 }

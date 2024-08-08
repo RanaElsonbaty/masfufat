@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_textfield_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
@@ -80,7 +78,7 @@ class _SyncProductWidgetState extends State<SyncProductWidget> {
                   width: 50,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                      color: const Color(0xFFFCFCFC)
+                      color: Theme.of(context).cardColor
 
 
                   ),
@@ -92,8 +90,8 @@ class _SyncProductWidgetState extends State<SyncProductWidget> {
         ),
         const SizedBox(height: 5,),
         Container(
-          decoration: const BoxDecoration(
-            color: Color(0xFFFCFCFC)
+          decoration:  const BoxDecoration(
+            // color: Theme.o/f(context).cardColor
 
           ),
           child: Padding(
@@ -112,7 +110,7 @@ class _SyncProductWidgetState extends State<SyncProductWidget> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('رقم المنتج',style: GoogleFonts.tajawal(
+                    Text(getTranslated('Product_number', context)!,style: GoogleFonts.tajawal(
                       fontSize: 16,fontWeight: FontWeight.w500
                     ),),
                 
@@ -138,7 +136,7 @@ class _SyncProductWidgetState extends State<SyncProductWidget> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('باركود المنتج sku',style: GoogleFonts.tajawal(
+                    Text(getTranslated('Product_barcode_sku', context)!,style: GoogleFonts.tajawal(
                       fontSize: 16,fontWeight: FontWeight.w500
                     ),),
                     Text(widget.pending.code!,style: GoogleFonts.tajawal(
@@ -153,7 +151,7 @@ class _SyncProductWidgetState extends State<SyncProductWidget> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('التكلفة',style: GoogleFonts.tajawal(
+                  Text(getTranslated('cost', context)!,style: GoogleFonts.tajawal(
                     fontSize: 16,fontWeight: FontWeight.w500
                   ),),
                   Text(PriceConverter.convertPrice(context,widget.pending.pricings!.value!),style: GoogleFonts.tajawal(
@@ -167,7 +165,7 @@ class _SyncProductWidgetState extends State<SyncProductWidget> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('سعر البيع المقترح',style: GoogleFonts.tajawal(
+                  Text(getTranslated('Suggested_selling_price', context)!,style: GoogleFonts.tajawal(
                     fontSize: 16,fontWeight: FontWeight.w500
                   ),),
                   Text(PriceConverter.convertPrice(context, widget.pending.pricings!.suggestedPrice!),style: GoogleFonts.tajawal(
@@ -181,7 +179,7 @@ class _SyncProductWidgetState extends State<SyncProductWidget> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('سعر البيع في متجري',style: GoogleFonts.tajawal(
+                  Text(getTranslated('Selling_price_in_my_store', context)!,style: GoogleFonts.tajawal(
                     fontSize: 16,fontWeight: FontWeight.w500
                   ),),
                   SizedBox(

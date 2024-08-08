@@ -64,24 +64,24 @@ class AddressModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['customer_id'] = this.customerId;
-    data['contact_person_name'] = this.contactPersonName;
-    data['address_type'] = this.addressType;
-    data['address'] = this.address;
-    data['city'] = this.city;
-    data['zip'] = this.zip;
-    data['phone'] = this.phone;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['state'] = this.state;
-    data['country'] = this.country;
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
-    data['is_billing'] = this.isBilling;
-    data['area_id'] = this.areaId;
-    data['title'] = this.title;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['customer_id'] = customerId;
+    data['contact_person_name'] = contactPersonName;
+    data['address_type'] = addressType;
+    data['address'] = address;
+    data['city'] = city;
+    data['zip'] = zip;
+    data['phone'] = phone;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['state'] = state;
+    data['country'] = country;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['is_billing'] = isBilling;
+    data['area_id'] = areaId;
+    data['title'] = title;
     return data;
   }
 }

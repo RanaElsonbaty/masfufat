@@ -16,8 +16,8 @@ class SearchProductService implements SearchProductServiceInterface{
   }
 
   @override
-  Future getSearchProductList(String query, String? categoryIds, String? brandIds, String? sort, String? priceMin, String? priceMax, int offset) async{
-    return await searchProductRepositoryInterface.getSearchProductList(query, categoryIds, brandIds, sort, priceMin, priceMax, offset);
+  Future getSearchProductList(String query,bool?brand, String? categoryIds, String? brandIds, String? sort, String? priceMin, String? priceMax, int offset,String? syncFilter) async{
+    return await searchProductRepositoryInterface.getSearchProductList(query, brand,categoryIds, brandIds, sort, priceMin, priceMax, offset,syncFilter);
   }
 
   @override

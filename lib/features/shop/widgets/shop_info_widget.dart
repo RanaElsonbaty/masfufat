@@ -83,7 +83,7 @@ class ShopInfoWidget extends StatelessWidget {
                           Expanded(child: Text(sellerName, style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
                             maxLines: 2, overflow: TextOverflow.ellipsis,),),
 
-                          Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                          splashController.configModel!.chatWithSellerStatus?  Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                             child: InkWell(onTap: () {
                               if(vacationIsOn || temporaryClose){
                                 showCustomSnackBar("${getTranslated("this_shop_is_close_now", context)}", context);
@@ -96,17 +96,18 @@ class ShopInfoWidget extends StatelessWidget {
                                     ChatScreen(id: sellerId, name: sellerName, userType: 1)));
                                 }
                               }
-                            }, child : Image.asset(Images.chatImage, height: ResponsiveHelper.isTab(context)? Dimensions.iconSizeLarge : Dimensions.iconSizeDefault)),
-                          )]),
+                            }, child : Image.asset(Images.chatImage,color: Theme.of(context).primaryColor, height: ResponsiveHelper.isTab(context)? Dimensions.iconSizeLarge : Dimensions.iconSizeDefault)),
+                          ):const SizedBox.shrink()]),
 
 
                         sellerProvider.sellerInfoModel != null?
                         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Row(children: [
-                            const Icon(Icons.star_rate_rounded, color: Colors.orange),
-                            Text(double.parse(ratting).toStringAsFixed(1), style: textRegular),
+                          splashController.configModel!.showSellerRatings    ?     Row(children: [
+                            splashController.configModel!.showSellerRatings    ?    const Icon(Icons.star_rate_rounded, color: Colors.orange):const SizedBox.shrink(),
 
-                            if(sellerProvider.sellerInfoModel!.minimumOrderAmount != null && sellerProvider.sellerInfoModel!.minimumOrderAmount! > 0)
+                            splashController.configModel!.showSellerRatings    ? Text(double.parse(ratting).toStringAsFixed(1), style: textRegular):const SizedBox.shrink(),
+
+                               if(sellerProvider.sellerInfoModel!.minimumOrderAmount != null && sellerProvider.sellerInfoModel!.minimumOrderAmount! > 0&&splashController.configModel!.showSellerRatings    )
                             Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
                               child: Text('|', style: textRegular.copyWith(color: Theme.of(context).primaryColor),),),
 
@@ -114,13 +115,13 @@ class ShopInfoWidget extends StatelessWidget {
                             Text('${sellerProvider.sellerInfoModel!.totalReview} ${getTranslated('reviews', context)}',
                               style: titleRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
                                   color: Theme.of(context).primaryColor),
-                              maxLines: 1, overflow: TextOverflow.ellipsis)]),
+                              maxLines: 1, overflow: TextOverflow.ellipsis)]):const SizedBox.shrink(),
                           const SizedBox(height: Dimensions.paddingSizeSmall),
 
 
-                          Row(children: [
+                         Row(children: [
 
-                            (sellerProvider.sellerInfoModel!.minimumOrderAmount != null && sellerProvider.sellerInfoModel!.minimumOrderAmount! > 0)?
+                            (     splashController.configModel!.showSellerOrders&&sellerProvider.sellerInfoModel!.minimumOrderAmount != null && sellerProvider.sellerInfoModel!.minimumOrderAmount! > 0)?
                             Text('${PriceConverter.convertPrice(context, sellerProvider.sellerInfoModel!.minimumOrderAmount)} '
                                 '${getTranslated('minimum_order', context)}',
                               style: titleRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
@@ -130,12 +131,12 @@ class ShopInfoWidget extends StatelessWidget {
                                   color: Theme.of(context).primaryColor), maxLines: 1, overflow: TextOverflow.ellipsis,),
 
 
-                            Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
-                              child: Text('|', style: textRegular.copyWith(color: Theme.of(context).primaryColor),),),
+                           splashController.configModel!.sellersProductsCount?     Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
+                              child: Text('|', style: textRegular.copyWith(color: Theme.of(context).primaryColor),),):const SizedBox.shrink(),
 
-                            Text('${sellerProvider.sellerInfoModel!.totalProduct} ${getTranslated('products', context)}',
+                           splashController.configModel!.sellersProductsCount?   Text('${sellerProvider.sellerInfoModel!.totalProduct} ${getTranslated('products', context)}',
                               style: titleRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
-                                  color: Theme.of(context).primaryColor), maxLines: 1, overflow: TextOverflow.ellipsis)]),
+                                  color: Theme.of(context).primaryColor), maxLines: 1, overflow: TextOverflow.ellipsis):const SizedBox.shrink()]),
                         ]):const SizedBox(),
                       ],
                       );

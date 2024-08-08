@@ -5,7 +5,6 @@ import 'package:flutter_sixvalley_ecommerce/features/address/screens/saved_billi
 import 'package:flutter_sixvalley_ecommerce/features/cart/domain/models/cart_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/controllers/checkout_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/widgets/payment_method_bottom_sheet_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/offline_payment/screens/offline_payment_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/payment%20/controller/payment_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/profile/controllers/profile_contrroller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/shipping/controllers/shipping_controller.dart';
@@ -187,6 +186,7 @@ else if(orderProvider.selectedDigitalPaymentMethodId==0){
                                                'نجح الدفع',
                                                context,
                                                isError: false);
+                                           _callback(true,'نجح الدفع','',false);
                                          }else{
                                            showCustomSnackBar(
                                                'فشل الدفع',
@@ -301,7 +301,7 @@ else if(orderProvider.selectedDigitalPaymentMethodId==0){
                         Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                             child: ChoosePaymentWidget(onlyDigital: widget.onlyDigital)),
 
-                        Consumer<PaymentController>(builder:(context, paymentProvider, child) => paymentProvider.isLoading==false? CheckOutPaymentSection( amount: widget.totalOrderAmount,):CircularProgressIndicator()),
+                        Consumer<PaymentController>(builder:(context, paymentProvider, child) => paymentProvider.isLoading==false? CheckOutPaymentSection( amount: widget.totalOrderAmount,):const CircularProgressIndicator()),
 
                         Padding(padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeDefault,
                             Dimensions.paddingSizeDefault,Dimensions.paddingSizeDefault,0),

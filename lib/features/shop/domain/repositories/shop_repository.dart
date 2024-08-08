@@ -31,7 +31,7 @@ class ShopRepository implements ShopRepositoryInterface{
   @override
   Future<ApiResponse> getSellerList(String type, int offset) async {
     try {
-      final response = await dioClient!.get("${AppConstants.sellerList}");
+      final response = await dioClient!.get(AppConstants.sellerList);
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));

@@ -46,19 +46,19 @@ class _GuestTrackOrderScreenState extends State<GuestTrackOrderScreen> {
                 const SizedBox(height: Dimensions.paddingSizeDefault),
 
 
-                CustomTextFieldWidget(
-                  isAmount: true,
-                  inputType: TextInputType.phone,
-                  prefixIcon: Images.callIcon,
-                  controller: phoneNumberController,
-                  inputAction: TextInputAction.done,
-                  hintText: '123 1235 123',
-                  required: true,
-                  labelText: '${getTranslated('phone_number', context)}',
-                  validator: (value)=> ValidateCheck.validateEmptyText(value, 'phone_number_is_required'),
-
-                ),
-                const SizedBox(height: Dimensions.paddingSizeExtraLarge),
+                // CustomTextFieldWidget(
+                //   isAmount: true,
+                //   inputType: TextInputType.phone,
+                //   prefixIcon: Images.callIcon,
+                //   controller: phoneNumberController,
+                //   inputAction: TextInputAction.done,
+                //   hintText: '123 1235 123',
+                //   required: true,
+                //   labelText: '${getTranslated('phone_number', context)}',
+                //   validator: (value)=> ValidateCheck.validateEmptyText(value, 'phone_number_is_required'),
+                //
+                // ),
+                // const SizedBox(height: Dimensions.paddingSizeExtraLarge),
 
                 CustomButton(
                   isLoading: orderTrackingProvider.searching,
@@ -66,15 +66,15 @@ class _GuestTrackOrderScreenState extends State<GuestTrackOrderScreen> {
                   onTap: () async {
                     FocusManager.instance.primaryFocus?.unfocus();
                     String orderId = orderIdController.text.trim();
-                    String phone = phoneNumberController.text.trim();
+                    // String phone = phoneNumberController.text.trim();
 
                     if(formKey.currentState?.validate() ?? false) {
-                      await orderTrackingProvider.trackOrder(orderId: orderId.toString(), phoneNumber: phone, isUpdate: true).then((value) {
+                      await orderTrackingProvider.trackOrder(orderId: orderId.toString(),  isUpdate: true).then((value) {
                         if(value.response?.statusCode == 200){
                           Navigator.push(context, MaterialPageRoute(builder: (_)=> OrderDetailsScreen(
                             fromTrack: true,
                             orderId: int.parse(orderIdController.text.trim()),
-                            phone: phone,
+                            // phone: phone,
                           )));
                         }
                       });

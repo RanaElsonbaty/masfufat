@@ -96,7 +96,7 @@ class Linked {
   List<dynamic>? reviews;
   BrandDetails? brandDetails;
   List<dynamic>? wishList;
-
+   LinkedProduct? linkedProduct;
   Linked({
     this.id,
     this.name,
@@ -161,6 +161,7 @@ class Linked {
     this.reviews,
     this.brandDetails,
     this.wishList,
+    this.linkedProduct,
   });
 
   factory Linked.fromJson(Map<String, dynamic> json) => Linked(
@@ -228,6 +229,8 @@ class Linked {
         json["translations"].map((x) => Translation.fromJson(x))),
     reviews: List<dynamic>.from(json["reviews"].map((x) => x)),
     brandDetails: BrandDetails.fromJson(json["brand_details"]),
+    linkedProduct:json["linked_product_"]!=null? LinkedProduct.fromJson(json["linked_product_"]):null,
+
     wishList: List<dynamic>.from(json["wish_list"].map((x) => x)),
   );
 
@@ -876,3 +879,107 @@ class PendingPricings {
     "discount": discount,
   };
 }
+
+class LinkedProduct {
+  final int id;
+  final String userId;
+  final String linkedId;
+  final String localId;
+  final String price;
+  final String dateSynced;
+  final String status;
+  final String deleted;
+  final String deletionReason;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final String site;
+LinkedProduct({
+  required this.id,
+  required this.userId,
+  required this.linkedId,
+  required this.localId,
+  required this.price,
+  required this.dateSynced,
+  required this.status,
+  required this.deleted,
+  required this.deletionReason,
+  required this.createdAt,
+  required this.updatedAt,
+  required this.site,
+});
+
+factory LinkedProduct.fromJson(Map<String, dynamic> json) => LinkedProduct(
+id: json["id"],
+userId: json["user_id"],
+linkedId: json["linked_id"],
+localId: json["local_id"],
+price: json["price"],
+dateSynced: json["date_synced"],
+status: json["status"],
+deleted: json["deleted"],
+deletionReason: json["deletion_reason"],
+createdAt: DateTime.parse(json["created_at"]),
+updatedAt: DateTime.parse(json["updated_at"]),
+site: json["site"],
+);
+
+Map<String, dynamic> toJson() => {
+"id": id,
+"user_id": userId,
+"linked_id": linkedId,
+"local_id": localId,
+"price": price,
+"date_synced": dateSynced,
+"status": status,
+"deleted": deleted,
+"deletion_reason": deletionReason,
+"created_at": createdAt.toIso8601String(),
+"updated_at": updatedAt.toIso8601String(),
+"site": site,
+};
+}
+
+class DeletedPricing {
+final String pricingLevelId;
+final String value;
+final String minQty;
+final String maxQty;
+final String discountType;
+final String discountPrice;
+final String suggestedPrice;
+final String displayFor;
+
+DeletedPricing({
+required this.pricingLevelId,
+required this.value,
+required this.minQty,
+required this.maxQty,
+required this.discountType,
+required this.discountPrice,
+required this.suggestedPrice,
+required this.displayFor,
+});
+
+factory DeletedPricing.fromJson(Map<String, dynamic> json) => DeletedPricing(
+pricingLevelId: json["pricing_level_id"],
+value: json["value"],
+minQty: json["min_qty"],
+maxQty: json["max_qty"],
+discountType: json["discount_type"],
+discountPrice: json["discount_price"],
+suggestedPrice: json["suggested_price"],
+displayFor: json["display_for"],
+);
+
+Map<String, dynamic> toJson() => {
+"pricing_level_id": pricingLevelId,
+"value": value,
+"min_qty": minQty,
+"max_qty": maxQty,
+"discount_type": discountType,
+"discount_price": discountPrice,
+"suggested_price": suggestedPrice,
+"display_for": displayFor,
+};
+}
+

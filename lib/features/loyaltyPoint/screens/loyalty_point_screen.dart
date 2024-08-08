@@ -112,7 +112,7 @@ class _LoyaltyPointScreenState extends State<LoyaltyPointScreen> {
                   onTap: () {showDialog(context: context, builder: (context) => Dialog(
                       insetPadding: EdgeInsets.zero,
                       backgroundColor: Colors.transparent,
-                      child: LoyaltyPointConverterDialogueWidget(myPoint: profile.userInfoModel!.loyaltyPoint ?? 0)));});}))
+                      child: LoyaltyPointConverterDialogueWidget(myPoint: profile.userInfoModel!.loyaltyPoint)));});}))
     );
   }
 }

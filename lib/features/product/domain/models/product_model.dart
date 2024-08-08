@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter_sixvalley_ecommerce/data/model/image_full_url.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product_details/domain/models/product_details_model.dart';
 
 class ProductModel {
   int? totalSize;
@@ -84,7 +83,7 @@ class Product {
   int? wishList;
   Brand? brand;
   ImageFullUrl? digitalFileReadyFullUrl;
-  List<DigitalVariation>? digitalVariation;
+  // List<DigitalVariation>? digitalVariation;
 
   Product(
       {int? id,
@@ -176,7 +175,7 @@ class Product {
     _minimumOrderQty = minimumOrderQty;
     this.wishList;
     this.brand;
-    digitalVariation;
+    // digitalVariation;
     digitalFileReadyFullUrl;
   }
 

@@ -6,7 +6,6 @@ import 'package:flutter_sixvalley_ecommerce/features/home/shimmers/transaction_s
 import 'package:flutter_sixvalley_ecommerce/features/profile/controllers/profile_contrroller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wallet/controllers/wallet_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wallet/widgets/transaction_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/wallet/widgets/wallet_bonus_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wallet/widgets/wallet_card_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
@@ -21,6 +20,8 @@ import 'package:flutter_sixvalley_ecommerce/features/home/screens/aster_theme_ho
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:provider/provider.dart';
+
+import '../../payment /controller/payment_controller.dart';
 
 
 class WalletScreen extends StatefulWidget {
@@ -43,6 +44,12 @@ class _WalletScreenState extends State<WalletScreen> {
 
   @override
   void initState() {
+    Provider.of<PaymentController>(context,listen: false).getPaymentMethod(context,'wallet');
+
+    Provider.of<PaymentController>(context,listen: false).getType('wallet_charge');
+    Provider.of<PaymentController>(context,listen: false).getAmount(0);
+
+    Provider.of<PaymentController>(context,listen: false).initiate(context);
     if(Provider.of<AuthController>(context, listen: false).isLoggedIn()) {
       Provider.of<ProfileController>(context, listen: false).getUserInfo(context);
       Provider.of<WalletController>(context, listen: false).getWalletBonusBannerList();
@@ -101,7 +108,7 @@ class _WalletScreenState extends State<WalletScreen> {
                           child: WalletCardWidget(tooltipController: tooltipController, focusNode: focusNode,
                               inputAmountController: inputAmountController),));}),
 
-                    const WalletBonusWidget()
+                    // const WalletBonusWidget()
 
                   ])],)),
 

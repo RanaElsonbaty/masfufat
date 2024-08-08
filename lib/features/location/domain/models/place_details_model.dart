@@ -24,7 +24,7 @@ class Result {
   List<AddressComponents>? addressComponents;
   String? adrAddress;
   String? formattedAddress;
-  Geometry? geometry;
+  // Geometry? geometry;
   String? icon;
   String? iconBackgroundColor;
   String? iconMaskBaseUri;
@@ -41,7 +41,7 @@ class Result {
       {this.addressComponents,
         this.adrAddress,
         this.formattedAddress,
-        this.geometry,
+        // this.geometry,
         this.icon,
         this.iconBackgroundColor,
         this.iconMaskBaseUri,
@@ -63,9 +63,9 @@ class Result {
     }
     adrAddress = json['adr_address'];
     formattedAddress = json['formatted_address'];
-    geometry = json['geometry'] != null
-        ? Geometry.fromJson(json['geometry'])
-        : null;
+    // geometry = json['geometry'] != null
+    //     ? Geometry.fromJson(json['geometry'])
+    //     : null;
     icon = json['icon'];
     iconBackgroundColor = json['icon_background_color'];
     iconMaskBaseUri = json['icon_mask_base_uri'];
@@ -92,9 +92,9 @@ class Result {
     }
     data['adr_address'] = adrAddress;
     data['formatted_address'] = formattedAddress;
-    if (geometry != null) {
-      data['geometry'] = geometry!.toJson();
-    }
+    // if (geometry != null) {
+    //   data['geometry'] = geometry!.toJson();
+    // }
     data['icon'] = icon;
     data['icon_background_color'] = iconBackgroundColor;
     data['icon_mask_base_uri'] = iconMaskBaseUri;
@@ -134,78 +134,78 @@ class AddressComponents {
   }
 }
 
-class Geometry {
-  Location? location;
-  Viewport? viewport;
+// class Geometry {
+//   // Location? location;
+//   // Viewport? viewport;
+//
+//   Geometry({ this.viewport});
+//
+//   Geometry.fromJson(Map<String, dynamic> json) {
+//     // location = json['location'] != null
+//     //     ? Location.fromJson(json['location'])
+//     //     : null;
+//     viewport = json['viewport'] != null
+//         ? Viewport.fromJson(json['viewport'])
+//         : null;
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = <String, dynamic>{};
+//     // if (location != null) {
+//     //   data['location'] = location!.toJson();
+//     // }
+//     if (viewport != null) {
+//       data['viewport'] = viewport!.toJson();
+//     }
+//     return data;
+//   }
+// }
 
-  Geometry({this.location, this.viewport});
+// class Location {
+//   double? lat;
+//   double? lng;
+//
+//   Location({this.lat, this.lng});
+//
+//   Location.fromJson(Map<String, dynamic> json) {
+//     lat = json['lat'];
+//     lng = json['lng'];
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = <String, dynamic>{};
+//     data['lat'] = lat;
+//     data['lng'] = lng;
+//     return data;
+//   }
+// }
 
-  Geometry.fromJson(Map<String, dynamic> json) {
-    location = json['location'] != null
-        ? Location.fromJson(json['location'])
-        : null;
-    viewport = json['viewport'] != null
-        ? Viewport.fromJson(json['viewport'])
-        : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (location != null) {
-      data['location'] = location!.toJson();
-    }
-    if (viewport != null) {
-      data['viewport'] = viewport!.toJson();
-    }
-    return data;
-  }
-}
-
-class Location {
-  double? lat;
-  double? lng;
-
-  Location({this.lat, this.lng});
-
-  Location.fromJson(Map<String, dynamic> json) {
-    lat = json['lat'];
-    lng = json['lng'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['lat'] = lat;
-    data['lng'] = lng;
-    return data;
-  }
-}
-
-class Viewport {
-  Location? northeast;
-  Location? southwest;
-
-  Viewport({this.northeast, this.southwest});
-
-  Viewport.fromJson(Map<String, dynamic> json) {
-    northeast = json['northeast'] != null
-        ? Location.fromJson(json['northeast'])
-        : null;
-    southwest = json['southwest'] != null
-        ? Location.fromJson(json['southwest'])
-        : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (northeast != null) {
-      data['northeast'] = northeast!.toJson();
-    }
-    if (southwest != null) {
-      data['southwest'] = southwest!.toJson();
-    }
-    return data;
-  }
-}
+// class Viewport {
+//   Location? northeast;
+//   Location? southwest;
+//
+//   Viewport({this.northeast, this.southwest});
+//
+//   Viewport.fromJson(Map<String, dynamic> json) {
+//     northeast = json['northeast'] != null
+//         ? Location.fromJson(json['northeast'])
+//         : null;
+//     southwest = json['southwest'] != null
+//         ? Location.fromJson(json['southwest'])
+//         : null;
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = <String, dynamic>{};
+//     if (northeast != null) {
+//       data['northeast'] = northeast!.toJson();
+//     }
+//     if (southwest != null) {
+//       data['southwest'] = southwest!.toJson();
+//     }
+//     return data;
+//   }
+// }
 
 class Photos {
   int? height;

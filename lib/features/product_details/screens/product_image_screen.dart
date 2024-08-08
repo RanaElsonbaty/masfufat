@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/data/model/image_full_url.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/controllers/product_details_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
 import 'package:photo_view/photo_view.dart';
@@ -8,7 +7,7 @@ import 'package:provider/provider.dart';
 
 class ProductImageScreen extends StatefulWidget {
   final String? title;
-  final List<ImageFullUrl>? imageList;
+  final List<String>? imageList;
   const ProductImageScreen({super.key, required this.title, required this.imageList});
 
   @override
@@ -40,7 +39,7 @@ class ProductImageScreenState extends State<ProductImageScreen> {
                 scrollPhysics: const BouncingScrollPhysics(),
                 builder: (BuildContext context, int index) {
                   return PhotoViewGalleryPageOptions(
-                    imageProvider: NetworkImage('${widget.imageList![index].path}'),
+                    imageProvider: NetworkImage(widget.imageList![index]),
                     initialScale: PhotoViewComputedScale.contained,
                     heroAttributes: PhotoViewHeroAttributes(tag: index.toString()),
                   );

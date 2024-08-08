@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_sixvalley_ecommerce/features/Store%20settings/controllers/store_setting_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/facebook_login_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/google_login_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/banner/controllers/banner_controller.dart';
@@ -51,7 +52,6 @@ import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.d
 import 'package:flutter_sixvalley_ecommerce/theme/dark_theme.dart';
 import 'package:flutter_sixvalley_ecommerce/theme/light_theme.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:provider/provider.dart';
 import 'di_container.dart' as di;
 import 'helper/custom_delegate.dart';
@@ -101,6 +101,7 @@ if(Firebase.apps.isEmpty){
       ChangeNotifierProvider(create: (context) => di.sl<FlashDealController>()),
       ChangeNotifierProvider(create: (context) => di.sl<FeaturedDealController>()),
       ChangeNotifierProvider(create: (context) => di.sl<BrandController>()),
+      ChangeNotifierProvider(create: (context) => di.sl<StoreSettingController>()),
       ChangeNotifierProvider(create: (context) => di.sl<PaymentController>()),
       ChangeNotifierProvider(create: (context) => di.sl<SyncOrderController>()),
       ChangeNotifierProvider(create: (context) => di.sl<ProductController>()),

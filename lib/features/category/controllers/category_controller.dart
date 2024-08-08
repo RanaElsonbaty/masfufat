@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
 import 'package:flutter_sixvalley_ecommerce/features/category/domain/models/category_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/category/domain/services/category_service_interface.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/controllers/seller_product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/features/brand/controllers/brand_controller.dart';
@@ -53,18 +52,12 @@ class CategoryController extends ChangeNotifier {
 
   final List<int> _selectedCategoryIds = [];
   List<int> get selectedCategoryIds => _selectedCategoryIds;
+  String? selectId;
+  bool? isBrand=false;
 
-  void checkedToggleCategory(int index){
-    // _categoryList[index].isSelected = !_categoryList[index].isSelected!;
-
-    // if(_categoryList[index].isSelected ?? false) {
-    //   if(!_selectedCategoryIds.contains(index)) {
-    //     _selectedCategoryIds.add(index);
-    //   }
-
-    // }else {
-    //   _selectedCategoryIds.remove(index);
-    // }
+  void checkedToggleCategory(int index,bool brand){
+    selectId= index.toString();
+    isBrand=brand;
     notifyListeners();
   }
 
@@ -77,7 +70,7 @@ class CategoryController extends ChangeNotifier {
     if(fromShop){
       await getSellerWiseCategoryList(id!);
       Provider.of<BrandController>(Get.context!, listen: false).getSellerWiseBrandList(id);
-      Provider.of<SellerProductController>(Get.context!, listen: false).getSellerProductList(id.toString(), 1, "");
+      // Provider.of<SellerProductController>(Get.context!, listen: false).getSellerProductList(id.toString(), 1, "",);
     }else{
       await getCategoryList(true);
       Provider.of<BrandController>(Get.context!, listen: false).getBrandList(true,1);

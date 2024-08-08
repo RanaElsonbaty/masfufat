@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/controllers/order_details_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/helper/date_converter.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
@@ -46,9 +45,9 @@ class OrderDetailsStatusWidget extends StatelessWidget {
                                   ColorResources.getYellow(context)))]),),
                     const SizedBox(height: Dimensions.paddingSizeSmall,),
 
-                    Text(DateConverter.localDateToIsoStringAMPMOrder(orderProvider.orders!.createdAt!),
-                        style: titilliumRegular.copyWith(color: ColorResources.getHint(context),
-                            fontSize: Dimensions.fontSizeSmall)),
+                    // Text(DateConverter.localDateToIsoStringAMPMOrder(orderProvider.orders!.createdAt),
+                    //     style: titilliumRegular.copyWith(color: ColorResources.getHint(context),
+                    //         fontSize: Dimensions.fontSizeSmall)),
                   ],
                 ),
               ],

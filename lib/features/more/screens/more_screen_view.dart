@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/loyaltyPoint/controllers/loyalty_point_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/screens/guest_track_order_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/profile/controllers/profile_contrroller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/profile/screens/profile_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/support/screens/support_ticket_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wallet/controllers/wallet_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
@@ -17,18 +16,17 @@ import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/features/category/screens/category_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/compare/screens/compare_product_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/contact_us/screens/contact_us_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/coupon/screens/coupon_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/more/screens/html_screen_view.dart';
 import 'package:flutter_sixvalley_ecommerce/features/more/widgets/profile_info_section_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/more/widgets/more_horizontal_section_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/notification/screens/notification_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/address/screens/address_list_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/refer_and_earn/screens/refer_and_earn_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/setting/screens/settings_screen.dart';
 import 'package:provider/provider.dart';
 import '../../../common/basewidget/webView.dart';
+import '../../Store settings/screen/store_setting_screen.dart';
+import '../../order/controllers/order_controller.dart';
 import 'faq_screen_view.dart';
 import 'package:flutter_sixvalley_ecommerce/features/more/widgets/title_button_widget.dart';
 
@@ -50,6 +48,10 @@ class _MoreScreenState extends State<MoreScreen> {
     isGuestMode = !Provider.of<AuthController>(context, listen: false).isLoggedIn();
     if(Provider.of<AuthController>(context, listen: false).isLoggedIn()) {
       Provider.of<SplashController>(context,listen: false).initConfig(context);
+      Provider.of<OrderController>(context, listen: false).getOrderList(1,'ongoing').then((value) {
+        Provider.of<OrderController>(context, listen: false).setIndex(0,context, notify: false);
+
+      });
       // version = Provider.of<SplashController>(context,listen: false).configModel!.softwareVersion ?? 'version';
       Provider.of<ProfileController>(context, listen: false).getUserInfo(context);
       if(Provider.of<SplashController>(context,listen: false).configModel!.walletStatus == 1){
@@ -67,8 +69,8 @@ class _MoreScreenState extends State<MoreScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var splashController = Provider.of<SplashController>(context, listen: false);
-    var authController = Provider.of<AuthController>(context, listen: false);
+    Provider.of<SplashController>(context, listen: false);
+    Provider.of<AuthController>(context, listen: false);
     return Scaffold(
       body: CustomScrollView(slivers: [
         SliverAppBar(
@@ -124,13 +126,13 @@ class _MoreScreenState extends State<MoreScreen> {
                         MenuButtonWidget(image: Images.address, title: getTranslated('addresses', context),
                             navigateTo: const AddressListScreen()),
 
-                        // MenuButtonWidget(image: Images.coupon, title: getTranslated('coupons', context),
-                        //     navigateTo: const CouponList()),
+                        MenuButtonWidget(image: Images.storeSettingImage, title: getTranslated('Settings_for_linking_my_online_store', context),
+                            navigateTo: const StoreSettingScreen()),
 
-                        if(!isGuestMode)
-                          MenuButtonWidget(image: Images.refIcon, title: getTranslated('refer_and_earn', context),
-                              isProfile: true,
-                              navigateTo: const ReferAndEarnScreen()),
+                        // if(!isGuestMode)
+                        //   MenuButtonWidget(image: Images.refIcon, title: getTranslated('refer_and_earn', context),
+                        //       isProfile: true,
+                        //       navigateTo: const ReferAndEarnScreen()),
 
 
                         MenuButtonWidget(image: Images.category, title: getTranslated('CATEGORY', context),

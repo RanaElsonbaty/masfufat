@@ -100,22 +100,6 @@ class CheckoutRepository implements CheckoutRepositoryInterface{
 
     try {
       int isCheckAccount = isCheckCreateAccount! ? 1: 0;
-      Map<dynamic, dynamic> data = {
-        "order_note": orderNote,
-        "customer_id":  customerId,
-        "address_id": addressId,
-        "billing_address_id": billingAddressId,
-        "coupon_code": couponCode,
-        "coupon_discount": couponDiscount,
-        "payment_platform" : "app",
-        "payment_method" : paymentMethod,
-        "callback" : null,
-        "payment_request_from" : "app",
-        'guest_id' : Provider.of<AuthController>(Get.context!, listen: false).getGuestToken(),
-        'is_guest': !Provider.of<AuthController>(Get.context!, listen: false).isLoggedIn(),
-        'is_check_create_account' : isCheckAccount.toString(),
-        'password' : password,
-      };
 
 
       final response = await dioClient!.post(AppConstants.digitalPayment, data: {

@@ -9,8 +9,6 @@ import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/image_diaglog_widget.dart';
 import 'package:provider/provider.dart';
 
 class OrderAgainView extends StatelessWidget {
@@ -66,7 +64,7 @@ class OrderAgainCard extends StatelessWidget {
               const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
 
-                Text("${getTranslated('on', context)} ${DateConverter.dateStringMonthYear(orders.createdAt!)}"),
+                Text("${getTranslated('on', context)} ${DateConverter.dateStringMonthYear(orders.createdAt)}"),
               const SizedBox(height: Dimensions.paddingSizeSmall),
 
               // if(orders.di!= null && orders.details!.isNotEmpty)
@@ -74,7 +72,7 @@ class OrderAgainCard extends StatelessWidget {
                   padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                   decoration: BoxDecoration(color: Theme.of(context).hintColor.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall)),
-                  child: Row(children: [
+                  child: const Row(children: [
 
                       // Expanded(child: ListView.builder(
                       //     padding: EdgeInsets.zero,

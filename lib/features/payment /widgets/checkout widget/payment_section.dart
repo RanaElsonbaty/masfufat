@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/payment%20/controller/payment_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../utill/dimensions.dart';
@@ -15,12 +14,7 @@ class CheckOutPaymentSection extends StatefulWidget {
 }
 
 class _CheckOutPaymentSectionState extends State<CheckOutPaymentSection> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // initPayment();
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +27,7 @@ class _CheckOutPaymentSectionState extends State<CheckOutPaymentSection> {
               child: Container(
                 padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeDefault),
-                    color: Theme.of(context).cardColor),
+                    color: Colors.white),
                 child:Container(
                     child: paymentProvider.build(context, false, false)),
               ),

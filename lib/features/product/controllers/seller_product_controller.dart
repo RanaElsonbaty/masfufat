@@ -9,43 +9,48 @@ class SellerProductController extends ChangeNotifier {
   final SellerProductServiceInterface? sellerProductServiceInterface;
   SellerProductController({required this.sellerProductServiceInterface});
 
-
+  final TextEditingController searchController = TextEditingController();
   List<Product>? sellerProduct=[];
+bool _isLoading=false;
+bool get isLoading=>_isLoading;
+  Future <List<Product>> getSellerProductList(String sellerId, int offset, String productId,
+    String search ,
+    String orderBy,
+    String productType ,
+    String priceFilter,
 
-  Future <List<Product>> getSellerProductList(String sellerId, int offset, String productId, {
-    bool reload = true,
-    String search = '',
-    String? categoryIds = '[]',
-    String? brandIds = '[]'
-  }) async {
-
+  ) async {
+    _isLoading =true;
     // if(reload) {
     //   sellerProduct = null;
     // }
 
     ApiResponse apiResponse = await sellerProductServiceInterface!.getSellerProductList(
       sellerId, offset.toString(),
-      productId, categoryIds : categoryIds,
-      brandIds: brandIds, search: search,
+      productId,
+        search,
+        orderBy,
+        productType,
+     priceFilter,
+
+
+
+
     );
     sellerProduct=[];
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       apiResponse.response!.data['products'].forEach((product){
         sellerProduct!.add(Product.fromJson(product));
       });
-      // if(offset == 1){
-      //   sellerProduct = ProductModel.fromJson(apiResponse.response!.data);
-      //
-      // }else{
-      //   sellerProduct?.products?.addAll(ProductModel.fromJson(apiResponse.response!.data).products!);
-      //   sellerProduct?.offset = (ProductModel.fromJson(apiResponse.response!.data).offset!);
-      //   sellerProduct?.totalSize = ProductModel.fromJson(apiResponse.response!.data).totalSize;
-      // }
+      _isLoading =false;
+
       notifyListeners();
 
       return sellerProduct!;
 
     } else {
+      _isLoading =false;
+      notifyListeners();
       ApiChecker.checkApi( apiResponse);
       return [];
 

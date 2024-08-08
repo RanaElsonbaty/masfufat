@@ -52,6 +52,6 @@ class OrderAmountCalculation extends StatelessWidget {
 
 
           AmountWidget(title: getTranslated('total_payable', context),
-            amount: PriceConverter.convertPrice(context, (itemTotalAmount + shippingCost - eeDiscount! - orderProvider.orders!.discountAmount! - discount  + tax)),),]));
+            amount: PriceConverter.convertPrice(context, (itemTotalAmount + shippingCost - eeDiscount! - orderProvider.orders!.discountAmount - discount  + tax)),),]));
   }
 }

@@ -10,10 +10,13 @@ class SellerProductRepository implements SellerProductRepositoryInterface{
 
 
   @override
-  Future<ApiResponse> getSellerProductList(String sellerId, String offset, String productId, {String search = '', String? categoryIds="[]", String? brandIds="[]"}) async {
+  Future<ApiResponse> getSellerProductList(String sellerId, String offset, String productId, String search ,    String orderBy ,
+    String productType ,
+    String priceFilter , ) async {
     try {
+
       final response = await dioClient!.get(
-        '${AppConstants.sellerProductUri}$sellerId/products?limit=50&&offset=$offset');
+        '${AppConstants.sellerProductUri}$sellerId/products?limit=50&offset=$offset${search!=''?("&search=$search"):''}${orderBy!=''?"&order_by=$orderBy":''}${productType!=''?"&product_type=$productType":''}${priceFilter!='&from_price=0.0&to_price=0.0'?priceFilter:''}');
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));

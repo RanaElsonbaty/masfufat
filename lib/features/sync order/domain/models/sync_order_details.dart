@@ -28,7 +28,7 @@ class SyncOrderDetailsModel {
   int? shippingAddress;
   DateTime? createdAt;
   DateTime? updatedAt;
-  int? discountAmount;
+  double? discountAmount;
   dynamic discountType;
   dynamic couponCode;
   String? couponDiscountBearer;
@@ -49,7 +49,7 @@ class SyncOrderDetailsModel {
   dynamic billingAddress;
   BillingAddressData? billingAddressData;
   String? orderType;
-  int? extraDiscount;
+  double? extraDiscount;
   dynamic extraDiscountType;
   dynamic freeDeliveryBearer;
   int? checked;
@@ -148,7 +148,7 @@ class SyncOrderDetailsModel {
         updatedAt: json["updated_at"] == null
             ? null
             : DateTime.parse(json["updated_at"]),
-        discountAmount: json["discount_amount"],
+        discountAmount: json["discount_amount"]!=null?double.tryParse(json["discount_amount"].toString()):0.0,
         discountType: json["discount_type"],
         couponCode: json["coupon_code"],
         couponDiscountBearer: json["coupon_discount_bearer"],
@@ -173,7 +173,7 @@ class SyncOrderDetailsModel {
             ? null
             : BillingAddressData.fromJson(json["billing_address_data"]),
         orderType: json["order_type"],
-        extraDiscount: json["extra_discount"],
+        extraDiscount: json["extra_discount"]!=null?double.tryParse(json["extra_discount"].toString()):0.00,
         extraDiscountType: json["extra_discount_type"],
         freeDeliveryBearer: json["free_delivery_bearer"],
         checked: json["checked"],

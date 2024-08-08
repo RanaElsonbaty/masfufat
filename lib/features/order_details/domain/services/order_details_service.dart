@@ -40,8 +40,8 @@ class OrderDetailsService implements OrderDetailsServiceInterface{
   }
 
   @override
-  Future trackOrder(String orderId, String phoneNumber) async{
-    return await orderDetailsRepositoryInterface.trackYourOrder(orderId, phoneNumber);
+  Future trackOrder(String orderId, ) async{
+    return await orderDetailsRepositoryInterface.trackYourOrder(orderId, );
   }
 
   @override

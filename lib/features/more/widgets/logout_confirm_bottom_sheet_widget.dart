@@ -42,14 +42,16 @@ class LogoutCustomBottomSheetWidget extends StatelessWidget {
             const SizedBox(width: Dimensions.paddingSizeDefault,),
             Expanded(child: SizedBox(width: 120,child: CustomButton(buttonText: '${getTranslated('sign_out', context)}',
                 onTap: (){
-              Provider.of<AuthController>(context, listen: false).logOut().then((condition) {
+              // Provider.of<AuthController>(context, listen: false).logOut().then((condition) {
                 Navigator.pop(context);
                 Provider.of<AuthController>(context,listen: false).clearSharedData();
-                Provider.of<ProfileController>(context,listen: false).clearProfileData();
-                Provider.of<AuthController>(context, listen: false).getGuestIdUrl();
+                Provider.of<AuthController>(context,listen: false).clearUserEmailAndPassword();
+                // Provider.of<AuthController>(context,listen: false).;
+                Provider.of<ProfileController>(context,listen: false).  clearProfileData();
+                // Provider.of<AuthController>(context, listen: false).getGuestIdUrl();
                 // Provider.of<AddressController>(context, listen: false).getAddressList();
                 Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const AuthScreen(fromLogout: true)), (route) => false);
-              });
+              // });
             })))]))
 
       ],),

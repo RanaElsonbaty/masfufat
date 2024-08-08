@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
-import 'package:flutter_sixvalley_ecommerce/features/my%20shop/domain/repositories/My_Shop_repository_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/domain/services/my_shop_service_interface.dart';
 
 import '../domain/model/model.dart';
@@ -211,7 +210,7 @@ notifyListeners();
   }
 
   Future addProductPrice(int id,String price)async{
-    print("asdasdasdasdasdsadds---> ${id} ///// ${price}");
+    print("asdasdasdasdasdsadds---> $id ///// $price");
     ApiResponse response =await myShopServiceInterface.addPriceToProduct(id,price);
     if(response.response!=null&&response.response!.statusCode==200){
       return true;
@@ -221,11 +220,51 @@ notifyListeners();
   } Future syncProduct()async{
     ApiResponse response =await myShopServiceInterface.syncProduct();
     if(response.response!=null&&response.response!.statusCode==200){
-      return true;
+      print('sync product res ---> ${response.response!.data}');
+if(response.response!.data=='1'){
+  return true;
+
+}else{
+  return false;
+
+}
     }else{
       return false;
     }
   }
+//   A1952-GTR-2-BK
+int? _selectFilter;
+int? get selectFilter=>_selectFilter;
+  void getSelectFilter(int index){
+    print('object$index');
+    if(_selectFilter==index){
+      _selectFilter=null;
+      _searchActive=false;
+    }else{
+    _selectFilter= index;
+    _searchActive=true;
 
+    }
+    for (var element in _deleteList) {
+      _deleteListSearch=[];
+      if(index==0){
+        _searchActive=false;
+        _deleteListSearch=[];
 
+      }else if(index==1){
+        if(element.linkedProduct!=null&&element.linkedProduct!.deletionReason=='pending review'){
+          _deleteListSearch.add(element);
+        }
+      }else if(index==2){
+        if(element.linkedProduct!=null&&element.linkedProduct!.deletionReason=='not available'){
+          _deleteListSearch.add(element);
+        }
+      }else{
+        if(element.linkedProduct!=null&&element.linkedProduct!.deletionReason=='deleted'){
+          _deleteListSearch.add(element);
+        }
+      }
+    }
+    notifyListeners();
+  }
 }

@@ -1,12 +1,9 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/bouncy_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/screens/order_details_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/splash/domain/models/config_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/update/screen/update_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/push_notification/models/notification_body.dart';
@@ -19,12 +16,23 @@ import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/chat/screens/inbox_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/dashboard/screens/dashboard_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/maintenance/maintenance_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/notification/screens/notification_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/onboarding/screens/onboarding_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../../address/controllers/address_controller.dart';
 import '../../auth/screens/auth_screen.dart';
+import '../../banner/controllers/banner_controller.dart';
+import '../../cart/controllers/cart_controller.dart';
+import '../../category/controllers/category_controller.dart';
+import '../../deal/controllers/featured_deal_controller.dart';
+import '../../deal/controllers/flash_deal_controller.dart';
+import '../../notification/controllers/notification_controller.dart';
+import '../../payment /controller/payment_controller.dart';
+import '../../product/controllers/product_controller.dart';
+import '../../profile/controllers/profile_contrroller.dart';
+import '../../shop/controllers/shop_controller.dart';
+import '../../wishlist/controllers/wishlist_controller.dart';
 
 class SplashScreen extends StatefulWidget {
   final NotificationBody? body;
@@ -67,6 +75,34 @@ class SplashScreenState extends State<SplashScreen> {
     super.dispose();
     _onConnectivityChanged.cancel();
   }
+  static Future<void> loadData(bool reload) async {
+     Provider.of<BannerController>(Get.context!, listen: false).getBannerList(reload,'main_banner');
+       Provider.of<CategoryController>(Get.context!, listen: false).getCategoryList(reload);
+     Provider.of<FlashDealController>(Get.context!, listen: false).getFlashDealList(reload, false);
+     Provider.of<ProductController>(Get.context!, listen: false).getFeaturedProductList('1', reload: reload);
+     Provider.of<FeaturedDealController>(Get.context!, listen: false).getFeaturedDealList(reload);
+     Provider.of<ShopController>(Get.context!, listen: false).getTopSellerList(reload, 1, type: "top");
+     Provider.of<ProductController>(Get.context!, listen: false).getRecommendedProduct();
+    Provider.of<BannerController>(Get.context!, listen: false).getBannerList(reload,'main_section_banner');
+    Provider.of<ProductController>(Get.context!, listen: false).getHomeCategoryProductList(reload);
+    Provider.of<AddressController>(Get.context!, listen: false).getAddressList();
+     Provider.of<CartController>(Get.context!, listen: false).getCartData(Get.context!);
+     Provider.of<ProductController>(Get.context!, listen: false).getLatestProductList(1, reload: reload);
+
+     Provider.of<WishListController>(Get.context!, listen: false).getWishList();
+    // await Provider.of<ProductController>(Get.context!, listen: false).getLProductList('1', reload: reload);
+     Provider.of<NotificationController>(Get.context!, listen: false).getNotificationList(1);
+    if(Provider.of<AuthController>(Get.context!, listen: false).isLoggedIn()){
+   await     Provider.of<ProfileController>(Get.context!, listen: false).getUserInfo(Get.context!);
+    }
+    Provider.of<PaymentController>(Get.context!,listen: false).getIsLoading(true,false);
+       Provider.of<PaymentController>(Get.context!,listen: false).getAmount(( 0));
+      Provider.of<PaymentController>(Get.context!,listen: false).getApiKey(Get.context!);
+     Provider.of<PaymentController>(Get.context!,listen: false).initiate(Get.context!);
+     Provider.of<PaymentController>(Get.context!,listen: false).getPaymentMethod(Get.context!,'cart');
+    Provider.of<PaymentController>(Get.context!,listen: false).cardViewStyle();
+    Provider.of<PaymentController>(Get.context!,listen: false).getIsLoading(false,true);
+  }
 
   void _route() {
     //     Timer(const Duration(seconds: 1), ()
@@ -107,6 +143,8 @@ class SplashScreenState extends State<SplashScreen> {
                 const InboxScreen(isBackButtonExist: true,)));
               }
             }else{
+              loadData(true);
+
               Navigator.of(Get.context!).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => const DashBoardScreen()));
             }
           }
@@ -114,16 +152,23 @@ class SplashScreenState extends State<SplashScreen> {
           else if(Provider.of<SplashController>(Get.context!, listen: false).showIntro()!){
             Navigator.of(Get.context!).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => OnBoardingScreen(
               indicatorColor: ColorResources.grey, selectedIndicatorColor: Theme.of(context).primaryColor)));
-          }
-          else{
-            if(Provider.of<AuthController>(context, listen: false).getGuestToken() != null &&
-                Provider.of<AuthController>(context, listen: false).getGuestToken() != '1'){
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => const DashBoardScreen()));
-            }else{
-              Provider.of<AuthController>(context, listen: false).getGuestIdUrl();
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const DashBoardScreen()), (route) => false);
+          }else{
+  await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => const AuthScreen()));
+
             }
-          }
+          // else{
+          //   // if(Provider.of<AuthController>(context, listen: false).getGuestToken() != null &&
+          //   //     Provider.of<AuthController>(context, listen: false).getGuestToken() != '1'){
+          //     loadData(true);
+          //     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => const DashBoardScreen()));
+          //   }
+          //   else{
+          //     Provider.of<AuthController>(context, listen: false).getGuestIdUrl();
+          //     loadData(true);
+          //
+          //     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const DashBoardScreen()), (route) => false);
+          //   }
+          // }
         });
       // }
     // });

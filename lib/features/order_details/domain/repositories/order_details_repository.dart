@@ -68,13 +68,11 @@ class OrderDetailsRepository implements OrderDetailsRepositoryInterface{
   }
 
   @override
-  Future<ApiResponse> trackYourOrder(String orderId, String phoneNumber) async {
+  Future<ApiResponse> trackYourOrder(String orderId, ) async {
     try {
-      final response = await dioClient!.post(AppConstants.orderTrack,
-          data: {'order_id': orderId,
-            'phone_number' : phoneNumber
+      final response = await dioClient!.get(AppConstants.orderTrack+orderId,
 
-          });
+          );
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));

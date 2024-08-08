@@ -1,8 +1,6 @@
-import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_loader_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/domain/models/cart_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/shipping/controllers/shipping_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
@@ -216,10 +214,7 @@ class CartScreenState extends State<CartScreen> {
 
                         InkWell(onTap: () {
                               bool hasNull = false;
-                              bool minimum = false;
                               bool stockOutProduct = false;
-                              bool closeShop = false;
-                              double total = 0;
 
 
                               //  if(configProvider.configModel!.shippingMethod =='sellerwise_shipping'){
@@ -251,19 +246,17 @@ class CartScreenState extends State<CartScreen> {
                                    }
                                  }
                                }
-
-                                for(int index = 0; index < sellerGroupList.length; index++) {
-                                  total = 0;
-                                  for(CartModel cart in cartProductList[index]) {
-                                    total += (cart.price! - cart.discount!) * cart.quantity! ;
-
-                                  }
-                                  // log("===Here===>$total====<${sellerGroupList[index].minimumOrderAmountInfo!}>");
-                                  // if(total< sellerGroupList[index].minimumOrderAmountInfo!) {
-                                  //   minimum = true;
-                                  // }
-
-                                }
+                                //
+                                // for(int index = 0; index < sellerGroupList.length; index++) {
+                                //   for(CartModel cart in cartProductList[index]) {
+                                //
+                                //   }
+                                //   // log("===Here===>$total====<${sellerGroupList[index].minimumOrderAmountInfo!}>");
+                                //   // if(total< sellerGroupList[index].minimumOrderAmountInfo!) {
+                                //   //   minimum = true;
+                                //   // }
+                                //
+                                // }
 
                               for(int index = 0; index < sellerGroupList.length; index++) {
                                 if(sellerGroupList[index].quantity! > sellerGroupList[index].productInfo!.totalCurrentStock! && sellerGroupList[index].productType =="physical") {
@@ -272,20 +265,20 @@ class CartScreenState extends State<CartScreen> {
                                 }
                               }
 
-                              for(int index = 0; index < sellerGroupList.length; index++) {
-                                // if (sellerGroupList[index].shop?.vacationEndDate != null && sellerGroupList[index].shop?.vacationEndDate != '') {
-                                //   DateTime vacationDate = DateTime.parse(sellerGroupList[index].shop!.vacationEndDate!);
-                                //   DateTime vacationStartDate = DateTime.parse(sellerGroupList[index].shop!.vacationStartDate!);
-                                //   final today = DateTime.now();
-                                //   final difference = vacationDate.difference(today).inDays;
-                                //   final startDate = vacationStartDate.difference(today).inDays;
-                                //
-                                //   if (((difference >= 0 && sellerGroupList[index].shop!.vacationStatus! && startDate <= 0) || sellerGroupList[index].shop!.temporaryClose!) && sellerGroupList[index].isGroupItemChecked!) {
-                                //     closeShop = true;
-                                //     break;
-                                //   }
-                                // }
-                              }
+                              // for(int index = 0; index < sellerGroupList.length; index++) {
+                              //   // if (sellerGroupList[index].shop?.vacationEndDate != null && sellerGroupList[index].shop?.vacationEndDate != '') {
+                              //   //   DateTime vacationDate = DateTime.parse(sellerGroupList[index].shop!.vacationEndDate!);
+                              //   //   DateTime vacationStartDate = DateTime.parse(sellerGroupList[index].shop!.vacationStartDate!);
+                              //   //   final today = DateTime.now();
+                              //   //   final difference = vacationDate.difference(today).inDays;
+                              //   //   final startDate = vacationStartDate.difference(today).inDays;
+                              //   //
+                              //   //   if (((difference >= 0 && sellerGroupList[index].shop!.vacationStatus! && startDate <= 0) || sellerGroupList[index].shop!.temporaryClose!) && sellerGroupList[index].isGroupItemChecked!) {
+                              //   //     closeShop = true;
+                              //   //     break;
+                              //   //   }
+                              //   // }
+                              // }
 
 
                               if( !Provider.of<AuthController>(context, listen: false).isLoggedIn()){
@@ -296,9 +289,8 @@ class CartScreenState extends State<CartScreen> {
                               } else if (stockOutProduct) {
                                 showCustomSnackBar(getTranslated('stock_out_product_in_your_cart', context), context);
                               }
-                              else if (closeShop) {
-                                showCustomSnackBar(getTranslated('unavailable_shop_product_in_your_cart', context), context);
-                              }
+                              // else if (closeShop) {
+                              // }
                               else if(hasNull && configProvider.configModel!.shippingMethod =='sellerwise_shipping' && !onlyDigital){
                                 changeColor();
                                 showCustomSnackBar(getTranslated('select_all_shipping_method', context), context);
@@ -309,10 +301,10 @@ class CartScreenState extends State<CartScreen> {
                                   configProvider.configModel!.inhouseSelectedShippingType =='order_wise' && !onlyDigital){
 
                                 showCustomSnackBar(getTranslated('select_all_shipping_method', context), context);
-                              }else if(minimum){
-                                changeColor();
-                                showCustomSnackBar(getTranslated('some_shop_not_full_fill_minimum_order_amount', context), context);
-                              }else if (!isItemChecked){
+                              }
+                              // else if(minimum){
+                              // }
+                              else if (!isItemChecked){
                                 showCustomSnackBar(getTranslated('please_select_items', context), context);
                               }
                               else {
@@ -362,11 +354,8 @@ class CartScreenState extends State<CartScreen> {
                           padding: const EdgeInsets.all(0),
                           itemBuilder: (context, index) {
                             bool hasPhysical = false;
-                            double totalCost = 0;
-                            bool shopClose = false;
-                            for(CartModel cart in cartProductList[index]) {
-                              totalCost += (cart.price! - cart.discount!) * cart.quantity!;
-                            }
+                            // for(var cart in cartProductList[index]) {
+                            // }
 
                             for(CartModel cart in cartProductList[index]) {
                               if(cart.productType == 'physical' && cart.isChecked!) {
@@ -434,23 +423,23 @@ class CartScreenState extends State<CartScreen> {
                                                       style: textBold.copyWith(color: Provider.of<ThemeController>(context, listen: false).darkTheme?
                                                       Theme.of(context).hintColor : Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeLarge))),
 
-                                                if(shopClose)
-                                                  JustTheTooltip(
-                                                    backgroundColor: Colors.black87,
-                                                    controller: tooltipController,
-                                                    preferredDirection: AxisDirection.down,
-                                                    tailLength: 10,
-                                                    tailBaseWidth: 20,
-                                                    content: Container(width: 150,
-                                                        padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                                                        child: Text(getTranslated('store_is_closed', context)!,
-                                                            style: textRegular.copyWith(color: Colors.white, fontSize: Dimensions.fontSizeDefault))),
-                                                    child: InkWell(onTap: ()=>  tooltipController.showTooltip(),
-                                                      child: Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
-                                                        child: SizedBox(width: 30, child: Image.asset(Images.warning, color: Theme.of(context).colorScheme.error,)),
-                                                      ),
-                                                    ),
-                                                  )
+                                                // if(shopClose)
+                                                //   JustTheTooltip(
+                                                //     backgroundColor: Colors.black87,
+                                                //     controller: tooltipController,
+                                                //     preferredDirection: AxisDirection.down,
+                                                //     tailLength: 10,
+                                                //     tailBaseWidth: 20,
+                                                //     content: Container(width: 150,
+                                                //         padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                                //         child: Text(getTranslated('store_is_closed', context)!,
+                                                //             style: textRegular.copyWith(color: Colors.white, fontSize: Dimensions.fontSizeDefault))),
+                                                //     child: InkWell(onTap: ()=>  tooltipController.showTooltip(),
+                                                //       child: Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
+                                                //         child: SizedBox(width: 30, child: Image.asset(Images.warning, color: Theme.of(context).colorScheme.error,)),
+                                                //       ),
+                                                //     ),
+                                                //   )
 
 
                                                 ]))),

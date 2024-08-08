@@ -3,13 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class UpdateScreen extends StatelessWidget {
@@ -52,7 +50,7 @@ class UpdateScreen extends StatelessWidget {
               }else if(Platform.isIOS) {
                 // appUrl = Provider.of<SplashController>(context, listen: false).configModel?.userAppVersionControl?.forAndroid?.link;
               }
-              if(await canLaunchUrlString(appUrl!)) {
+              if(await canLaunchUrlString(appUrl)) {
                 launchUrlString(appUrl, mode: LaunchMode.externalApplication);
               }else {
                 showCustomSnackBar('${getTranslated('can_not_launch', Get.context!)!}  $appUrl', Get.context!);

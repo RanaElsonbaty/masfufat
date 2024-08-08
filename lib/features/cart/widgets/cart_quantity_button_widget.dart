@@ -36,7 +36,7 @@ class CartQuantityButton extends StatelessWidget {
               }
             },
             child: Padding(padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Icon(isIncrement ? CupertinoIcons.add : quantity! == 1!?
+              child: Icon(isIncrement ? CupertinoIcons.add : quantity! == 1?
               CupertinoIcons.delete_solid : CupertinoIcons.minus,
                   color: Colors.red, size:  15),
             ),

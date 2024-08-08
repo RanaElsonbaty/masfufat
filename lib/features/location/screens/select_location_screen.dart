@@ -1,15 +1,15 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/location/controllers/location_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/location/widgets/location_search_dialog_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:permission_handler/permission_handler.dart' as permission;
 import 'package:provider/provider.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
 
@@ -34,15 +34,35 @@ class SelectLocationScreen extends StatefulWidget {
 class SelectLocationScreenState extends State<SelectLocationScreen> {
   GoogleMapController? _controller;
   final TextEditingController _locationController = TextEditingController();
-  CameraPosition? _cameraPosition;
 
   @override
   void initState() {
     super.initState();
+    _askingPermission();
     Provider.of<LocationController>(context, listen: false).setPickData();
 
 
   }
+
+  Future<bool> _askingPermission() async {
+    // if (camera) {
+      await permission.Permission.camera.request();
+      if (await permission.Permission.camera.isDenied) {
+        return false;
+      } else {
+        return true;
+      }
+    // } else {
+    //   await Permission.microphone.request();
+    //   if (await Permission.microphone.isDenied) {
+    //     return false;
+    //   } else {
+    //     return true;
+    //   }
+    // }
+
+  }
+
   void initData()async{
 
     if(widget.isEnableUpdate==false){
@@ -75,12 +95,9 @@ class SelectLocationScreenState extends State<SelectLocationScreen> {
   @override
   void dispose() {
     super.dispose();
-    _controller!.dispose();
+    // _controller!.dispose();
   }
 
-  void _openSearchDialog(BuildContext context, GoogleMapController? mapController) async {
-    showDialog(context: context, builder: (context) => LocationSearchDialogWidget(mapController: mapController));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,18 +116,21 @@ class SelectLocationScreenState extends State<SelectLocationScreen> {
                 compassEnabled: false,
                 indoorViewEnabled: true,
                 mapToolbarEnabled: true,
-                onCameraIdle: () => locationController.updateMapPosition(_cameraPosition, false, null, context),
+                onCameraIdle: () => locationController.updateMapPosition(locationController.cameraPosition, false, null, context),
                 onCameraMove: ((position) async{
-                  _cameraPosition = position;
-                 placemarks = await geocoding.placemarkFromCoordinates(position.target.latitude, position.target.longitude);
-                  setState(() {
-                    searchResult=placemarks!.first.street!;
+                  locationController.cameraPosition = position;
+                 try{
+                   locationController. placemarks = await geocoding.placemarkFromCoordinates(position.target.latitude, position.target.longitude);
+                   setState(() {
+                     locationController.searchResult=locationController.placemarks!.first.street!;
 
-                  });
+                   });
+                 }catch(e){}
                 }),
                 onMapCreated: (GoogleMapController controller) {
-                  _controller = controller;
-                },),
+                  locationController.controller = controller;
+                },
+              ),
 
               locationController.pickAddress != null ?
               InkWell(onTap: () =>
@@ -122,14 +142,18 @@ class SelectLocationScreenState extends State<SelectLocationScreen> {
                   decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall)),
                   child: Row(children: [
                     Expanded(child: Text(
-                        searchResult!=''?searchResult:'search'
+                        locationController.searchResult!=''?locationController.searchResult:'search'
                     , maxLines: 1, overflow: TextOverflow.ellipsis)),
                     const Icon(Icons.search, size: 20)]))) : const SizedBox.shrink(),
 
 
               Positioned(bottom: 0, right: 0, left: 0,
                 child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-                    InkWell(onTap: () => locationController.getCurrentLocation(context, false, mapController: _controller),
+                    InkWell(onTap: () {
+                      // locationController.getCurrentLocation(context, false, mapController: _controller);
+                      locationController.getCurrentLocations( context,);
+
+                    },
                       child: Container(width: 50, height: 50,
                         margin: const EdgeInsets.only(right: Dimensions.paddingSizeLarge),
                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
@@ -141,21 +165,23 @@ class SelectLocationScreenState extends State<SelectLocationScreen> {
                       child: Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
                         child: CustomButton(buttonText: getTranslated('select_location', context),
                           onTap: () async{
-                            if(_controller != null) {
-                              _controller!.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(
+                            if(locationController.controller != null) {
+                              locationController.controller!.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(
                                 locationController.pickPosition.latitude, locationController.pickPosition.longitude), zoom: 16)));
                               locationController.setAddAddressData();
                             }
-                            if(placemarks!=null&&placemarks!.isEmpty){
-                              placemarks = await geocoding.placemarkFromCoordinates(locationController.pickPosition.latitude, locationController.pickPosition.longitude,);
+                            if(locationController.placemarks!=null&&locationController.placemarks!.isEmpty){
+                              locationController.placemarks = await geocoding.placemarkFromCoordinates(locationController.pickPosition.latitude, locationController.pickPosition.longitude,);
 
                             }
                             Navigator.of(Get.context!).push(MaterialPageRoute(builder: (_) =>
-                             AddNewAddressScreen(isBilling: false,placemarks:placemarks!=null? placemarks!:[], fromCheckout: widget.fromCheckout,address: widget.address,isEnableUpdate: widget.isEnableUpdate,)
+                             AddNewAddressScreen(isBilling: false,placemarks:locationController.placemarks!=null? locationController.placemarks!:[], fromCheckout: widget.fromCheckout,address: widget.address,isEnableUpdate: widget.isEnableUpdate,)
                             // const SelectLocationScreen()
                             )
                             );
-                          })))])),
+                          })))
+                ]
+                )),
               Center(child: Icon(Icons.location_on, color: Theme.of(context).primaryColor, size: 50)),
               locationController.loading ?
               Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor))) :
@@ -170,10 +196,6 @@ class SelectLocationScreenState extends State<SelectLocationScreen> {
   String searchResult='';
   double latitude = 0;
   double longitude = 0;
-  final CameraPosition _kGooglePlex = const CameraPosition(
-    target: LatLng(33.298037, 44.2879251),
-    zoom: 10,
-  );
   Future<void> _handleSearch() async {
     places.Prediction? p = await loc.PlacesAutocomplete.show(
         context: context,
@@ -215,11 +237,14 @@ class SelectLocationScreenState extends State<SelectLocationScreen> {
 
   Future<void> displayPrediction(
       places.Prediction p, ScaffoldState? currentState) async {
-    places.GoogleMapsPlaces _places = places.GoogleMapsPlaces(
+    places.GoogleMapsPlaces placess = places.GoogleMapsPlaces(
         apiKey: 'AIzaSyC2BO1gDok2Pt8pa-MFypDjiOnfZjZWruc',
         apiHeaders: await const header.GoogleApiHeaders().getHeaders());
     places.PlacesDetailsResponse detail =
-    await _places.getDetailsByPlaceId(p.placeId!);
+    await placess.getDetailsByPlaceId(p.placeId!);
+    setState(() {
+
+    });
     final lat = detail.result.geometry!.location.lat;
     final lng = detail.result.geometry!.location.lng;
      placemarks = await geocoding.placemarkFromCoordinates(lat, lng);
@@ -291,4 +316,24 @@ class SelectLocationScreenState extends State<SelectLocationScreen> {
       );
     });
   }
+  void getCurrentLocations(BuildContext context,GoogleMapController controller ) async {
+    Position myPosition;
+    try {
+      Position newLocalData = await Geolocator.getCurrentPosition();
+      myPosition = newLocalData;
+    }catch(e) {
+      myPosition = Position(
+        latitude: double.parse('0'),
+        longitude: double.parse('0'),
+        timestamp: DateTime.now(), accuracy: 1, altitude: 1, heading: 1, speed: 1, speedAccuracy: 1, altitudeAccuracy: 1, headingAccuracy: 1,
+      );
+    }
+    // pickPosition = myPosition;
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(target: LatLng(myPosition.latitude, myPosition.longitude), zoom: 17),
+    ));
+      // Placemark myPlaceMark;
+
+  }
+
 }

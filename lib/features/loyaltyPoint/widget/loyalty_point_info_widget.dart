@@ -44,8 +44,8 @@ class LoyaltyPointInfoWidget extends StatelessWidget {
                           Image.asset(Images.loyaltyPointIcon,height: 20, width: 20),
                           const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
-                          Text('${(profile.userInfoModel != null && profile.userInfoModel!.loyaltyPoint != null) ?
-                          profile.userInfoModel!.loyaltyPoint?.toStringAsFixed(0) ?? 0 : 0}',
+                          Text('${(profile.userInfoModel != null) ?
+                          profile.userInfoModel!.loyaltyPoint.toStringAsFixed(0) : 0}',
                               style: robotoBold.copyWith(color: ColorResources.white,
                                   fontSize: Dimensions.fontSizeOverLarge)),
                           const SizedBox(height: Dimensions.paddingSizeExtraExtraSmall)]),

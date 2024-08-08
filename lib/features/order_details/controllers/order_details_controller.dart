@@ -170,17 +170,17 @@ class OrderDetailsController with ChangeNotifier {
 
 
   bool searching = false;
-  Future<ApiResponse> trackOrder({String? orderId, String? phoneNumber, bool isUpdate = true}) async {
+  Future<ApiResponse> trackOrder({String? orderId, bool isUpdate = true}) async {
     searching = true;
     if(isUpdate) {
       notifyListeners();
     }
 
-    ApiResponse apiResponse = await orderDetailsServiceInterface.trackOrder(orderId!, phoneNumber!);
+    ApiResponse apiResponse = await orderDetailsServiceInterface.trackOrder(orderId!, );
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       searching = false;
       _orderDetails = [];
-      apiResponse.response!.data.forEach((order) => _orderDetails!.add(OrderDetailsModel.fromJson(order)));
+      // _orderDetails!=OrderDetailsModel.fromJson(apiResponse.response!.data);
     } else {
       searching = false;
       ApiChecker.checkApi( apiResponse);

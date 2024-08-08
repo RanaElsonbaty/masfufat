@@ -47,7 +47,7 @@ class SplashController extends ChangeNotifier {
       // );
 
 
-      for(CurrencyList currencyList in _configModel!.currencyList!) {
+      for(CurrencyList currencyList in _configModel!.currencyList) {
         if(currencyList.id == _configModel!.systemDefaultCurrency) {
           if(currencyCode == null || currencyCode.isEmpty) {
             currencyCode = currencyList.code;
@@ -78,10 +78,10 @@ class SplashController extends ChangeNotifier {
   }
 
   void getCurrencyData(String? currencyCode) {
-    for (var currency in _configModel!.currencyList!) {
+    for (var currency in _configModel!.currencyList) {
       if(currencyCode == currency.code) {
         _myCurrency = currency;
-        _currencyIndex = _configModel!.currencyList!.indexOf(currency);
+        _currencyIndex = _configModel!.currencyList.indexOf(currency);
         continue;
       }
     }
@@ -89,8 +89,8 @@ class SplashController extends ChangeNotifier {
 
 
   void setCurrency(int index) {
-    splashServiceInterface!.setCurrency(_configModel!.currencyList![index].code!);
-    getCurrencyData(_configModel!.currencyList![index].code);
+    splashServiceInterface!.setCurrency(_configModel!.currencyList[index].code);
+    getCurrencyData(_configModel!.currencyList[index].code);
     notifyListeners();
   }
 

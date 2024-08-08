@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order/controllers/order_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +25,11 @@ class _OrderPageBuilderState extends State<OrderPageBuilder> {
       Provider.of<OrderController>(context, listen: false).setIndex(0,context, notify: false);
 
     });
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -57,7 +60,7 @@ class _OrderPageBuilderState extends State<OrderPageBuilder> {
                               getTranslated('Sync_order', context)!,
                               style: GoogleFonts.tajawal(
                                   fontSize: 16,
-                                  color:orderProvider.selectType==0? Colors.white:Colors.black
+                                  color:orderProvider.selectType==0? Colors.white:Theme.of(context).iconTheme.color
                               ),
                             ),
                           ),
@@ -82,7 +85,7 @@ class _OrderPageBuilderState extends State<OrderPageBuilder> {
                               getTranslated('my_direct_requests', context)!,
                               style: GoogleFonts.tajawal(
                                   fontSize: 16,
-                                  color:orderProvider.selectType==1? Colors.white:Colors.black
+                                  color:orderProvider.selectType==1? Colors.white:Theme.of(context).iconTheme.color
                               ),
                             ),
                           ),

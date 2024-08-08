@@ -7,13 +7,15 @@ import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'package:substring_highlight/substring_highlight.dart';
 
 class SearchSuggestion extends StatefulWidget{
   final bool fromCompare;
   final int? id;
-  const SearchSuggestion({super.key,  this.fromCompare = false, this.id});
+  final  PagingController? pagingController;
+  const SearchSuggestion({super.key,  this.fromCompare = false, this.id,  this.pagingController});
   @override
   State<SearchSuggestion> createState() => _SearchSuggestionState();
 }
@@ -59,11 +61,12 @@ class _SearchSuggestionState extends State<SearchSuggestion> {
                         final option = options.elementAt(index);
                         return InkWell(onTap: (){
                             if(widget.fromCompare){
-                              searchProvider.setSelectedProductId(index, widget.id);
-                              Navigator.of(context).pop();
+                              // searchProvider.setSelectedProductId(index, widget.id);
+                              // Navigator.of(context).pop();
                             }else{
-                              searchProvider.searchProduct(query : option.toString(), offset: 1);
-                              onSelected(option.toString());
+
+                              // searchProvider.searchProduct(query : option.toString(), offset: 1);
+                              // onSelected(option.toString());
                             }
                           },
                           child: Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
@@ -74,6 +77,7 @@ class _SearchSuggestionState extends State<SearchSuggestion> {
                                   padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                                   child: SubstringHighlight(
                                       text: option.toString(),
+
                                       textStyle: textRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5), fontSize: Dimensions.fontSizeLarge),
                                       term: searchProvider.searchController.text,
                                       textStyleHighlight:  textMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color, fontSize: Dimensions.fontSizeLarge),
@@ -102,6 +106,7 @@ class _SearchSuggestionState extends State<SearchSuggestion> {
                         textInputAction: TextInputAction.search,
                         onChanged: (val){
                           if(val.isNotEmpty){
+
                               // searchProvider.searchProduct(query: val, categoryIds: '',brandIds: '',priceMax: '',priceMin: '',sort: '',offset: 1);
 
                             // searchProvider.getSuggestionProductName(searchProvider.searchController.text.trim());
@@ -109,9 +114,12 @@ class _SearchSuggestionState extends State<SearchSuggestion> {
                         },
                         onFieldSubmitted: (value) {
                           if(controller.text.trim().isNotEmpty) {
-                            searchProvider.searchProduct(query: value, categoryIds: '',brandIds: '',priceMax: '',priceMin: '',sort: '',offset: 1);
+                            // searchProvider.searchProduct(query: value, categoryIds: '',brandIds: '',priceMax: '',priceMin: '',sort: '',offset: 1);
+                            try{
+                              widget.pagingController!.refresh();
 
-                          //   searchProvider.saveSearchAddress( controller.text.toString());
+                            } catch(e){}
+                            //   searchProvider.saveSearchAddress( controller.text.toString());
                           //   searchProvider.searchProduct(query : controller.text.toString(), offset: 1);
                           }else{
                             showCustomSnackBar(getTranslated('enter_somethings', context), context);
@@ -138,6 +146,10 @@ class _SearchSuggestionState extends State<SearchSuggestion> {
                                InkWell(onTap: (){
                                  setState(() {
                                    controller.clear();
+                                   try{
+                                     widget.pagingController!.refresh();
+
+                                   } catch(e){}
                                    searchProvider.cleanSearchProduct(notify: true);
                                  });
                                }, child: const Icon(Icons.clear, size: 20,)),
@@ -146,9 +158,12 @@ class _SearchSuggestionState extends State<SearchSuggestion> {
                                InkWell(onTap: (){
                                    if(controller.text.trim().isNotEmpty) {
                                      focusNode.unfocus();
-                                       searchProvider.saveSearchAddress( controller.text.toString());
-                                       searchProvider.searchProduct( query : controller.text.toString(), offset: 1);
+                                       // searchProvider.saveSearchAddress( controller.text.toString());
+                                       // searchProvider.searchProduct( query : controller.text.toString(), offset: 1);
+                                     try{
+                                       widget.pagingController!.refresh();
 
+                                     } catch(e){}
                                    }else{
                                      showCustomSnackBar(getTranslated('enter_somethings', context), context);
                                    }

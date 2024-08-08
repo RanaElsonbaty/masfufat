@@ -33,7 +33,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   @override
   void initState() {
     super.initState();
-    Provider.of<AuthController>(context, listen: false).setCountryCode(CountryCode.fromCountryCode(Provider.of<SplashController>(context, listen: false).configModel!.countryCode!).dialCode!, notify: false);
+    Provider.of<AuthController>(context, listen: false).setCountryCode(CountryCode.fromCountryCode(Provider.of<SplashController>(context, listen: false).configModel!.countryCode).dialCode!, notify: false);
   }
 
   @override

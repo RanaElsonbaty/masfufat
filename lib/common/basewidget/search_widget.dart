@@ -6,21 +6,23 @@ import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
 
 class SearchWidget extends StatefulWidget {
   final String? hintText;
   final int sellerId;
+  final PagingController pagingController ;
   const SearchWidget({super.key, required this.hintText,
-  required this.sellerId});
+  required this.sellerId, required this.pagingController});
 
   @override
   State<SearchWidget> createState() => _SearchWidgetState();
 }
 
 class _SearchWidgetState extends State<SearchWidget> {
-  final TextEditingController searchController = TextEditingController();
+  // final TextEditingController  searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,17 +46,20 @@ class _SearchWidgetState extends State<SearchWidget> {
                   vertical: Dimensions.paddingSizeExtraSmall,
                     horizontal: Dimensions.paddingSizeSmall),
 
-                child: TextFormField(controller: searchController,
+                child: TextFormField(controller: sellerProductController.searchController,
                     textInputAction: TextInputAction.search,
                     maxLines: 1,
                     textAlignVertical: TextAlignVertical.center,
                     onFieldSubmitted: (val){
-                      sellerProductController.getSellerProductList(widget.sellerId.toString(), 1, "", search: searchController.text.trim());
+
+                      widget.pagingController.refresh();
+
+                      // sellerProductController.getSellerProductList(widget.sellerId.toString(), 1, "", search: searchController.text.trim());
                     },
                     onChanged: (val){
-                  setState(() {
-
-                  });
+setState(() {
+  widget.pagingController.refresh();
+});
                     },
                     decoration: InputDecoration(
                       hintText: widget.hintText,
@@ -64,11 +69,13 @@ class _SearchWidgetState extends State<SearchWidget> {
                       suffixIconConstraints: const BoxConstraints(maxHeight: 25),
                       hintStyle: textRegular.copyWith(color: Theme.of(context).hintColor),
                       border: InputBorder.none,
-                      suffixIcon: searchController.text.isNotEmpty? InkWell(
+                      suffixIcon:sellerProductController.searchController.text.isNotEmpty? InkWell(
                         onTap: (){
                           setState(() {
-                            searchController.clear();
-                            sellerProductController.getSellerProductList(widget.sellerId.toString(), 1, "");
+                            sellerProductController.searchController.clear();
+                            widget.pagingController.refresh();
+
+                            // sellerProductController.getSellerProductList(widget.sellerId.toString(), 1, "");
 
                           });
 
@@ -85,11 +92,13 @@ class _SearchWidgetState extends State<SearchWidget> {
 
             InkWell(
               onTap:(){
-                if(searchController.text.trim().isEmpty){
+                if(sellerProductController.searchController.text.trim().isEmpty){
                   showCustomSnackBar(getTranslated('enter_somethings', context), context);
                 }
                 else{
-                  sellerProductController.getSellerProductList(widget.sellerId.toString(), 1, "", search: searchController.text.trim());
+
+                  widget.pagingController.refresh();
+                  // sellerProductController.getSellerProductList(widget.sellerId.toString(), 1, "",  searchController.text.trim());
 
                 }
               },

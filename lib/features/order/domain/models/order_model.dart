@@ -2,7 +2,6 @@
 //
 //     final orderModel = orderModelFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 List<OrderModel> orderModelFromJson(String str) => List<OrderModel>.from(json.decode(str).map((x) => OrderModel.fromJson(x)));
@@ -172,7 +171,7 @@ class OrderModel {
     shippingInfo: json["shipping_info"],
     history: json["history"],
     showShippingmethodForCustomer: json["show_shippingmethod_for_customer"],
-    shippingTax: json["shipping_tax"].toString()??'',
+    shippingTax: json["shipping_tax"].toString(),
     adminNote: json["admin_note"]??'',
     orderAttachments:json["order_attachments"].toString(),
     packageCount: json["package_count"],
@@ -308,17 +307,17 @@ class BillingAddressData {
     email: json["email"],
     addressType: json["address_type"],
     // address: addressValues.map[json["address"]],
-    city: json["city"].toString()??'',
+    city: json["city"].toString(),
     zip: json["zip"],
-    phone: json["phone"].toString()??'',
+    phone: json["phone"].toString(),
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
     state: json["state"]??'0',
     country: json["country"],
-    latitude:json["latitude"].toString()??'',
-    longitude: json["longitude"].toString()??'',
+    latitude:json["latitude"].toString(),
+    longitude: json["longitude"].toString(),
     isBilling: json["is_billing"],
-    areaId: json["area_id"].toString()??'',
+    areaId: json["area_id"].toString(),
     title:json["title"]??'',
     name:json["name"]??'',
     orderId: json["order_id"]??'',

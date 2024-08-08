@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/order/domain/models/order_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/order_details/screens/order_details_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/sync%20order/domain/models/Sync_order_model.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/date_converter.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/controllers/localization_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
-import 'package:provider/provider.dart';
 
 import '../screens/sync_orde_details.dart';
 
@@ -28,27 +20,14 @@ class SyncOrderWidget extends StatelessWidget {
     double orderAmount = 0;
 
     if(orderModel?.orderType == 'POS') {
-      double itemsPrice = 0;
-      double discount = 0;
-      double? eeDiscount = 0;
-      double tax = 0;
-      double coupon = 0;
-      double shipping = 0;
       // if (orderModel != null) {
-      coupon = orderModel?.discountAmount ?? 0;
-      shipping = orderModel?.shippingCost ?? 0;
       // for (var orderDetails in orderModel!) {
 
-      itemsPrice =  (orderModel!.orderAmount!);
-      discount =  orderModel!.discountAmount!;
-      tax = 0.00;
       //
       //   }
       if(orderModel!.orderType == 'POS'){
         if(orderModel!.extraDiscountType == 'percent'){
-          eeDiscount = itemsPrice * (orderModel!.extraDiscount!/100);
         }else{
-          eeDiscount = orderModel!.extraDiscount!;
         }
       }
       // }

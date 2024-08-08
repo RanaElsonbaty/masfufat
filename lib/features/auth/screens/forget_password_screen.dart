@@ -35,7 +35,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   @override
   void initState() {
     _countryDialCode = CountryCode.fromCountryCode(
-        Provider.of<SplashController>(context, listen: false).configModel!.countryCode!).dialCode;
+        Provider.of<SplashController>(context, listen: false).configModel!.countryCode).dialCode;
     super.initState();
   }
 

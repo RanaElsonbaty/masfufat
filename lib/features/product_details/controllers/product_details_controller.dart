@@ -2,13 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/controllers/seller_product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/domain/models/product_details_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/domain/services/product_details_service_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
-import 'package:provider/provider.dart';
 
 class ProductDetailsController extends ChangeNotifier {
   final ProductDetailsServiceInterface productDetailsServiceInterface;
@@ -47,11 +45,12 @@ class ProductDetailsController extends ChangeNotifier {
     ApiResponse apiResponse = await productDetailsServiceInterface.get(productId);
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       _isDetails = false;
+      print('asdasdasdasdasdasd----> ${apiResponse.response!.data}');
       _productDetailsModel = ProductDetailsModel.fromJson(apiResponse.response!.data);
       if(_productDetailsModel != null){
         log("=====slug===>$slug/ $productId");
-        Provider.of<SellerProductController>(Get.context!, listen: false).
-        getSellerProductList(_productDetailsModel?.addedBy == 'admin' ? '0' : productDetailsModel!.userId.toString(), 1, productId, reload: true);
+        // Provider.of<SellerProductController>(Get.context!, listen: false).
+        // getSellerProductList(_productDetailsModel?.addedBy == 'admin' ? '0' : productDetailsModel!.userId.toString(), 1, productId, reload: true);
       }
     } else {
       _isDetails = false;

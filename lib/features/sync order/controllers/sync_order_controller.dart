@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../domain/models/Sync_order_model.dart';
+import '../domain/models/sync_order_details.dart';
 import '../domain/services/sync_order_service_interface.dart';
 
 
@@ -51,8 +52,8 @@ class SyncOrderController with ChangeNotifier {
     }
   }
 
-  SyncOrderModel? _syncOrderDetails;
-  SyncOrderModel? get syncOrderDetails=>_syncOrderDetails;
+  SyncOrderDetailsModel? _syncOrderDetails;
+  SyncOrderDetailsModel? get syncOrderDetails=>_syncOrderDetails;
   bool _isDetailsLoading=false;
   bool get isDetailsLoading=>_isDetailsLoading;
   Future getOrderDetailsList(String id) async {
@@ -60,7 +61,7 @@ class SyncOrderController with ChangeNotifier {
     _syncOrderDetails=null;
     ApiResponse apiResponse = await syncOrderServiceInterface.getOrderDeteilsList(id);
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-  _syncOrderDetails=SyncOrderModel.fromJson(apiResponse.response!.data);
+  _syncOrderDetails=SyncOrderDetailsModel.fromJson(apiResponse.response!.data);
 
     _isDetailsLoading=false;
       notifyListeners();
@@ -72,6 +73,48 @@ class SyncOrderController with ChangeNotifier {
 
 
     }
+  }
+  bool _paymentLoading=false;
+  bool get paymentLoading=>_paymentLoading;
+  void getLoading(bool val){
+    _paymentLoading =val;
+    notifyListeners();
+  }
+  Future<ApiResponse> placeSyncWalletOrder(String id) async {
+    _isDetailsLoading=true;
+    _syncOrderDetails=null;
+    ApiResponse apiResponse = await syncOrderServiceInterface.placeSyncWalletOrder(id);
+    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+
+      notifyListeners();
+      return ApiResponse.withSuccess(apiResponse.response!);
+    } else  {
+    return ApiResponse.withError(apiResponse.error);
+
+
+    }
+  }Future<ApiResponse> placeBankTransferOrder(String id,) async {
+    _isDetailsLoading=true;
+    _syncOrderDetails=null;
+    ApiResponse apiResponse = await syncOrderServiceInterface.placeBankTransferOrder(id,'delayed');
+    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+
+      notifyListeners();
+      return ApiResponse.withSuccess(apiResponse.response!);
+    } else  {
+    return ApiResponse.withError(apiResponse.error);
+
+
+    }
+  }
+  int _userTypeIndex = 0;
+
+  int get userTypeIndex => _userTypeIndex;
+
+  void setUserTypeIndex(BuildContext context, int index) {
+    _userTypeIndex = index;
+    // getChatList(context, 1);
+    notifyListeners();
   }
 
 }

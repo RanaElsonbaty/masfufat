@@ -3,7 +3,7 @@ import 'package:image_picker/image_picker.dart';
 
 abstract class SupportTicketServiceInterface{
 
-  Future<dynamic> createNewSupportTicket(SupportTicketBody supportTicketModel, List<XFile?> file);
+  Future<dynamic> createNewSupportTicket(SupportTicketBody supportTicketModel, );
 
   Future<dynamic> getSupportReplyList(String ticketID);
 

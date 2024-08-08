@@ -115,6 +115,7 @@ class LatestProductWidget extends StatelessWidget {
 
 
             Positioned(top: 10, right: 10, child: FavouriteButtonWidget(
+
               backgroundColor: ColorResources.getImageBg(context),
               productId: productModel.id)),
 

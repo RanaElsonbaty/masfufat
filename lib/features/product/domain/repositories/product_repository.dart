@@ -43,13 +43,13 @@ class ProductRepository implements ProductRepositoryInterface{
 
 
   @override
-  Future<ApiResponse> getBrandOrCategoryProductList(bool isBrand, String id,int offset,bool reloud) async {
+  Future<ApiResponse> getBrandOrCategoryProductList(bool isBrand, String id,int offset,bool reloud,String search,String syncFilter,String filter,String price) async {
     try {
       String uri;
       if(isBrand){
-        uri = '${AppConstants.brandProductUri}$id?page=$offset';
+        uri = '${AppConstants.categoryProductUri}?brand=$id&page=$offset${search.isNotEmpty?'&search=$search':''}${price!='&from_price=0.0&to_price=0.0'?price:''}${syncFilter.isNotEmpty?'&product_type=$syncFilter':''}${filter.isNotEmpty?'&order_by=$filter':""}';
       }else {
-        uri = '${AppConstants.categoryProductUri}?category=$id&page=$offset';
+        uri = '${AppConstants.categoryProductUri}?category=$id&page=$offset${search.isNotEmpty?'&search=$search':''}${price!='&from_price=0.0&to_price=0.0'?price:''}${syncFilter.isNotEmpty?'&product_type=$syncFilter':''}${filter.isNotEmpty?'&order_by=$filter':""}';
       }
       final response = await dioClient!.get(uri);
       return ApiResponse.withSuccess(response);

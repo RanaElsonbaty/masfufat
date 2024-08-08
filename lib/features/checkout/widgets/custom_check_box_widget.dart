@@ -49,7 +49,7 @@ class CustomCheckBoxWidget extends StatelessWidget {
                               : Theme.of(context).primaryColor.withOpacity(.25),
                     ),
                     child: Checkbox(
-                        visualDensity: VisualDensity.compact,
+                          visualDensity: VisualDensity.compact,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
                                 Dimensions.paddingSizeExtraLarge)),

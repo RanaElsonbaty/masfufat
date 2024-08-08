@@ -28,7 +28,7 @@ class _SelectTypeSectionState extends State<SelectTypeSection> {
             height: 65,
             decoration: BoxDecoration(
               // color: Colors.black,
-              color: myShopProvider.selectIndex==widget.index?Theme.of(context).primaryColor:Colors.white,
+              color: myShopProvider.selectIndex==widget.index?Theme.of(context).primaryColor:Theme.of(context).cardColor,
               border: Border.all(width: .8,color: Colors.grey),
               borderRadius: BorderRadius.circular(12)
             ),
@@ -45,7 +45,7 @@ class _SelectTypeSectionState extends State<SelectTypeSection> {
                   style: GoogleFonts.tajawal(
                   fontSize: 15
                       ,
-                    color: myShopProvider.selectIndex==widget.index?Colors.white:Colors.black,
+                    color: myShopProvider.selectIndex==widget.index?Colors.white:Theme.of(context).iconTheme.color,
                     fontWeight: FontWeight.w700
                 ),),
                   widget.subTitle!=''? Text("${getTranslated(widget.subTitle, context)}",
@@ -54,7 +54,7 @@ class _SelectTypeSectionState extends State<SelectTypeSection> {
 
                   style: GoogleFonts.tajawal(
                     fontSize: 11,
-                      color: myShopProvider.selectIndex==widget.index?Colors.white:Colors.black,
+                      color: myShopProvider.selectIndex==widget.index?Colors.white:Theme.of(context).iconTheme.color,
 
                       fontWeight: FontWeight.w500
 

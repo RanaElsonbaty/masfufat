@@ -17,7 +17,6 @@ import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:async';
-import 'package:http/http.dart' as http;
 import 'package:open_file_plus/open_file_plus.dart';
 
 enum SenderType {
@@ -231,19 +230,19 @@ class ChatController extends ChangeNotifier {
 
 
 
-  Future<http.StreamedResponse> sendMessage(MessageBody messageBody,{int? userType}) async {
+  Future<ApiResponse> sendMessage(MessageBody messageBody,{int? userType}) async {
     _isLoading = true;
     notifyListeners();
-    http.StreamedResponse response = await chatServiceInterface!.sendMessage(messageBody, userType != null ? userType == 0 ? 'delivery-man' : 'seller' : _userTypeIndex == 0? 'delivery-man' : 'seller', pickedImageFileStored ?? [], objFile ?? []);
+    ApiResponse response = await chatServiceInterface!.sendMessage(messageBody, userType != null ? userType == 0 ? 'delivery-man' : 'seller' : _userTypeIndex == 0? 'delivery-man' : 'seller', pickedImageFileStored ?? [], objFile ?? []);
 
-    if (response.statusCode == 200) {
+    // if (response.response!.statusCode == 200) {
       getMessageList(Get.context!, messageBody.id, 1, reload: false, userType: userType);
       _pickedImageFiles = [];
       pickedImageFileStored = [];
       _isLoading = false;
-    } else {
-      _isLoading = false;
-    }
+    // } else {
+    //   _isLoading = false;
+    // }
     _pickedImageFiles = [];
     pickedImageFileStored = [];
     objFile = [];

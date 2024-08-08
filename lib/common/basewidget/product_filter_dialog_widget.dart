@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_loader_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/controllers/seller_product_controller.dart';
@@ -11,13 +10,15 @@ import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
 class ProductFilterDialog extends StatefulWidget {
   final int? sellerId;
   final bool fromShop;
-  const ProductFilterDialog({super.key, this.sellerId,  this.fromShop = true});
+  final PagingController ?pagingController;
+
+  const ProductFilterDialog({super.key, this.sellerId,  this.fromShop = true,  this.pagingController});
 
   @override
   ProductFilterDialogState createState() => ProductFilterDialogState();
@@ -68,7 +69,8 @@ class ProductFilterDialogState extends State<ProductFilterDialog> {
                         Text(getTranslated('filter', context)??'', style: titilliumSemiBold.copyWith(fontSize: Dimensions.fontSizeLarge)),
 
 
-                       (categoryProvider.selectedCategoryIds.isNotEmpty || brandProvider.selectedBrandIds.isNotEmpty) ? InkWell(
+                       (categoryProvider.selectedCategoryIds.isNotEmpty || brandProvider.selectedBrandIds.isNotEmpty) ?
+                       InkWell(
                           onTap: () async {
                             showDialog(context: context, builder: (ctx)  => const CustomLoaderWidget());
                             await categoryProvider.resetChecked(widget.fromShop?widget.sellerId!: null, widget.fromShop);
@@ -113,9 +115,9 @@ class ProductFilterDialogState extends State<ProductFilterDialog> {
                                     return Column(children: [
 
                                       CategoryFilterItem(title: categoryProvider.categoryList[index].name,
-                                          checked: false,
+                                          checked:categoryProvider.isBrand==false&& categoryProvider.selectId==categoryProvider.categoryList[index].id.toString(),
                                           // categoryProvider.categoryList[index].isSelected!,
-                                          onTap: () => categoryProvider.checkedToggleCategory(index)),
+                                          onTap: () => categoryProvider.checkedToggleCategory(categoryProvider.categoryList[index].id,false)),
                                       // if(categoryProvider.categoryList[index].isSelected!)
                                       //   Padding(padding: const EdgeInsets.only(left: Dimensions.paddingSizeExtraLarge),
                                       //     child: ListView.builder(itemCount: categoryProvider.categoryList[index].subCategories?.length??0,
@@ -146,8 +148,9 @@ class ProductFilterDialogState extends State<ProductFilterDialog> {
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemBuilder: (context, index){
                                     return CategoryFilterItem(title: brandProvider.brandList[index].name,
-                                        checked:false,
-                                        onTap: () => brandProvider.checkedToggleBrand(index));
+                                        checked:categoryProvider.isBrand==true&&categoryProvider.selectId==brandProvider.brandList[index].id.toString(),
+                                        onTap: () => categoryProvider.checkedToggleCategory(brandProvider.brandList[index].id,true),
+                                    );
                                   }),
 
 
@@ -159,32 +162,34 @@ class ProductFilterDialogState extends State<ProductFilterDialog> {
                     Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                       child: CustomButton(
                         buttonText: getTranslated('apply', context),
-                        onTap: brandProvider.selectedBrandIds.isEmpty && categoryProvider.selectedCategoryIds.isEmpty ? null : () {
+                        onTap:
+                        () {
                           searchProvider.setFilterApply(isFiltered: true);
-                          List<int> selectedBrandIdsList =[];
-                          List<int> selectedCategoryIdsList =[];
+                          // List<int> selectedBrandIdsList =[];
+                          // List<int> selectedCategoryIdsList =[];
 
-
-                          if(selectedCategoryIdsList.isEmpty && selectedBrandIdsList.isEmpty){
-                            showCustomSnackBar('${getTranslated('select_brand_or_category_first', context)}', context, isToaster: true);
-                          }else{
-                            String selectedCategoryId = selectedCategoryIdsList.isNotEmpty? jsonEncode(selectedCategoryIdsList) : '[]';
-                            String selectedBrandId = selectedBrandIdsList.isNotEmpty? jsonEncode(selectedBrandIdsList) : '[]';
-                            if(widget.fromShop){
-                              productController.getSellerProductList(widget.sellerId.toString(), 1, "",categoryIds: selectedCategoryId, brandIds: selectedBrandId).then((value) {
+widget.pagingController!.refresh();
+                          // if(selectedCategoryIdsList.isEmpty && selectedBrandIdsList.isEmpty){
+                          //   showCustomSnackBar('${getTranslated('select_brand_or_category_first', context)}', context, isToaster: true);
+                          // }else{
+                          //   String selectedCategoryId = selectedCategoryIdsList.isNotEmpty? jsonEncode(selectedCategoryIdsList) : '[]';
+                          //   String selectedBrandId = selectedBrandIdsList.isNotEmpty? jsonEncode(selectedBrandIdsList) : '[]';
+                          //   if(widget.fromShop){
+                          //     productController.getSellerProductList(widget.sellerId.toString(), 1, "",categoryIds: selectedCategoryId, brandIds: selectedBrandId).then((value) {
                                 // if(value.response?.statusCode == 200){
                                 //   Navigator.pop(context);
                                 // }
-                              });
-                            }else{
-                              searchProvider.searchProduct(query : searchProvider.searchController.text.toString(),
-                                  offset: 1, brandIds: selectedBrandId, categoryIds: selectedCategoryId, sort: searchProvider.sortText,
-                                  priceMin: searchProvider.minPriceForFilter.toString(), priceMax: searchProvider.maxPriceForFilter.toString());
+                              // });
+                              // widget.
+                            // }else{
+                            //   searchProvider.searchProduct(query : searchProvider.searchController.text.toString(),
+                            //       offset: 1, brandIds: selectedBrandId, categoryIds: selectedCategoryId, sort: searchProvider.sortText,
+                            //       priceMin: searchProvider.minPriceForFilter.toString(), priceMax: searchProvider.maxPriceForFilter.toString());
                               Navigator.pop(context);
-                            }
+                            // }
 
 
-                          }
+                          // }
 
                         },
                       ),

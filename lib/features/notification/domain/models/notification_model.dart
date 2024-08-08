@@ -1,4 +1,3 @@
-import 'package:flutter_sixvalley_ecommerce/data/model/image_full_url.dart';
 
 // class NotificationItemModel {
   // ignore_for_file: non_constant_identifier_names
@@ -26,15 +25,15 @@ import 'package:flutter_sixvalley_ecommerce/data/model/image_full_url.dart';
   String? updatedAt,
   String? seen_by,
   List<dynamic>? seen}) {
-  this._id = id;
-  this._ticketId = ticketId;
-  this._title = title;
-  this._description = description;
-  this._image = image;
-  this._status = status;
-  this._createdAt = createdAt;
-  this._updatedAt = updatedAt;
-  this._seen = seen;
+  _id = id;
+  _ticketId = ticketId;
+  _title = title;
+  _description = description;
+  _image = image;
+  _status = status;
+  _createdAt = createdAt;
+  _updatedAt = updatedAt;
+  _seen = seen;
   this.seen_by;
   }
 
@@ -67,16 +66,16 @@ import 'package:flutter_sixvalley_ecommerce/data/model/image_full_url.dart';
   }
 
   Map<String, dynamic> toJson() {
-  final Map<String, dynamic> data = new Map<String, dynamic>();
-  data['id'] = this._id;
-  data['title'] = this._title;
-  data['description'] = this._description;
-  data['image'] = this._image;
-  data['status'] = this._status;
-  data['created_at'] = this._createdAt;
-  data['updated_at'] = this._updatedAt;
-  data['seen'] = this._seen;
-  data['ticket_id'] = this._ticketId;
+  final Map<String, dynamic> data = <String, dynamic>{};
+  data['id'] = _id;
+  data['title'] = _title;
+  data['description'] = _description;
+  data['image'] = _image;
+  data['status'] = _status;
+  data['created_at'] = _createdAt;
+  data['updated_at'] = _updatedAt;
+  data['seen'] = _seen;
+  data['ticket_id'] = _ticketId;
   return data;
   }
   }

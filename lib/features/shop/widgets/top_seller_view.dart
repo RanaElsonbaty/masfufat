@@ -30,9 +30,9 @@ class _TopSellerViewState extends State<TopSellerView> {
               scrollDirection: widget.isHomePage? Axis.horizontal : Axis.vertical,
               physics: const AlwaysScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
-                return SizedBox(width: 250,
+                return topSellerProvider.sellerModel?[index].seller!.showSellersSection==1?SizedBox(width: 250,
                   child: SellerCard(sellerModel: topSellerProvider.sellerModel?[index], isHomePage: widget.isHomePage,
-                      index: index,length: topSellerProvider.sellerModel?.length ?? 0));
+                      index: index,length: topSellerProvider.sellerModel?.length ?? 0)):const SizedBox();
               },
             ) : const SizedBox():const TopSellerShimmer();
 
@@ -54,8 +54,8 @@ class _TopSellerViewState extends State<TopSellerView> {
               scrollDirection: widget.isHomePage? Axis.horizontal : Axis.vertical,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
-                return SellerCard(sellerModel: topSellerProvider.sellerModel?[index], isHomePage: widget.isHomePage,
-                    index: index,length: topSellerProvider.sellerModel?.length??0);
+                return topSellerProvider.sellerModel?[index].seller!.showSellersSection==1 ?SellerCard(sellerModel: topSellerProvider.sellerModel?[index], isHomePage: widget.isHomePage,
+                    index: index,length: topSellerProvider.sellerModel?.length??0):const SizedBox();
               },
             ),
           ),

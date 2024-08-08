@@ -57,15 +57,37 @@ class SearchProductController with ChangeNotifier {
     if(index == 0){
       sortText = 'latest';
     }else if(index == 1){
-      sortText = 'a-z';
-    }else if(index == 2){
-      sortText = 'z-a';
-    }
-    else if(index == 3){
       sortText = 'low-high';
-    }else if(index ==4){
+    }else if(index == 2){
       sortText = 'high-low';
+    }else if(index == 3){
+      sortText = 'q-low-high';
+    }else if(index ==4){
+      sortText = 'q-high-low';
+    }else if(index ==5){
+      sortText = 'most-favorite';
+    }else if(index ==6){
+      sortText = 'featured';
+    }else if(index ==7){
+      sortText = 'featured_deal';
     }
+    notifyListeners();
+  }
+  int _syncFilterIndex = 0;
+
+  int get syncFilterIndex => _syncFilterIndex;
+  String syncSortText = '';
+
+  void setSyncFilterIndex(int index) {
+    _syncFilterIndex = index;
+    if(index == 0){
+      syncSortText = '';
+    }else if(index == 1){
+      syncSortText = 'not-linked';
+    }else if(index == 2){
+      syncSortText = 'linked';
+    }
+
     notifyListeners();
   }
 
@@ -98,20 +120,21 @@ class SearchProductController with ChangeNotifier {
 
 
   List<Product>? searchedProduct;
-  Future searchProduct({required String query, String? categoryIds, String? brandIds, String? sort, String? priceMin, String? priceMax, required int offset}) async {
+  Future<List<Product>> searchProduct({required String query,bool?brand,  String? categoryIds, String? brandIds, String? sort, String? priceMin, String? priceMax, required int offset,String ?syncFilter}) async {
     searchController.text = query;
     if(offset == 1) {
       _isLoading = true;
       notifyListeners();
     }
 
-    ApiResponse apiResponse = await searchProductServiceInterface!.getSearchProductList(query, categoryIds, brandIds, sort, priceMin, priceMax, offset);
+    ApiResponse apiResponse = await searchProductServiceInterface!.getSearchProductList(query,brand, categoryIds, brandIds, sort, priceMin, priceMax, offset,syncFilter);
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       // if(offset == 1){
         searchedProduct = [];
         apiResponse.response!.data['products']['data'].forEach((product){
           searchedProduct!.add(Product.fromJson(product));
         });
+        return searchedProduct!;
         // if(ProductModel.fromJson(apiResponse.response!.data).products != null){
         //   searchedProduct = );
         //   if(searchedProduct?.minPrice != null){
@@ -133,9 +156,12 @@ class SearchProductController with ChangeNotifier {
         // }
       // }
     } else {
+
       ApiChecker.checkApi( apiResponse);
-    }
-    notifyListeners();
+      notifyListeners();
+
+      return []
+;    }
   }
 
 

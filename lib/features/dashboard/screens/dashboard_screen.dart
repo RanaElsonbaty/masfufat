@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/screens/cart_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/chat/controllers/chat_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/dashboard/models/navigation_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/dashboard/widgets/dashboard_menu_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/deal/controllers/flash_deal_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/wishlist/controllers/wishlist_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/network_info.dart';
-import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/features/dashboard/widgets/app_exit_card_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/chat/screens/inbox_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
-import 'package:flutter_sixvalley_ecommerce/features/home/screens/aster_theme_home_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/home/screens/fashion_theme_home_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/home/screens/home_screens.dart';
 import 'package:flutter_sixvalley_ecommerce/features/more/screens/more_screen_view.dart';
-import 'package:flutter_sixvalley_ecommerce/features/order/screens/order_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../my shop/screen/my_shop_screen.dart';
@@ -44,19 +36,19 @@ class DashBoardScreenState extends State<DashBoardScreen> {
   void initState() {
     super.initState();
 
-    if(Provider.of<AuthController>(context, listen: false).isLoggedIn()) {
-      Provider.of<WishListController>(context, listen: false).getWishList();
-      Provider.of<ChatController>(context, listen: false).getChatList(1, reload: false, userType: 0);
-      Provider.of<ChatController>(context, listen: false).getChatList(1, reload: false, userType: 1);
-    }
-
-    final SplashController splashController = Provider.of<SplashController>(context, listen: false);
-    singleVendor = splashController.configModel?.businessMode == "single";
-    Provider.of<FlashDealController>(context, listen: false).getFlashDealList(true, true);
+    // if(Provider.of<AuthController>(context, listen: false).isLoggedIn()) {
+    //   Provider.of<WishListController>(context, listen: false).getWishList();
+    //   Provider.of<ChatController>(context, listen: false).getChatList(1, reload: false, userType: 0);
+    //   Provider.of<ChatController>(context, listen: false).getChatList(1, reload: false, userType: 1);
+    // }
+    //
+    // final SplashController splashController = Provider.of<SplashController>(context, listen: false);
+    // singleVendor = splashController.configModel?.businessMode == "single";
+    // Provider.of<FlashDealController>(context, listen: false).getFlashDealList(true, true);
 
 
     // if(splashController.configModel!.activeTheme == "default") {
-      HomePage.loadData(false);
+    //   HomePage.loadData(false);
     // }else if(splashController.configModel!.activeTheme == "theme_aster") {
     //   AsterThemeHomeScreen.loadData(false);
     // }else{
@@ -68,11 +60,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
           name: 'Home',
           icon: Images.homeImage,
           screen:
-            // (splashController.configModel!.activeTheme == "default")
-          //     ?
     const HomePage()
-    // : (splashController.configModel!.activeTheme == "theme_aster")
-              // ? const AsterThemeHomeScreen(): const FashionThemeHomePage(),
         ),
 
         NavigationModel(name: 'my_store', icon: Images.shopImage, screen: const MyShopScreen()),

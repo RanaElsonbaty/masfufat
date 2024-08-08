@@ -61,13 +61,13 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
 
               String? colorWiseSelectedImage = '';
 
-              if(widget.product != null && widget.product!.colorImagesFullUrl != null && widget.product!.colorImagesFullUrl!.isNotEmpty){
-                for(int i=0; i< widget.product!.colorImagesFullUrl!.length; i++){
-                  if(widget.product!.colorImagesFullUrl![i].color == '${widget.product!.colors?[details.variantIndex??0].code?.substring(1, 7)}'){
-                    colorWiseSelectedImage = widget.product!.colorImagesFullUrl![i].imageName?.path;
-                  }
-                }
-              }
+              // if(widget.product != null && widget.product!.colorImagesFullUrl != null && widget.product!.colorImagesFullUrl!.isNotEmpty){
+              //   for(int i=0; i< widget.product!.colorImagesFullUrl!.length; i++){
+              //     if(widget.product!.colorImagesFullUrl![i].color == '${widget.product!.colors?[details.variantIndex??0].code?.substring(1, 7)}'){
+              //       colorWiseSelectedImage = widget.product!.colorImagesFullUrl![i].imageName?.path;
+              //     }
+              //   }
+              // }
 
 
 
@@ -98,13 +98,13 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                 }
               }
 
-              if(widget.product?.digitalProductExtensions != null){
-                widget.product?.digitalProductExtensions?.keys.forEach((key) {
-                  variationFileType.add(key);
-                  extentions.add(widget.product?.digitalProductExtensions?[key]);
-                }
-                );
-              }
+              // if(widget.product?.digitalProductExtensions != null){
+              //   widget.product?.digitalProductExtensions?.keys.forEach((key) {
+              //     variationFileType.add(key);
+              //     extentions.add(widget.product?.digitalProductExtensions?[key]);
+              //   }
+              //   );
+              // }
 
               double? price = widget.product!.unitPrice;
               int? stock = widget.product!.currentStock;
@@ -120,11 +120,11 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
 
               if(variationFileType.isNotEmpty && extentions.isNotEmpty) {
                 variantKey = '${variationFileType[details.digitalVariationIndex!]}-${extentions[details.digitalVariationIndex!][details.digitalVariationSubindex!]}';
-                for (int i=0; i<widget.product!.digitalVariation!.length; i++) {
-                  if(widget.product!.digitalVariation?[i].variantKey == variantKey){
-                    price = double.tryParse(widget.product!.digitalVariation![i].price.toString());
-                  }
-                }
+                // for (int i=0; i<widget.product!.digitalVariation!.length; i++) {
+                //   if(widget.product!.digitalVariation?[i].variantKey == variantKey){
+                //     price = double.tryParse(widget.product!.digitalVariation![i].price.toString());
+                //   }
+                // }
               }
               digitalVariantPrice = variantKey != null ? price : null;
 
@@ -173,7 +173,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                                   child: ClipRRect(borderRadius: BorderRadius.circular(5),
                                       child: CustomImageWidget(image: (widget.product!.colors != null && widget.product!.colors!.isNotEmpty &&
                                           widget.product!.images != null && widget.product!.images!.isNotEmpty) ?
-                                      '$colorWiseSelectedImage':
+                                      colorWiseSelectedImage:
                                           widget.product!.images!.first))),
 
                               widget.product!.discount! > 0 ?
@@ -463,7 +463,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                             buttonText: getTranslated(stock == 0 && widget.product!.productType == "physical"?
                         'out_of_stock' : 'add_to_cart', context),
                             onTap: () {
-                              if( stock! < widget.product!.minimumOrderQty!  &&  widget.product!.productType == "physical" ){
+                              if( stock < widget.product!.minimumOrderQty!  &&  widget.product!.productType == "physical" ){
                                 showCustomSnackBar(getTranslated('out_of_stock', context), context);
                               } else if(stock >= widget.product!.minimumOrderQty!  || widget.product!.productType == "digital") {
                                 Provider.of<CartController>(context, listen: false).addToCartAPI(

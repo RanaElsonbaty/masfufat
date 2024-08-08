@@ -1,5 +1,4 @@
 import 'package:flutter_sixvalley_ecommerce/data/model/image_full_url.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product_details/domain/models/product_details_model.dart';
 
 
 
@@ -244,7 +243,7 @@ class Products {
   String? code;
   int? isShopTemporaryClose;
   ThumbnailFullUrl? thumbnailFullUrl;
-  List<ColorImagesFullUrl>? colorImagesFullUrl;
+  // List<ColorImagesFullUrl>? colorImagesFullUrl;
   ThumbnailFullUrl? metaImageFullUrl;
   List<ImageFullUrl>? imagesFullUrl;
   ThumbnailFullUrl? digitalFileReadyFullUrl;
@@ -313,7 +312,7 @@ class Products {
         this.code,
         this.isShopTemporaryClose,
         this.thumbnailFullUrl,
-        this.colorImagesFullUrl,
+        // this.colorImagesFullUrl,
         this.metaImageFullUrl,
         this.imagesFullUrl,
         this.digitalFileReadyFullUrl,
@@ -384,10 +383,10 @@ class Products {
         ? ThumbnailFullUrl.fromJson(json['thumbnail_full_url'])
         : null;
     if (json['color_images_full_url'] != null) {
-      colorImagesFullUrl = <ColorImagesFullUrl>[];
-      json['color_images_full_url'].forEach((v) {
-        colorImagesFullUrl!.add(ColorImagesFullUrl.fromJson(v));
-      });
+      // colorImagesFullUrl = <ColorImagesFullUrl>[];
+      // json['color_images_full_url'].forEach((v) {
+      //   colorImagesFullUrl!.add(ColorImagesFullUrl.fromJson(v));
+      // });
     }
     metaImageFullUrl = json['meta_image_full_url'] != null
         ? ThumbnailFullUrl.fromJson(json['meta_image_full_url'])
@@ -480,10 +479,10 @@ class Products {
     if (thumbnailFullUrl != null) {
       data['thumbnail_full_url'] = thumbnailFullUrl!.toJson();
     }
-    if (colorImagesFullUrl != null) {
-      data['color_images_full_url'] =
-          colorImagesFullUrl!.map((v) => v.toJson()).toList();
-    }
+    // if (colorImagesFullUrl != null) {
+      // data['color_images_full_url'] =
+          // colorImagesFullUrl!.map((v) => v.toJson()).toList();
+    // }
     if (metaImageFullUrl != null) {
       data['meta_image_full_url'] = metaImageFullUrl!.toJson();
     }

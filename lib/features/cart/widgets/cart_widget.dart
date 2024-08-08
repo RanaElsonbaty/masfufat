@@ -1,13 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_loader_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/domain/models/cart_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/widgets/cart_quantity_button_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/controllers/localization_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/controllers/cart_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
@@ -83,7 +80,7 @@ class CartWidget extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
                                   border: Border.all(color: Theme.of(context).primaryColor.withOpacity(.10),width: 0.5)),
                                   child: ClipRRect(borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
-                                      child: CustomImageWidget(image: '${cartModel?.productInfo?.thumbnailFullUrl?.path}',
+                                      child: CustomImageWidget(image: '${cartModel?.product!.imagesFullUrl}',
                                           height: 70, width: 70))),
                               if(cartModel!.isProductAvailable! == 0)
                                 Container(decoration: BoxDecoration(

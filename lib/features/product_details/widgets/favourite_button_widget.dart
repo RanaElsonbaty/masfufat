@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 class FavouriteButtonWidget extends StatelessWidget {
   final Color backgroundColor;
   final int? productId;
-  const FavouriteButtonWidget({super.key, this.backgroundColor = Colors.black, this.productId});
+  const FavouriteButtonWidget({super.key, this.backgroundColor = Colors.black, this.productId, });
   @override
   Widget build(BuildContext context) {
     bool isGuestMode = !Provider.of<AuthController>(context, listen: false).isLoggedIn();
@@ -22,9 +22,12 @@ class FavouriteButtonWidget extends StatelessWidget {
              showModalBottomSheet(backgroundColor: Colors.transparent,
                  context: context, builder: (_)=> const NotLoggedInBottomSheetWidget());
             } else {
+
               wishProvider.addedIntoWish.contains(productId)?
+
               wishProvider.removeWishList(productId,) :
               wishProvider.addWishList(productId);
+
             }
           },
           child: Container(

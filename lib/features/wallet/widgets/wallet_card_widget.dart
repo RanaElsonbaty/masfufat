@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wallet/controllers/wallet_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wallet/widgets/add_fund_dialogue_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
@@ -8,6 +7,9 @@ import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:provider/provider.dart';
+
+import '../../checkout/controllers/checkout_controller.dart';
+import '../../payment /controller/payment_controller.dart';
 
 class WalletCardWidget extends StatelessWidget {
   const WalletCardWidget({super.key, required this.tooltipController, required this.focusNode,
@@ -52,16 +54,20 @@ class WalletCardWidget extends StatelessWidget {
             ),
           ),
           // if(Provider.of<SplashController>(context, listen: false).configModel?.addFundsToWallet == 1)
-          Expanded(child: InkWell(onTap: () {
-                showDialog(context: context, builder: (BuildContext context) {
-                  return AddFundDialogueWidget(focusNode: focusNode, inputAmountController: inputAmountController);
-                });
-              },
-              child: Container(decoration: (const BoxDecoration(color: Colors.white, shape: BoxShape.circle)),
-                padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
-                child: Icon(Icons.add, color: Theme.of(context).primaryColor, size: 20)),
-            ),
+          Expanded(child: Consumer<PaymentController>(builder:(context, value, child) =>  Consumer<CheckoutController>(builder:   (context, value, child) =>
+             InkWell(onTap: () {
+                  showDialog(context: context, builder: (BuildContext context) {
+                    return AddFundDialogueWidget(focusNode: focusNode, inputAmountController: inputAmountController);
+                  });
+                },
+                child: Container(decoration: (const BoxDecoration(color: Colors.white, shape: BoxShape.circle)),
+                  padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
+                  child: Icon(Icons.add, color: Theme.of(context).primaryColor, size: 20)),
+              ),
+      ),
+      ),
           ),
+
         ],
       );
     });

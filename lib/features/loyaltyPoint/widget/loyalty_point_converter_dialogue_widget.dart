@@ -121,7 +121,7 @@ class _LoyaltyPointConverterDialogueWidgetState extends State<LoyaltyPointConver
                         isBorder: true,
                         onTap: (){
                           int point = int.parse(_convertPointAmountController.text.trim());
-                          if(point < min!){
+                          if(point < min){
                             Navigator.pop(context);
                             showCustomSnackBar('${getTranslated('minimum_point_is', context)!} $min', context, isToaster: true);
                           }

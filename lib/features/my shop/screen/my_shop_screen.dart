@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/shimmers/sync_shimmers.dart';
@@ -57,6 +55,7 @@ body:  SafeArea(
         ),
         const SliverToBoxAdapter(
           child: Column(children: [
+            SizedBox(height: 5,),
             Row(
               children: [
                 Expanded(child: SelectTypeSection(title: 'Selected_products', subTitle: 'Waiting_for_price_status_and_sync', index: 0,)),
@@ -117,6 +116,7 @@ if(myShopProvider.selectIndex==0)
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return LinkedProductWidget(
+                      unSync: true,
                       linked:myShopProvider.searchActive?myShopProvider.deleteListSearch[index]:myShopProvider.deleteList[index],
                     );
                   },):const NoInternetOrDataScreenWidget(isNoInternet: false),

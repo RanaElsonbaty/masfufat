@@ -4,7 +4,6 @@ import 'package:flutter_sixvalley_ecommerce/features/order_details/controllers/o
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:flutter_sixvalley_ecommerce/features/checkout/widgets/shipping_details_widget.dart';
 
 class PaymentInfoWidget extends StatelessWidget {
   final OrderDetailsController? order;
@@ -21,8 +20,8 @@ class PaymentInfoWidget extends StatelessWidget {
               Text(getTranslated('PAYMENT_STATUS', context)!,
                   style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
 
-              Text((order!.orders!.paymentStatus != null) ?
-              order!.orders!.paymentStatus! : 'Digital Payment',
+              Text(
+              order!.orders!.paymentStatus ,
                   style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeSmall))])),
 
 

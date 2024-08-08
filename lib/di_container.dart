@@ -2,6 +2,10 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_sixvalley_ecommerce/data/datasource/remote/dio/dio_client.dart';
+import 'package:flutter_sixvalley_ecommerce/features/Store%20settings/controllers/store_setting_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/features/Store%20settings/domain/repositories/store_setting_repository.dart';
+import 'package:flutter_sixvalley_ecommerce/features/Store%20settings/domain/services/store_setting_service.dart';
+import 'package:flutter_sixvalley_ecommerce/features/Store%20settings/domain/services/store_setting_service_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/features/address/domain/repositories/address_repository_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/features/address/domain/services/address_service.dart';
 import 'package:flutter_sixvalley_ecommerce/features/address/domain/services/address_service_interface.dart';
@@ -187,6 +191,7 @@ import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'data/datasource/remote/dio/logging_interceptor.dart';
+import 'features/Store settings/domain/repositories/store_setting_repository_interface.dart';
 import 'features/loyaltyPoint/domain/repositories/loyalty_point_repository.dart';
 import 'features/my shop/controllers/my_shop_controller.dart';
 import 'features/payment /domain/repositories/payment_repository_interface.dart';
@@ -207,6 +212,7 @@ Future<void> init() async {
   // Repository
   sl.registerLazySingleton(() => CategoryRepository(dioClient: sl()));
   sl.registerLazySingleton(() => FlashDealRepository(dioClient: sl()));
+  sl.registerLazySingleton(() => StoreSettingRepository(dioClient: sl()));
   sl.registerLazySingleton(() => PaymentRepository(dioClient: sl()));
   sl.registerLazySingleton(() => FeaturedDealRepository(dioClient: sl()));
   sl.registerLazySingleton(() => BrandRepository(dioClient: sl()));
@@ -252,6 +258,7 @@ Future<void> init() async {
   sl.registerFactory(() => ProductController(productServiceInterface: sl()));
   sl.registerFactory(() => BannerController(bannerServiceInterface: sl()));
   sl.registerFactory(() => OnBoardingController(onBoardingServiceInterface: sl()));
+  sl.registerFactory(() => StoreSettingController(storeSettingInterface: sl()));
   sl.registerFactory(() => MyShopController(myShopServiceInterface: sl()));
   sl.registerFactory(() => AuthController(authServiceInterface: sl()));
   sl.registerFactory(() => ProductDetailsController(productDetailsServiceInterface: sl()));
@@ -289,6 +296,12 @@ Future<void> init() async {
   sl.registerLazySingleton(() => addressRepoInterface);
   AddressServiceInterface addressServiceInterface = AddressService(addressRepoInterface: sl());
   sl.registerLazySingleton(() => addressServiceInterface);
+
+
+  StoreSettingInterface storeSettingInterface = StoreSettingRepository(dioClient: sl());
+  sl.registerLazySingleton(() => storeSettingInterface);
+  StoreSettingServiceInterface storeSettingServiceInterface = StoreSettingService(storeSettingInterface: sl());
+  sl.registerLazySingleton(() => storeSettingServiceInterface);
 
   SyncOrderRepositoryInterface syncOrderRepositoryInterface = SyncOrderRepository(dioClient: sl());
   sl.registerLazySingleton(() => syncOrderRepositoryInterface);
@@ -487,6 +500,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => CheckoutService(checkoutRepositoryInterface : sl()));
   sl.registerLazySingleton(() => SyncOrderService(syncOrderRepositoryInterface : sl()));
   sl.registerLazySingleton(() => CompareService(compareRepositoryInterface : sl()));
+  sl.registerLazySingleton(() => StoreSettingService(storeSettingInterface : sl()));
   sl.registerLazySingleton(() => ContactUsService(contactUsRepositoryInterface : sl()));
   sl.registerLazySingleton(() => CouponService(couponRepositoryInterface : sl()));
   sl.registerLazySingleton(() => FlashDealService(flashDealRepositoryInterface : sl()));

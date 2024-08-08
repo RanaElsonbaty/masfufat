@@ -2,7 +2,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sixvalley_ecommerce/features/profile/controllers/profile_contrroller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
@@ -13,7 +12,6 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_wid
 import 'package:flutter_sixvalley_ecommerce/features/refer_and_earn/widgets/refer_hint_view.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:provider/provider.dart';
-import 'package:share_plus/share_plus.dart';
 
 class ReferAndEarnScreen extends StatefulWidget {
   const ReferAndEarnScreen({super.key});
@@ -26,7 +24,7 @@ class _ReferAndEarnScreenState extends State<ReferAndEarnScreen> {
   final tooltipController = JustTheController();
   @override
   Widget build(BuildContext context) {
-    var profileController = Provider.of<ProfileController>(context, listen: false);
+    Provider.of<ProfileController>(context, listen: false);
     final List<String> shareItem = [Images.share];
     final List<String> hintList = [getTranslated("invite_your_friends", context)??"",
       '${getTranslated('they_register', context)} ${AppConstants.appName} ${getTranslated('with_special_offer', context)}',
@@ -79,7 +77,7 @@ class _ReferAndEarnScreenState extends State<ReferAndEarnScreen> {
                               style: textRegular.copyWith(color: Colors.white, fontSize: Dimensions.fontSizeDefault))),
                       child: GestureDetector(onTap: () async {
                         tooltipController.showTooltip();
-                        await Clipboard.setData(ClipboardData(text:' profileController.userInfoModel?.referCode??'''));
+                        await Clipboard.setData(const ClipboardData(text:' profileController.userInfoModel?.referCode??'''));
                       },
                           child: Container(width: 85, height: 40, alignment: Alignment.center,
                               decoration: BoxDecoration(

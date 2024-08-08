@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:drop_down_list/drop_down_list.dart';
@@ -6,12 +5,9 @@ import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/address/domain/models/address_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/auth/widgets/code_picker_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/controllers/checkout_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/location/controllers/location_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/location/screens/select_location_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/profile/controllers/profile_contrroller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/splash/domain/models/config_model.dart' as config;
 import 'package:flutter_sixvalley_ecommerce/helper/country_code_helper.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/velidate_check.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
@@ -19,7 +15,6 @@ import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/address/controllers/address_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
@@ -32,7 +27,6 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_textfield_w
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:google_maps_webservice/places.dart' as places;
 import 'package:geocoding/geocoding.dart' as geocoding;
 
 
@@ -63,9 +57,6 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
   final FocusNode _numberNode = FocusNode();
   final FocusNode _cityNode = FocusNode();
   final FocusNode _zipNode = FocusNode();
-  GoogleMapController? _controller;
-  CameraPosition? _cameraPosition;
-  bool _updateAddress = true;
   Address? _address;
   String zip = '',  country = 'IN';
   late LatLng _defaut;
@@ -88,8 +79,8 @@ void initData()async{
     _address = Address.shipping;
   }
 
-  Provider.of<AuthController>(context, listen: false).setCountryCode(CountryCode.fromCountryCode(Provider.of<SplashController>(context, listen: false).configModel!.countryCode!).dialCode!, notify: false);
-  _countryCodeController.text = CountryCode.fromCountryCode(Provider.of<SplashController>(context, listen: false).configModel!.countryCode!).name??'Bangladesh';
+  Provider.of<AuthController>(context, listen: false).setCountryCode(CountryCode.fromCountryCode(Provider.of<SplashController>(context, listen: false).configModel!.countryCode).dialCode!, notify: false);
+  _countryCodeController.text = CountryCode.fromCountryCode(Provider.of<SplashController>(context, listen: false).configModel!.countryCode).name??'Bangladesh';
   Provider.of<AddressController>(context, listen: false).getAddressType();
 await  Provider.of<AddressController>(context, listen: false).getCountyList();
   // Provider.of<AddressController>(context, listen: false).getRestrictedDeliveryCountryList();
@@ -98,7 +89,6 @@ await  Provider.of<AddressController>(context, listen: false).getCountyList();
 
   // _checkPermission(() => Provider.of<LocationController>(context, listen: false).getCurrentLocation(context, true, mapController: _controller),context);
   if (widget.isEnableUpdate && widget.address != null) {
-    _updateAddress = false;
 
     Provider.of<LocationController>(context, listen: false).updateMapPosition(CameraPosition(
         target: LatLng(
@@ -144,13 +134,15 @@ await  Provider.of<AddressController>(context, listen: false).getCountyList();
 
     if(Provider.of<ProfileController>(context, listen: false).userInfoModel!=null){
       _contactPersonNameController.text =
-      ' ${Provider.of<ProfileController>(context, listen: false).userInfoModel!.name ?? ''}';
+      ' ${Provider.of<ProfileController>(context, listen: false).userInfoModel!.name}';
 
-      String countryCode = CountryCodeHelper.getCountryCode(Provider.of<ProfileController>(context, listen: false).userInfoModel!.phone ?? '')!;
+      String countryCode = CountryCodeHelper.getCountryCode(Provider.of<ProfileController>(context, listen: false).userInfoModel!.phone)!;
       Provider.of<AuthController>(context, listen: false).setCountryCode(countryCode);
-      String phoneNumberOnly = CountryCodeHelper.extractPhoneNumber(countryCode, Provider.of<ProfileController>(context, listen: false).userInfoModel!.phone ?? '');
+      String phoneNumberOnly = CountryCodeHelper.extractPhoneNumber(countryCode, Provider.of<ProfileController>(context, listen: false).userInfoModel!.phone);
       _contactPersonNumberController.text = phoneNumberOnly;
+    try{
       _zipCodeController.text=widget.placemarks.first.postalCode!;
+    }catch(e){}
       Provider.of<LocationController>(context, listen: false).locationController.text=widget.placemarks.first.street!;
       Provider.of<AddressController>(context, listen: false).countyList.forEach((element) async{
 

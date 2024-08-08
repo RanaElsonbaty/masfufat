@@ -13,7 +13,7 @@ class NotificationController extends ChangeNotifier {
 int totalNotification =0;
 int totalOffset =0;
 
-  Future<void> getNotificationList(int offset) async {
+  Future<  List<NotificationItemModel>> getNotificationList(int offset) async {
     notificationModel=[];
     ApiResponse apiResponse = await notificationServiceInterface.getList(offset : offset);
     if (apiResponse.response != null && apiResponse.response?.statusCode == 200) {
@@ -28,10 +28,14 @@ int totalOffset =0;
       //   notificationModel?.offset = NotificationItemModel.fromJson(apiResponse.response?.data).offset!;
       //   notificationModel?.totalSize = NotificationItemModel.fromJson(apiResponse.response?.data).totalSize!;
       // }
+      notifyListeners();
+
+      return notificationModel;
     } else {
       ApiChecker.checkApi( apiResponse);
+      return [];
+
     }
-    notifyListeners();
   }
 
 

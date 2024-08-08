@@ -2,13 +2,11 @@ import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_directionality_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order/controllers/order_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/controllers/order_details_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/domain/models/order_details_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/widgets/review_reply_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product_details/domain/models/product_details_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/refund/widgets/refund_request_bottom_sheet.dart';
 import 'package:flutter_sixvalley_ecommerce/features/review/controllers/review_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/review/widgets/review_dialog_widget.dart';
@@ -17,14 +15,10 @@ import 'package:flutter_sixvalley_ecommerce/features/refund/widgets/refunded_det
 import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/controllers/localization_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/auth/screens/otp_verification_screen.dart';
 import 'package:provider/provider.dart';
 
 
@@ -45,7 +39,6 @@ class OrderDetailsWidget extends StatefulWidget {
 }
 
 class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
-  final ReceivePort _port = ReceivePort();
 
 
   @override
@@ -66,7 +59,7 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
   }
 
 
-  DigitalVariation? digitalVariation;
+  // DigitalVariation? digitalVariation;
 
   String? downloadMessage;
   File? downloadedFile;
@@ -75,13 +68,13 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
   Widget build(BuildContext context) {
     final bool isLtr = Provider.of<LocalizationController>(context, listen: false).isLtr;
 
-    if(widget.orderDetailsModel.productDetails != null && widget.orderDetailsModel.variant != null && widget.orderDetailsModel.variant!.isNotEmpty && widget.orderDetailsModel.productDetails?.productType == 'digital') {
-      for(DigitalVariation dv in widget.orderDetailsModel.productDetails!.digitalVariation ?? []) {
-        if(dv.variantKey == widget.orderDetailsModel.variant){
-          digitalVariation = dv;
-        }
-      }
-    }
+    // if(widget.orderDetailsModel.productDetails != null && widget.orderDetailsModel.variant != null && widget.orderDetailsModel.variant!.isNotEmpty && widget.orderDetailsModel.productDetails?.productType == 'digital') {
+    //   for(DigitalVariation dv in widget.orderDetailsModel.productDetails!.digitalVariation ?? []) {
+    //     if(dv.variantKey == widget.orderDetailsModel.variant){
+    //       digitalVariation = dv;
+    //     }
+    //   }
+    // }
 
     return Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
       child: Stack(children: [

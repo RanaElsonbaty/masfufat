@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/profile/controllers/profile_contrroller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/profile/domain/models/profile_model.dart';
@@ -131,8 +130,8 @@ class ProfileScreenState extends State<ProfileScreen> {
         builder: (context, profile, child) {
           _firstNameController.text = profile.userInfoModel!.fName??'';
           _lastNameController.text = profile.userInfoModel!.lName??'';
-          _emailController.text = profile.userInfoModel!.email??'';
-          _phoneController.text = profile.userInfoModel!.phone??'';
+          _emailController.text = profile.userInfoModel!.email;
+          _phoneController.text = profile.userInfoModel!.phone;
 
           return Stack(clipBehavior: Clip.none, children: [
 
@@ -234,7 +233,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                           focusNode: _emailFocus,
                           readOnly : true,
                           nextFocus: _phoneFocus,
-                          hintText: profile.userInfoModel!.email ?? '',
+                          hintText: profile.userInfoModel!.email,
                           controller: _emailController),
                         const SizedBox(height: Dimensions.paddingSizeLarge),
 
@@ -244,7 +243,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                           labelText: getTranslated('phone', context),
                           inputType: TextInputType.phone,
                           focusNode: _phoneFocus,
-                          hintText: profile.userInfoModel!.phone ?? "",
+                          hintText: profile.userInfoModel!.phone,
                           nextFocus: _addressFocus,
                           controller: _phoneController,
                           isAmount: true),

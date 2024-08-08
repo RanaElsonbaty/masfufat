@@ -1,4 +1,3 @@
-
 import 'package:bcrypt/bcrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
@@ -15,7 +14,7 @@ class WepView extends StatefulWidget {
   final bool? sub;
   final bool? create;
   final bool? StoreSetting;
-  const WepView({key, this.url, this.check=true, this.sub=false, this.create=false, this.StoreSetting=false});
+  const WepView({super.key, this.url, this.check=true, this.sub=false, this.create=false, this.StoreSetting=false});
 
   @override
   State<WepView> createState() => _WepViewState();
@@ -37,7 +36,7 @@ class _WepViewState extends State<WepView> {
     // linkedAccountProvider = Provider.of<LinkedAccountProvider>(context,listen: false);
     // subscriptionsProvider = Provider.of<SubscriptionsProvider>(context,listen: false);
     // profileProvider = Provider.of<ProfileProvider>(context,listen: false);
-    md5Convert='${generateMd5('${Provider.of<ProfileController>(context,listen: false).userInfoModel!.email}${Provider.of<ProfileController>(context,listen: false).userInfoModel!.id}')}${Provider.of<ProfileController>(context,listen: false)!.userInfoModel!.temporaryToken}';
+    md5Convert='${generateMd5('${Provider.of<ProfileController>(context,listen: false).userInfoModel!.email}${Provider.of<ProfileController>(context,listen: false).userInfoModel!.id}')}${Provider.of<ProfileController>(context,listen: false).userInfoModel!.temporaryToken}';
 
     controller =WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)..enableZoom(false)
@@ -99,15 +98,15 @@ class _WepViewState extends State<WepView> {
       return SafeArea(child: Scaffold(
           appBar: AppBar(
             // iconTheme: ,
-            iconTheme: IconThemeData(  color: Colors.white),
-            title: Text(getTranslated('profile', context)!,style: TextStyle(color: Colors.white),),
+            iconTheme: const IconThemeData(  color: Colors.white),
+            title: Text(getTranslated('profile', context)!,style: const TextStyle(color: Colors.white),),
             backgroundColor: Colors.black,
           ),
           body:WebViewWidget(controller: controller!)
       )
       );
     }catch(e){
-      return Text(e.toString(),style: TextStyle(
+      return Text(e.toString(),style: const TextStyle(
           fontSize: 30
       ),);
     }
