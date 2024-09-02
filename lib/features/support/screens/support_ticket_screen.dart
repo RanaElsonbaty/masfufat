@@ -33,15 +33,27 @@ class _SupportTicketScreenState extends State<SupportTicketScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: CustomAppBar(title: getTranslated('support_ticket', context)),
-        bottomNavigationBar: Provider.of<AuthController>(context, listen: false).isLoggedIn()?
+        floatingActionButton: Provider.of<AuthController>(context, listen: false).isLoggedIn()?
         SizedBox(height: 70,
           child: InkWell(onTap: () {showModalBottomSheet(context: context, isScrollControlled: true,
-              backgroundColor: Colors.transparent,
+              backgroundColor: Theme.of(context).primaryColor,
               builder: (con) => const SupportTicketTypeWidget());
             },
-              child: Padding(padding: const EdgeInsets.all(8.0),
-                child: CustomButton(radius: Dimensions.paddingSizeExtraSmall,
-                buttonText: getTranslated('add_new_ticket', context)),)),):const SizedBox(),
+              child:
+              Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Theme.of(context).primaryColor,
+                ),
+                child: const Padding(padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.add,color: Colors.white,)
+                  // CustomButton(radius: Dimensions.paddingSizeExtraSmall,
+                  // buttonText: getTranslated('add_new_ticket', context))
+                  ,),
+              )
+          ),):const SizedBox(),
       body: Consumer<SupportTicketController>(
         builder: (context, support, child) {
             return Provider.of<AuthController>(context, listen: false).isLoggedIn()?

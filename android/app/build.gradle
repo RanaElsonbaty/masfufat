@@ -58,7 +58,7 @@ android {
 //    }
 
     defaultConfig {
-        applicationId "com.sixamtech.sixvalley"
+        applicationId "com.platform.masfufat"
         minSdkVersion 24
         targetSdkVersion 33
         versionCode 1

@@ -60,6 +60,23 @@ class SplashRepository implements SplashRepositoryInterface{
   bool? showIntro() {
     return sharedPreferences!.getBool(AppConstants.intro);
   }
+  @override
+  Future<ApiResponse>  getMaintenanceMode() async {
+    try {
+      // print('getConfig token ------> $token');
+      var response = await dioClient!.get("${AppConstants.configUri}?type=maintenance_mode",
+          options: Options(
+            receiveTimeout: const Duration(seconds: 120),
+            sendTimeout:  const Duration(seconds: 120),
+            headers: {
+            },
+          ));
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      print('getConfig error: $e');
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e)); // Emit error response
+    }
+  }
 
   @override
   Future add(value) {

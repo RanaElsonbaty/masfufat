@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
@@ -279,7 +280,15 @@ class AuthRepository implements AuthRepoInterface{
   @override
   Future<ApiResponse> forgetPassword(String identity) async {
     try {
-      Response response = await dioClient!.post(AppConstants.forgetPasswordUri, data: {"identity": identity});
+      var headers = {
+        'Content-Type': 'application/json',
+      };
+      var data = json.encode({
+        "identity": identity
+      });
+      Response response = await dioClient!.post(AppConstants.forgetPasswordUri, data: data,options: Options(
+        headers: headers
+      ));
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));

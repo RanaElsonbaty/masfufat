@@ -109,6 +109,7 @@ class BannerController extends ChangeNotifier {
     if(type == 'category'){
       Navigator.push(context, MaterialPageRoute(builder: (_) => BrandAndCategoryProductScreen(
         isBrand: false,
+        index: 0,
         id: id.toString(),
         name: Provider.of<CategoryController>(context, listen: false).categoryList[cIndex].name)));
     
@@ -121,6 +122,7 @@ class BannerController extends ChangeNotifier {
     }else if(type == 'brand'){
       Navigator.push(context, MaterialPageRoute(builder: (_) => BrandAndCategoryProductScreen(
         isBrand: true,
+        index: 0,
         id: id.toString(),
         name: Provider.of<BrandController>(context, listen: false).brandList[bIndex].name)));
     

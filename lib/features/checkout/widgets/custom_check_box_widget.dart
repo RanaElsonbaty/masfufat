@@ -30,47 +30,44 @@ class CustomCheckBoxWidget extends StatelessWidget {
       builder: (context, order, child) {
         return InkWell(
           onTap: () => order.setDigitalPaymentMethodName(index, name,id),
-          child: Padding(
-            padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: Dimensions.paddingSizeSmall),
-              decoration: BoxDecoration(
-                borderRadius:
-                    BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
-              ),
-              child: Row(children: [
-                Theme(
-                    data: Theme.of(context).copyWith(
-                      unselectedWidgetColor:
-                          Provider.of<ThemeController>(context, listen: false)
-                                  .darkTheme
-                              ? Theme.of(context).hintColor.withOpacity(.5)
-                              : Theme.of(context).primaryColor.withOpacity(.25),
-                    ),
-                    child: Checkbox(
-                          visualDensity: VisualDensity.compact,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                Dimensions.paddingSizeExtraLarge)),
-                        value: order.paymentMethodIndex == index,
-                        activeColor: Colors.green,
-                        checkColor: Theme.of(context).cardColor,
-                        onChanged: (bool? isChecked) =>
-                            order.setDigitalPaymentMethodName(index, name,id))),
-                SizedBox(
-                    height: 40,
-                    child: Padding(
-                        padding: const EdgeInsets.all(
-                            Dimensions.paddingSizeExtraSmall),
-                        child:icon!.startsWith('https://')?CustomImageWidget(image: icon!):Image.asset(icon!))),
-               id!=4? Text(
-                  getTranslated(name, context)!,
-                  style:
-                      textRegular.copyWith(fontSize: Dimensions.fontSizeLarge),
-                ):const SizedBox.shrink(),
-              ]),
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+                vertical: Dimensions.paddingSizeSmall),
+            decoration: BoxDecoration(
+              borderRadius:
+                  BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
             ),
+            child: Row(children: [
+              Theme(
+                  data: Theme.of(context).copyWith(
+                    unselectedWidgetColor:
+                        Provider.of<ThemeController>(context, listen: false)
+                                .darkTheme
+                            ? Theme.of(context).hintColor.withOpacity(.5)
+                            : Theme.of(context).primaryColor.withOpacity(.25),
+                  ),
+                  child: Checkbox(
+                        visualDensity: VisualDensity.compact,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              Dimensions.paddingSizeExtraLarge)),
+                      value: order.paymentMethodIndex == index,
+                      activeColor:  Theme.of(context).primaryColor,
+                      checkColor: Theme.of(context).cardColor,
+                      onChanged: (bool? isChecked) =>
+                          order.setDigitalPaymentMethodName(index, name,id))),
+              SizedBox(
+                  height: 40,
+                  child: Padding(
+                      padding: const EdgeInsets.all(
+                          Dimensions.paddingSizeExtraSmall),
+                      child:icon!.startsWith('https://')?CustomImageWidget(image: icon!):Image.asset(icon!))),
+             id!=4? Text(
+                getTranslated(name, context)!,
+                style:
+                    textRegular.copyWith(fontSize: Dimensions.fontSizeLarge),
+              ):const SizedBox.shrink(),
+            ]),
           ),
         );
       },

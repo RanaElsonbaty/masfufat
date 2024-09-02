@@ -4,6 +4,7 @@ import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_c
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class SelectCurrencyBottomSheetWidget extends StatefulWidget {
@@ -32,16 +33,17 @@ class _SelectCurrencyBottomSheetWidgetState extends State<SelectCurrencyBottomSh
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.paddingSizeDefault))
               ),
               child: Column(mainAxisSize: MainAxisSize.min, children: [
-                Container(width: 40,height: 5,decoration: BoxDecoration(
+                Container(width: 100,height: 5,decoration: BoxDecoration(
                     color: Theme.of(context).hintColor.withOpacity(.5),
                     borderRadius: BorderRadius.circular(20)
                 ),),
                 const SizedBox(height: 20,),
 
-                Text(getTranslated('select_currency', context)!, style: textBold.copyWith(fontSize: Dimensions.fontSizeLarge),),
+                Text(getTranslated('select_currency', context)!, style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeLarge,fontWeight: FontWeight.w700),),
+                const SizedBox(height: 10,),
 
-                Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall, bottom: Dimensions.paddingSizeSmall),
-                  child: Text('${getTranslated('choose_your_currency_to_proceed', context)}',textAlign: TextAlign.center, style: textRegular),),
+                // Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall, bottom: Dimensions.paddingSizeSmall),
+                //   child: Text('${getTranslated('choose_your_currency_to_proceed', context)}',textAlign: TextAlign.center, style: textRegular),),
 
                 if(currencyProvider.configModel != null && currencyProvider.configModel!.currencyList.isNotEmpty)
                 ListView.builder(
@@ -60,23 +62,25 @@ class _SelectCurrencyBottomSheetWidgetState extends State<SelectCurrencyBottomSh
                           child: Container(decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
                               color: selectedIndex == index? Theme.of(context).primaryColor.withOpacity(.1): Theme.of(context).cardColor),
-                            child: Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault, vertical: Dimensions.paddingSizeEight),
-                              child: Row(children: [
-                                Container(width : 40,height: 40,
-                                    padding: const EdgeInsets.all(Dimensions.paddingSizeEight),
-                                    decoration:BoxDecoration(shape: BoxShape.circle,
-                                        color: selectedIndex == index? Theme.of(context).primaryColor: Theme.of(context).primaryColor.withOpacity(.5)) ,
-                                    child: Center(
-                                      child: Text(currencyProvider.configModel!.currencyList[index].symbol,
-                                          style: textRegular.copyWith(color : Colors.white)),
-                                    )),
+                            child: Row(children: [
+                              // Container(width : 40,height: 40,
+                              //     padding: const EdgeInsets.all(Dimensions.paddingSizeEight),
+                              //     decoration:BoxDecoration(shape: BoxShape.circle,
+                              //         color: selectedIndex == index? Theme.of(context).primaryColor: Theme.of(context).primaryColor.withOpacity(.5)) ,
+                              //     child: Center(
+                              //       child: Text(currencyProvider.configModel!.currencyList[index].symbol,
+                              //           style: textRegular.copyWith(color : Colors.white)),
+                              //     )),
 
-                                Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-                                  child: Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                                    child: Text(currencyProvider.configModel!.currencyList[index].name)))
+                              Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+                                child: Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                  child: Text('${currencyProvider.configModel!.currencyList[index].name} ( ${currencyProvider.configModel!.currencyList[index].symbol} )',style:
+                                    GoogleFonts.tajawal(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16
+                                    ),)))
 
-                              ],),
-                            ),),
+                            ],),),
                         ),
                       ):const SizedBox.shrink();
 

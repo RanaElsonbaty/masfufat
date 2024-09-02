@@ -30,20 +30,14 @@ class FavouriteButtonWidget extends StatelessWidget {
 
             }
           },
-          child: Container(
-            // padding: EdgeInsets.all(5),
-            decoration: BoxDecoration(color: Theme.of(context).cardColor,
-              shape: BoxShape.circle,
-              boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.2),
-                  spreadRadius: 0, blurRadius: 15, offset: const Offset(0,4))]),
-            child: Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-              child: Container(
-                transform: Matrix4.translationValues(0, 1, 0),
-                child: Icon( wishProvider.addedIntoWish.contains(productId) ?
-                CupertinoIcons.heart_fill : CupertinoIcons.heart,
-                    color: wishProvider.addedIntoWish.contains(productId) ? const Color(0xFFFF5050):
-                    Theme.of(context).primaryColor, size: 16),
-              ))));
+          child: Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+            child: Container(
+              transform: Matrix4.translationValues(0, 1, 0),
+              child: Icon( wishProvider.addedIntoWish.contains(productId) ?
+              CupertinoIcons.heart_fill : CupertinoIcons.heart,
+                  color: wishProvider.addedIntoWish.contains(productId) ? const Color(0xFFFF5050):
+                 const Color(0xFF959595), size: 25),
+            )));
       }
     );
   }

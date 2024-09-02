@@ -18,6 +18,7 @@ class ShippingRepository implements ShippingRepositoryInterface{
   Future<ApiResponse> getShippingMethod(int? sellerId, String? type) async {
     try {
       final response = await dioClient!.get('${AppConstants.getShippingMethod}/$sellerId/$type');
+      print('asdasdasdasdasda${response.data}');
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
@@ -41,7 +42,7 @@ class ShippingRepository implements ShippingRepositoryInterface{
   @override
   Future<ApiResponse> getChosenShippingMethod() async {
     try {
-      final response =await dioClient!.get('${AppConstants.chosenShippingMethod}?guest_id=${Provider.of<AuthController>(Get.context!, listen: false).getGuestToken()}');
+      final response =await dioClient!.get(AppConstants.chosenShippingMethod);
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));

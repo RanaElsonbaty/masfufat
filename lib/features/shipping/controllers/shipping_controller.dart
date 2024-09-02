@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
-import 'package:flutter_sixvalley_ecommerce/features/cart/controllers/cart_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/domain/models/cart_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/shipping/domain/models/chosen_shipping_method.dart';
 import 'package:flutter_sixvalley_ecommerce/features/shipping/domain/models/shipping_method_model.dart';
@@ -11,7 +10,6 @@ import 'package:flutter_sixvalley_ecommerce/features/shipping/domain/services/sh
 import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
-import 'package:provider/provider.dart';
 
 class ShippingController extends ChangeNotifier {
   final ShippingServiceInterface shippingServiceInterface;
@@ -39,40 +37,91 @@ class ShippingController extends ChangeNotifier {
 
 
   Future<void> getShippingMethod(BuildContext context, List<List<CartModel>> cartProdList) async {
+    // _isLoading = true;
+    // Provider.of<CartController>(context, listen: false).getCartDataLoaded();
+    // List<int?> sellerIdList = [];
+    // List<String?> sellerTypeList = [];
+    // List<String?> groupList = [];
+    // _shippingList = [];
+    // for(List<CartModel> element in cartProdList){
+    //   sellerIdList.add(element[0].sellerId);
+    //   sellerTypeList.add(element[0].sellerIs);
+    //   groupList.add(element[0].cartGroupId);
+    //   _shippingList!.add(ShippingModel(-1, element[0].cartGroupId, []));
+    // }
+    //
+    // await getChosenShippingMethod(context);
+    // for(int i=0; i<sellerIdList.length; i++) {
+    //   ApiResponse apiResponse = await shippingServiceInterface.getShippingMethod(sellerIdList[i],sellerTypeList[i]);
+    //
+    //   if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+    //     List<ShippingMethodModel> shippingMethodList =[];
+    //     apiResponse.response!.data.forEach((shipping) => shippingMethodList.add(ShippingMethodModel.fromJson(shipping)));
+    //
+    //     _shippingList![i].shippingMethodList =[];
+    //     _shippingList![i].shippingMethodList!.addAll(shippingMethodList);
+    //     int index = -1;
+    //     int? shipId = -1;
+    //     for(ChosenShippingMethodModel cs in _chosenShippingList) {
+    //       if(cs.cartGroupId == groupList[i]) {
+    //         shipId = cs.shippingMethodId;
+    //         break;
+    //       }
+    //     }
+    //     if(shipId != -1) {
+    //       for(int j=0; j<_shippingList![i].shippingMethodList!.length; j++) {
+    //         if(_shippingList![i].shippingMethodList![j].id == shipId) {
+    //           index = j;
+    //           break;
+    //         }
+    //       }
+    //     }
+    //     _shippingList![i].shippingIndex = index;
+    //   } else {
+    //     if(context.mounted){
+    //     }
+    //     ApiChecker.checkApi( apiResponse);
+    //   }
+    //   _isLoading = false;
+    //   notifyListeners();
+    // }
     _isLoading = true;
-    Provider.of<CartController>(context, listen: false).getCartDataLoaded();
-    List<int?> sellerIdList = [];
-    List<String?> sellerTypeList = [];
-    List<String?> groupList = [];
+    List<int> sellerIdList = [];
+    List<String> sellerTypeList = [];
+    List<String> groupList = [];
     _shippingList = [];
-    for(List<CartModel> element in cartProdList){
-      sellerIdList.add(element[0].sellerId);
-      sellerTypeList.add(element[0].sellerIs);
-      groupList.add(element[0].cartGroupId);
-      _shippingList!.add(ShippingModel(-1, element[0].cartGroupId, []));
+    for (List<CartModel> element in cartProdList) {
+      sellerIdList.add(element[0].sellerId!);
+      sellerTypeList.add(element[0].sellerIs!);
+      groupList.add(element[0].cartGroupId!);
+      _shippingList!.add(ShippingModel(-1, element[0].cartGroupId!, []));
     }
-
     await getChosenShippingMethod(context);
-    for(int i=0; i<sellerIdList.length; i++) {
-      ApiResponse apiResponse = await shippingServiceInterface.getShippingMethod(sellerIdList[i],sellerTypeList[i]);
 
-      if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-        List<ShippingMethodModel> shippingMethodList =[];
-        apiResponse.response!.data.forEach((shipping) => shippingMethodList.add(ShippingMethodModel.fromJson(shipping)));
+    for (int i = 0; i < sellerIdList.length; i++) {
 
-        _shippingList![i].shippingMethodList =[];
+      ApiResponse apiResponse =
+      await shippingServiceInterface.getShippingMethod(sellerIdList[i], sellerTypeList[i]);
+
+      if (apiResponse.response != null &&
+          apiResponse.response!.statusCode == 200) {
+        List<ShippingMethodModel> shippingMethodList = [];
+        apiResponse.response!.data.forEach((shipping) =>
+            shippingMethodList.add(ShippingMethodModel.fromJson(shipping)));
+
+        _shippingList![i].shippingMethodList = [];
         _shippingList![i].shippingMethodList!.addAll(shippingMethodList);
         int index = -1;
-        int? shipId = -1;
-        for(ChosenShippingMethodModel cs in _chosenShippingList) {
-          if(cs.cartGroupId == groupList[i]) {
-            shipId = cs.shippingMethodId;
+        int shipId = -1;
+        for (ChosenShippingMethodModel cs in _chosenShippingList) {
+          if (cs.cartGroupId == groupList[i]) {
+            shipId = cs.shippingMethodId!;
             break;
           }
         }
-        if(shipId != -1) {
-          for(int j=0; j<_shippingList![i].shippingMethodList!.length; j++) {
-            if(_shippingList![i].shippingMethodList![j].id == shipId) {
+        if (shipId != -1) {
+          for (int j = 0; j < _shippingList![i].shippingMethodList!.length; j++) {
+            if (_shippingList![i].shippingMethodList![j].id == shipId) {
               index = j;
               break;
             }
@@ -80,35 +129,66 @@ class ShippingController extends ChangeNotifier {
         }
         _shippingList![i].shippingIndex = index;
       } else {
-        if(context.mounted){
-        }
         ApiChecker.checkApi( apiResponse);
       }
       _isLoading = false;
-      notifyListeners();
     }
+    notifyListeners();
+
 
   }
 
   Future<void> getAdminShippingMethodList(BuildContext context) async {
+    // _isLoading = true;
+    // Provider.of<CartController>(context, listen: false).getCartDataLoaded();
+    // _shippingList = [];
+    // await getChosenShippingMethod(context);
+    // ApiResponse apiResponse = await shippingServiceInterface.getShippingMethod(1,'admin');
+    // if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+    //   _shippingList!.add(ShippingModel(-1, '', []));
+    //   List<ShippingMethodModel> shippingMethodList =[];
+    //   apiResponse.response!.data.forEach((shipping) => shippingMethodList.add(ShippingMethodModel.fromJson(shipping)));
+    //
+    //   _shippingList![0].shippingMethodList =[];
+    //   _shippingList![0].shippingMethodList!.addAll(shippingMethodList);
+    //   int index = -1;
+    //
+    //
+    //   if(_chosenShippingList.isNotEmpty){
+    //     for(int j=0; j<_shippingList![0].shippingMethodList!.length; j++) {
+    //       if(_shippingList![0].shippingMethodList![j].id == _chosenShippingList[0].shippingMethodId) {
+    //         index = j;
+    //         break;
+    //       }
+    //     }
+    //   }
+    //
+    //   _shippingList![0].shippingIndex = index;
+    // } else {
+    //   ApiChecker.checkApi( apiResponse);
+    // }
+    // _isLoading = false;
+    // notifyListeners();
     _isLoading = true;
-    Provider.of<CartController>(context, listen: false).getCartDataLoaded();
+    // _getData = false;
     _shippingList = [];
     await getChosenShippingMethod(context);
-    ApiResponse apiResponse = await shippingServiceInterface.getShippingMethod(1,'admin');
-    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+    ApiResponse apiResponse = await shippingServiceInterface.getShippingMethod(1, 'admin');
+    if (apiResponse.response != null &&
+        apiResponse.response!.statusCode == 200) {
       _shippingList!.add(ShippingModel(-1, '', []));
-      List<ShippingMethodModel> shippingMethodList =[];
-      apiResponse.response!.data.forEach((shipping) => shippingMethodList.add(ShippingMethodModel.fromJson(shipping)));
+      List<ShippingMethodModel> shippingMethodList = [];
+      apiResponse.response!.data.forEach((shipping) =>
+          shippingMethodList.add(ShippingMethodModel.fromJson(shipping)));
 
-      _shippingList![0].shippingMethodList =[];
+      _shippingList![0].shippingMethodList = [];
       _shippingList![0].shippingMethodList!.addAll(shippingMethodList);
       int index = -1;
 
-
-      if(_chosenShippingList.isNotEmpty){
-        for(int j=0; j<_shippingList![0].shippingMethodList!.length; j++) {
-          if(_shippingList![0].shippingMethodList![j].id == _chosenShippingList[0].shippingMethodId) {
+      if (_chosenShippingList.isNotEmpty) {
+        for (int j = 0; j < _shippingList![0].shippingMethodList!.length; j++) {
+          if (_shippingList![0].shippingMethodList![j].id ==
+              _chosenShippingList[0].shippingMethodId) {
             index = j;
             break;
           }
@@ -121,21 +201,35 @@ class ShippingController extends ChangeNotifier {
     }
     _isLoading = false;
     notifyListeners();
-
   }
 
 
   Future<void> getChosenShippingMethod(BuildContext context) async {
+    // ApiResponse apiResponse = await shippingServiceInterface.getChosenShippingMethod();
+    // if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+    //   _chosenShippingList = [];
+    //   apiResponse.response!.data.forEach((shipping) => _chosenShippingList.add(ChosenShippingMethodModel.fromJson(shipping)));
+    //   notifyListeners();
+    // } else {
+    //   ApiChecker.checkApi( apiResponse);
+    // }
+    // notifyListeners();
     ApiResponse apiResponse = await shippingServiceInterface.getChosenShippingMethod();
-    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response!.statusCode == 200) {
       _chosenShippingList = [];
-      apiResponse.response!.data.forEach((shipping) => _chosenShippingList.add(ChosenShippingMethodModel.fromJson(shipping)));
+      apiResponse.response!.data.forEach((shipping) => _chosenShippingList
+          .add(ChosenShippingMethodModel.fromJson(shipping)));
       notifyListeners();
     } else {
       ApiChecker.checkApi( apiResponse);
     }
     notifyListeners();
   }
+
+  bool isSelect = false;
+
+
 
 
 
@@ -182,7 +276,54 @@ class ShippingController extends ChangeNotifier {
 
   final List<SelectedShippingType> _selectedShippingTypeList = [];
   List<SelectedShippingType> get selectedShippingTypeList => _selectedShippingTypeList;
+  double cost = 0.0;
+  int id = 0;
+  Future selectShippingMethodList(BuildContext context) async {
 
+    if (shippingList!.isEmpty) {
+      await
+          getAdminShippingMethodList(context)
+          .then((value) async {
+        await
+            getChosenShippingMethod(context)
+            .then((value) {
+          try {
+            if (
+                shippingList![0]
+                .shippingMethodList!
+                .length ==
+                1) {
+              cost = shippingList![0]
+                  .shippingMethodList![0]
+                  .cost!;
+            setSelectedShippingMethod(0, 0, );
+            } else {
+              for (int i = 0;
+              i <
+                  shippingList![0]
+                      .shippingMethodList!
+                      .length;
+              i++) {
+                if (shippingList![0]
+                    .shippingMethodList![i]
+                    .cost! <=
+                    cost) {
+                  cost = shippingList![0]
+                      .shippingMethodList![i]
+                      .cost!;
+                 setSelectedShippingMethod(i, 0, );
+                } else {
+                  cost = shippingList![0]
+                      .shippingMethodList![i]
+                      .cost!;
+                }
+              }
+            }
+          } catch (e) {}
+        });
+      });
+    }
+  }
 
 
 }

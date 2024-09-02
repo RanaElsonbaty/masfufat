@@ -18,47 +18,55 @@ class _SelectTypeSectionState extends State<SelectTypeSection> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+      padding: const EdgeInsets.symmetric(horizontal: 0.0),
       child: Consumer<MyShopController>(
         builder:(context, myShopProvider, child) =>  InkWell(
           onTap: () {
             myShopProvider.selectType(widget.index);
           },
           child: Container(
-            height: 65,
+            // height: 65,
             decoration: BoxDecoration(
               // color: Colors.black,
-              color: myShopProvider.selectIndex==widget.index?Theme.of(context).primaryColor:Theme.of(context).cardColor,
-              border: Border.all(width: .8,color: Colors.grey),
-              borderRadius: BorderRadius.circular(12)
+              // color: myShopProvider.selectIndex==widget.index?Theme.of(context).primaryColor:Theme.of(context).cardColor,
+              // border: Border.all(width: .8,color: Colors.grey),
+              // borderRadius: BorderRadius.circular(12)
             ),
+            // myShopProvider.selectIndex==widget.index?Colors.white:
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0,vertical: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                Text(
-                  '${getTranslated(widget.title, context)}',
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.tajawal(
-                  fontSize: 15
-                      ,
-                    color: myShopProvider.selectIndex==widget.index?Colors.white:Theme.of(context).iconTheme.color,
-                    fontWeight: FontWeight.w700
-                ),),
-                  widget.subTitle!=''? Text("${getTranslated(widget.subTitle, context)}",
-                  textAlign: TextAlign.center,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    '${getTranslated(widget.title, context)}',
+                    textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
-
-                  style: GoogleFonts.tajawal(
-                    fontSize: 11,
-                      color: myShopProvider.selectIndex==widget.index?Colors.white:Theme.of(context).iconTheme.color,
-
+                    style: GoogleFonts.tajawal(
+                    fontSize: 14
+                        ,
+                      color:myShopProvider.selectIndex==widget.index?Theme.of(context).primaryColor: Theme.of(context).iconTheme.color,
                       fontWeight: FontWeight.w500
-
-                ),):const SizedBox.shrink(),
+                  ),),
+                ),
+                  myShopProvider.selectIndex==widget.index?  Container(
+                  height: 2,
+                  color: Theme.of(context).primaryColor,
+                ):const SizedBox.shrink()
+                //   widget.subTitle!=''? Text("${getTranslated(widget.subTitle, context)}",
+                //   textAlign: TextAlign.center,
+                //     overflow: TextOverflow.ellipsis,
+                //
+                //   style: GoogleFonts.tajawal(
+                //     fontSize: 11,
+                //       color: Theme.of(context).iconTheme.color,
+                //
+                //       fontWeight: FontWeight.w500
+                //
+                // ),):const SizedBox.shrink(),
               ],),
             ),
           ),

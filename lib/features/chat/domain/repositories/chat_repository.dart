@@ -1,3 +1,4 @@
+
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_sixvalley_ecommerce/data/datasource/remote/dio/dio_client.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_sixvalley_ecommerce/features/chat/domain/repositories/ch
 import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:async';
+
 
 class ChatRepository implements ChatRepositoryInterface {
   final DioClient? dioClient;
@@ -39,7 +41,7 @@ class ChatRepository implements ChatRepositoryInterface {
   @override
   Future<ApiResponse> getMessageList(String type, int? id,int offset) async {
     try {
-      final response = await dioClient!.get('${AppConstants.messageUri}$type/$id?limit=3000&offset=$offset');
+      final response = await dioClient!.get('${AppConstants.messageUri}$type/$id?limit=300&offset=$offset');
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
@@ -62,31 +64,28 @@ class ChatRepository implements ChatRepositoryInterface {
 
   @override
   Future<ApiResponse> sendMessage(MessageBody messageBody, String type, List<XFile?> file, List<PlatformFile>? platformFile) async {
-    // http.MultipartRequest request = http.MultipartRequest('POST', Uri.parse('${AppConstants.baseUrl}${AppConstants.sendMessageUri}$type'));
-    // request.headers.addAll(<String,String>{'Authorization': 'Bearer ${Provider.of<AuthController>(Get.context!, listen: false).getUserToken()}'});
-    // for(int i=0; i<file.length;i++){
-    //   Uint8List list = await file[i]!.readAsBytes();
-    //   var part = http.MultipartFile('image[]', file[i]!.readAsBytes().asStream(), list.length, filename: basename(file[i]!.path), contentType: MediaType('image', 'jpg'));
-    //   request.files.add(part);
-    // }
-    //
-    // if(platformFile != null ) {
-    //   if(platformFile.isNotEmpty) {
-    //     for(PlatformFile pfile in platformFile) {
-    //       request.files.add(http.MultipartFile('file[]', pfile.readStream!, pfile.size, filename: basename(pfile.name)));
-    //     }
-    //   }
+
+    List<MultipartFile> attachmentFile=[];
+
+    if(messageBody.file!.isNotEmpty){
+      for (var element in messageBody.file!) {
+        attachmentFile.add(
+          await MultipartFile.fromFile(element!.path, filename: element.path),
+        );
+      }
+    }
+
     try {
       var data = FormData.fromMap({
-        'attachments[]': file,
+        'attachments[]':attachmentFile,
         'message': messageBody.message!,
         'id': messageBody.id
       });
-      print('asdasdadad${messageBody.id}');
       final response = await dioClient!
-          .post('${AppConstants.sendMessageUri}$type', data: data);
+          .post(AppConstants.sendMessageUri, data: data);
       return ApiResponse.withSuccess(response);
     } catch (e) {
+      print('asdasdasdasdasd ----$e');
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }

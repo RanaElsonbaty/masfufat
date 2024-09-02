@@ -64,8 +64,8 @@ class OrderModel {
   final String byAdmin;
   final dynamic shipment;
   final dynamic deliveryMan;
-
-  OrderModel({
+final int refundRequest;
+  OrderModel( {
     required this.id,
     required this.customerId,
     required this.paymentStatus,
@@ -121,9 +121,11 @@ class OrderModel {
     required this.byAdmin,
     required this.shipment,
     required this.deliveryMan,
+   required this.refundRequest,
   });
 
-  factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
+  factory OrderModel.fromJson(Map<String, dynamic> json) {
+    return OrderModel(
     id: json["id"],
     customerId: json["customer_id"],
     paymentStatus:json["payment_status"],
@@ -179,7 +181,9 @@ class OrderModel {
     byAdmin: json["by_admin"]??'',
     shipment: json["shipment"]??'',
     deliveryMan: json["delivery_man"]??'',
+    refundRequest: json["refund_request"]??0,
   );
+  }
 
   Map<String, dynamic> toJson() => {
     "id": id,
@@ -237,6 +241,7 @@ class OrderModel {
     "by_admin": byAdmin,
     "shipment": shipment,
     "delivery_man": deliveryMan,
+    "refund_request": refundRequest,
   };
 }
 
@@ -337,7 +342,7 @@ class BillingAddressData {
     "phone": phoneValues.reverse[phone],
     "created_at": createdAt.toIso8601String(),
     "updated_at": updatedAt.toIso8601String(),
-    "state": stateValues.reverse[state],
+    // "state": stateValues.reverse[state],
     "country": countryValues.reverse[country],
     "latitude": latitudeValues.reverse[latitude],
     "longitude": adminCommissionValues.reverse[longitude],
@@ -404,13 +409,13 @@ final phoneValues = EnumValues({
   "+96665533112221": Phone.THE_96665533112221
 });
 
-enum State {
-  NULL
-}
+// enum State {
+//   NULL
+// }
 
-final stateValues = EnumValues({
-  "null": State.NULL
-});
+// final stateValues = EnumValues({
+//   "null": State.NULL
+// });
 
 enum Title {
   EMPTY,
@@ -563,8 +568,8 @@ class ShippingAddressData {
 
   factory ShippingAddressData.fromJson(Map<String, dynamic> json) => ShippingAddressData(
     id: json["id"]??0,
-    customerId: json["customer_id"]??0,
-    isGuest: json["is_guest"]??0,
+    customerId:int.tryParse( json["customer_id"].toString())??0,
+    isGuest: int.parse(json["is_guest"].toString()),
     contactPersonName: json["contact_person_name"],
     email: json["email"],
     addressType: json["address_type"],
@@ -578,8 +583,8 @@ class ShippingAddressData {
     country: json["country"].toString(),
     latitude: json["latitude"] ?? '',
     longitude: json["longitude"] ?? "",
-    isBilling: json["is_billing"],
-    areaId: json["area_id"]??0,
+    isBilling: int.parse(json["is_billing"].toString()),
+    areaId: json["area_id"].toString(),
     orderId: json["order_id"]??'',
     manUpdated: json["man_updated"]??0, name: json['name']??'', title: json['title']??'',
   );

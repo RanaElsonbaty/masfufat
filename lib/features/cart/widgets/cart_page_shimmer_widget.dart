@@ -12,6 +12,8 @@ class CartPageShimmerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: 10,
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
       padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
       itemBuilder: (context, index) {
         return Padding(

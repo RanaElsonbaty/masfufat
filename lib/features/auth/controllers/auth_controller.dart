@@ -667,6 +667,12 @@ void getConsent(){
 
     notifyListeners();
   }
+  bool _showGoogleMap=false;
+  bool get showGoogleMap=>_showGoogleMap;
+  void showMap(){
+    _showGoogleMap =!_showGoogleMap;
+    notifyListeners();
+  }
 
 }
 

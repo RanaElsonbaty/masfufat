@@ -1,4 +1,6 @@
 
+import 'package:camera/camera.dart';
+
 import '../../../../data/model/api_response.dart';
 
 abstract class SyncOrderServiceInterface{
@@ -14,6 +16,13 @@ abstract class SyncOrderServiceInterface{
   Future<ApiResponse> placeSyncWalletOrder(String id);
   Future<ApiResponse> placeBankTransferOrder(String id,String paymentMethod);
   //
+  Future<ApiResponse> bankAndDelayedPayment(
+      String orderID,
+      String paymentMethod,
+      String bank,
+      XFile attachment,
+      String holderName,
+      );
   // Future<dynamic> getSupportReplyList(String ticketID);
   //
   // Future<dynamic> sendReply(String ticketID, String message, List<XFile?> file);

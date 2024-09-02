@@ -3,7 +3,9 @@ import 'package:flutter_sixvalley_ecommerce/features/address/controllers/address
 import 'package:flutter_sixvalley_ecommerce/features/address/screens/saved_address_list_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/address/screens/saved_billing_address_list_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/domain/models/cart_model.dart';
+import 'package:flutter_sixvalley_ecommerce/features/cart/widgets/cart_bill.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/controllers/checkout_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/features/checkout/widgets/bank_transfer_bottom_sheet.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/widgets/payment_method_bottom_sheet_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/payment%20/controller/payment_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/profile/controllers/profile_contrroller.dart';
@@ -56,7 +58,6 @@ class CheckoutScreen extends StatefulWidget {
 
 class CheckoutScreenState extends State<CheckoutScreen> {
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey = GlobalKey<ScaffoldMessengerState>();
-  final TextEditingController _controller = TextEditingController();
   final GlobalKey<FormState> passwordFormKey = GlobalKey<FormState>();
 
 
@@ -199,6 +200,8 @@ else if(orderProvider.selectedDigitalPaymentMethodId==0){
                                      }
   orderProvider.getLoading(false);
 
+                                        }else if(orderProvider.selectedDigitalPaymentMethodId==3){
+ showAnimatedDialog(context, const BankTransfer(type: 'checkOut',), dismissible: true, willFlip: true);
                                         }
                                         else if(orderProvider.selectedDigitalPaymentMethodId==4){
                                           showAnimatedDialog(context, WalletPaymentWidget(
@@ -256,44 +259,13 @@ else if(orderProvider.selectedDigitalPaymentMethodId==0){
                         child: ShippingDetailsWidget(hasPhysical: widget.hasPhysical, billingAddress: _billingAddress, passwordFormKey: passwordFormKey)),
 
 
-                      if(Provider.of<AuthController>(context, listen: false).isLoggedIn())
-                      Padding(padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
-                        child: CouponApplyWidget(couponController: _controller, orderAmount: _order)),
 
 
 
 
-                      Padding(padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeDefault,
-                          Dimensions.paddingSizeDefault, Dimensions.paddingSizeDefault,Dimensions.paddingSizeSmall),
-                        child: Text(getTranslated('order_summary', context)??'',
-                          style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge))),
 
 
 
-                      Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
-                        child: Consumer<CheckoutController>(
-                          builder: (context, checkoutController, child) {
-                             _couponDiscount = Provider.of<CouponController>(context).discount ?? 0;
-
-                            return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                              widget.quantity>1?
-                              AmountWidget(title: '${getTranslated('sub_total', context)} ${' (${widget.quantity} ${getTranslated('items', context)}) '}',
-                                  amount: PriceConverter.convertPrice(context, _order)):
-                              AmountWidget(title: '${getTranslated('sub_total', context)} ${'(${widget.quantity} ${getTranslated('item', context)})'}',
-                                  amount: PriceConverter.convertPrice(context, _order)),
-                              AmountWidget(title: getTranslated('shipping_fee', context),
-                                  amount: PriceConverter.convertPrice(context, widget.shippingFee)),
-                              AmountWidget(title: getTranslated('discount', context),
-                                  amount: PriceConverter.convertPrice(context, widget.discount)),
-                              AmountWidget(title: getTranslated('coupon_voucher', context),
-                                  amount: PriceConverter.convertPrice(context, _couponDiscount)),
-                              AmountWidget(title: getTranslated('tax', context),
-                                  amount: PriceConverter.convertPrice(context, widget.tax)),
-                              Divider(height: 5, color: Theme.of(context).hintColor),
-                              AmountWidget(title: getTranslated('total_payable', context),
-                                  amount: PriceConverter.convertPrice(context,
-                                  (_order + widget.shippingFee - widget.discount - _couponDiscount! + widget.tax))),
-                            ]);})),
 
 
                         const SizedBox(height: 10,),
@@ -310,15 +282,60 @@ else if(orderProvider.selectedDigitalPaymentMethodId==0){
                                 Text('${getTranslated('order_note', context)}',
                                     style: textRegular.copyWith(fontSize: Dimensions.fontSizeLarge))]),
                               const SizedBox(height: Dimensions.paddingSizeSmall),
-                              CustomTextFieldWidget(
-                                  hintText: getTranslated('enter_note', context),
-                                  inputType: TextInputType.multiline,
-                                  inputAction: TextInputAction.done,
-                                  maxLines: 3,
-                                  focusNode: _orderNoteNode,
-                                  controller: orderProvider.orderNoteController)
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(width: 0.5,color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(8)
+                                ),
+                                child: CustomTextFieldWidget(
+                                    hintText: getTranslated('Enter_any_comments_here', context),
+                                    inputType: TextInputType.multiline,
+                                    inputAction: TextInputAction.done,
+                                    labelText: getTranslated('Enter_any_comments_here', context),
+                                    showLabelText: false,
+                                    // borderRadius:  ,
+                                    borderColor: Colors.black,
+                                    showBorder: true,
+                                    borderRadius: 8,
+
+                                    backGroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                    maxLines: 3,
+                                    focusNode: _orderNoteNode,
+                                    controller: orderProvider.orderNoteController),
+                              )
                             ]
                             )),
+                        const SizedBox(height: 10,),
+                        // Padding(padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeDefault,
+                        //     Dimensions.paddingSizeDefault, Dimensions.paddingSizeDefault,Dimensions.paddingSizeSmall),
+                        //     child: Text(getTranslated('order_summary', context)??'',
+                        //         style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge))),
+
+                        Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+                            child: Consumer<CheckoutController>(
+                                builder: (context, checkoutController, child) {
+
+                                  return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                    CartBill(cartList: widget.cartList,fromCheckOut: false,),
+                                    // widget.quantity>1?
+                                    //
+                                    // AmountWidget(title: '${getTranslated('sub_total', context)}',
+                                    //     amount: PriceConverter.convertPrice(context, _order)):
+                                    // AmountWidget(title: '${getTranslated('sub_total', context)} ',
+                                    //     amount: PriceConverter.convertPrice(context, _order)),
+                                    // AmountWidget(title: getTranslated('shipping_fee', context),
+                                    //     amount: PriceConverter.convertPrice(context, widget.shippingFee)),
+                                    // AmountWidget(title: getTranslated('discount', context),
+                                    //     amount: PriceConverter.convertPrice(context, widget.discount)),
+                                    // AmountWidget(title: getTranslated('coupon_voucher', context),
+                                    //     amount: PriceConverter.convertPrice(context, _couponDiscount)),
+                                    // AmountWidget(title: getTranslated('tax', context),
+                                    //     amount: PriceConverter.convertPrice(context, widget.tax)),
+                                    // Divider(height: 5, color: Theme.of(context).hintColor),
+                                    // AmountWidget(title: getTranslated('total_payable', context),
+                                    //     amount: PriceConverter.convertPrice(context,
+                                    //         (_order + widget.shippingFee - widget.discount - _couponDiscount! + widget.tax))),
+                                  ]);})),
                       ]),
                   ),
                 ],

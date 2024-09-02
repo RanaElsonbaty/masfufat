@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sixvalley_ecommerce/features/sync%20order/controllers/sync_order_controller.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_sixvalley_ecommerce/features/sync%20order/widgets/sync_o
 import 'package:flutter_sixvalley_ecommerce/helper/date_converter.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/basewidget/show_custom_snakbar_widget.dart';
@@ -26,11 +28,24 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
       builder:(context, syncOrderProvider, child) =>  Column(
         children: [
 
-          const Row(children: [
-            Expanded(child: SyncOrderType(text: 'منصه مصفوفات', index: 0,)),
-            Expanded(child: SyncOrderType(text: 'منصه المتجر', index: 1,)),
-          ],),
-          const SizedBox(height: Dimensions.paddingSizeDefault),
+           Padding(
+             padding: const EdgeInsets.all(8.0),
+             child: Row(
+               crossAxisAlignment: CrossAxisAlignment.center,
+               children: [
+              Expanded(
+                  flex: 1,
+                  child: Text(getTranslated('Order_information', context)!,
+
+                    style: GoogleFonts.tajawal(
+                    fontWeight: FontWeight.w500
+
+             ,fontSize: 16                ),)),
+               Expanded(child: SyncOrderType(text: getTranslated('Matrix_platform', context), index: 0,)),
+               Expanded(child: SyncOrderType(text: getTranslated('Store_platform', context), index: 1,)),
+                       ],),
+           ),
+          const SizedBox(height: Dimensions.paddingSizeSmall),
 
           syncOrderProvider.userTypeIndex==0?      Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -42,25 +57,23 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('Date_and_time_of_order', context)!} :',
+                        child: Text('${getTranslated('Date_and_time_of_order', context)!} : ${DateConverter.formatDate(widget.orderDetailsModel.createdAt!)}',
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                          fontSize: 16,
-                        ),),
+                          style:  GoogleFonts.tajawal(
+                          fontSize: 14,
+                            fontWeight: FontWeight.w400,
+
+                        ),
+                        ),
                       ),
+                      // const Spacer(),
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 0),
+                      //   child: Text(,style: const TextStyle(
+                      //   fontSize: 16,
+                      //   ),),
+                      // ),
                       const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(width: 1,color: Colors.grey)
-                        ),
-                        child:  Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 4),
-                          child: Text(DateConverter.formatDate(widget.orderDetailsModel.createdAt!),style: const TextStyle(
-                          fontSize: 16,
-                          ),),
-                        ),
-                      ),
                       InkWell(
                           onTap: (){
                             showCustomSnackBar(
@@ -82,26 +95,17 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('Order_status_on_Matrix_platform', context)!} :',
+                        child: Text('${getTranslated('Order_status_on_Matrix_platform', context)!} : ${getTranslated(widget.orderDetailsModel.orderStatus!, context)!}',
 
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                          fontSize: 16,
-                        ),),
+                          style:  GoogleFonts.tajawal(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+
+                          ),),
                       ),
                       const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(width: 1,color: Colors.grey)
-                        ),
-                        child:  Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 4),
-                          child: Text(getTranslated(widget.orderDetailsModel.orderStatus!, context)!,style: const TextStyle(
-                          fontSize: 16,
-                          ),),
-                        ),
-                      ),
+
                       InkWell(
                           onTap: (){
                             showCustomSnackBar(
@@ -123,26 +127,28 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('Order_payment_status_on_the_Mushafat_platform', context)!} :',
+                        child: Text('${getTranslated('Order_payment_status_on_the_Mushafat_platform', context)!} : ${getTranslated(widget.orderDetailsModel.paymentStatus, context)!}',
 
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                          fontSize: 16,
-                        ),),
+                          style:  GoogleFonts.tajawal(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+
+                          ),),
                       ),
                       const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(width: 1,color: Colors.grey)
-                        ),
-                        child:  Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 4),
-                          child: Text(getTranslated(widget.orderDetailsModel.paymentStatus, context)!,style: const TextStyle(
-                          fontSize: 16,
-                          ),),
-                        ),
-                      ),
+                      // Container(
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(12),
+                      //     border: Border.all(width: 1,color: Colors.grey)
+                      //   ),
+                      //   child:  Padding(
+                      //     padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 4),
+                      //     child: Text(getTranslated(widget.orderDetailsModel.paymentStatus, context)!,style: const TextStyle(
+                      //     fontSize: 16,
+                      //     ),),
+                      //   ),
+                      // ),
                       InkWell(
                           onTap: (){
                             showCustomSnackBar(
@@ -163,26 +169,17 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('payment_method', context)!} :',
+                        child: Text('${getTranslated('payment_method', context)!} : ${widget.orderDetailsModel.paymentMethod!=null?getTranslated(widget.orderDetailsModel.paymentMethod, context)!:''}',
 
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                          fontSize: 16,
-                        ),),
+                          style:  GoogleFonts.tajawal(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+
+                          ),),
                       ),
                       const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(width: 1,color: Colors.grey)
-                        ),
-                        child:  Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 4),
-                          child: Text(widget.orderDetailsModel.paymentMethod!=null?getTranslated(widget.orderDetailsModel.paymentMethod, context)!:'',style: const TextStyle(
-                          fontSize: 16,
-                          ),),
-                        ),
-                      ),
+
                       InkWell(
                           onTap: (){
                             showCustomSnackBar(
@@ -204,29 +201,17 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('Shipping_and_delivery_company', context)!} :',
+                        child: Text('${getTranslated('Shipping_and_delivery_company', context)!} : ${widget.orderDetailsModel.shippingInfo != null && widget.orderDetailsModel.shippingInfo!.senderInfo!=null&& widget.orderDetailsModel.shippingInfo!.senderInfo!.name != null ? widget.orderDetailsModel.shippingInfo!.senderInfo!.name : ""}',
                           overflow: TextOverflow.ellipsis,
 
-                          style: const TextStyle(
-                          fontSize: 16,
-                        ),),
+                          style:  GoogleFonts.tajawal(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+
+                          ),),
                       ),
                       const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(width: 1,color: Colors.grey)
-                        ),
-                        child:  Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 4),
-                          child: Text(
 
-                          ' ${widget.orderDetailsModel.shippingInfo != null && widget.orderDetailsModel.shippingInfo!.senderInfo!=null&& widget.orderDetailsModel.shippingInfo!.senderInfo!.name != null ? widget.orderDetailsModel.shippingInfo!.senderInfo!.name : ""}',
-                          style: const TextStyle(
-                          fontSize: 16,
-                          ),),
-                        ),
-                      ),
                       InkWell(
                           onTap: (){
                             showCustomSnackBar(
@@ -250,29 +235,17 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('Tracking_number_with_shipping_and_delivery_company', context)!} :',
+                        child: Text('${getTranslated('Tracking_number_with_shipping_and_delivery_company', context)!} : ${widget.orderDetailsModel.shippingInfo != null && widget.orderDetailsModel.shippingInfo!.shipmentData != null && widget.orderDetailsModel.shippingInfo!.shipmentData!.shippingTrackingNo != null ? widget.orderDetailsModel.shippingInfo!.shipmentData!.shippingTrackingNo! : ""}',
 
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                          fontSize: 16,
-                        ),),
+                          style:  GoogleFonts.tajawal(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+
+                          ),),
                       ),
                       const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(width: 1,color: Colors.grey)
-                        ),
-                        child:  Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 4),
-                          child: Text(
 
-                          ' ${widget.orderDetailsModel.shippingInfo != null && widget.orderDetailsModel.shippingInfo!.shipmentData != null && widget.orderDetailsModel.shippingInfo!.shipmentData!.shippingTrackingNo != null ? widget.orderDetailsModel.shippingInfo!.shipmentData!.shippingTrackingNo! : ""}',
-                          style: const TextStyle(
-                          fontSize: 16,
-                          ),),
-                        ),
-                      ),
                       InkWell(
                           onTap: (){
                             showCustomSnackBar(
@@ -296,29 +269,17 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('Shipment_status_with_shipping_and_delivery_company', context)!} :',
+                        child: Text('${getTranslated('Shipment_status_with_shipping_and_delivery_company', context)!} : ${widget.orderDetailsModel.shippingInfo != null && widget.orderDetailsModel.shippingInfo!.shipmentData != null && widget.orderDetailsModel.shippingInfo!.shipmentData!.status != null ? widget.orderDetailsModel.shippingInfo!.shipmentData!.status! : ""}',
 
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                          fontSize: 16,
-                        ),),
+                          style:  GoogleFonts.tajawal(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+
+                          ),),
                       ),
                       const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(width: 1,color: Colors.grey)
-                        ),
-                        child:  Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 4),
-                          child: Text(
-                          ' ${widget.orderDetailsModel.shippingInfo != null && widget.orderDetailsModel.shippingInfo!.shipmentData != null && widget.orderDetailsModel.shippingInfo!.shipmentData!.status != null ? widget.orderDetailsModel.shippingInfo!.shipmentData!.status! : ""}',
 
-                          style: const TextStyle(
-                          fontSize: 16,
-                          ),),
-                        ),
-                      ),
                       InkWell(
                           onTap: (){
                             showCustomSnackBar(
@@ -350,28 +311,16 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('Order_status_on_the_store_platform', context)!} :',
+                        child: Text('${getTranslated('Order_status_on_the_store_platform', context)!} : ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.status != null ? widget.orderDetailsModel.externalOrder!.status! : ""}',
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                          fontSize: 16,
-                        ),),
+                          style:  GoogleFonts.tajawal(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+
+                          ),),
                       ),
                       const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(width: 1,color: Colors.grey)
-                        ),
-                        child:  Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 4),
-                          child: Text(
-                            ' ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.status != null ? widget.orderDetailsModel.externalOrder!.status! : ""}',
 
-    style: const TextStyle(
-                          fontSize: 16,
-                          ),),
-                        ),
-                      ),
                       InkWell(
                           onTap: (){
                             showCustomSnackBar(
@@ -394,28 +343,17 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('Payment_status_of_the_order_by_the_end_customer_of_the_store', context)!} :',
+                        child: Text('${getTranslated('Payment_status_of_the_order_by_the_end_customer_of_the_store', context)!} : ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.isPendingPayment != null ? widget.orderDetailsModel.externalOrder!.details!.data!.isPendingPayment == true ? getTranslated('unpaid', context) : getTranslated('paid', context) : ""}',
 
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                          fontSize: 16,
-                        ),),
+                          style:  GoogleFonts.tajawal(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+
+                          ),),
                       ),
                       const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(width: 1,color: Colors.grey)
-                        ),
-                        child:  Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 4),
-                          child: Text(
-                            '${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.isPendingPayment != null ? widget.orderDetailsModel.externalOrder!.details!.data!.isPendingPayment == true ? getTranslated('unpaid', context) : getTranslated('paid', context) : ""}',
-                            style: const TextStyle(
-                          fontSize: 16,
-                          ),),
-                        ),
-                      ),
+
                       InkWell(
                           onTap: (){
                             showCustomSnackBar(
@@ -438,29 +376,17 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('payment_method', context)!} :',
+                        child: Text('${getTranslated('payment_method', context)!} : ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.paymentMethod != null ? getTranslated(widget.orderDetailsModel.externalOrder!.details!.data!.paymentMethod, context) : ""}',
 
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                          fontSize: 16,
-                        ),),
+                          style:  GoogleFonts.tajawal(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+
+                          ),),
                       ),
                       const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(width: 1,color: Colors.grey)
-                        ),
-                        child:  Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 4),
-                          child: Text(
-                            '${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.paymentMethod != null ? getTranslated(widget.orderDetailsModel.externalOrder!.details!.data!.paymentMethod, context) : ""}',
 
-                            style: const TextStyle(
-                          fontSize: 16,
-                          ),),
-                        ),
-                      ),
                       InkWell(
                           onTap: (){
                             showCustomSnackBar(
@@ -484,29 +410,17 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('Order_number_on_the_store_platform', context)!} :',
+                        child: Text('${getTranslated('Order_number_on_the_store_platform', context)!} : ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.referenceId != null ? widget.orderDetailsModel.externalOrder!.details!.data!.referenceId : ""}',
                           overflow: TextOverflow.ellipsis,
 
-                          style: const TextStyle(
-                          fontSize: 16,
-                        ),),
+                          style:  GoogleFonts.tajawal(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+
+                          ),),
                       ),
                       const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(width: 1,color: Colors.grey)
-                        ),
-                        child:  Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 4),
-                          child: Text(
 
-                            ' ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.referenceId != null ? widget.orderDetailsModel.externalOrder!.details!.data!.referenceId : ""}',
-                          style: const TextStyle(
-                          fontSize: 16,
-                          ),),
-                        ),
-                      ),
                       InkWell(
                           onTap: (){
                             showCustomSnackBar(
@@ -530,29 +444,17 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('End_customer_name', context)!} :',
+                        child: Text('${getTranslated('End_customer_name', context)!} : ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer!.lastName != null ?( '${widget.orderDetailsModel.externalOrder!.details!.data!.customer!.firstName} ${widget.orderDetailsModel.externalOrder!.details!.data!.customer!.lastName}') : ""}',
 
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                          fontSize: 16,
-                        ),),
+                          style:  GoogleFonts.tajawal(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+
+                          ),),
                       ),
                       const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(width: 1,color: Colors.grey)
-                        ),
-                        child:  Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 4),
-                          child: Text(
 
-                            '  ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer!.lastName != null ?( '${widget.orderDetailsModel.externalOrder!.details!.data!.customer!.firstName} ${widget.orderDetailsModel.externalOrder!.details!.data!.customer!.lastName}') : ""}',
-                          style: const TextStyle(
-                          fontSize: 16,
-                          ),),
-                        ),
-                      ),
                       InkWell(
                           onTap: (){
                             showCustomSnackBar(
@@ -576,29 +478,17 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('End_customer_mobile_number', context)!} :',
+                        child: Text('${getTranslated('End_customer_mobile_number', context)!} : ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer!.mobile != null ? widget.orderDetailsModel.externalOrder!.details!.data!.customer!.mobile : ""}',
 
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                          fontSize: 16,
-                        ),),
+                          style:  GoogleFonts.tajawal(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+
+                          ),),
                       ),
                       const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(width: 1,color: Colors.grey)
-                        ),
-                        child:  Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 4),
-                          child: Text(
-                            '  ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer!.mobile != null ? widget.orderDetailsModel.externalOrder!.details!.data!.customer!.mobile : ""}',
 
-                          style: const TextStyle(
-                          fontSize: 16,
-                          ),),
-                        ),
-                      ),
                       InkWell(
                           onTap: (){
                             showCustomSnackBar(
@@ -621,29 +511,17 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('End_customer_email', context)!} :',
+                        child: Text('${getTranslated('End_customer_email', context)!} : ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer!.email != null ? widget.orderDetailsModel.externalOrder!.details!.data!.customer!.email : ""}',
 
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                          fontSize: 16,
-                        ),),
+                          style:  GoogleFonts.tajawal(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+
+                          ),),
                       ),
                       const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(width: 1,color: Colors.grey)
-                        ),
-                        child:  Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 4),
-                          child: Text(
-                            '  ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer!.email != null ? widget.orderDetailsModel.externalOrder!.details!.data!.customer!.email : ""}',
 
-                          style: const TextStyle(
-                          fontSize: 16,
-                          ),),
-                        ),
-                      ),
                       InkWell(
                           onTap: (){
                             showCustomSnackBar(

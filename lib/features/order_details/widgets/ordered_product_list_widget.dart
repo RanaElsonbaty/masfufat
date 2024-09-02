@@ -5,12 +5,16 @@ import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dar
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../order/domain/models/order_model.dart';
+
 class OrderProductListWidget extends StatelessWidget {
   final String? orderType;
   final String? orderId;
   final bool fromTrack;
+  final OrderModel orderModel;
   final int? isGuest;
-  const OrderProductListWidget({super.key, this.orderType,  this.fromTrack = false, this.isGuest, this.orderId});
+  final bool? fromRefunt;
+  const OrderProductListWidget({super.key, this.orderType,  this.fromTrack = false, this.isGuest, this.orderId, required this.orderModel, this.fromRefunt=false});
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +28,10 @@ class OrderProductListWidget extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, i) => OrderDetailsWidget(orderDetailsModel: orderDetailsController.orderDetails![i],
               isGuest: isGuest,
+              fromRefunt: fromRefunt,
               fromTrack: fromTrack,
               callback: () {showCustomSnackBar('${getTranslated('review_submitted_successfully', context)}', context, isError: false);},
-              orderType: orderType!, paymentStatus: orderDetailsController.orders!.paymentStatus, orderId: orderId!, index: i),
+              orderType: orderType!, paymentStatus: orderDetailsController.orders!.paymentStatus, orderId: orderId!, index: i, orderModel: orderModel,),
         );
       }
     );

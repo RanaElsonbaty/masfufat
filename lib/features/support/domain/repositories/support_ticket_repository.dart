@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_sixvalley_ecommerce/data/datasource/remote/dio/dio_client.dart';
 import 'package:flutter_sixvalley_ecommerce/data/datasource/remote/exception/api_error_handler.dart';
@@ -70,7 +72,6 @@ class SupportTicketRepository implements SupportTicketRepositoryInterface{
     // return response;
     try {
       List<MultipartFile> attachmentFile=[];
-
       if(file.isNotEmpty){
       for (var element in file) {
         attachmentFile.add(
@@ -82,10 +83,10 @@ class SupportTicketRepository implements SupportTicketRepositoryInterface{
 
       var data =
       FormData.fromMap({'attachments[]': attachmentFile, 'message': message});
-
       final response = await dioClient!.post('${AppConstants.supportTicketReplyUri}$ticketID',data: data);
       return ApiResponse.withSuccess(response);
     } catch (e) {
+
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }

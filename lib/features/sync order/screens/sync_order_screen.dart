@@ -90,7 +90,7 @@ class _SyncOrderScreenState extends State<SyncOrderScreen> {
           Expanded(
             child: PagedListView(
                 addAutomaticKeepAlives: true,
-                padding: const EdgeInsets.symmetric(horizontal: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
                 shrinkWrap: true,
                 pagingController: _pagingController,
                 scrollDirection: Axis.vertical,

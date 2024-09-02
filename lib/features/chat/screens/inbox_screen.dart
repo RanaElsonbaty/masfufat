@@ -1,15 +1,13 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/features/chat/domain/models/chat_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/chat/widgets/conversation_tabview.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/chat/controllers/chat_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/not_loggedin_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/chat/widgets/chat_item_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/chat/widgets/inbox_shimmer_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/chat/widgets/search_inbox_widget.dart';
@@ -34,17 +32,22 @@ class _InboxScreenState extends State<InboxScreen> with SingleTickerProviderStat
   @override
   void initState() {
 
-    isGuestMode = !Provider.of<AuthController>(context, listen: false).isLoggedIn();
-      if(!isGuestMode) {
+    // isGuestMode = !Provider.of<AuthController>(context, listen: false).isLoggedIn();
+    //   if(!isGuestMode) {
         load();
         _tabController = TabController(vsync: this, length: 2);
-      }
+      // }
+
     super.initState();
   }
 
 
   Future<void> load ()async {
-    // await Provider.of<ChatController>(context, listen: false).getChatList(1, reload: false);
+    await Provider.of<ChatController>(context, listen: false).getChatList(1, reload: false,userType: 0);
+    await Provider.of<ChatController>(context, listen: false).getChatList(1, reload: false,userType: 1  );
+    _tabController.addListener(() {
+      Provider.of<ChatController>(context,listen: false).getChatType(_tabController.index);
+    });
   }
 
   @override
@@ -69,21 +72,19 @@ class _InboxScreenState extends State<InboxScreen> with SingleTickerProviderStat
         body: Consumer<ChatController>(
           builder: (context, chat, _) {
             return Column(children: [
-              if(!isGuestMode)
-              Consumer<ChatController>(
-                builder: (context, chat, _) {
-                  return Padding(padding: const EdgeInsets.fromLTRB( Dimensions.homePagePadding,
-                      Dimensions.paddingSizeSmall, Dimensions.homePagePadding, 0),
-                    child: SearchInboxWidget(hintText: getTranslated('search', context)));
-                }),
-
-              if(!isGuestMode)
+              // if(!isGuestMode)
               Padding(padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeExtraSmall,
-                Dimensions.paddingSizeDefault, Dimensions.paddingSizeDefault, Dimensions.paddingSizeSmall),
+                  Dimensions.paddingSizeDefault, Dimensions.paddingSizeDefault, Dimensions.paddingSizeSmall),
                 child: ConversationListTabview(tabController: _tabController),
               ),
+              Consumer<ChatController>(
+                builder: (context, chat, _) {
+                  return Padding(padding:const EdgeInsets.symmetric(horizontal: 20,vertical: 10),    child: SearchInboxWidget(hintText: getTranslated('search', context)));
+                }),
 
-              Expanded(child: isGuestMode ? NotLoggedInWidget(message: getTranslated('to_communicate_with_vendors', context)) :
+
+
+              Expanded(child:
 
                 RefreshIndicator(
                   onRefresh: () async {
@@ -92,31 +93,32 @@ class _InboxScreenState extends State<InboxScreen> with SingleTickerProviderStat
                   },
                 child: Consumer<ChatController>(
                   builder: (context, chatProvider, child) {
-                    // ChatModel? _cahtModel = _tabController.index == 0 ?  chatProvider.isSearchComplete ?
-                    // chatProvider.searchDeliverymanChatModel : chatProvider.deliverymanChatModel :
-                    // chatProvider.isSearchComplete ? chatProvider.searchChatModel : chatProvider.chatModel;
-                    ChatModel? cahtModel;
+                    // ChatModel? catModel;
 
-                    if(_tabController.index == 0){
-                      if(chatProvider.isSearchComplete){
-                        cahtModel = chatProvider.searchDeliverymanChatModel;
-                      } else {
-                        cahtModel = chatProvider.deliverymanChatModel;
-                      }
-                    } else{
-                      if(chatProvider.isSearchComplete){
-                        cahtModel = chatProvider.searchChatModel;
-                      } else {
-                        cahtModel = chatProvider.chatModel;
-                      }
-                    }
+                    // if(_tabController.index == 0){
+                    //   if(chatProvider.isSearchComplete){
+                    //     catModel = chatProvider.searchDeliverymanChatModel;
+                    //   } else {
+                    //     catModel = chatProvider.deliverymanChatModel;
+                    //   }
+                    // } else{
+                    //   if(chatProvider.isSearchComplete){
+                    //     catModel = chatProvider.searchChatModel;
+                    //   } else {
+                    //     catModel = chatProvider.chatModel;
+                    //   }
+                    // }
 
-                    return cahtModel != null? (cahtModel.chat != null && cahtModel.chat!.isNotEmpty)?
+                    return chatProvider.loading==false? (chatProvider.catModel!=null&&chatProvider.catModel!.chat != null && chatProvider.catModel!.chat!.isNotEmpty)?
                       ListView.builder(
-                        itemCount: cahtModel.chat?.length,
-                        padding: const EdgeInsets.all(0),
+                        itemCount: chatProvider.catModel!.chat?.length,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15,),
                         itemBuilder: (context, index) {
-                          return ChatItemWidget(chat: cahtModel?.chat![index], chatProvider: chat);
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4.0),
+                            child: ChatItemWidget(chat: chatProvider.catModel?.chat![index], chatProvider: chat),
+                          );
                         },
                       ) : const NoInternetOrDataScreenWidget(isNoInternet: false, message: 'no_conversion', icon: Images.noInbox) : const InboxShimmerWidget();
                   }))

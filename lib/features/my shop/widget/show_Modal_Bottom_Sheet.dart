@@ -258,7 +258,7 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
   }
   Future addPrice(MyShopController myShopController)async{
     for (int i=0;i<myShopController.pendingList.length;i++) {
-     await myShopController. addProductPrice(myShopController.pendingList[i].id!,myShopController.controller[i].text);
+     await myShopController. addProductPrice(myShopController.pendingList[i].id,myShopController.controller[i].text);
 
     }
   }

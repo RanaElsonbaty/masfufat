@@ -6,7 +6,6 @@ import 'package:flutter_sixvalley_ecommerce/features/order_details/widgets/order
 import 'package:flutter_sixvalley_ecommerce/features/order_details/widgets/order_details_status_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/widgets/ordered_product_list_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/widgets/payment_info_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/order_details/widgets/seller_section_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/widgets/shipping_and_billing_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/widgets/shipping_info_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
@@ -185,12 +184,12 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
 
 
-                  SellerSectionWidget(order: orderProvider),
+                  // SellerSectionWidget(order: orderProvider),
 
 
                   if(orderProvider.orders != null)
                     OrderProductListWidget(orderType: orderProvider.orders!.orderType,
-                      fromTrack: widget.fromTrack,isGuest:0,orderId: orderProvider.orders!.id.toString()),
+                      fromTrack: widget.fromTrack,isGuest:0,orderId: orderProvider.orders!.id.toString(), orderModel: orderProvider.orders!,),
 
 
                   const SizedBox(height: Dimensions.marginSizeDefault),
@@ -277,7 +276,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   const SizedBox(height: Dimensions.paddingSizeDefault),
                   PaymentInfoWidget(order: orderProvider),
                   const SizedBox(height: Dimensions.paddingSizeSmall),
-                  CancelAndSupportWidget(orderModel: orderProvider.orders),
+                  CancelAndSupportWidget(orderModel: orderProvider.orders,orderDetailsModel: orderProvider.orderDetails!,),
                 ],
                 ) : const OrderDetailsShimmer();
               },

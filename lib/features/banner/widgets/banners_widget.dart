@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/banner/controllers/banner_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/banner/widgets/banner_shimmer.dart';
@@ -6,101 +6,96 @@ import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.d
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import '../domain/models/banner_model.dart';
 
 
 
-class BannersWidget extends StatelessWidget {
-  const BannersWidget({super.key});
+class BannersWidget extends StatefulWidget {
+  const BannersWidget({super.key, required this.mainBannerList});
+  final   List<BannerModel> mainBannerList;
+
+  @override
+  State<BannersWidget> createState() => _BannersWidgetState();
+}
+
+class _BannersWidgetState extends State<BannersWidget> {
+  PageController controller=PageController(viewportFraction: 1, keepPage: true);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
+    final pages = List.generate(
+        widget.mainBannerList.length ,
+            (index,) =>  widget.mainBannerList != null ? widget.mainBannerList.isNotEmpty ?
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: SizedBox(height: width * 0.40, width: width,
+          child:InkWell(
+            onTap: () {
+              if(widget.mainBannerList[index].resourceId != null){
+                Provider.of<BannerController>(context,listen: false).clickBannerRedirect(context,
+                    widget.mainBannerList[index].resourceId,
+                    widget.mainBannerList[index].resourceType =='product'?
+                    widget.mainBannerList[index].product : null,
+                    widget.mainBannerList[index].resourceType);
+              }
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
+              child: Container(decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
+                  color: Provider.of<ThemeController>(context, listen: false).darkTheme?
+                  Theme.of(context).primaryColor.withOpacity(.1) :
+                  Theme.of(context).primaryColor.withOpacity(.05)),
+                  child: CustomImageWidget(image: widget.mainBannerList[index].photo.toString(),fit: BoxFit.fill,)
+              ),
+            ),
+          ),
+        ),
+      ) : const SizedBox() : const BannerShimmer(),
+    );
     return Column(children: [
         Consumer<BannerController>(
           builder: (context, bannerProvider, child) {
+            return Column(children: [
 
-            double width = MediaQuery.of(context).size.width;
-            return Stack(children: [
-                bannerProvider.mainBannerList != null ? bannerProvider.mainBannerList!.isNotEmpty ?
-                SizedBox(height: width * 0.4,width: width,
-                  child: Column(children: [
-                      SizedBox(height: width * 0.33, width: width,
-                        child: CarouselSlider.builder(
-                          options: CarouselOptions(
-                            aspectRatio: 4/1,
-                            viewportFraction: 0.8,
-                            autoPlay: true,
-                            pauseAutoPlayOnTouch: true,
-                            pauseAutoPlayOnManualNavigate: true,
-                              pauseAutoPlayInFiniteScroll: true,
-                            enlargeFactor: .2,
-                            enlargeCenterPage: true,
-                            disableCenter: true,
-                            onPageChanged: (index, reason) {
-                              Provider.of<BannerController>(context, listen: false).setCurrentIndex(index);}),
-                          itemCount: bannerProvider.mainBannerList!.isEmpty ? 1 : bannerProvider.mainBannerList?.length,
-                          itemBuilder: (context, index, _) {
-
-                            return InkWell(
-                              onTap: () {
-                                if(bannerProvider.mainBannerList![index].resourceId != null){
-                                  bannerProvider.clickBannerRedirect(context,
-                                      bannerProvider.mainBannerList![index].resourceId,
-                                      bannerProvider.mainBannerList![index].resourceType =='product'?
-                                      bannerProvider.mainBannerList![index].product : null,
-                                      bannerProvider.mainBannerList![index].resourceType);
-                                }
-                                },
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                                child: Container(decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                                  color: Provider.of<ThemeController>(context, listen: false).darkTheme?
-                                  Theme.of(context).primaryColor.withOpacity(.1) :
-                                  Theme.of(context).primaryColor.withOpacity(.05)),
-                                    child: CustomImageWidget(image: bannerProvider.mainBannerList![index].photo.toString(),fit: BoxFit.fill,)
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ) : const SizedBox() : const BannerShimmer(),
-
+              SizedBox(
+                height:  width * 0.40,
+                child: PageView.builder(
+                  controller: controller,
+                  itemCount:pages.length ,
+                  onPageChanged: (val){
+                  },
+                  // itemCount: pages.length,
+                  itemBuilder: (_, index) {
+                    return pages[index % pages.length];
+                  },
+                ),
+              ),
+const SizedBox(height: 10,),
                 if( bannerProvider.mainBannerList != null &&  bannerProvider.mainBannerList!.isNotEmpty)
-                  Positioned(bottom: 0, left: 0, right: 0,
-                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      Container(height: 7, width: 7,
-                      margin:  const EdgeInsets.symmetric(horizontal: 5.0),
-                      decoration:  BoxDecoration(color: Theme.of(context).primaryColor.withOpacity(0.2),
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                        Row(mainAxisAlignment: MainAxisAlignment.center,
-                          children: bannerProvider.mainBannerList!.map((banner) {
-                            int index = bannerProvider.mainBannerList!.indexOf(banner);
-                            return index == bannerProvider.currentIndex ? Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 3),
-                              margin: const EdgeInsets.symmetric(horizontal: 6.0),
-                              decoration: BoxDecoration(
-                                color:  Theme.of(context).primaryColor ,
-                                borderRadius: BorderRadius.circular(50)),
-                              child:  Text("${bannerProvider.mainBannerList!.indexOf(banner) + 1}/ ${bannerProvider.mainBannerList!.length}",
-                                style: const TextStyle(color: Colors.white,fontSize: 12),),
-                            ):const SizedBox();
-                          }).toList(),
-                        ),
-                      Container(height: 7, width: 7,
-                        margin:  const EdgeInsets.symmetric(horizontal: 5.0),
-                        decoration:  BoxDecoration(color: Theme.of(context).primaryColor.withOpacity(0.2),
-                          shape: BoxShape.circle,
-                        ),
-                      )
-                      ],
-                    ),
+              Center(
+                child: SmoothPageIndicator(
+                  controller: controller,
+                  count:  widget.mainBannerList.length,
+                  axisDirection: Axis.horizontal,
+                  effect: SwapEffect(
+                    dotHeight: 5,
+                    dotWidth: 8,
+                    activeDotColor: Theme.of(context).primaryColor
                   ),
-              ],
+                ),
+              )
+            ],
             );
           },
         ),
@@ -108,7 +103,5 @@ class BannersWidget extends StatelessWidget {
       ],
     );
   }
-
-
 }
 

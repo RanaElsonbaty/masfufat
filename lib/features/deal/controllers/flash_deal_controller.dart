@@ -30,29 +30,31 @@ class FlashDealController extends ChangeNotifier {
           _flashDeal = FlashDealModel.fromJson(flash);
 
         });
-        if(_flashDeal!.id != null) {
-          DateTime endTime = DateFormat("yyyy-MM-dd").parse(_flashDeal!.endDate!).add(const Duration(days: 2));
-          _duration = endTime.difference(DateTime.now());
-          _timer?.cancel();
-          _timer = null;
-          _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-            _duration = _duration! - const Duration(seconds: 1);
-            notifyListeners();
-
-          });
-
-          ApiResponse megaDealResponse = await flashDealServiceInterface.get(_flashDeal!.id.toString());
-          if (megaDealResponse.response != null && megaDealResponse.response!.statusCode == 200) {
-            _flashDealList.clear();
-            megaDealResponse.response!.data.forEach((flashDeal) => _flashDealList.add(Product.fromJson(flashDeal)));
-            _currentIndex = 0;
-            notifyListeners();
-          } else {
-            ApiChecker.checkApi( megaDealResponse);
-          }
-        } else {
+    try{
+      if(_flashDeal!.id != null) {
+        DateTime endTime = DateFormat("yyyy-MM-dd").parse(_flashDeal!.endDate!).add(const Duration(days: 2));
+        _duration = endTime.difference(DateTime.now());
+        _timer?.cancel();
+        _timer = null;
+        _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+          _duration = _duration! - const Duration(seconds: 1);
           notifyListeners();
+
+        });
+
+        ApiResponse megaDealResponse = await flashDealServiceInterface.get(_flashDeal!.id.toString());
+        if (megaDealResponse.response != null && megaDealResponse.response!.statusCode == 200) {
+          _flashDealList.clear();
+          megaDealResponse.response!.data.forEach((flashDeal) => _flashDealList.add(Product.fromJson(flashDeal)));
+          _currentIndex = 0;
+          notifyListeners();
+        } else {
+          ApiChecker.checkApi( megaDealResponse);
         }
+      } else {
+        notifyListeners();
+      }
+    }catch(e){}
       } else {
         ApiChecker.checkApi( apiResponse);
       }

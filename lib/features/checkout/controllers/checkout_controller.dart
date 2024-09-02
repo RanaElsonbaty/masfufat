@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/domain/services/checkout_service_interface.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/screens/digital_payment_order_place_screen.dart';
 import 'package:provider/provider.dart';
+
 
 
 
@@ -183,6 +185,32 @@ void getLoading(bool val){
   }
 
 
+  Future<ApiResponse> createPaymentWithBankTransfer(
+      context, XFile attachment, String holderName, ) async {
+    _isLoading = true;
+    notifyListeners();
+
+    ApiResponse apiResponse = await checkoutServiceInterface
+        .createPaymentWithBankTransfer(attachment, holderName, );
+    _isLoading = false;
+    if (apiResponse.response != null &&
+        apiResponse.response!.statusCode == 200) {
+      notifyListeners();
+
+      return ApiResponse.withSuccess(apiResponse.response!);
+    } else {
+      try{
+        if (apiResponse.error is String) {
+        } else {
+        }
+      }catch(e){
+      }
+      _isLoading = false;
+
+      notifyListeners();
+      return ApiResponse.withError(apiResponse.error);
+    }
+  }
 
   OfflinePaymentModel? offlinePaymentModel;
   Future<ApiResponse> getOfflinePaymentList() async {

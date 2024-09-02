@@ -11,7 +11,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-
+  pull_down_button: ^0.10.1
   cupertino_icons: ^1.0.6
   get_it: ^7.6.6
   provider: ^6.0.3
@@ -53,6 +53,9 @@ dependencies:
   flutter_svg: ^2.0.9
   country_code_picker: ^3.0.0
   pin_code_fields: ^8.0.1
+  pinput: ^5.0.0
+
+  smooth_page_indicator: ^1.2.0+3
   google_maps_flutter: ^2.5.2
   geocoding: ^2.0.0
   geolocator: ^10.1.0
@@ -89,6 +92,7 @@ dependencies:
   open_file_plus: ^3.4.1
   flutter_pdfview: ^1.2.7
   readmore: ^3.0.0
+  flutter_animate: ^4.5.0
   open_file_manager: ^1.0.2
 
 

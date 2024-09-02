@@ -10,7 +10,13 @@ import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/screens/product_details_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/favourite_button_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
+import '../../../common/basewidget/show_custom_snakbar_widget.dart';
+import '../../cart/controllers/cart_controller.dart';
+import '../../cart/domain/models/cart_model.dart';
+import '../../my shop/controllers/my_shop_controller.dart';
 
 class FeaturedDealWidget extends StatelessWidget {
   final Product product;
@@ -44,8 +50,9 @@ class FeaturedDealWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
                     child: CustomImageWidget(
                       image: '${product.imagesFullUrl}',
-                      height: constrains.maxHeight * 0.6,
+                      height: constrains.maxHeight * 0.8,
                       width: constrains.maxHeight * 0.6,
+                      fit: BoxFit.fill,
                     ),
                   ),
                 ),
@@ -57,36 +64,48 @@ class FeaturedDealWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
 
-                      if(product.currentStock! == 0 && product.productType == 'physical')
-                        Text(getTranslated('out_of_stock', context)??'',
-                            style: textRegular.copyWith(color: const Color(0xFFF36A6A))),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            if(product.currentStock! == 0 && product.productType == 'physical')
+                            Text(getTranslated('out_of_stock', context)??'',
+                                style: GoogleFonts.tajawal(color: const Color(0xFFF31B1B),fontSize: 12,fontWeight: FontWeight.w500)),
+                            FavouriteButtonWidget(
+                                backgroundColor: ColorResources.getImageBg(context), productId: product.id),
+                          ],
+                        ),
 
-                      const SizedBox(height: Dimensions.paddingSizeSmall),
-                      Row(children: [
+                      // const SizedBox(height: Dimensions.paddingSizeSmall),
+                      Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
 
-                        Icon(Icons.star_rate_rounded, color: Provider.of<ThemeController>(context).darkTheme ?
-                        Colors.white : Colors.orange, size: 15),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 3.0),
+                          child: Icon(Icons.star_rate_rounded, color: Provider.of<ThemeController>(context).darkTheme ?
+                          Colors.white : Colors.orange, size: 16),
+                        ),
 
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 2),
                           child: Text(
                             product.rating != null && product.rating!.isNotEmpty ? double.parse(product.rating![0].average!).toStringAsFixed(1) : '0.0',
-                            style: textMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall),
+                            style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeExtraSmall,fontWeight: FontWeight.w500,),
                           ),
                         ),
 
-                        Text('(${product.reviewCount.toString()})', style: textMedium.copyWith(
+                        Text('(${product.reviewCount.toString()})', style: GoogleFonts.tajawal(
                           color: Theme.of(context).hintColor,
                           fontSize: Dimensions.fontSizeExtraSmall,
                         )),
 
                       ]),
-                      const SizedBox(height: Dimensions.paddingSizeSmall),
+                      // const SizedBox(height: Dimensions.paddingSizeSmall),
 
 
                       Row(children: [
                         Flexible(child: Text(
-                          product.name ?? '', style: textMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                          product.name ?? '', style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault,fontWeight: FontWeight.w500),
                           maxLines: 2, overflow: TextOverflow.ellipsis,
                         )),
 
@@ -97,7 +116,7 @@ class FeaturedDealWidget extends StatelessWidget {
 
                       FittedBox(child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
                         Text(product.discount! > 0 ? PriceConverter.convertPrice(context, product.unitPrice!.toDouble()) : '',
-                            style: textRegular.copyWith(color: Theme.of(context).hintColor,
+                            style: GoogleFonts.tajawal(color: Theme.of(context).hintColor,
                                 decoration: TextDecoration.lineThrough, fontSize: Dimensions.fontSizeSmall)),
 
                         product.discount! > 0 ? const SizedBox(width: Dimensions.paddingSizeExtraSmall): const SizedBox(),
@@ -108,15 +127,108 @@ class FeaturedDealWidget extends StatelessWidget {
                             discountType: product.discountType,
                             discount: product.discount??0.0,
                           ),
-                          style: textBold.copyWith(
+                          style: GoogleFonts.tajawal(
                             color: Theme.of(context).primaryColor,
                             fontSize: Dimensions.fontSizeDefault,
+                            fontWeight: FontWeight.w500
                           ),
                         ),
 
                         const SizedBox(width: Dimensions.paddingSizeSmall),
 
-                      ]))],
+                      ])), Consumer<CartController>(
+                        builder:(context, cartProvider, child) {
+                          bool inCart=false;
+                          for (var element in cartProvider.cartList) {
+                            if(element.id==product.id){
+                              inCart=true;
+                            }
+                          }
+                          return Consumer<MyShopController>(
+                            builder:(context, myShopController, child) {
+                              bool  sync=false;
+                              for (var element in myShopController.pendingList) {
+                                if(element.id==product.id){
+                                  sync=true;
+                                }
+                              } for (var element in myShopController.deleteList) {
+                                if(element.id==product.id){
+                                  sync=true;
+                                }
+                              } for (var element in myShopController.linkedList) {
+                                if(element.id==product.id){
+                                  sync=true;
+                                }
+                              }
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Row(
+                                  children: [
+
+                                    Expanded(
+                                      child: InkWell(
+                                        onTap: (){
+
+                                          if(sync==false){
+                                            myShopController.addProduct(product.id!).then((value) {
+                                              if(value==true){
+                                                showCustomSnackBar(getTranslated('Added_to_my_store', context), context,isError: false);
+                                                myShopController.getList();
+                                              }else{
+                                                showCustomSnackBar(getTranslated('Not_added_to_my_store', context), context,isError: true );
+
+                                              }
+                                            });}
+                                        },
+
+                                        child: Container(
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                              color:sync?Colors.grey: Theme.of(context).primaryColor,
+                                              borderRadius: BorderRadius.circular(4)
+                                          ),
+                                          child: Center(child: Text(getTranslated('sync', context)!,style: GoogleFonts.tajawal(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.white
+                                          ),)),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 5,),
+                                    Expanded(
+                                      child: InkWell(
+                                        onTap: (){
+                                          CartModelBody cart = CartModelBody(
+                                            productId: product.id,
+                                            quantity: 1,
+                                          );
+                                          Provider.of<CartController>(context, listen: false).addToCartAPI(
+                                              cart, context, []);
+                                        },
+                                        child: Container(
+                                          height: 30,
+
+                                          decoration: BoxDecoration(
+                                              color:inCart?Colors.grey: Theme.of(context).primaryColor.withOpacity(0.20),
+                                              borderRadius: BorderRadius.circular(4)
+                                          ),
+                                          child: Center(child: Text(getTranslated('buy', context)!,style: GoogleFonts.tajawal(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.black
+                                          ),)),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      )
+                    ],
                   ),
                 )),
               ]),
@@ -135,8 +247,7 @@ class FeaturedDealWidget extends StatelessWidget {
                   )),
               ) : const SizedBox.shrink(),
 
-              Positioned(top: 10, right: 10, child: FavouriteButtonWidget(
-                backgroundColor: ColorResources.getImageBg(context), productId: product.id)),
+
             ]),
           );
         }

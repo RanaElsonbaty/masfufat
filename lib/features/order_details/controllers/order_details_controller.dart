@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
@@ -20,6 +21,8 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
+
+import '../domain/models/order_refunt_model.dart';
 
 
 
@@ -122,6 +125,39 @@ class OrderDetailsController with ChangeNotifier {
       orders = OrderModel.fromJson(apiResponse.response!.data);
     }
     notifyListeners();
+  }
+  bool _isRefuntLoading =false;
+  bool get isRefuntLoading =>_isRefuntLoading;
+  Future<ApiResponse> addOrderRefund(String orderID, String refundReason, List<XFile> files) async {
+    _isRefuntLoading=true;
+    ApiResponse apiResponse = await orderDetailsServiceInterface.addOrderRefund(orderID,refundReason,files);
+    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+      _isRefuntLoading=false;
+      notifyListeners();
+     return ApiResponse.withSuccess(apiResponse.response!);
+    }else{
+      return ApiResponse.withError(apiResponse.error.toString());
+    }
+
+  }
+  OrderRefuntModel? _orderRefuntModel;
+  OrderRefuntModel? get orderRefuntModel=>_orderRefuntModel;
+
+ Future getOrderRefund(String orderID,) async {
+   _isRefuntLoading=true;
+
+   try{
+     ApiResponse apiResponse = await orderDetailsServiceInterface.getOrderRefund(orderID,);
+     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+       _orderRefuntModel =null;
+       notifyListeners();
+       _orderRefuntModel=OrderRefuntModel.fromJson(apiResponse.response!.data);
+     }
+   }catch(e){
+print('get Order Refund error ----> $e');
+   }
+   _isRefuntLoading =false;
+   notifyListeners();
   }
 
 
@@ -353,11 +389,120 @@ class OrderDetailsController with ChangeNotifier {
       await Permission.storage.request();
     }
   }
+  final List <XFile> _pikeImage = [];
+  List<XFile> get pikeImage => _pikeImage;
+  void pikeMultiImage()async{
+    List<XFile> files=[];
+try{
+  files  = await ImagePicker().pickMultiImage(imageQuality: 40);
+  _pikeImage.addAll(files);
+}catch(e){
+
 }
+notifyListeners();
+  }
+  void removerImage(int index){
+    _pikeImage.removeAt(index);
+    notifyListeners();
+  }
+  List<String>_refuntDetailsImage=[];
+  List<String>get  refuntDetailsImage=>_refuntDetailsImage;
+  void getRefuntDetailsImage(List<String> images){
+    _refuntDetailsImage =[];
+    _refuntDetailsImage.addAll(images);
+  }
+  void removeRefuntImage(int index){
+    _refuntDetailsImage.removeAt(index-1);
+    notifyListeners();
+  }
+  Future<XFile?> pikeRefuntMultiImage()async{
+    XFile ?files;
+    try{
+      files  = await ImagePicker().pickImage(imageQuality: 40, source: ImageSource.gallery);
+      return files;
+    }catch(e){
+return files;
+    }
+  }
+
+
+
+  Future <ApiResponse> refundUpdateReason(String orderID,String reason) async {
+    ApiResponse apiResponse = await orderDetailsServiceInterface.refundUpdateReason(orderID,reason);
+    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+    }
+    notifyListeners();
+    return apiResponse;
+  }
+  Future <ApiResponse> refundDeleteAttachment(String orderID,String index) async {
+    ApiResponse apiResponse = await orderDetailsServiceInterface.refundDeleteAttachment(orderID,index);
+    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+    }
+    notifyListeners();
+    return apiResponse;
+  }
+
+  Future <ApiResponse> refundReplaceAttachment(String orderID,String index,XFile file) async {
+    ApiResponse apiResponse = await orderDetailsServiceInterface.refundReplaceAttachment(orderID,index,file);
+    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+    }
+    notifyListeners();
+    return apiResponse;
+  }
+
+  Future <ApiResponse> refundUploadAttachment(String orderID,List<XFile> file) async {
+    print('object');
+    ApiResponse apiResponse = await orderDetailsServiceInterface.refundUploadAttachment(orderID,file);
+    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+    }
+    notifyListeners();
+    return apiResponse;
+  }
+
+  List <XFile> _refuntPikeImage = [];
+  List<XFile> get refuntPikeImage => _refuntPikeImage;
+  Future refuntPikeMultiImage(int type)async{
+    List<XFile> files=[];
+    _refuntPikeImage=[];
+    try{
+      if(type==1){
+      // files  = await ImagePicker().pickMultipleMedia(imageQuality: 40);
+        FilePickerResult? result =
+        await FilePicker.platform
+            .pickFiles(
+          type: FileType.custom,
+          allowedExtensions: ['pdf','docx'],
+        );
+        for (var element in result!.files) {
+          files.add(element.xFile);
+        }
+      }else if(type==2){
+         XFile? file = await ImagePicker().pickVideo(source: ImageSource.gallery);
+        files.add(file!);
+      }else{
+        files  = await ImagePicker().pickMultiImage(imageQuality: 40,);
+
+      }
+      _refuntPikeImage.addAll(files);
+      // for (var element in _refuntPikeImage) {
+      //   _refuntDetailsImage.add(element.path);
+      // }
+      notifyListeners();
+    }catch(e){
+
+    }
+    notifyListeners();
+  }
+}
+
 
 
 Future<void> _launchUrl(Uri url) async {
   if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
     throw 'Could not launch $url';
   }
+
+
+
+
 }

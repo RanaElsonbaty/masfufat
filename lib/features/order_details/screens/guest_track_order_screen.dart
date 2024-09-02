@@ -8,6 +8,7 @@ import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_textfield_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class GuestTrackOrderScreen extends StatefulWidget {
@@ -34,9 +35,18 @@ class _GuestTrackOrderScreenState extends State<GuestTrackOrderScreen> {
               key: formKey,
               child: ListView(children: [
                 const SizedBox(height: Dimensions.paddingSizeSmall),
+                Row(
+                  children: [
+                    Text(getTranslated('order_number', context)!,style: GoogleFonts.tajawal(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16
+                    ),)
+                  ],
+                ),
                 CustomTextFieldWidget(controller: orderIdController,
                   prefixIcon: Images.orderIdIcon,
                   isAmount: true,
+                  backGroundColor: Color(0xffEFECF5),
                   inputType: TextInputType.phone,
                   hintText: getTranslated('order_id', context),
                   labelText: getTranslated('order_id', context),
@@ -62,7 +72,7 @@ class _GuestTrackOrderScreenState extends State<GuestTrackOrderScreen> {
 
                 CustomButton(
                   isLoading: orderTrackingProvider.searching,
-                  buttonText: '${getTranslated('search_order', context)}',
+                  buttonText: '${getTranslated('TRACK_ORDER', context)}',
                   onTap: () async {
                     FocusManager.instance.primaryFocus?.unfocus();
                     String orderId = orderIdController.text.trim();

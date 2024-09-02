@@ -27,6 +27,7 @@ class TransactionFilterBottomSheetWidget extends StatelessWidget {
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 itemBuilder: (context, index){
+
                   return InkWell(
                     onTap: (){
                       Navigator.of(context).pop();

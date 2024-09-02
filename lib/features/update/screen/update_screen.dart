@@ -22,7 +22,7 @@ class UpdateScreen extends StatelessWidget {
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
 
             Image.asset(
-              color: Theme.of(context).primaryColor,
+              // color: Theme.of(context).primaryColor,
               Images.update,
               width: MediaQuery.of(context).size.height*0.4,
               height: MediaQuery.of(context).size.height*0.4,
@@ -46,8 +46,11 @@ class UpdateScreen extends StatelessWidget {
             CustomButton(buttonText: getTranslated('update_now', context)!, onTap: () async {
               String? appUrl = 'https://google.com';
               if(Platform.isAndroid) {
+                appUrl='https://platform.masfufat.com';
                 // appUrl = Provider.of<SplashController>(context, listen: false).configModel?.userAppVersionControl?.forAndroid?.link;
               }else if(Platform.isIOS) {
+                appUrl='https://platform.masfufat.com';
+
                 // appUrl = Provider.of<SplashController>(context, listen: false).configModel?.userAppVersionControl?.forAndroid?.link;
               }
               if(await canLaunchUrlString(appUrl)) {

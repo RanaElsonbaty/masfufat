@@ -361,9 +361,9 @@ class StoreInformations {
     identityType:json['identity_type'] ?? "",
     commercialRegistrationImg: json["commercial_registration_img"] ?? '',
     taxCertificateImg: json["tax_certificate_img"]!=null?json["tax_certificate_img"].toString():'',
-    country: json["country"],
-    area: json["area"],
-    city: json["city"],
+    country: int.parse(json["country"].toString()),
+    area: int.parse(json["area"].toString()),
+    city: int.parse(json["city"].toString()),
   );
 
   Map<String, dynamic> toJson() => {

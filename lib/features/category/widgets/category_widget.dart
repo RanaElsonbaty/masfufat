@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/category/domain/models/category_model.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/controllers/localization_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 class CategoryWidget extends StatelessWidget {
   final CategoryModel category;
@@ -32,7 +32,9 @@ class CategoryWidget extends StatelessWidget {
         Center(child: SizedBox(width: MediaQuery.of(context).size.width/6.5,
             child: Text(category.name, textAlign: TextAlign.center, maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: textRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
+
+              style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeSmall,
+                  fontWeight:FontWeight.w500 ,
                   color: ColorResources.getTextTitle(context)))))]),
     );
   }

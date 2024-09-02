@@ -6,6 +6,7 @@ ThemeData light({Color? primaryColor, Color? secondaryColor})=> ThemeData(
   brightness: Brightness.light,
   highlightColor: Colors.white,
   hintColor: const Color(0xFF9E9E9E),
+  cardColor: const Color(0xFFEFECF5),
   splashColor: Colors.transparent,
   colorScheme:  ColorScheme.light(
     primary: const Color(0xFF1455AC),

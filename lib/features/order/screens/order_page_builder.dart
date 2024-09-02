@@ -36,11 +36,11 @@ class _OrderPageBuilderState extends State<OrderPageBuilder> {
     return Consumer<OrderController>(
       builder: (context, orderProvider, child) {
         return Scaffold(
-          appBar: CustomAppBar(title: getTranslated('order', context), isBackButtonExist: widget.isBacButtonExist),
+          appBar: CustomAppBar(title: getTranslated('orders', context), isBackButtonExist: widget.isBacButtonExist),
           body: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 8.0,right: 8,top: 8),
+                padding: const EdgeInsets.only(left: 0.0,right: 0,top: 8),
                 child: Row(
                   children: [
                     Expanded(
@@ -49,52 +49,58 @@ class _OrderPageBuilderState extends State<OrderPageBuilder> {
                           orderProvider.getOrderType(0);
 
                         },
-                        child: Container(
-                          height: 40,
-                          decoration: BoxDecoration(
-                              color:orderProvider.selectType==0? Theme.of(context).primaryColor:Theme.of(context).cardColor,
-                              borderRadius: BorderRadius.circular(12)
-                          ),
-                          child: Center(
-                            child: Text(
-                              getTranslated('Sync_order', context)!,
-                              style: GoogleFonts.tajawal(
-                                  fontSize: 16,
-                                  color:orderProvider.selectType==0? Colors.white:Theme.of(context).iconTheme.color
+                        child: Column(
+                          children: [
+                            Center(
+                              child: Text(
+                                getTranslated('Sync_order', context)!,
+                                style: GoogleFonts.tajawal(
+                                    fontSize: 16,
+                                    color:orderProvider.selectType==0?Theme.of(context).primaryColor:null,
+                                    fontWeight: FontWeight.w500
+
+                                ),
                               ),
                             ),
-                          ),
+                            Container(
+                              height: 2,
+                              color: orderProvider.selectType==0?Theme.of(context).primaryColor:null,
+                            )
+                          ],
                         ),
                       ),
                     ),
 
-                    const SizedBox(width: 10,),
+                    // const SizedBox(width: 10,),
                     Expanded(
                       child: InkWell(
                         onTap: (){
                           orderProvider.getOrderType(1);
                         },
-                        child: Container(
-                          height: 40,
-                          decoration: BoxDecoration(
-                              color:orderProvider.selectType==1? Theme.of(context).primaryColor:Theme.of(context).cardColor,
-                              borderRadius: BorderRadius.circular(12)
-                          ),
-                          child: Center(
-                            child: Text(
-                              getTranslated('my_direct_requests', context)!,
-                              style: GoogleFonts.tajawal(
-                                  fontSize: 16,
-                                  color:orderProvider.selectType==1? Colors.white:Theme.of(context).iconTheme.color
+                        child: Column(
+                          children: [
+                            Center(
+                              child: Text(
+                                getTranslated('my_direct_requests', context)!,
+                                style: GoogleFonts.tajawal(
+                                    fontSize: 16,
+                                    color:orderProvider.selectType==1? Theme.of(context).primaryColor:null,
+                                  fontWeight: FontWeight.w500
+                                ),
                               ),
                             ),
-                          ),
+                            Container(
+                              height: 2,
+                              color: orderProvider.selectType==1?Theme.of(context).primaryColor:null,
+                            )
+                          ],
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
+              const SizedBox(height: 5,),
               Expanded(child:orderProvider.selectType==1? OrderScreen(isBacButtonExist: widget.isBacButtonExist,):const SyncOrderScreen()),
             ],
           ),

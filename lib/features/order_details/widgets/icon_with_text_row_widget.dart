@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class IconWithTextRowWidget extends StatelessWidget {
@@ -20,13 +21,16 @@ class IconWithTextRowWidget extends StatelessWidget {
         padding: const EdgeInsets.all(4.0),
         child: SizedBox(width: 17,child: Image.asset(imageIcon!, color: Theme.of(context).primaryColor.withOpacity(.5),)),
       ):
-        Icon(icon, color:  Provider.of<ThemeController>(context, listen: false).darkTheme?
-        Colors.white : Theme.of(context).primaryColor.withOpacity(.30), size: Dimensions.iconSizeDefault,),
+        Icon(icon, color:  Colors.black, size: Dimensions.iconSizeDefault,),
         const SizedBox(width: Dimensions.marginSizeSmall,),
 
-        Expanded(child: Text(maxLines: 2, overflow : TextOverflow.ellipsis,
-              text, style: titilliumRegular.copyWith(fontSize: isTitle? Dimensions.fontSizeLarge : Dimensions.fontSizeDefault,
-                  color: textColor ?? Theme.of(context).textTheme.bodyLarge?.color)))
+        Expanded(child: Padding(
+          padding: const EdgeInsets.only(top: 4.0),
+          child: Text(maxLines: 2, overflow : TextOverflow.ellipsis,
+                text, style: GoogleFonts.tajawal(fontSize: isTitle? Dimensions.fontSizeLarge : Dimensions.fontSizeDefault,
+              fontWeight: FontWeight.w400,
+                    color: textColor ?? Theme.of(context).textTheme.bodyLarge?.color)),
+        ))
     ]);
   }
 }

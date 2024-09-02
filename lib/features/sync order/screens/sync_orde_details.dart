@@ -1,9 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/controllers/product_details_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/sync%20order/controllers/sync_order_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../home/shimmers/order_details_shimmer.dart';
@@ -65,12 +67,13 @@ class _OrderSyncDetailsScreenState extends State<OrderSyncDetailsScreen> {
         return;
       },
       child: Scaffold(
-          appBar: AppBar(elevation: 1, backgroundColor: Theme.of(context).cardColor,
-              toolbarHeight: 120, leadingWidth: 0, automaticallyImplyLeading: false,
-              title: Consumer<SyncOrderController>(
-                  builder: (context, orderProvider, _) {
-                    return (orderProvider.syncOrderDetails != null ) ?
-                    const SyncOrderDetailsStatusWidget():const SizedBox();})),
+          appBar: CustomAppBar(title: '${getTranslated('order', context)} ${ widget.syncOrder!.id.toString()}#'),
+          // AppBar(elevation: 1, backgroundColor: Theme.of(context).cardColor,
+          //     toolbarHeight: 120, leadingWidth: 0, automaticallyImplyLeading: false,
+          //     title: Consumer<SyncOrderController>(
+          //         builder: (context, orderProvider, _) {
+          //           return (orderProvider.syncOrderDetails != null ) ?
+          //           const SyncOrderDetailsStatusWidget():const SizedBox();})),
 
           body: Consumer<SplashController>(
               builder: (context, config, _) {
@@ -124,23 +127,34 @@ class _OrderSyncDetailsScreenState extends State<OrderSyncDetailsScreen> {
 
 
 
-                      Container(height: 10, color: Theme.of(context).primaryColor.withOpacity(.1)),
-
+                      // Container(height: 10, color: Theme.of(context).primaryColor.withOpacity(.1)),
+                      //
+                      const SizedBox(height: Dimensions.paddingSizeDefault),
 
 
                       SyncShippingAndBillingWidget(orderProvider: orderProvider),
 
-
+// 100726
 
                       const SizedBox(height: Dimensions.paddingSizeDefault),
                        OrderInfoSection(orderDetailsModel: orderProvider.syncOrderDetails!,),
                       const SizedBox(height: Dimensions.paddingSizeDefault),
 
 
-                      SyncSellerSectionWidget(order: orderProvider),
+                      // SyncSellerSectionWidget(order: orderProvider),
 
 
-
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          children: [
+                            Text(getTranslated('Order_informations', context)!,style: GoogleFonts.tajawal(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16
+                            ),)
+                          ],
+                        ),
+                      ),
                       ProductSyncOrder(products: products,syncOrder: widget.syncOrder!,),
                       const SizedBox(height: Dimensions.marginSizeDefault),
                       SyncOrderAmountCalculation(orderProvider: orderProvider,itemTotalAmount: totalPrice,discount: dis,eeDiscount: eeDiscount,shippingCost: shippingAmount, tax: productTax,),
@@ -164,16 +178,16 @@ class _OrderSyncDetailsScreenState extends State<OrderSyncDetailsScreen> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 10),
                             child: Container(
-                              height: 50,
+                              height: 40,
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
                                 color: Theme.of(context).primaryColor,
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(4),
                               ),
                               child: Center(
                                   child: Text(
                                     getTranslated('proceed', context)!,
-                                    style: const TextStyle(fontSize: 20,color: Colors.white),
+                                    style:  GoogleFonts.tajawal(fontSize: 20,color: Colors.white,fontWeight: FontWeight.w500),
                                   )),
                             ),
                           ),

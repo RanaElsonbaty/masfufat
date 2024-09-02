@@ -86,6 +86,7 @@ class _BrandListWidgetState extends State<BrandListWidget> {
                                   onTap: () {
                                     Navigator.push(context, MaterialPageRoute(builder: (_) => BrandAndCategoryProductScreen(
                                         isBrand: true,
+                                        index: index,
                                         id:  brand.id.toString(),
                                         name:brand.name,
                                         image: brand.image)));
@@ -174,6 +175,7 @@ class _BrandListWidgetState extends State<BrandListWidget> {
                   Navigator.push(context, MaterialPageRoute(builder: (_) => BrandAndCategoryProductScreen(
                       isBrand: true,
                       id: brand.id.toString() ,
+                      index: index,
                       name: brand.name,
                       image: brand.image)));
                 },

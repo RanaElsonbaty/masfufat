@@ -1,15 +1,23 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
+import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/screens/product_details_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/favourite_button_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
+import '../../features/cart/controllers/cart_controller.dart';
+import '../../features/cart/domain/models/cart_model.dart';
+import '../../features/product_details/widgets/cart_bottom_sheet_widget.dart';
+
 
 class ProductWidget extends StatelessWidget {
   final Product productModel;
@@ -18,6 +26,7 @@ class ProductWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     double ratting = (productModel.rating?.isNotEmpty ?? false) ?  double.parse('${productModel.rating?[0].average}') : 0;
 
     return InkWell(onTap: () {Navigator.push(context, PageRouteBuilder(transitionDuration: const Duration(milliseconds: 1000),
@@ -26,12 +35,12 @@ class ProductWidget extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
-          color: Theme.of(context).cardColor,
-          boxShadow: [BoxShadow(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          boxShadow:  [BoxShadow(
 
-            color: Theme.of(context).primaryColor.withOpacity(0.05),
-            spreadRadius: 0, blurRadius: 10,
-            offset: const Offset(9, 5),
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 0, blurRadius: 15,
+            offset: const Offset(2, 4),
           )],),
         child: Stack(children: [
           Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -52,27 +61,30 @@ class ProductWidget extends StatelessWidget {
                   ),
 
                   if(productModel.currentStock! == 0 && productModel.productType == 'physical')...[
-                    Container(
-                      height: boxConstraint.maxWidth * 0.82,
-                      width: boxConstraint.maxWidth,
-                      color: Colors.black.withOpacity(0.4),
-                    ),
+                    // Container(
+                    //   height: boxConstraint.maxWidth * 0.82,
+                    //   width: boxConstraint.maxWidth,
+                    //   color: Colors.black.withOpacity(0.4),
+                    // ),
 
                     Positioned.fill(child: Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
+                        height: 20,
                         width: boxConstraint.maxWidth,
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.error.withOpacity(0.4),
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(Dimensions.radiusSmall),
-                              topRight: Radius.circular(Dimensions.radiusSmall),
-                            )
+                        decoration: const BoxDecoration(
+                            color: Color.fromRGBO(237, 29, 29, 0.5),
+                            // borderRadius: BorderRadius.only(
+                            //   topLeft: Radius.circular(Dimensions.radiusSmall),
+                            //   topRight: Radius.circular(Dimensions.radiusSmall),
+                            // )
                         ),
-                        child: Text(
-                          getTranslated('out_of_stock', context)??'',
-                          style: textBold.copyWith(color: Colors.white, fontSize: Dimensions.fontSizeSmall),
-                          textAlign: TextAlign.center,
+                        child: Center(
+                          child: Text(
+                            getTranslated('out_of_stock', context)??'',
+                            style: GoogleFonts.cairo(color: Colors.white, fontSize: 10,fontWeight: FontWeight.w400),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                     )),
@@ -88,43 +100,138 @@ class ProductWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center, children: [
                 const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
-                if(ratting > 0) Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+
+
+                  Padding(padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: Dimensions.paddingSizeSmall),
+                    child: Text(productModel.name ?? '', textAlign: TextAlign.center, style: GoogleFonts.tajawal(
+                    fontSize:14,
+                      fontWeight: FontWeight.w500
+                    ), maxLines: productNameLine, overflow: TextOverflow.ellipsis)),
+                // if(ratting > 0)
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
 
                   const Icon(Icons.star_rate_rounded, color: Colors.orange,size: 20),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                    child: Text(ratting.toStringAsFixed(1), style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault)),
+                    child: Text(ratting.toStringAsFixed(1), style: GoogleFonts.cairo(fontSize: Dimensions.fontSizeDefault)),
                   ),
-
-
-
                   Text('(${productModel.reviewCount.toString()})',
-                      style: textRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor))]),
-
-                  Padding(padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: Dimensions.paddingSizeSmall),
-                    child: Text(productModel.name ?? '', textAlign: TextAlign.center, style: textMedium.copyWith(
-                    fontSize: Dimensions.fontSizeSmall,
-                    ), maxLines: productNameLine, overflow: TextOverflow.ellipsis)),
+                      style: GoogleFonts.cairo(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor))]),
 
 
 
+                const SizedBox(height: 5,),
 
+                   Row(
+                     mainAxisAlignment: MainAxisAlignment.center,
+                     children: [
+                       productModel.discount!= null && productModel.discount! > 0 ?
 
+                       Text(PriceConverter.convertPrice(context, productModel.unitPrice),
+                           style: GoogleFonts.tajawal(color: Theme.of(context).hintColor,fontWeight: FontWeight.w500,
+                               decoration: TextDecoration.lineThrough, fontSize:16))
+                       : const SizedBox.shrink(),
 
-                    productModel.discount!= null && productModel.discount! > 0 ?
-                    Text(PriceConverter.convertPrice(context, productModel.unitPrice),
-                    style: titleRegular.copyWith(color: Theme.of(context).hintColor,
-                      decoration: TextDecoration.lineThrough, fontSize: Dimensions.fontSizeSmall)) : const SizedBox.shrink(),
-                  const SizedBox(height: 2,),
+                       Text(PriceConverter.convertPrice(context,
+                           productModel.unitPrice, discountType: productModel.discountType,
+                           discount: productModel.discount ?? 0.00),
+                           style: GoogleFonts.tajawal(color: Theme.of(context).primaryColor,fontWeight: FontWeight.w500,fontSize: 16)),
 
-
-                  Text(PriceConverter.convertPrice(context,
-                      productModel.unitPrice, discountType: productModel.discountType,
-                      discount: productModel.discount ?? 0.00),
-                    style: robotoBold.copyWith(color: Theme.of(context).primaryColor)),
-
+                     ],
+                   ),
                 const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                Consumer<CartController>(
+                  builder:(context, cartProvider, child) {
+                    bool inCart=false;
+                    for (var element in cartProvider.cartList) {
+                      if(element.id==productModel.id){
+                        inCart=true;
+                      }
+                    }
+                    return Consumer<MyShopController>(
+                    builder:(context, myShopController, child) {
+                      bool  sync=false;
+                      for (var element in myShopController.pendingList) {
+                        if(element.id==productModel.id){
+                          sync=true;
+                        }
+                      } for (var element in myShopController.deleteList) {
+                        if(element.id==productModel.id){
+                          sync=true;
+                        }
+                      } for (var element in myShopController.linkedList) {
+                        if(element.id==productModel.id){
+                          sync=true;
+                        }
+                      }
+                      return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Row(
+                        children: [
 
+                          Expanded(
+                            child: InkWell(
+                              onTap: (){
+
+                                if(sync==false){
+                                  myShopController.addProduct(productModel.id!).then((value) {
+                                    if(value==true){
+                                      showCustomSnackBar(getTranslated('Added_to_my_store', context), context,isError: false);
+                                      myShopController.getList();
+                                    }else{
+                                      showCustomSnackBar(getTranslated('Not_added_to_my_store', context), context,isError: true );
+
+                                    }
+                                  });}
+                              },
+
+                              child: Container(
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  color:sync?Colors.grey: Theme.of(context).primaryColor,
+                                  borderRadius: BorderRadius.circular(4)
+                                ),
+                                child: Center(child: Text(getTranslated('sync', context)!,style: GoogleFonts.tajawal(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white
+                                ),)),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 5,),
+                          Expanded(
+                            child: InkWell(
+                              onTap: (){
+                                CartModelBody cart = CartModelBody(
+                                    productId: productModel.id,
+                                    quantity: 1,
+                                );
+                                Provider.of<CartController>(context, listen: false).addToCartAPI(
+                                    cart, context, []);
+                              },
+                              child: Container(
+                                height: 30,
+
+                                decoration: BoxDecoration(
+                                  color:inCart?Colors.grey: Theme.of(context).primaryColor.withOpacity(0.20),
+                                  borderRadius: BorderRadius.circular(4)
+                                ),
+                                child: Center(child: Text(getTranslated('buy', context)!,style: GoogleFonts.tajawal(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black
+                                ),)),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                    },
+                  );
+                  },
+                )
                 ],
               ),
             ),
@@ -146,12 +253,14 @@ class ProductWidget extends StatelessWidget {
                         productModel.discount, productModel.discountType),
                     style: textBold.copyWith(color: Colors.white,
                         fontSize: Dimensions.fontSizeSmall), textAlign: TextAlign.center,),
-                )))) : const SizedBox.shrink(),
+                ))))
+              : const SizedBox.shrink(),
+          
 
-          Positioned(top: 8, right: 10,
+          Positioned(top: 0, right: 2,
             child: FavouriteButtonWidget(
 
-              backgroundColor: ColorResources.getImageBg(context),
+              // backgroundColor: ColorResources.getImageBg(context),
               productId: productModel.id,
             ),
           ),

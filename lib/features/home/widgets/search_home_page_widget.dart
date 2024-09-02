@@ -57,7 +57,7 @@ class SearchHomePageWidget extends StatelessWidget {
                   color: Theme.of(context).primaryColor,
                   borderRadius: const BorderRadius.all(
                       Radius.circular(Dimensions.paddingSizeExtraSmall))),
-              child: Icon(Icons.search,
+              child: Icon(Icons.filter_list,
                   color: Provider.of<ThemeController>(context, listen: false)
                           .darkTheme
                       ? Colors.white

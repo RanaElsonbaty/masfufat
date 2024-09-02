@@ -152,7 +152,7 @@ class ConfigModel {
     forgotPasswordVerification: json["forgot_password_verification"],
     announcement: Announcement.fromJson(json["announcement"]),
     pixelAnalytics: json["pixel_analytics"],
-    softwareVersion: json["software_version"],
+    softwareVersion: json["software_version"] ?? '',
     decimalPointSettings: json["decimal_point_settings"],
     inhouseSelectedShippingType: json["inhouse_selected_shipping_type"],
     billingInputByCustomer: json["billing_input_by_customer"],

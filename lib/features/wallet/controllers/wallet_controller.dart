@@ -98,8 +98,8 @@ class WalletController extends ChangeNotifier {
   }
 
 
-  List<String> types = ['all','order_place','loyalty_point', 'add_fund', 'add_fund_by_admin', 'order_refund'];
-  List<String> filterTypes = ["All Transaction", "Order Transactions", "Converted from Loyalty Point", 'Added via Payment Method', 'Add Fund by Admin', 'Order refund'];
+  List<String> types = ['all','order_place','loyalty_point', 'add_fund', 'add_fund_by_admin', 'order_refund','subscription_fees'];
+  List<String> filterTypes = ["All_Transaction", "Order_Transactions", "Converted_from_Loyalty_Point", 'Added_via_Payment_Method', 'Add_Fund_by_Admin', 'Order_refund',"Subscription_fees"];
 
   String selectedFilterType = 'all_transaction';
   int selectedIndexForFilter = 0;
@@ -117,6 +117,8 @@ class WalletController extends ChangeNotifier {
       selectedFilterType = types[4];
     }else if(type == filterTypes[5]){
       selectedFilterType = types[5];
+    }else if(type == filterTypes[6]){
+      selectedFilterType = types[6];
     }
     getTransactionList(Get.context!, 1, selectedFilterType);
 

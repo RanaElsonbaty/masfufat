@@ -7,6 +7,7 @@ import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class TitleRowWidget extends StatelessWidget {
@@ -80,8 +81,9 @@ class TitleRowWidget extends StatelessWidget {
               flex: 11,
               child: Text(title!,
                   overflow: TextOverflow.ellipsis,
-                  style: robotoBold.copyWith(
-                fontSize: isFlash ? Dimensions.fontSizeSmall : Dimensions.fontSizeLarge,
+                  style: GoogleFonts.tajawal(
+                fontSize: isFlash ? Dimensions.fontSizeSmall : 16,
+                fontWeight: FontWeight.w500,
                 color: titleColor ?? (isFlash? Colors.white : Theme.of(context).textTheme.bodyLarge?.color),
               )),
             ),
@@ -150,9 +152,10 @@ class TitleRowWidget extends StatelessWidget {
             Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.homePagePadding),
               child: InkWell(onTap: onTap as void Function()?,
                 child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  isDetailsPage == null ? Text(getTranslated('VIEW_ALL', context)!,
-                      style: titilliumRegular.copyWith(color: Theme.of(context).primaryColor,
-                        fontSize: Dimensions.fontSizeDefault,)) : const SizedBox.shrink(),
+                  isDetailsPage == null ? Text(getTranslated('all', context)!,
+                      style: GoogleFonts.cairo(color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,)) : const SizedBox.shrink(),
                 ]),
               ),
             ):  const SizedBox.shrink(),

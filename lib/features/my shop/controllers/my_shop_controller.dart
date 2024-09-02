@@ -26,8 +26,8 @@ class MyShopController extends ChangeNotifier {
     }
     notifyListeners();
   }
-  List<Pending> _pendingList=[];
-  List<Pending> get pendingList=>_pendingList;
+  List<Deleted> _pendingList=[];
+  List<Deleted> get pendingList=>_pendingList;
   List<Linked> _linkedList=[];
   List<Linked> get linkedList=> _linkedList;
   List<Linked> _deleteList=[];
@@ -44,7 +44,7 @@ class MyShopController extends ChangeNotifier {
   if(response.response!=null&&response.response!.statusCode==200){
     if( response.response!.data['pending']!=null) {
       response.response!.data['pending'].forEach((pending) {
-        _pendingList.add(Pending.fromJson(pending));
+        _pendingList.add(Deleted.fromJson(pending));
       });
     }
     notifyListeners();
@@ -66,8 +66,8 @@ class MyShopController extends ChangeNotifier {
 
   }
   }
-  List<Pending> _pendingListSearch=[];
-  List<Pending> get pendingListSearch=>_pendingListSearch;
+  List<Deleted> _pendingListSearch=[];
+  List<Deleted> get pendingListSearch=>_pendingListSearch;
   List<Linked> _linkedListSearch=[];
   List<Linked> get linkedListSearch=> _linkedListSearch;
   List<Linked> _deleteListSearch=[];
@@ -173,25 +173,25 @@ notifyListeners();
     if(selectAll==true){
       if(index==0){
     for (var element in _pendingList) {
-      if(selectIds.contains(element.id!)){
+      if(selectIds.contains(element.id)){
       }else{
-        selectIds.add(element.id!);
+        selectIds.add(element.id);
 
       }
     }
       }else if(index==1){
         for (var element in _linkedList) {
-          if(selectIds.contains(element.id!)){
+          if(selectIds.contains(element.id)){
           }else{
-            selectIds.add(element.id!);
+            selectIds.add(element.id);
 
           }
         }
       }else{
         for (var element in _deleteList) {
-          if(selectIds.contains(element.id!)){
+          if(selectIds.contains(element.id)){
           }else{
-            selectIds.add(element.id!);
+            selectIds.add(element.id);
 
           }
         }
@@ -205,7 +205,7 @@ notifyListeners();
   void initController(){
     controller=List.filled(_pendingList.length, TextEditingController());
     for (int i=0;i<_pendingList.length;i++) {
-      controller[i]=TextEditingController(text: _pendingList[i].pricings!.suggestedPrice!.toString());
+      controller[i]=TextEditingController(text: _pendingList[i].pricings.suggestedPrice.toString());
     }
   }
 
@@ -252,15 +252,15 @@ int? get selectFilter=>_selectFilter;
         _deleteListSearch=[];
 
       }else if(index==1){
-        if(element.linkedProduct!=null&&element.linkedProduct!.deletionReason=='pending review'){
+        if(element.linkedProduct.deletionReason=='pending review'){
           _deleteListSearch.add(element);
         }
       }else if(index==2){
-        if(element.linkedProduct!=null&&element.linkedProduct!.deletionReason=='not available'){
+        if(element.linkedProduct.deletionReason=='not available'){
           _deleteListSearch.add(element);
         }
       }else{
-        if(element.linkedProduct!=null&&element.linkedProduct!.deletionReason=='deleted'){
+        if(element.linkedProduct.deletionReason=='deleted'){
           _deleteListSearch.add(element);
         }
       }

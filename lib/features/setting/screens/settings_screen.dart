@@ -71,8 +71,19 @@ class TitleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Image.asset(image, width: 25, height: 25, fit: BoxFit.fill, color: ColorResources.getPrimary(context)),
+      leading: Container(
+          height: 35,
+          width: 35,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              color: Theme.of(context).primaryColor
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset(image, width: 20, height: 20, fit: BoxFit.fill, color:Colors.white),
+          )),
       title: Text(title!, style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeLarge)),
+      trailing:  const Icon(Icons.arrow_forward_ios_sharp,size: 15,),
       onTap: onTap as void Function()?,
     );
   }

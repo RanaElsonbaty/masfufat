@@ -47,7 +47,7 @@ class _SupportTicketTypeWidgetState extends State<SupportTicketTypeWidget> {
               itemBuilder: (context, index) {
                 return InkWell(onTap: (){
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => AddTicketScreen(ticketModel: issueTypeList[index])));
-                }, child: TypeButton(icon: issueTypeList[index].icon, title: issueTypeList[index].title));
+                }, child: TypeButton(icon: issueTypeList[index].icon, title: getTranslated(issueTypeList[index].title, context)));
               }, gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 10,

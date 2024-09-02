@@ -9,11 +9,18 @@ import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/image_diaglog_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+
+import '../../../helper/date_converter.dart';
+import '../../support/file catch/docx.dart';
+import '../../support/file catch/mp3.dart';
+import '../../support/file catch/mp4.dart';
+import '../../support/file catch/pdf.dart';
+import '../../support/widgets/file_diaglog_widget.dart';
 
 class MessageBubbleWidget extends StatelessWidget {
   final Message message;
@@ -24,8 +31,8 @@ class MessageBubbleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    List<Attachment> images = [];
-    List<Attachment> files = [];
+    List images = [];
+    List files = [];
 
     if(previous != null){
       if(previous?.sentBySeller == message.sentBySeller){
@@ -34,28 +41,35 @@ class MessageBubbleWidget extends StatelessWidget {
     }
 
 
-    bool isMe = message.sentByCustomer!;
+    bool isMe = message.sentByCustomer==1;
 
-    String? image = Provider.of<ChatController>(context, listen: false).userTypeIndex != 0 ?
-    message.sellerInfo != null? message.sellerInfo?.shops![0].imageFullUrl?.path : '' : message.deliveryMan?.imageFullUrl?.path;
 
-    if(message.attachment != null) {
-      for(Attachment attachment in message.attachment!){
-        if(attachment.type == 'image'){
-          images.add(attachment);
-        }else if (attachment.type == 'file') {
-          files.add(attachment);
-        }
-      }
-    }
+    // if(message.attachment != null) {
+    //   // for(List<String> attachment in message!.attachment){
+    //   //   if(attachment.type == 'image'){
+    //   //     images.add(attachment);
+    //   //   }else if (attachment.type == 'file') {
+    //   //     files.add(attachment);
+    //   //   }
+    //   // }
+    //   message!.attachment.forEach((element) {
+    //     // if(element.endsWith('png') ){
+    //     //   images.add(element);
+    //     // }else if (element.endsWith('xmls')) {
+    //     //   files.add(element);
+    //     // }
+    //   // });
+    // }
 
     return Consumer<ChatController>(
         builder: (context, chatProvider,child) {
-          String chatTime  = chatProvider.getChatTime(message.createdAt!, message.createdAt);
+          String dateTime = DateConverter.localDateToIsoStringAMPM(
+              message.createdAt);
+          String chatTime  = chatProvider.getChatTime(message.createdAt.toString(), message.createdAt.toString());
           bool isSameUserWithPreviousMessage = chatProvider.isSameUserWithPreviousMessage(previous, message);
           bool isSameUserWithNextMessage = chatProvider.isSameUserWithNextMessage(message, next);
           bool isLTR = Provider.of<LocalizationController>(context, listen: false).isLtr;
-          String previousMessageHasChatTime = next != null? chatProvider.getChatTime(next!.createdAt!, message.createdAt) : "";
+          String previousMessageHasChatTime = next != null? chatProvider.getChatTime(next!.createdAt.toString(), message.createdAt.toString()) : "";
 
         return Column(crossAxisAlignment: isMe ? CrossAxisAlignment.end:CrossAxisAlignment.start, children: [
             Row(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min,
@@ -71,41 +85,55 @@ class MessageBubbleWidget extends StatelessWidget {
                     child: ClipRRect(borderRadius: BorderRadius.circular(20.0),
                       child: CustomImageWidget(
                         fit: BoxFit.cover, width: Dimensions.paddingSizeExtraLarge + 5,
-                        height: Dimensions.paddingSizeExtraLarge + 5, image: '$image'))),
-                ) :  !isMe ? const SizedBox(width: Dimensions.paddingSizeExtraLarge + 5,) : const SizedBox(),
+                        height: Dimensions.paddingSizeExtraLarge + 5, image: '${message.attachment}'))),
+                )
+                     :  !isMe ? const SizedBox(width: Dimensions.paddingSizeExtraLarge + 5,) : const SizedBox(),
 
 
-                if(message.message != null && message.message!.isNotEmpty)
+                if(message.message.isNotEmpty)
                 Flexible(child: InkWell(
                   onTap: (){
                     chatProvider.toggleOnClickMessage(onMessageTimeShowID :
                     message.id.toString());
                   },
-                  child: Container(
-                    margin: isMe && isLTR ?  const EdgeInsets.fromLTRB(70, 2, 10, 2) : EdgeInsets.fromLTRB(10, 2, isLTR ? 70 : 10, 2),
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: isMe && isLTR ?  const EdgeInsets.fromLTRB(70, 2, 10, 2) : EdgeInsets.fromLTRB(10, 2, isLTR ? 70 : 10, 2),
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
 
-                        borderRadius: isMe && (isSameUserWithNextMessage || isSameUserWithPreviousMessage) ? BorderRadius.only(
-                          topRight: Radius.circular(isSameUserWithNextMessage && isLTR && chatTime =="" ? Dimensions.radiusSmall : Dimensions.radiusExtraLarge + 5),
-                          bottomRight: Radius.circular(isSameUserWithPreviousMessage && isLTR && previousMessageHasChatTime =="" ? Dimensions.radiusSmall : Dimensions.radiusExtraLarge + 5),
-                          topLeft: Radius.circular(isSameUserWithNextMessage && !isLTR && chatTime ==""? Dimensions.radiusSmall : Dimensions.radiusExtraLarge + 5),
-                          bottomLeft: Radius.circular(isSameUserWithPreviousMessage && !isLTR && previousMessageHasChatTime ==""? Dimensions.radiusSmall :Dimensions.radiusExtraLarge + 5),
+                            borderRadius: isMe && (isSameUserWithNextMessage || isSameUserWithPreviousMessage) ? BorderRadius.only(
+                              topRight: Radius.circular(isSameUserWithNextMessage && isLTR && chatTime =="" ? Dimensions.radiusSmall : Dimensions.radiusExtraLarge + 5),
+                              bottomRight: Radius.circular(isSameUserWithPreviousMessage && isLTR && previousMessageHasChatTime =="" ? Dimensions.radiusSmall : Dimensions.radiusExtraLarge + 5),
+                              topLeft: Radius.circular(isSameUserWithNextMessage && !isLTR && chatTime ==""? Dimensions.radiusSmall : Dimensions.radiusExtraLarge + 5),
+                              bottomLeft: Radius.circular(isSameUserWithPreviousMessage && !isLTR && previousMessageHasChatTime ==""? Dimensions.radiusSmall :Dimensions.radiusExtraLarge + 5),
 
-                        ) : !isMe && (isSameUserWithNextMessage || isSameUserWithPreviousMessage) ? BorderRadius.only(
-                          topLeft: Radius.circular(isSameUserWithNextMessage && isLTR && chatTime ==""? Dimensions.radiusSmall : Dimensions.radiusExtraLarge + 5),
-                          bottomLeft: Radius.circular( isSameUserWithPreviousMessage && isLTR && previousMessageHasChatTime =="" ? Dimensions.radiusSmall : Dimensions.radiusExtraLarge + 5),
-                          topRight: Radius.circular(isSameUserWithNextMessage && !isLTR && chatTime ==""? Dimensions.radiusSmall : Dimensions.radiusExtraLarge + 5),
-                          bottomRight: Radius.circular(isSameUserWithPreviousMessage && !isLTR && previousMessageHasChatTime ==""? Dimensions.radiusSmall :Dimensions.radiusExtraLarge + 5),
+                            ) : !isMe && (isSameUserWithNextMessage || isSameUserWithPreviousMessage) ? BorderRadius.only(
+                              topLeft: Radius.circular(isSameUserWithNextMessage && isLTR && chatTime ==""? Dimensions.radiusSmall : Dimensions.radiusExtraLarge + 5),
+                              bottomLeft: Radius.circular( isSameUserWithPreviousMessage && isLTR && previousMessageHasChatTime =="" ? Dimensions.radiusSmall : Dimensions.radiusExtraLarge + 5),
+                              topRight: Radius.circular(isSameUserWithNextMessage && !isLTR && chatTime ==""? Dimensions.radiusSmall : Dimensions.radiusExtraLarge + 5),
+                              bottomRight: Radius.circular(isSameUserWithPreviousMessage && !isLTR && previousMessageHasChatTime ==""? Dimensions.radiusSmall :Dimensions.radiusExtraLarge + 5),
 
-                        ) : BorderRadius.circular(Dimensions.radiusExtraLarge + 5),
+                            ) : BorderRadius.circular(Dimensions.radiusExtraLarge + 5),
 
-                            color: isMe ? ColorResources.getImageBg(context) : ColorResources.chattingSenderColor(context)),
-                        child: (message.message != null && message.message!.isNotEmpty) ? Text(message.message!,
-                            textAlign: TextAlign.justify,
-                            style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault,
-                                color : isMe? Colors.white: Theme.of(context).textTheme.bodyLarge?.color),
-                        ) : const SizedBox.shrink(),
+                                color: isMe ? const Color(0xffF0F5F5): ColorResources.chattingSenderColor(context)),
+                            child: (message.message.isNotEmpty) ? Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Text(message.message,
+                                  textAlign: TextAlign.start,
+                                  style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault,
+                                      color :Colors.black),
+                              ),
+                            ) : const SizedBox.shrink(),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0,left: 5,right: 5),
+                        child: Text(dateTime,
+                            style: GoogleFonts.tajawal(
+                              fontSize: Dimensions.fontSizeSmall, )),
+                      ),
+                    ],
                   ),
                 ))]),
 
@@ -130,48 +158,96 @@ class MessageBubbleWidget extends StatelessWidget {
                 ),
 
 
-          if(images.isNotEmpty) Padding(
+          if(message.attachment.isNotEmpty)
+            Padding(
             padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
             child: Directionality(textDirection:Provider.of<LocalizationController>(context, listen: false).isLtr ? isMe ?
             TextDirection.rtl : TextDirection.ltr : isMe ? TextDirection.ltr : TextDirection.rtl,
               child: SizedBox(width: MediaQuery.of(context).size.width/2,
-                child: Stack(children: [
-                    GridView.builder(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      childAspectRatio: 1, crossAxisCount: 2,
-                      mainAxisSpacing: Dimensions.paddingSizeSmall, crossAxisSpacing: Dimensions.paddingSizeSmall),
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: images.length> 4? 4: images.length,
-                      itemBuilder: (BuildContext context, index) {
-                        return  InkWell(onTap: () {
-                          if(images.length == 1){
-                            showDialog(context: context, builder: (ctx)  =>  ImageDialog(
-                                imageUrl: '${images[index].path}'));
-                          }else{
-                            showDialog(context: context, builder: (ctx)  =>  ChattingMultiImageSlider(
-                                images: images));
-                          }
-                        },
-                          child: ClipRRect(borderRadius: BorderRadius.circular(5),
-                              child:CustomImageWidget(height: 200, width: 200, fit: BoxFit.cover,
-                                  image: '${images[index].path}')),);
+                child: ListView.builder(
+                  // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  // childAspectRatio: 1, crossAxisCount: 2,
+                  // mainAxisSpacing: Dimensions.paddingSizeSmall, crossAxisSpacing: Dimensions.paddingSizeSmall),
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(0),
 
-                      }),
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: message.attachment.length,
+                  itemBuilder: (BuildContext context, index) {
+                    return  Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: const Radius.circular(16),
+                            bottomLeft: isMe ? const Radius.circular(16) : const Radius.circular(0),
+                            bottomRight: isMe ? const Radius.circular(0) : const Radius.circular(16),
+                            topRight: const Radius.circular(16)),
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      child: Column(
+                        children: [
+                          InkWell(onTap: () {
+                            // if(images.length == 1){
+                            //   showDialog(context: context, builder: (ctx)  =>  ImageDialog(
+                            //       imageUrl: '${images[index].path}'));
+                            // }else{
+                            //   showDialog(context: context, builder: (ctx)  =>  ChattingMultiImageSlider(
+                            //       images: images));
+                            // }
+                          },
+                            child:InkWell(onTap: () {
+                              if( message.attachment[index].endsWith('m4a')||message.attachment[index].endsWith('mp3')){
 
-                  if(images.length> 4)
-                  Positioned(bottom: 0, right: 0,
-                    child: InkWell(onTap: () => showDialog(context: context, builder: (ctx)  =>  ChattingMultiImageSlider(
-                        images: images)),
-                      child: ClipRRect(borderRadius: BorderRadius.circular(5),
-                          child:Container(width: MediaQuery.of(context).size.width/4.2, height: MediaQuery.of(context).size.width/4.2,
-                            decoration: BoxDecoration(
-                            color: Colors.black54.withOpacity(.75), borderRadius: BorderRadius.circular(10)
-                          ),child: Center(child: Text("+${images.length-3}", style: textRegular.copyWith(color: Colors.white),)),)),),
-                  ),
+                              }else{
+                              showDialog(context: context, builder: (ctx)  =>  FileDialog(
+                                imageUrl: message.attachment[index]));}
+                            },
+                              child: ClipRRect(borderRadius: BorderRadius.circular(5),
+                                  child:message.attachment[index].endsWith('png')||message.attachment[index].endsWith('jpg')?
+                                  CustomImageWidget(height: 150, width:  MediaQuery.of(context).size.width/2, fit: BoxFit.fill,
+                                      image: message.attachment[index]):
+                                  message.attachment[index].endsWith('temp')||message.attachment[index].endsWith('mp4')?
+                                  Mp4Widget(
+                                    file:  File(message.attachment[index]),
+                                    min: false,
+                                    isSend: true,
+                                    height: 150,
+                                    width:  MediaQuery.of(context).size.width/2,)
+                                      : message.attachment[index].endsWith('m4a')||message.attachment[index].endsWith('mp3')?
+                                  WaveBubble(
+                                    appDirectory: Directory(message.attachment[index]),
+                                    width:  MediaQuery.of(context).size.width/2,
+                                    index: index,
+                                    isSender: true,
+                                    ofline: false,
+                                    path: message.attachment[index],
 
-                  ],
-                ),
+                                  ): message.attachment[index].endsWith('pdf')?
+                                  PdfWidget(file: File( message.attachment[index]),isSend: true,):
+                                  message.attachment[index].endsWith(
+                                      'docx')
+                                      ? DocxAndXlsxFile(
+                                    file: File(message.attachment[index]),
+                                    fileName: message.attachment[index],
+                                    isSend: false,
+                                  )
+                                      : const SizedBox.shrink()),)),
+                          const SizedBox(height: 5,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0,left: 5,right: 5),
+                                child: Text(dateTime,
+                                    style: GoogleFonts.tajawal(
+                                      fontSize: Dimensions.fontSizeSmall, color: Colors.white,)),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+
+                  }),
 
 
               )),

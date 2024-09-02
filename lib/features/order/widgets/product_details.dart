@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../../helper/price_converter.dart';
 import '../../../../localization/language_constrants.dart';
 import '../../../../utill/dimensions.dart';
@@ -45,36 +46,34 @@ class _ProductSyncOrderState extends State<ProductSyncOrder> {
                       const SizedBox(width: Dimensions.marginSizeDefault),
 
                       ClipRRect(borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
-                          child: Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
-                              border: Border.all(color: Theme.of(context).primaryColor.withOpacity(.125))),
-                              child: CustomImageWidget(image: widget.products[index].images!=null? widget.products[index].images!.first:'', width: 80, height: 80))),
+                          child: CustomImageWidget(image: widget.products[index].images!=null? widget.products[index].images!.first:'', width: 70, height: 80)),
                       const SizedBox(width: Dimensions.marginSizeDefault),
 
                       Expanded(flex: 3,
                         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                           Row(children: [
                             Expanded(child: Text(widget.products[index].name??'',
-                                style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault),
+                                style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault,fontWeight: FontWeight.w400),
                                 maxLines: 2, overflow: TextOverflow.ellipsis))]),
                           const SizedBox(height: Dimensions.marginSizeExtraSmall),
 
 
                           Row(children: [
 
-                            Text("${getTranslated('price', context)}: ",
-                              style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: 14),),
+                            Text("${getTranslated('price', context)} :",
+                              style: GoogleFonts.tajawal( fontSize: 14,fontWeight: FontWeight.w400),),
                             Text(PriceConverter.convertPrice(context, widget.products[index].unitPrice??0.00),
-                              style: titilliumSemiBold.copyWith(color: ColorResources.getPrimary(context), fontSize: 16),),
+                              style: GoogleFonts.tajawal(  fontSize: 16,fontWeight: FontWeight.w400),),
 
                             widget.products[index].taxModel == 'exclude'?
                             Text('(${getTranslated('tax', context)} ${PriceConverter.convertPrice(context, widget.products[index].tax??0.00)})',
-                              style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault),):
+                              style: GoogleFonts.tajawal(color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault),):
                             Text('(${getTranslated('tax', context)} ${widget.products[index].tax??''}%)',
-                                style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault))]),
+                                style: GoogleFonts.tajawal(color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault))]),
                           const SizedBox(height: Dimensions.marginSizeExtraSmall),
 
                           Text('${getTranslated('qty', context)}: ${widget.syncOrder!.details![index].qty!}',
-                              style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: 14)),
+                              style: GoogleFonts.tajawal( fontSize: 14,fontWeight: FontWeight.w400)),
                           const SizedBox(height: Dimensions.marginSizeExtraSmall),
 
                           // (widget.products[index].variant != null && widget.products[index].variant!.isNotEmpty) ?
@@ -89,7 +88,7 @@ class _ProductSyncOrderState extends State<ProductSyncOrder> {
                           //     //       color: Theme.of(context).disabledColor,))),
                           //   ]),
                           // ) : const SizedBox(),
-                          const SizedBox(height: Dimensions.marginSizeExtraSmall),
+                          // const SizedBox(height: Dimensions.marginSizeExtraSmall),
 
                           ///Downloadable Product////////////
 
@@ -102,7 +101,7 @@ class _ProductSyncOrderState extends State<ProductSyncOrder> {
                           // ]),
 
 
-                          const SizedBox(height: Dimensions.paddingSizeSmall),
+                          // const SizedBox(height: Dimensions.paddingSizeSmall),
                         ],
                         ),
                       ),

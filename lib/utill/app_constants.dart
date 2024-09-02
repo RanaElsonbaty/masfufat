@@ -67,7 +67,7 @@ class AppConstants {
   static const String messageUri = '/api/v1/customer/chat/get-messages/';
   static const String chatInfoUri = '/api/v1/customer/chat/list/';
   static const String searchChat = '/api/v1/customer/chat/search/';
-  static const String sendMessageUri = '/api/v1/customer/chat/send-message/';
+  static const String sendMessageUri = '/api/v1/customer/chat/send-message/seller';
   static const String seenMessageUri = '/api/v1/customer/chat/send-message/';
   static const String tokenUri = '/api/v1/customer/cm-firebase-token';
   static const String notificationUri = '/api/v1/notifications';
@@ -80,7 +80,7 @@ class AppConstants {
       '/api/v1/products/price-linked-products';
   static const String syncLinkedProducts =
       '/api/v1/products/sync-linked-products';
-  static const String seenNotificationUri = '/api/v1/notifications/seen';
+  static const String seenNotificationUri = '/api/v1/notifications/read_notifications?';
   static const String syncOrderList = '/api/v1/customer/sync-order/list?status=';
   static const String syncOrderDetailsList = '/api/v1/customer/sync-order/details/';
   static const String addProductToStore = '/api/v1/products/add-linked-products?product_id=';
@@ -104,6 +104,10 @@ class AppConstants {
   static const String refundRequestPreReqUri = '/api/v1/customer/order/refund';
   static const String refundResultUri = '/api/v1/customer/order/refund-details';
   static const String cancelOrderUri = '/api/v1/order/cancel-order';
+  static const String placeBankTransfer =
+      '/api/v1/customer/order/place_bank_transfer';
+  static const String placeBankTransferSyncOrder =
+      '/api/v1/customer/order/place_bank_transfer';
   static const String getSelectedShippingTypeUri = '/api/v1/shipping-method/check-shipping-type';
   static const String dealOfTheDay = '/api/v1/dealsoftheday/deal-of-the-day';
   static const String walletTransactionUri = '/api/v1/customer/wallet/list?limit=10&offset=';
@@ -143,12 +147,14 @@ class AppConstants {
   static const String moreStore = '/api/v1/seller/more';
   static const String justForYou = '/api/v1/products/just-for-you?guest_id=1';
   static const String mostSearching = '/api/v1/products/most-searching?guest_id=1';
-  static const String contactUsUri = '/api/v1/contact-us';
+  static const String contactUsUri = '/api/v1/contact/store';
   static const String attributeUri = '/api/v1/attributes';
   static const String availableCoupon = '/api/v1/coupon/applicable-list';
   static const String downloadDigitalProduct = '/api/v1/customer/order/digital-product-download/';
   static const String otpVResendForDigitalProduct = '/api/v1/customer/order/digital-product-download-otp-resend';
   static const String otpVerificationForDigitalProduct = '/api/v1/customer/order/digital-product-download-otp-verify';
+  static const String orderRefund = '/api/v1/customer/order/refund-store';
+  static const String getOrderRefund = '/api/v1/customer/order/refund-details';
   static const String selectCartItemsUri = '/api/v1/cart/select-cart-items';
   static const String generateInvoice = '/api/v1/customer/order/generate-invoice?order_id=';
   static const String placeSyncWalletOrder =
@@ -164,6 +170,11 @@ class AppConstants {
   static const String replaceFromCompareList = '/api/v1/customer/compare/product-replace';
   static const String setCurrentLanguage = '/api/v1/customer/language-change';
 
+
+  static const String refundUpdateReason = '/api/v1/customer/order/refund-update-reason';
+  static const String refundDeleteAttachment = '/api/v1/customer/order/refund-delete-attachment';
+  static const String refundReplaceAttachment = '/api/v1/customer/order/refund-replace-attachment';
+  static const String refundUploadAttachment = '/api/v1/customer/order/refund-upload-attachment';
 
 
 
@@ -206,8 +217,9 @@ class AppConstants {
   static const String userAddress = 'user_address';
 
   static List<LanguageModel> languages = [
-    LanguageModel(imageUrl: Images.en, languageName: 'English', countryCode: 'US', languageCode: 'en'),
     LanguageModel(imageUrl: Images.ar, languageName: 'Arabic', countryCode: 'SA', languageCode: 'ar'),
+
+    LanguageModel(imageUrl: Images.en, languageName: 'English', countryCode: 'US', languageCode: 'en'),
     // LanguageModel(imageUrl: Images.hi, languageName: 'Hindi', countryCode: 'IN', languageCode: 'hi'),
     // LanguageModel(imageUrl: Images.bn, languageName: 'Bangla', countryCode: 'BD', languageCode: 'bn'),
     // LanguageModel(imageUrl: Images.es, languageName: 'Spanish', countryCode: 'ES', languageCode: 'es'),

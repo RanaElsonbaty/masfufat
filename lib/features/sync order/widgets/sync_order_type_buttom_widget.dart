@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/sync%20order/controllers/sync_order_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
@@ -31,14 +32,16 @@ class _SyncOrderTypeButtomWidgetState extends State<SyncOrderTypeButtomWidget> {
           alignment: Alignment.center,
           decoration: BoxDecoration(color: syncOrderController.orderTypeIndex==widget.index?ColorResources.getPrimary(context)
          : Theme.of(context).primaryColor.withOpacity(0.07),
-              borderRadius: BorderRadius.circular(50)),
+              borderRadius: BorderRadius.circular(8)),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 4),
 
             child: Row(crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center, children: [
-                Text(getTranslated(widget.text, context)!, style: titilliumBold.copyWith(color:   syncOrderController.orderTypeIndex == widget.index ?
-                Theme.of(context).highlightColor : ColorResources.getReviewRattingColor(context))),
+                Text(getTranslated(widget.text, context)!,
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.tajawal(color:   syncOrderController.orderTypeIndex == widget.index ?
+                Theme.of(context).highlightColor : Colors.black)),
                 const SizedBox(width: 5),
 
               ],

@@ -5,6 +5,7 @@ import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dar
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class CustomMenuWidget extends StatelessWidget {
@@ -27,13 +28,13 @@ class CustomMenuWidget extends StatelessWidget {
       hoverColor: Colors.transparent,
       onTap: onTap,
       child: Padding(padding: const EdgeInsets.all(8),
-        child: SizedBox(width: isSelected ? 90 : 50, child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+        child: SizedBox(width: isSelected ? 90 : 50 , child: Column(crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center, mainAxisSize: MainAxisSize.min, children: [
 
             Stack(children: [
               Image.asset(
-                icon, color: isSelected? Theme.of(context).primaryColor : Theme.of(context).hintColor,
-                width: Dimensions.menuIconSize, height: Dimensions.menuIconSize,
+                icon, color: isSelected? Theme.of(context).primaryColor : Theme.of(context).iconTheme.color,
+                width: isSelected?25:20, height: isSelected?25:20,
               ),
 
               if(showCartCount) Positioned.fill(child: Container(
@@ -56,10 +57,10 @@ class CustomMenuWidget extends StatelessWidget {
 
             isSelected ?
             Text(getTranslated(name, context)!, maxLines: 1, overflow: TextOverflow.ellipsis,
-                style: textBold.copyWith(color:  Theme.of(context).primaryColor)) :
+                style: GoogleFonts.almarai(color:  Theme.of(context).primaryColor)) :
 
             Text(getTranslated(name, context)!, maxLines: 1, overflow: TextOverflow.ellipsis,
-                style: textRegular.copyWith(color: Theme.of(context).hintColor)),
+                style: GoogleFonts.almarai(color: Theme.of(context).hintColor)),
 
             if(isSelected)
               Container(width: 5,height: 3,

@@ -13,6 +13,7 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakba
 import 'package:flutter_sixvalley_ecommerce/features/checkout/widgets/custom_check_box_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../localization/controllers/localization_controller.dart';
 import '../../checkout/widgets/payment_method_bottom_sheet_widget.dart';
 import '../../payment /widgets/checkout widget/payment_section.dart';
 
@@ -79,12 +80,14 @@ class _AddFundDialogueWidgetState extends State<AddFundDialogueWidget> {
                               border: Border.all(width: .5,color: Provider.of<ThemeController>(context, listen: false).darkTheme?
                               Theme.of(context).hintColor : Theme.of(context).primaryColor.withOpacity(.5))),
                               child: Row(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center, children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 5.0),
-                                    child: Text(configProvider.myCurrency!.symbol,
-                                        style: textBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge,
-                                            color:  Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(.75) )),
-                                  ),
+
+                                Provider.of<LocalizationController>(context,listen: false).isLtr?     Padding(
+                                  padding: const EdgeInsets.only(top: 5.0),
+                                  child: Text(configProvider.myCurrency!.symbol,
+                                      style: textBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge,
+                                          color:  Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(.75) )),
+                                ):const SizedBox(),
+                                Provider.of<LocalizationController>(context,listen: false).isLtr?   const SizedBox(width: 5,):const SizedBox.shrink(),
 
                                 Consumer<PaymentController>(
                                   builder:(context, paymentProvider, child) =>  IntrinsicWidth(child: TextField(
@@ -102,11 +105,20 @@ class _AddFundDialogueWidgetState extends State<AddFundDialogueWidget> {
                                     decoration: const InputDecoration(
                                       contentPadding: EdgeInsets.zero,
                                       border: InputBorder.none,
-                                      hintText: 'Ex: 500',
+                                      hintText: '500',
                                     ),
                                   )),
                                 ),
+                             Provider.of<LocalizationController>(context,listen: false).isLtr==false?   const SizedBox(width: 5,):const SizedBox.shrink(),
+                                Provider.of<LocalizationController>(context,listen: false).isLtr==false?     Padding(
+                                  padding: const EdgeInsets.only(top: 5.0),
+                                  child: Text(configProvider.myCurrency!.symbol,
+                                      style: textBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge,
+                                          color:  Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(.75) )),
+                                ):const SizedBox(),
+
                               ]))),
+
 
 
                           Padding(padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall,

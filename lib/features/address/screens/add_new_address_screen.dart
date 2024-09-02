@@ -25,7 +25,6 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakba
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/success_dialog_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_textfield_widget.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
 
@@ -36,7 +35,9 @@ class AddNewAddressScreen extends StatefulWidget {
   final AddressModel? address;
   final  List<geocoding.Placemark> placemarks;
   final bool? isBilling;
-  const AddNewAddressScreen({super.key, this.isEnableUpdate = false, this.address, this.fromCheckout = false, this.isBilling, required this.placemarks});
+  final bool? editLocation;
+
+  const AddNewAddressScreen({super.key, this.isEnableUpdate = false, this.address, this.fromCheckout = false, this.isBilling, required this.placemarks, this.editLocation=false});
 
   @override
   State<AddNewAddressScreen> createState() => _AddNewAddressScreenState();
@@ -59,16 +60,12 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
   final FocusNode _zipNode = FocusNode();
   Address? _address;
   String zip = '',  country = 'IN';
-  late LatLng _defaut;
 
   final GlobalKey<FormState> _addressFormKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
-
-    // config.DefaultLocation? dLocation = Provider.of<SplashController>(context, listen: false).configModel?.defaultLocation;
-    // _defaut = LatLng(double.parse(dLocation?.lat ?? '0'), double.parse(dLocation?.lng ?? '0'));
     initData();
 
   }
@@ -82,69 +79,112 @@ void initData()async{
   Provider.of<AuthController>(context, listen: false).setCountryCode(CountryCode.fromCountryCode(Provider.of<SplashController>(context, listen: false).configModel!.countryCode).dialCode!, notify: false);
   _countryCodeController.text = CountryCode.fromCountryCode(Provider.of<SplashController>(context, listen: false).configModel!.countryCode).name??'Bangladesh';
   Provider.of<AddressController>(context, listen: false).getAddressType();
-await  Provider.of<AddressController>(context, listen: false).getCountyList();
-  // Provider.of<AddressController>(context, listen: false).getRestrictedDeliveryCountryList();
-  // Provider.of<AddressController>(context, listen: false).getRestrictedDeliveryZipList();
-
-
-  // _checkPermission(() => Provider.of<LocationController>(context, listen: false).getCurrentLocation(context, true, mapController: _controller),context);
+    await  Provider.of<AddressController>(context, listen: false).getCountyList();
   if (widget.isEnableUpdate && widget.address != null) {
+    if(widget.editLocation!){
 
-    Provider.of<LocationController>(context, listen: false).updateMapPosition(CameraPosition(
-        target: LatLng(
-          (widget.address!.latitude != null && widget.address!.latitude != '0' && widget.address!.latitude != '') ?
-          double.parse(widget.address!.latitude!) : _defaut.latitude,
-          (widget.address!.longitude != null && widget.address!.longitude != '0' && widget.address!.longitude != '') ?
-          double.parse(widget.address!.longitude!) : _defaut.longitude,
-        )), true, widget.address!.address, context);
-    _contactPersonNameController.text = '${widget.address?.contactPersonName}';
-    Provider.of<AddressController>(context, listen: false).countyList.forEach((element) {
-      if(widget.address?.country!=null&&element.name==widget.address?.country||element.code==widget.address?.country||element.id.toString()==widget.address?.country){
-        _countryCodeController.text =element.name;
-        countryId=element.id.toString();
-          Provider.of<AddressController>(context, listen: false).getCityList(element.id.toString()).then((value) {
-          if(widget.address?.city!=null&&element.id.toString()==widget.address?.city||element.name==widget.address?.city){
-            _cityController.text = element.name;
-            cityId=element.id.toString();
-          }else{
-            _cityController.text='';
-          }
+    try{
+      _contactPersonNameController.text = '${widget.address?.contactPersonName}';
+      String countryCode = CountryCodeHelper.getCountryCode(Provider.of<ProfileController>(Get.context!, listen: false).userInfoModel!.phone)!;
+      Provider.of<AuthController>(Get.context!, listen: false).setCountryCode(countryCode);
+      String phoneNumberOnly = CountryCodeHelper.extractPhoneNumber(countryCode, Provider.of<ProfileController>(Get.context!, listen: false).userInfoModel!.phone);
+      _contactPersonNumberController.text = phoneNumberOnly;
+      _zipCodeController.text=widget.placemarks.first.postalCode!;
+    }catch(e){}
 
+    Provider.of<LocationController>(Get.context!, listen: false).locationController.text=widget.placemarks.first.street!=null?widget.placemarks.first.street!:'';
+    Provider.of<AddressController>(Get.context!, listen: false).countyList.forEach((element) async{
+
+      if(widget.placemarks.first.isoCountryCode==element.code){
+        await  Provider.of<AddressController>(context, listen: false).getCityList(element.id.toString()).then((value) {
+          Provider.of<AddressController>(context, listen: false).cityList.forEach((element) {
+            if(widget.placemarks.first.locality==element.name){
+            setState(() {
+              _cityController.text=element.name;
+              cityId=element.id.toString();
+            });
+              }else{
+              _cityController.text='not found';
+            }
           });
+        });
+
+        _countryCodeController.text=element.name;
+        countryId=element.id.toString();
+
 
       }
     });
+    setState(() {
 
-    // _contactPersonEmailController.text =  '${widget.address?.email}';
-    // _contactPersonNumberController.text = '${widget.address?.phone}';
-    _zipCodeController.text = '${widget.address?.zip}';
-    if (widget.address!.addressType == 'Home') {
-      Provider.of<AddressController>(context, listen: false).updateAddressIndex(0, false);
-    } else if (widget.address!.addressType == 'Workplace') {
-      Provider.of<AddressController>(context, listen: false).updateAddressIndex(1, false);
-    } else {
-      Provider.of<AddressController>(context, listen: false).updateAddressIndex(2, false);
+    });
+}else {
+  _contactPersonNameController.text = '${widget.address?.contactPersonName}';
+  Provider
+      .of<AddressController>(Get.context!, listen: false)
+      .countyList
+      .forEach((element) {
+    if (widget.address?.country != null &&
+        element.name == widget.address?.country ||
+        element.code == widget.address?.country ||
+        element.id.toString() == widget.address?.country) {
+      _countryCodeController.text = element.name;
+      countryId = element.id.toString();
+      Provider
+          .of<LocationController>(context, listen: false)
+          .locationController
+          .text = widget.address!.address!;
+      Provider.of<AddressController>(context, listen: false).getCityList(
+          element.id.toString()).then((value) {
+        if (widget.address?.city != null &&
+            element.id.toString() == widget.address?.city ||
+            element.name == widget.address?.city) {
+          _cityController.text = element.name;
+          cityId = element.id.toString();
+        } else {
+          _cityController.text = '';
+        }
+      });
     }
-    String countryCode = CountryCodeHelper.getCountryCode(widget.address?.phone ?? '')!;
-    Provider.of<AuthController>(context, listen: false).setCountryCode(countryCode, notify: false);
-    String phoneNumberOnly = CountryCodeHelper.extractPhoneNumber(countryCode, widget.address?.phone ?? '');
-    _contactPersonNumberController.text = phoneNumberOnly;
+  });
 
-  }else {
 
-    if(Provider.of<ProfileController>(context, listen: false).userInfoModel!=null){
+  _zipCodeController.text = '${widget.address?.zip}';
+  if (widget.address!.addressType == 'Home') {
+    Provider.of<AddressController>(Get.context!, listen: false).updateAddressIndex(
+        0, false);
+  } else if (widget.address!.addressType == 'Workplace') {
+    Provider.of<AddressController>(Get.context!, listen: false).updateAddressIndex(
+        1, false);
+  } else {
+    Provider.of<AddressController>(Get.context!, listen: false).updateAddressIndex(
+        2, false);
+  }
+  String countryCode = CountryCodeHelper.getCountryCode(
+      widget.address?.phone ?? '')!;
+  Provider.of<AuthController>(Get.context!, listen: false).setCountryCode(
+      countryCode, notify: false);
+  String phoneNumberOnly = CountryCodeHelper.extractPhoneNumber(
+      countryCode, widget.address?.phone ?? '');
+  _contactPersonNumberController.text = phoneNumberOnly;
+}
+  } else {
+
+    if(Provider.of<ProfileController>(Get.context!, listen: false).userInfoModel!=null){
       _contactPersonNameController.text =
-      ' ${Provider.of<ProfileController>(context, listen: false).userInfoModel!.name}';
+      ' ${Provider.of<ProfileController>(Get.context!, listen: false).userInfoModel!.name}';
 
-      String countryCode = CountryCodeHelper.getCountryCode(Provider.of<ProfileController>(context, listen: false).userInfoModel!.phone)!;
-      Provider.of<AuthController>(context, listen: false).setCountryCode(countryCode);
-      String phoneNumberOnly = CountryCodeHelper.extractPhoneNumber(countryCode, Provider.of<ProfileController>(context, listen: false).userInfoModel!.phone);
-      _contactPersonNumberController.text = phoneNumberOnly;
+   try{
+     String countryCode = CountryCodeHelper.getCountryCode(Provider.of<ProfileController>(Get.context!, listen: false).userInfoModel!.phone)!;
+     Provider.of<AuthController>(Get.context!, listen: false).setCountryCode(countryCode);
+     String phoneNumberOnly = CountryCodeHelper.extractPhoneNumber(countryCode, Provider.of<ProfileController>(Get.context!, listen: false).userInfoModel!.phone);
+     _contactPersonNumberController.text = phoneNumberOnly;
+   }catch(e){}
     try{
       _zipCodeController.text=widget.placemarks.first.postalCode!;
     }catch(e){}
-      Provider.of<LocationController>(context, listen: false).locationController.text=widget.placemarks.first.street!;
-      Provider.of<AddressController>(context, listen: false).countyList.forEach((element) async{
+      Provider.of<LocationController>(Get.context!, listen: false).locationController.text=widget.placemarks.first.street!;
+      Provider.of<AddressController>(Get.context!, listen: false).countyList.forEach((element) async{
 
           if(widget.placemarks.first.isoCountryCode==element.code){
         await  Provider.of<AddressController>(context, listen: false).getCityList(element.id.toString()).then((value) {
@@ -272,27 +312,27 @@ await  Provider.of<AddressController>(context, listen: false).getCountyList();
                                           style: textRegular.copyWith())]))))),
 
 
-                            Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
-                              child: SizedBox(height: 50,
-                                child: Row(children: <Widget>[
-                                  Row(children: [
-                                      Radio<Address>(
-                                        value: Address.shipping,
-                                        groupValue: _address,
-                                        onChanged: (Address? value) {
-                                          setState(() {_address = value;});}),
-                                      Text(getTranslated('shipping_address', context)??'', style: textRegular.copyWith(fontSize: Dimensions.fontSizeLarge),),]),
-
-
-                                  Row(children: [
-                                    Radio<Address>(
-                                      value: Address.billing,
-                                      groupValue: _address,
-                                      onChanged: (Address? value) {
-                                        setState(() {
-                                          _address = value;});}),
-                                      Text(getTranslated('billing_address', context)??'', style: textRegular.copyWith(fontSize: Dimensions.fontSizeLarge))])]))),
-
+                            // Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
+                            //   child: SizedBox(height: 50,
+                            //     child: Row(children: <Widget>[
+                            //       Row(children: [
+                            //           Radio<Address>(
+                            //             value: Address.shipping,
+                            //             groupValue: _address,
+                            //             onChanged: (Address? value) {
+                            //               setState(() {_address = value;});}),
+                            //           Text(getTranslated('shipping_address', context)??'', style: textRegular.copyWith(fontSize: Dimensions.fontSizeLarge),),]),
+                            //
+                            //
+                            //       Row(children: [
+                            //         Radio<Address>(
+                            //           value: Address.billing,
+                            //           groupValue: _address,
+                            //           onChanged: (Address? value) {
+                            //             setState(() {
+                            //               _address = value;});}),
+                            //           Text(getTranslated('billing_address', context)??'', style: textRegular.copyWith(fontSize: Dimensions.fontSizeLarge))])]))),
+                            const SizedBox(height: Dimensions.paddingSizeDefaultAddress,),
 
                             CustomTextFieldWidget(labelText: getTranslated('delivery_address', context),
                               hintText: getTranslated('usa', context),
@@ -310,10 +350,10 @@ await  Provider.of<AddressController>(context, listen: false).getCountyList();
                             const SizedBox(height: Dimensions.paddingSizeDefaultAddress),
 
                           ...[
-                            Text(getTranslated('country', context)!, style: textRegular.copyWith(
-                              color: Theme.of(context).hintColor,
-                              fontSize: Dimensions.fontSizeSmall,
-                            )),
+                            // Text(getTranslated('country', context)!, style: textRegular.copyWith(
+                            //   color: Theme.of(context).hintColor,
+                            //   fontSize: Dimensions.fontSizeSmall,
+                            // )),
                             const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
 
@@ -489,7 +529,12 @@ await  Provider.of<AddressController>(context, listen: false).getCountyList();
                                       email: _contactPersonEmailController.text.trim(),
                                       city: cityId.toString(),
                                       zip: _zipCodeController.text,
-
+                                      title: '',
+                                      customerId: 0,
+                                      areaId: '',
+                                      createdAt: '',
+                                      state: true,
+                                      updatedAt: '',
                                       country:  countryId.toString(),
                                       // guestId: Provider.of<AuthController>(context, listen: false).getGuestToken(),
                                       isBilling: _address == Address.billing?1:0,
@@ -507,6 +552,8 @@ await  Provider.of<AddressController>(context, listen: false).getCountyList();
                                   } else {
                                     addressController.addAddress(addressModel).then((value) {
                                       if (value.response?.statusCode == 200 ) {
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
                                         Navigator.pop(context);
                                         if (widget.fromCheckout) {
                                           Provider.of<CheckoutController>(context, listen: false).setAddressIndex(0);

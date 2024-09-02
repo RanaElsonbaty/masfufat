@@ -22,7 +22,7 @@ class NotificationRepository implements NotificationRepositoryInterface{
   @override
   Future<ApiResponse>  seenNotification(int id) async {
     try {
-      Response response = await dioClient!.get('${AppConstants.seenNotificationUri}?id=$id&guest_id=1');
+      Response response = await dioClient!.post('${AppConstants.seenNotificationUri}id=$id');
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));

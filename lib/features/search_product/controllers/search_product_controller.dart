@@ -51,7 +51,7 @@ class SearchProductController with ChangeNotifier {
     notifyListeners();
   }
 
-  String sortText = 'low-high';
+  String sortText = 'latest';
   void setFilterIndex(int index) {
     _filterIndex = index;
     if(index == 0){

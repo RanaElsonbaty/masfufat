@@ -96,7 +96,7 @@ class CartController extends ChangeNotifier {
     ApiResponse apiResponse = await cartServiceInterface!.addToCartListData(cart,  variationIndexes, buyNow, shippingMethodExist, shippingMethodId);
     _addToCartLoading = false;
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-      Navigator.of(Get.context!).pop();
+      // Navigator.of(Get.context!).pop();
       _addToCartLoading = false;
       showCustomSnackBar(apiResponse.response!.data['message'], Get.context!, isError: apiResponse.response!.data['status'] == 0, isToaster: true);
       getCartData(Get.context!);

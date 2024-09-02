@@ -79,7 +79,10 @@ class SupportTicketController extends ChangeNotifier {
   Future<ApiResponse> sendReply(int? ticketID, String message) async {
     _isLoading = true;
     notifyListeners();
+    print('object');
     ApiResponse response = await supportTicketServiceInterface.sendReply(ticketID.toString(), message, pickedImageFileStored);
+    print('object');
+
     if (response.response!=null&&response.response!.statusCode == 200) {
       getSupportTicketReplyList(Get.context!, ticketID);
       _pickedImageFiles = [];
@@ -109,6 +112,14 @@ class SupportTicketController extends ChangeNotifier {
 
 
 
+  List<String> type = ['website_problem', 'partner_request', 'complaint', 'info_inquiry'];
+  int selectedTypeIndex = -1;
+  String selectedType = getTranslated('website_problem', Get.context!)??'';
+  void setSelectedType(int index, {bool reload = true}){
+    selectedTypeIndex = index;
+    selectedType = getTranslated(type[selectedPriorityIndex], Get.context!)??'High';
+    notifyListeners();
+  }
   List<String> priority = ['urgent', 'high', 'medium', 'low'];
   int selectedPriorityIndex = -1;
   String selectedPriority = getTranslated('select_priority', Get.context!)??'';
@@ -135,7 +146,7 @@ class SupportTicketController extends ChangeNotifier {
   Future pickImageCamera()async{
     print('object');
      try{
-       XFile? file = await ImagePicker().pickVideo( source:ImageSource.camera  );
+       XFile? file = await ImagePicker().pickVideo( source:ImageSource.gallery  );
        _pickedImageFiles.add(file!);
        pickedImageFileStored.addAll(_pickedImageFiles);
      }catch(e){
@@ -169,7 +180,10 @@ class SupportTicketController extends ChangeNotifier {
             result.files.single.path!));
         // support.addPhoto(
         //     file, false, false);
-        pickedImageFileStored.addAll(_pickedImageFiles);
+        for (var element in file) {
+          pickedImageFileStored.add(XFile(element.path));
+
+        }
 
         // print(
         //     "No file file ${support.file}");
@@ -223,8 +237,8 @@ void addPickCameraToList(){
     _musicFile = '';
     _appDirectory = await getApplicationDocumentsDirectory();
     if(Platform.isIOS){
-      _path = "${_appDirectory.path}/recording.m4a";}else{
-      _path = "${_appDirectory.path}/recording.mp3";
+      _path = "${_appDirectory.path}/${DateTime.now()}.m4a";}else{
+      _path = "${_appDirectory.path}/${DateTime.now()}.mp3";
 
     }
     // notifyListeners();
@@ -244,31 +258,22 @@ void addPickCameraToList(){
     // notifyListeners();
   }
 
-  void startOrStopRecording() async {
+  Future startOrStopRecording() async {
 
     try {
-      // _recorderController.
       if (isRecording) {
-
         _recorderController.reset();
-
         final path = await _recorderController.stop(true);
-
         if (path != null) {
           _isRecordingCompleted = true;
           debugPrint(path);
           debugPrint("Recorded file size: ${File(path).lengthSync()}");
           pickedImageFileStored.add(XFile(path));
-          // addPhoto([file], false, false);
-
           notifyListeners();
         }
       } else {
-        // print('asdasdasdad${path}');
         await _recorderController.record(path: path!);
       }
-
-      // _recorderController.
     } catch (e) {
       debugPrint(e.toString());
     } finally {
@@ -278,7 +283,6 @@ void addPickCameraToList(){
   }
 
   void refreshWave() {
-
     if (isRecording) {
       _recorderController.refresh();
       _path = '';
@@ -305,6 +309,39 @@ void textEmptyOrNot(String val){
   }
   notifyListeners();
 }
+bool _micOn=false;
+bool get micOn=>_micOn;
+void getMicOn(bool val){
+  _micOn=val;
+  notifyListeners();
+
+}
+  int _seconds = 0;
+  int get seconds =>_seconds;
+  bool _isRunning = false;
+  bool get isRunning =>_isRecording;
+  Timer? _timer;
+  String _formattedDuration='';
+  String get formattedDuration=>_formattedDuration;
+  void startTimer() {
+    _seconds=0;
+    _formattedDuration='';
+    _isRunning = true;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        _seconds++;
+        Duration duration = Duration(seconds: _seconds);
+        _formattedDuration = duration.toString().substring(2, 7);
+  notifyListeners();
+    });
+    // int milliseconds = 20000; // Example: 20 seconds
+
+  }
+
+  void stopTimer() {
+    _isRunning = false;
+    _timer?.cancel();
+  }
+
 
 
 }

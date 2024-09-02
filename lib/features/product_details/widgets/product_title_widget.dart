@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_directionality_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/controllers/product_details_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/domain/models/product_details_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/review/controllers/review_controller.dart';
@@ -40,24 +39,20 @@ class ProductTitleWidget extends StatelessWidget {
 
 
             Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-              CustomDirectionalityWidget(
-                child: Text('${startingPrice != null ? PriceConverter.convertPrice(context, startingPrice,
-                    discount: productModel!.discount, discountType: productModel!.discountType):''}'
-                    '${endingPrice !=null ? ' - ${PriceConverter.convertPrice(context, endingPrice,
-                    discount: productModel!.discount, discountType: productModel!.discountType)}' : ''}',
-                    style: titilliumBold.copyWith(color: ColorResources.getPrimary(context),
-                        fontSize: Dimensions.fontSizeLarge)),
-              ),
+              Text('${startingPrice != null ? PriceConverter.convertPrice(context, startingPrice,
+                  discount: productModel!.discount, discountType: productModel!.discountType):''}'
+                  '${endingPrice !=null ? ' - ${PriceConverter.convertPrice(context, endingPrice,
+                  discount: productModel!.discount, discountType: productModel!.discountType)}' : ''}',
+                  style: titilliumBold.copyWith(color: ColorResources.getPrimary(context),
+                      fontSize: Dimensions.fontSizeLarge)),
 
               if(productModel!.discount != null && productModel!.discount! > 0)...[
                 const SizedBox(width: Dimensions.paddingSizeSmall),
 
-                CustomDirectionalityWidget(
-                  child: Text('${PriceConverter.convertPrice(context, startingPrice)}'
-                      '${endingPrice!= null ? ' - ${PriceConverter.convertPrice(context, endingPrice)}' : ''}',
-                      style: titilliumRegular.copyWith(color: Theme.of(context).hintColor,
-                          decoration: TextDecoration.lineThrough)),
-                ),
+                Text('${PriceConverter.convertPrice(context, startingPrice)}'
+                    '${endingPrice!= null ? ' - ${PriceConverter.convertPrice(context, endingPrice)}' : ''}',
+                    style: titilliumRegular.copyWith(color: Theme.of(context).hintColor,
+                        decoration: TextDecoration.lineThrough)),
               ],
             ]),
             const SizedBox(height: Dimensions.paddingSizeSmall),

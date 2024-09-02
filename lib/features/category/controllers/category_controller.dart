@@ -83,4 +83,25 @@ class CategoryController extends ChangeNotifier {
     _categorySelectedIndex = selectedIndex;
     notifyListeners();
   }
+  List<CategoryModel> _searchCategoryList = [];
+  List<CategoryModel> get searchCategoryList =>_searchCategoryList;
+  void search(String val){
+    _searchCategoryList=[];
+    notifyListeners();
+    if(categoryList.isNotEmpty){
+      for (var element in categoryList) {
+        if(element.name.contains(val)){
+          print('object');
+
+          _searchCategoryList.add(element);
+          notifyListeners();
+        }
+      }
+    }
+  }
+  void clear(){
+    _searchCategoryList=[];
+    _searchCategoryList.addAll(categoryList);
+  }
+
 }

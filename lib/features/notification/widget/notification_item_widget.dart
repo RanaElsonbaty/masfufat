@@ -11,12 +11,13 @@ import 'package:provider/provider.dart';
 
 class NotificationItemWidget extends StatelessWidget {
   final NotificationItemModel notificationItem;
-  const NotificationItemWidget({super.key, required this.notificationItem});
+  final int index;
+  const NotificationItemWidget({super.key, required this.notificationItem, required this.index});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(onTap:(){
-      Provider.of<NotificationController>(context, listen: false).seenNotification(notificationItem.id!);
+      Provider.of<NotificationController>(context, listen: false).seenNotification(notificationItem.id!,index,);
       showModalBottomSheet(backgroundColor: Colors.transparent,
           context: context, builder: (context) =>
               NotificationDialogWidget(notificationModel: notificationItem));},

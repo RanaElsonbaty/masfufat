@@ -39,23 +39,24 @@ class _SearchInboxWidgetState extends State<SearchInboxWidget> {
                   suffixIconConstraints: const BoxConstraints(maxHeight: 25),
                   hintStyle: textMedium.copyWith(color: Theme.of(context).hintColor, fontSize: Dimensions.fontSizeLarge),
                   contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 22),
-                  fillColor: Theme.of(context).cardColor,
-                  border:  OutlineInputBorder(
-                    borderRadius: const BorderRadius.horizontal(right: Radius.circular(10,),left: Radius.circular(10)),
-                    borderSide: BorderSide( width: 0.5, color: Theme.of(context).primaryColor.withOpacity(0.5)),
+                  fillColor:const Color(0xFFF7F7F7),
+                  border:
+                  const OutlineInputBorder(
+                    borderRadius: BorderRadius.horizontal(right: Radius.circular(10,),left: Radius.circular(10)),
+                    borderSide: BorderSide.none,
                   ),
-                  errorBorder:  OutlineInputBorder(
-                    borderRadius: const BorderRadius.horizontal(right: Radius.circular(10,),left: Radius.circular(10)),
-                    borderSide: BorderSide( width: 0.5, color: Theme.of(context).primaryColor.withOpacity(0.5)),
+                  errorBorder:  const OutlineInputBorder(
+                    borderRadius: BorderRadius.horizontal(right: Radius.circular(10,),left: Radius.circular(10)),
+                    borderSide: BorderSide.none,
                   ),
 
-                  focusedBorder:  OutlineInputBorder(
-                    borderRadius: const BorderRadius.horizontal(right: Radius.circular(10,),left: Radius.circular(10)),
-                    borderSide: BorderSide( width: 0.5, color: Theme.of(context).primaryColor.withOpacity(0.5)),
+                  focusedBorder:  const OutlineInputBorder(
+                    borderRadius: BorderRadius.horizontal(right: Radius.circular(10,),left: Radius.circular(10)),
+                    borderSide: BorderSide.none,
                   ),
-                  enabledBorder :  OutlineInputBorder(
-                    borderRadius: const BorderRadius.horizontal(right: Radius.circular(10,),left: Radius.circular(10)),
-                    borderSide: BorderSide( width: 0.5, color: Theme.of(context).primaryColor.withOpacity(0.5)),
+                  enabledBorder :  const OutlineInputBorder(
+                    borderRadius: BorderRadius.horizontal(right: Radius.circular(10,),left: Radius.circular(10)),
+                    borderSide: BorderSide.none,
                   ),
                   filled: true,
 

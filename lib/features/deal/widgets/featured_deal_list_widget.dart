@@ -22,8 +22,8 @@ class FeaturedDealsListWidget extends StatelessWidget {
         return featuredDealProvider.featuredDealProductList != null? featuredDealProvider.featuredDealProductList!.isNotEmpty ?
         CarouselSlider.builder(
           options: CarouselOptions(
-            aspectRatio: 2.5,
-            viewportFraction: 0.86,
+            aspectRatio: 2,
+            viewportFraction: 0.9,
             autoPlay: true,
               pauseAutoPlayOnTouch: true,
               pauseAutoPlayOnManualNavigate: true,

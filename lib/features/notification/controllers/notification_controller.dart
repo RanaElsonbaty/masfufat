@@ -40,7 +40,7 @@ int totalOffset =0;
 
 
 
-  Future<void> seenNotification(int id) async {
+  Future<void> seenNotification(int id,int index) async {
     ApiResponse apiResponse = await notificationServiceInterface.seenNotification(id);
     if (apiResponse.response != null && apiResponse.response?.statusCode == 200) {
       getNotificationList(1);

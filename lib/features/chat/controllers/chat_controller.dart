@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import 'package:open_file_plus/open_file_plus.dart';
+import 'package:path_provider/path_provider.dart';
 
 enum SenderType {
   customer,
@@ -30,6 +32,28 @@ enum SenderType {
 class ChatController extends ChangeNotifier {
   final ChatServiceInterface? chatServiceInterface;
   ChatController({required this.chatServiceInterface});
+
+
+  ChatModel? catModel;
+
+  void getChatType(int index){
+    if(index == 0){
+      if(isSearchComplete){
+        catModel = searchDeliverymanChatModel;
+      } else {
+        catModel = deliverymanChatModel;
+      }
+    } else{
+      if(isSearchComplete){
+        catModel = searchChatModel;
+      } else {
+        catModel = chatModel;
+      }
+
+    }
+notifyListeners();
+
+  }
 
   bool _isSendButtonActive = false;
   bool get isSendButtonActive => _isSendButtonActive;
@@ -80,11 +104,13 @@ class ChatController extends ChangeNotifier {
   String _onMessageTimeShowID = '';
   String get onMessageTimeShowID => _onMessageTimeShowID;
 
-
+bool _loading =false;
+bool get loading =>_loading;
   Future<void> getChatList( int offset, {bool reload = true, int? userType}) async {
     if(reload){
       notifyListeners();
     }
+    _loading =true;
 
     if(offset == 1){
       if(offset == 1 && userType == 0){
@@ -118,6 +144,8 @@ class ChatController extends ChangeNotifier {
           chatModel?.totalSize  = (ChatModel.fromJson(apiResponse.response!.data).totalSize!);
         }
       }
+      _loading =false;
+      notifyListeners();
     } else {
       ApiChecker.checkApi( apiResponse);
     }
@@ -184,41 +212,41 @@ class ChatController extends ChangeNotifier {
         messageList = [];
         allMessageList = [];
         messageModel = MessageModel.fromJson(apiResponse.response!.data);
-        for (var data in messageModel!.message!) {
-          if(!dateList.contains(DateConverter.dateStringMonthYear(DateTime.tryParse(data.createdAt!)))) {
-            dateList.add(DateConverter.dateStringMonthYear(DateTime.tryParse(data.createdAt!)));
+        for (var data in messageModel!.message) {
+          if(!dateList.contains(DateConverter.dateStringMonthYear(data.createdAt))) {
+            dateList.add(DateConverter.dateStringMonthYear(data.createdAt));
           }
           allMessageList.add(data);
         }
         for(int i=0; i< dateList.length; i++){
           messageList.add([]);
           for (var element in allMessageList) {
-            if(dateList[i]== DateConverter.dateStringMonthYear(DateTime.tryParse(element.createdAt!))){
+            if(dateList[i]== DateConverter.dateStringMonthYear(element.createdAt)){
               messageList[i].add(element);
             }
           }
         }
       } else{
-        messageModel = MessageModel(message: [], totalSize: 0, offset: '0');
-        messageModel?.message = [];
-        messageModel!.totalSize =  MessageModel.fromJson(apiResponse.response!.data).totalSize;
-        messageModel!.offset =  MessageModel.fromJson(apiResponse.response!.data).offset;
-        messageModel!.message!.addAll(MessageModel.fromJson(apiResponse.response!.data).message!) ;
+        messageModel = MessageModel(message: [], totalSize: 0, offset: '0', limit: '');
+        // messageModel?.message = [];
+        // messageModel!.totalSize =  MessageModel.fromJson(apiResponse.response!.data).totalSize;
+        // messageModel!.offset =  MessageModel.fromJson(apiResponse.response!.data).offset;
+        messageModel!.message.addAll(MessageModel.fromJson(apiResponse.response!.data).message) ;
 
-        for (var data in messageModel!.message!) {
-          if(!dateList.contains(DateConverter.dateStringMonthYear(DateTime.tryParse(data.createdAt!)))) {
-            dateList.add(DateConverter.dateStringMonthYear(DateTime.tryParse(data.createdAt!)));
-          }
+        for (var data in messageModel!.message) {
+          // if(!dateList.contains(DateConverter.dateStringMonthYear(DateTime.tryParse(data.createdAt!)))) {
+          //   dateList.add(DateConverter.dateStringMonthYear(DateTime.tryParse(data.createdAt!)));
+          // }
           allMessageList.add(data);
         }
 
-        for(int i=0; i< dateList.length; i++) {
-          messageList.add([]);
-          for (var element in allMessageList) {
-            if(dateList[i]== DateConverter.dateStringMonthYear(DateTime.tryParse(element.createdAt!))){
-              messageList[i].add(element);
-            }}
-        }
+        // for(int i=0; i< dateList.length; i++) {
+        //   messageList.add([]);
+        //   for (var element in allMessageList) {
+        //     if(dateList[i]== DateConverter.dateStringMonthYear(DateTime.tryParse(element.createdAt!))){
+        //       messageList[i].add(element);
+        //     }}
+        // }
       }
     } else {
       _isLoading = false;
@@ -318,7 +346,17 @@ class ChatController extends ChangeNotifier {
     }
     notifyListeners();
   }
-
+  Future pickImageCamera()async{
+    print('object');
+    try{
+      XFile? file = await ImagePicker().pickVideo( source:ImageSource.gallery  );
+      _pickedImageFiles.add(file!);
+      pickedImageFileStored?.addAll(_pickedImageFiles);
+    }catch(e){
+      print('object$e');
+    }
+    notifyListeners();
+  }
   void showSuffixIcon(context,String text){
     if(text.isNotEmpty){
       _isActiveSuffixIcon = true;
@@ -331,13 +369,13 @@ class ChatController extends ChangeNotifier {
 
 
   bool isSameUserWithPreviousMessage(Message? previousConversation, Message currentConversation){
-    if(getSenderType(previousConversation) == getSenderType(currentConversation) && previousConversation?.message != null && currentConversation.message !=null){
+    if(getSenderType(previousConversation) == getSenderType(currentConversation) && previousConversation?.message != null){
       return true;
     }
     return false;
   }
   bool isSameUserWithNextMessage( Message currentConversation, Message? nextConversation){
-    if(getSenderType(currentConversation) == getSenderType(nextConversation) && nextConversation?.message != null && currentConversation.message !=null){
+    if(getSenderType(currentConversation) == getSenderType(nextConversation) && nextConversation?.message != null){
       return true;
     }
     return false;
@@ -351,7 +389,7 @@ class ChatController extends ChangeNotifier {
       return SenderType.seller;
     } else if (senderData?.sentByAdmin == true) {
       return SenderType.admin;
-    } else if (senderData?.sentByDeliveryman == true) {
+    } else if (senderData?.seenByDeliveryMan == true) {
       return SenderType.deliveryMan;
     } else {
       return SenderType.unknown;
@@ -361,44 +399,48 @@ class ChatController extends ChangeNotifier {
 
 
   String getChatTime (String todayChatTimeInUtc , String? nextChatTimeInUtc) {
-    String chatTime = '';
-    DateTime todayConversationDateTime = DateConverter.isoUtcStringToLocalTimeOnly(todayChatTimeInUtc);
-    DateTime nextConversationDateTime;
-    DateTime currentDate = DateTime.now();
+try{
+  String chatTime = '';
+  DateTime todayConversationDateTime = DateConverter.isoUtcStringToLocalTimeOnly(todayChatTimeInUtc);
+  DateTime nextConversationDateTime;
+  DateTime currentDate = DateTime.now();
 
-    if(nextChatTimeInUtc == null){
-      String chatTime = DateConverter.isoStringToLocalDateAndTime(todayChatTimeInUtc);
-      return chatTime;
-    }else{
-      nextConversationDateTime = DateConverter.isoUtcStringToLocalTimeOnly(nextChatTimeInUtc);
-
-      // print('====NextConversationTime=====>>${nextConversationDateTime}');
-      // print('====TodayConversationTime=====>>${todayConversationDateTime}');
-      // print("======>>${chatTime}");
-      //
-      // print("==IF==01==>>${todayConversationDateTime.difference(nextConversationDateTime) < const Duration(minutes: 30)}");
-
-
-      if(todayConversationDateTime.difference(nextConversationDateTime) < const Duration(minutes: 30) &&
-          todayConversationDateTime.weekday == nextConversationDateTime.weekday){
-        chatTime = '';
-      }else if(currentDate.weekday != todayConversationDateTime.weekday
-          && DateConverter.countDays(todayConversationDateTime) < 6){
-
-        if( (currentDate.weekday -1 == 0 ? 7 : currentDate.weekday -1) == todayConversationDateTime.weekday){
-          chatTime = DateConverter.convert24HourTimeTo12HourTimeWithDay(todayConversationDateTime, false);
-        }else{
-          chatTime = DateConverter.convertStringTimeToDate(todayConversationDateTime);
-        }
-
-      }else if(currentDate.weekday == todayConversationDateTime.weekday
-          && DateConverter.countDays(todayConversationDateTime) < 6){
-        chatTime = DateConverter.convert24HourTimeTo12HourTimeWithDay(todayConversationDateTime, true);
-      }else{
-        chatTime = DateConverter.isoStringToLocalDateAndTimeConversation(todayChatTimeInUtc);
-      }
-    }
+  if(nextChatTimeInUtc == null){
+    String chatTime = DateConverter.isoStringToLocalDateAndTime(todayChatTimeInUtc);
     return chatTime;
+  }else{
+    nextConversationDateTime = DateConverter.isoUtcStringToLocalTimeOnly(nextChatTimeInUtc);
+
+    // print('====NextConversationTime=====>>${nextConversationDateTime}');
+    // print('====TodayConversationTime=====>>${todayConversationDateTime}');
+    // print("======>>${chatTime}");
+    //
+    // print("==IF==01==>>${todayConversationDateTime.difference(nextConversationDateTime) < const Duration(minutes: 30)}");
+
+
+    if(todayConversationDateTime.difference(nextConversationDateTime) < const Duration(minutes: 30) &&
+        todayConversationDateTime.weekday == nextConversationDateTime.weekday){
+      chatTime = '';
+    }else if(currentDate.weekday != todayConversationDateTime.weekday
+        && DateConverter.countDays(todayConversationDateTime) < 6){
+
+      if( (currentDate.weekday -1 == 0 ? 7 : currentDate.weekday -1) == todayConversationDateTime.weekday){
+        chatTime = DateConverter.convert24HourTimeTo12HourTimeWithDay(todayConversationDateTime, false);
+      }else{
+        chatTime = DateConverter.convertStringTimeToDate(todayConversationDateTime);
+      }
+
+    }else if(currentDate.weekday == todayConversationDateTime.weekday
+        && DateConverter.countDays(todayConversationDateTime) < 6){
+      chatTime = DateConverter.convert24HourTimeTo12HourTimeWithDay(todayConversationDateTime, true);
+    }else{
+      chatTime = DateConverter.isoStringToLocalDateAndTimeConversation(todayChatTimeInUtc);
+    }
+  }
+  return chatTime;
+}catch(e){
+  return '';
+}
   }
 
   Future<void> pickOtherFile(bool isRemove, {int? index}) async {
@@ -475,7 +517,7 @@ class ChatController extends ChangeNotifier {
 
   String getChatTimeWithPrevious (Message currentChat, Message? previousChat) {
     DateTime todayConversationDateTime = DateConverter
-        .isoUtcStringToLocalTimeOnly(currentChat.createdAt ?? "");
+        .isoUtcStringToLocalTimeOnly(currentChat.createdAt.toString());
 
     DateTime previousConversationDateTime;
 
@@ -483,7 +525,7 @@ class ChatController extends ChangeNotifier {
       return 'Not-Same';
     } else {
       previousConversationDateTime =
-          DateConverter.isoUtcStringToLocalTimeOnly(previousChat!.createdAt!);
+          DateConverter.isoUtcStringToLocalTimeOnly(previousChat!.createdAt.toString());
       if (kDebugMode) {
         print("The Difference is ${previousConversationDateTime.difference(todayConversationDateTime) < const Duration(minutes: 30)}");
       }
@@ -520,7 +562,7 @@ class ChatController extends ChangeNotifier {
     if(currentConversation.id.toString() == _onMessageTimeShowID || currentConversation.id.toString() == _onImageOrFileTimeShowID){
       DateTime currentDate = DateTime.now();
       DateTime todayConversationDateTime = DateConverter.isoUtcStringToLocalTimeOnly(
-          currentConversation.createdAt ?? ""
+          currentConversation.createdAt.toString()
       );
 
       if(currentDate.weekday != todayConversationDateTime.weekday
@@ -530,7 +572,7 @@ class ChatController extends ChangeNotifier {
           && DateConverter.countDays(todayConversationDateTime) <= 7){
         return  DateConverter.convert24HourTimeTo12HourTime(todayConversationDateTime);
       }else{
-        return DateConverter.isoStringToLocalDateAndTime(currentConversation.createdAt!);
+        return DateConverter.isoStringToLocalDateAndTime(currentConversation.createdAt.toString());
       }
     }else{
       return null;
@@ -542,6 +584,177 @@ class ChatController extends ChangeNotifier {
     _isSearchComplete = false;
     notifyListeners();
   }
+  RecorderController _recorderController = RecorderController();
+  RecorderController get recorderController => _recorderController;
+  String? _path = '';
+  String? get path => _path;
+  String? _musicFile = '';
+  String? get musicFile => _musicFile;
+  bool _isRecording = false;
+  bool get isRecording => _isRecording;
+  bool _isRecordingCompleted = false;
+  bool get isRecordingCompleted => _isRecordingCompleted;
+  // bool isLoading = true;
+  late Directory _appDirectory;
+  Directory get appDirectory => _appDirectory;
+  void getDir() async {
+    print('getDir');
 
+
+    _isRecordingCompleted = false;
+    _musicFile = '';
+    _appDirectory = await getApplicationDocumentsDirectory();
+    if(Platform.isIOS){
+      _path = "${_appDirectory.path}/recording.m4a";}else{
+      _path = "${_appDirectory.path}/recording.mp3";
+
+    }
+    // notifyListeners();
+
+  }
+
+  void initialiseControllers() async{
+    print('initialiseControllers');
+    _recorderController = RecorderController()
+
+      ..androidEncoder = AndroidEncoder.aac
+      ..androidOutputFormat = AndroidOutputFormat.mpeg4
+      ..iosEncoder = IosEncoder.kAudioFormatMPEG4AAC
+      ..sampleRate = 44100;
+    // final hasPermission = await controller.c();  // Check mic permission (also called during record)
+
+    // notifyListeners();
+  }
+
+  Future startOrStopRecording() async {
+
+    try {
+      // _recorderController.
+      if (isRecording) {
+
+        _recorderController.reset();
+
+        final path = await _recorderController.stop(true);
+
+        if (path != null) {
+          _isRecordingCompleted = true;
+          debugPrint(path);
+          debugPrint("Recorded file size: ${File(path).lengthSync()}");
+          pickedImageFileStored!.add(XFile(path));
+          // addPhoto([file], false, false);
+
+          notifyListeners();
+        }
+      } else {
+        // print('asdasdasdad${path}');
+        await _recorderController.record(path: path!);
+      }
+
+      // _recorderController.
+    } catch (e) {
+      debugPrint(e.toString());
+    } finally {
+      _isRecording = !isRecording;
+    }
+    notifyListeners();
+  }
+
+  void refreshWave() {
+
+    if (isRecording) {
+      _recorderController.refresh();
+      _path = '';
+      _isRecordingCompleted = false;
+      _musicFile = '';
+      print('refresh wave and record done ');
+
+    }
+    getDir();
+    initialiseControllers();
+    notifyListeners();
+  }
+
+  void recorderControllerDispose() {
+    _recorderController.dispose();
+  }
+  bool _noTextEnter=false;
+  bool get noTextEnter=>_noTextEnter;
+  void textEmptyOrNot(String val){
+    if(val.isNotEmpty&&val!=''){
+      _noTextEnter=true;
+    }else{
+      _noTextEnter=false;
+    }
+    notifyListeners();
+  }
+
+  Future pickMultipleMedia(bool isRemove,{int? index}) async {
+    // final pickedFile =
+    if(isRemove) {
+      if(index != null){
+        pickedImageFileStored!.removeAt(index);
+      }
+    }else {
+
+      FilePickerResult? result =
+      await FilePicker.platform
+          .pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf','docx'],
+      );
+
+      if (result != null) {
+        List<File> file = [];
+        file.add(File(
+            result.files.single.path!));
+        // support.addPhoto(
+        //     file, false, false);
+        for (var element in file) {
+          pickedImageFileStored!.add(XFile(element.path));
+
+        }
+
+        // print(
+        //     "No file file ${support.file}");
+        // print(
+        //     "No file attachmentFile ${support.attachmentFile}");
+      } else {
+        print("No file selected");
+      }
+    }
+    notifyListeners();
+
+  }
+  int _seconds = 0;
+  int get seconds =>_seconds;
+  bool _isRunning = false;
+  bool get isRunning =>_isRecording;
+  Timer? _timer;
+  String _formattedDuration='';
+  String get formattedDuration=>_formattedDuration;
+  void startTimer() {
+    _seconds=0;
+    _formattedDuration='';
+    _isRunning = true;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      _seconds++;
+      Duration duration = Duration(seconds: _seconds);
+      _formattedDuration = duration.toString().substring(2, 7);
+      notifyListeners();
+    });
+    // int milliseconds = 20000; // Example: 20 seconds
+
+  }
+  bool _micOn=false;
+  bool get micOn=>_micOn;
+  void getMicOn(bool val){
+    _micOn=val;
+    notifyListeners();
+
+  }
+  void stopTimer() {
+    _isRunning = false;
+    _timer?.cancel();
+  }
 
 }

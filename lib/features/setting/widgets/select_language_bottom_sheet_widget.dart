@@ -9,6 +9,7 @@ import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_sixvalley_ecommerce/features/brand/controllers/brand_controller.dart';
 
@@ -35,13 +36,15 @@ class _SelectLanguageBottomSheetWidgetState extends State<SelectLanguageBottomSh
             decoration: BoxDecoration(color: Theme.of(context).cardColor,
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.paddingSizeDefault))),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
-              Container(width: 40,height: 5,decoration: BoxDecoration(color: Theme.of(context).hintColor.withOpacity(.5),
+              Container(width: 100,height: 5,decoration: BoxDecoration(color: Theme.of(context).hintColor.withOpacity(.5),
                   borderRadius: BorderRadius.circular(20))),
-              const SizedBox(height: 40,),
+              const SizedBox(height: 20,),
 
-              Text(getTranslated('select_language', context)!, style: textBold.copyWith(fontSize: Dimensions.fontSizeLarge),),
-              Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall, bottom: Dimensions.paddingSizeLarge),
-                child: Text('${getTranslated('choose_your_language_to_proceed', context)}'),),
+              Text(getTranslated('select_language', context)!, style: GoogleFonts.tajawal(fontWeight: FontWeight.w700,fontSize: Dimensions.fontSizeLarge),),
+              const SizedBox(height: 10,),
+
+              // Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall, bottom: Dimensions.paddingSizeLarge),
+              //   child: Text('${getTranslated('choose_your_language_to_proceed', context)}'),),
 
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
@@ -65,7 +68,10 @@ class _SelectLanguageBottomSheetWidgetState extends State<SelectLanguageBottomSh
                           SizedBox(width: 25, child: Image.asset(AppConstants.languages[index].imageUrl!)),
 
                             Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-                              child: Text(AppConstants.languages[index].languageName!))])))));
+                              child: Text(AppConstants.languages[index].languageName!,style: GoogleFonts.tajawal(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16
+                              ),))])))));
 
               }),
 

@@ -66,10 +66,10 @@ Future<void> main() async {
 if(Firebase.apps.isEmpty){
   if(Platform.isAndroid){
     await Firebase.initializeApp(options: const FirebaseOptions(
-        apiKey: "current_key here",
-        projectId: "mobilesdk_app_id here",
-        messagingSenderId: "project_number here",
-        appId: "project_id here"
+        apiKey: "AIzaSyDTQ1lsBole2oaU6FlUuEWdh6Nlyjx1rYw",
+        projectId: "masfufat-29447",
+        messagingSenderId: "336202028275",
+        appId: "1:336202028275:android:76c41878854d7d75595386"
     ));
   }else{
     await Firebase.initializeApp();
@@ -89,7 +89,9 @@ if(Firebase.apps.isEmpty){
       await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
       FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
 
-  }catch(_) {}
+  }catch(_) {
+    
+  }
 
 
   await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
@@ -159,8 +161,6 @@ class MyApp extends StatelessWidget {
           title: AppConstants.appName,
           navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
-          // here
-          // builder:,
           theme: themeController.darkTheme ? dark : light(
             primaryColor: themeController.selectedPrimaryColor,
             secondaryColor: themeController.selectedPrimaryColor,

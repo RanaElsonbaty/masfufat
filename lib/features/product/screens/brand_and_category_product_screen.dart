@@ -11,13 +11,14 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/product_shimmer_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/product_widget.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
-import '../../../common/basewidget/show_custom_snakbar_widget.dart';
 import '../../../localization/language_constrants.dart';
-import '../../../theme/controllers/theme_controller.dart';
 import '../../../utill/custom_themes.dart';
+import '../../category/controllers/category_controller.dart';
+import '../../category/domain/models/category_model.dart';
 import '../../search_product/controllers/search_product_controller.dart';
 import '../../search_product/widgets/search_filter_bottom_sheet_widget.dart';
 
@@ -25,8 +26,9 @@ class BrandAndCategoryProductScreen extends StatefulWidget {
   final bool isBrand;
   final String id;
   final String? name;
+  final int index;
   final String? image;
-  const BrandAndCategoryProductScreen({super.key, required this.isBrand, required this.id, required this.name, this.image});
+  const BrandAndCategoryProductScreen({super.key, required this.isBrand, required this.id, required this.name, this.image, required this.index});
 
   @override
   State<BrandAndCategoryProductScreen> createState() => _BrandAndCategoryProductScreenState();
@@ -81,6 +83,7 @@ setState(() {
   }
   TextEditingController searchController =TextEditingController();
   FocusNode focusNode =FocusNode();
+  int selectIndex=0;
 
   @override
   void dispose() {
@@ -92,7 +95,29 @@ setState(() {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: CustomAppBar(title: widget.name),
+      appBar: CustomAppBar(title: widget.name,
+        // reset: Row(children: [
+        //   const SizedBox(width: 10,),
+        //
+        //   InkWell(
+        //       onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_) => const CartScreen(showBackButton: true,))),
+        //       child: Image.asset(Images.bag2, width: 25, height: 25,color: Theme.of(context).iconTheme.color)),
+        //
+        //   const SizedBox(width: 15,),
+        //   Stack(
+        //     children: [
+        //       InkWell(
+        //           onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_) => const SearchScreen())),
+        //           child:Image.asset(Images.search,width: 25, height: 25,
+        //             color: Theme.of(context).iconTheme.color,)),
+        //     ],
+        //   ),
+        //
+        //   const SizedBox(width: 10,),
+        //
+        // ],),
+        // showResetIcon: true,
+      ),
       body: Consumer<ProductController>(
         builder: (context, productController, child) {
           return RefreshIndicator(
@@ -116,6 +141,7 @@ setState(() {
                         onChanged: (val){
                           // if(val.isNotEmpty){
 pagingController.refresh();
+_page=1;
                           // }
                         },
                         onFieldSubmitted: (value) {
@@ -136,46 +162,30 @@ pagingController.refresh();
                                 borderSide: BorderSide(color: Colors.grey[300]!)),
                             hintText: getTranslated('search_product', context),
                             suffixIcon: SizedBox(width:   focusNode.hasFocus?50: 110,
-                              child: Row(children: [
-                                focusNode.hasFocus?const SizedBox.shrink():  Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                  child: Row(
-                                    children: [
-                                      InkWell(onTap: () => showModalBottomSheet(context: context,
-                                          isScrollControlled: true, backgroundColor: Colors.transparent,
-                                          builder: (c) =>  SearchFilterBottomSheet( pagingController: pagingController,)),
-                                          child: Stack(children: [
-                                            Container(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall,
-                                                horizontal: Dimensions.paddingSizeExtraSmall),
-                                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
-                                                  border: Border.all(color: Theme.of(context).hintColor.withOpacity(.25))),
-                                              child: SizedBox(width: 25,height: 24,child: Image.asset(Images.sort,
-                                                  color: Provider.of<ThemeController>(context, listen: false).darkTheme?
-                                                  Colors.white:Theme.of(context).primaryColor)),),])),
-                                    ],
-                                  ),
-                                ),
-                                InkWell(onTap: (){
-                                  if(searchController.text.trim().isNotEmpty) {
-                                    focusNode.unfocus();
-                                    try{
-                                     pagingController.refresh();
+                              child: focusNode.hasFocus?const SizedBox.shrink():  Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    InkWell(onTap: () {
+                                      showModalBottomSheet(context: context,
+                                        isScrollControlled: true, backgroundColor: Colors.transparent,
+                                        builder: (c) =>  SearchFilterBottomSheet( pagingController: pagingController,));
+                                      _page=1;
 
-                                    } catch(e){}
-                                  }else{
-                                    showCustomSnackBar(getTranslated('enter_somethings', context), context);
-                                  }
-                                },
-                                  child: Padding(padding: const EdgeInsets.all(5),
-                                    child: Container(width: 40, height: 50,decoration: BoxDecoration(color: Theme.of(context).primaryColor,
-                                        borderRadius: const BorderRadius.all( Radius.circular(Dimensions.paddingSizeSmall))),
-                                        child: SizedBox(width : 18,height: 18, child: Padding(
-                                          padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                                          child: Image.asset(Images.search, color: Colors.white),
-                                        ))),
-                                  ),
+                                    },
+                                        child: Stack(children: [
+                                          Container(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall,
+                                              horizontal: Dimensions.paddingSizeExtraSmall),
+
+                                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
+                                                color: Theme.of(context).primaryColor,
+                                                border: Border.all(color: Theme.of(context).hintColor.withOpacity(.25))),
+                                            child: const SizedBox(width: 25,height: 24,child: Icon(Icons.filter_list,
+                                                color:
+                                                Colors.white)),),])),
+                                  ],
                                 ),
-                              ],
                               ),
                             )
                         ),
@@ -184,17 +194,107 @@ pagingController.refresh();
                     ),
                   ),
                 ),
+           widget.isBrand==false?     Container(
+                  height: 60,
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Consumer<CategoryController>(
+                              builder:(context, categoryProvider, child) =>  ListView.builder(
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
 
+                                padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                itemCount: categoryProvider.categoryList[widget.index].childes.length+1,
+                                itemBuilder: (context, index) {
+                                  late CategoryModel subCategory;
+                                  if(index != 0) {
+                                    subCategory = categoryProvider.categoryList[widget.index].childes[index-1];
+                                  }
+                                  if(index == 0) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                      child: InkWell(
+                                        onTap: (){
+    if( selectIndex!=index) {
+      setState(() {
+        selectIndex = index;
+        _page = 1;
+      });
+
+      fetchPage(page, widget.isBrand, widget.id.toString(), Get.context!, true);
+      pagingController.refresh();
+    }
+                                        },
+                                        child: Container(
+                                          height:35,
+                                          decoration: BoxDecoration(
+                                            color:selectIndex==index?Theme.of(context).primaryColor: const Color(0xFFEFECF5),
+                                            borderRadius: BorderRadius.circular(12),
+
+                                          ),child:Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                            child: Center(
+                                            child: Text(getTranslated('all_products', context)!,style: GoogleFonts.tajawal(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 16,
+                                               color:  selectIndex==index?Colors.white:Colors.black
+                                            ),),
+                                                                                  ),
+                                          ),
+
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                      child: InkWell(
+                                        onTap: (){
+                                          if( selectIndex!=index){
+                                          setState(() {
+                                            selectIndex=index;
+                                            _page=1;
+
+                                          });
+                                          fetchPage(page,widget.isBrand, subCategory.id.toString(), Get.context!,true);
+pagingController.refresh();}
+                                        },
+                                        child: Container(
+                                          height:35,
+                                          decoration: BoxDecoration(
+                                            color:selectIndex==index?Theme.of(context).primaryColor: const Color(0xFFEFECF5),
+                                            borderRadius: BorderRadius.circular(12),
+
+                                          ),child:Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                            child: Center(
+                                              child: Text(subCategory.name,style: GoogleFonts.tajawal(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 16,
+                                                color: selectIndex==index?Colors.white:Colors.black
+                                                                              ),),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+
+                                },
+                              ),
+                  ),
+                ):const SizedBox.shrink(),
                 Expanded(
-                  child: PagedMasonryGridView(
+                  child: PagedGridView(
                     shrinkWrap: true,
                     padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                                 physics: const BouncingScrollPhysics(),
                       pagingController: pagingController,
                   
-                    gridDelegateBuilder: (childCount) =>   SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: MediaQuery.of(context).size.width> 480? 3 : 2,
-                    ),
+                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                     crossAxisCount: 2,
+                   mainAxisSpacing: 5,crossAxisSpacing: 5,mainAxisExtent: 310
+                   ),
                     builderDelegate: PagedChildBuilderDelegate(
                          firstPageProgressIndicatorBuilder: (context) {
                            return const ProductShimmer(isHomePage: false,
@@ -231,24 +331,3 @@ pagingController.refresh();
     );
   }
 }
-//    // MasonryGridView.count(
-//                      //        padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-//                      //        physics: const BouncingScrollPhysics(),
-//                      //
-//                      //
-//                      //        crossAxisCount: MediaQuery.of(context).size.width> 480? 3 : 2,
-//                      //        itemCount: productController.brandOrCategoryProductList.length,
-//                      //        shrinkWrap: true,
-//                      //        itemBuilder: (BuildContext context, int index) {
-//                      //          return ProductWidget(productModel: productController.brandOrCategoryProductList[index]);
-//                      //        },
-//                      //      )
-//
-//                 // :
-//
-//             // productController.hasData! ?
-//             //
-//             //   const ProductShimmer(isHomePage: false,
-//             //     isEnabled: true)
-//             //     : const NoInternetOrDataScreenWidget(isNoInternet: false, icon: Images.noProduct,
-//             //   message: 'no_product_found',),

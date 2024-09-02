@@ -11,29 +11,56 @@ import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/widgets/shipping_details_widget.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class SupportTicketWidget extends StatelessWidget {
+class SupportTicketWidget extends StatefulWidget {
   final SupportTicketModel supportTicketModel;
    const SupportTicketWidget({super.key, required this.supportTicketModel});
 
+  @override
+  State<SupportTicketWidget> createState() => _SupportTicketWidgetState();
+}
+
+class _SupportTicketWidgetState extends State<SupportTicketWidget> {
+  String type ='';
+  @override
+  void initState() {
+    super.initState();
+    if(widget.supportTicketModel.type!.toLowerCase()=='website problem'){
+      type='website_problem';
+
+    }else if(widget.supportTicketModel.type!.toLowerCase()=='partner request'){
+      type='partner_request';
+
+    }else if(widget.supportTicketModel.type!.toLowerCase()=='partner request'){
+      type='partner_request';
+
+    }else if(widget.supportTicketModel.type!.toLowerCase()=='complaint'){
+      type='complaint';
+
+    }else if(widget.supportTicketModel.type!.toLowerCase()=='info inquiry'){
+      type='info_inquiry';
+
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeSmall, Dimensions.paddingSizeSmall, Dimensions.paddingSizeSmall, 0),
       child: Slidable(key: const ValueKey(0),
-        endActionPane: ActionPane(extentRatio:supportTicketModel.status == 'close'? 0.01 : .25,
+        endActionPane: ActionPane(extentRatio:widget.supportTicketModel.status == 'close'? 0.01 : .25,
           motion: const ScrollMotion(), children: [
-            if(supportTicketModel.status != 'close')
+            if(widget.supportTicketModel.status != 'close')
             SlidableAction(onPressed: (value){
-                Provider.of<SupportTicketController>(context, listen: false).closeSupportTicket(supportTicketModel.id);
+                Provider.of<SupportTicketController>(context, listen: false).closeSupportTicket(widget.supportTicketModel.id);
               },
               backgroundColor: Theme.of(context).colorScheme.error.withOpacity(.05),
               foregroundColor: Theme.of(context).colorScheme.error.withOpacity(.75),
               icon: CupertinoIcons.clear,
               label: getTranslated('close', context))]),
         child: InkWell(onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => SupportConversationScreen(
-            supportTicketModel: supportTicketModel,))),
+            supportTicketModel: widget.supportTicketModel,))),
           child: Container(padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: Theme.of(context).primaryColor.withOpacity(.25), width: .5)),
@@ -41,52 +68,52 @@ class SupportTicketWidget extends StatelessWidget {
 
 
               Row(children: [
-                SizedBox(width: 15, child: Image.asset(supportTicketModel.type?.toLowerCase() == 'website problem'? Images.websiteProblem :
-                supportTicketModel.type == 'Complaint'? Images.complaint : supportTicketModel.type == 'Partner request'?
-                Images.partnerRequest : Images.infoQuery)),
+                // SizedBox(width: 15, child: Image.asset(supportTicketModel.type?.toLowerCase() == 'website problem'? Images.websiteProblem :
+                // supportTicketModel.type == 'Complaint'? Images.complaint : supportTicketModel.type == 'Partner request'?
+                // Images.partnerRequest : Images.infoQuery)),
                 const SizedBox(width: Dimensions.paddingSizeSmall,),
-                Expanded(child: Text(getTranslated(supportTicketModel.type!, context)!, style: textBold.copyWith(
-                    color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(.75)))),
+                  Expanded(child: Text(
+                      getTranslated(type, context)!, style: GoogleFonts.tajawal(
+                    color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(.75),fontWeight: FontWeight.w500,fontSize: 16))),
 
                 Container(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeExtraSmall),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
-                        color: supportTicketModel.status == 'open' ?
-                        ColorResources.getGreen(context).withOpacity(.125) :supportTicketModel.status == 'pending' ?
-                        Theme.of(context).primaryColor.withOpacity(.125) : Theme.of(context).colorScheme.error.withOpacity(.125)),
+                        color: widget.supportTicketModel.status == 'open' ?
+                        const Color(0xffec1013).withOpacity(0.57) :widget.supportTicketModel.status == 'pending' ?
+                        const Color(0xFF1B9D00).withOpacity(0.38) : const Color(0xFF5A409B).withOpacity(0.20)),
 
-                    child: Text(supportTicketModel.status == 'pending' ? getTranslated('pending', context)! :
-                    supportTicketModel.status == 'open' ? getTranslated('open', context)! :
+                    child: Text(widget.supportTicketModel.status == 'pending' ? getTranslated('pending', context)! :
+                    widget.supportTicketModel.status == 'open' ? getTranslated('open', context)! :
                     getTranslated('closed', context)!,
-                        style: textRegular.copyWith(color: supportTicketModel.status == 'open' ?
-                        ColorResources.getGreen(context) : supportTicketModel.status == 'pending' ?
-                        Theme.of(context).primaryColor : Theme.of(context).colorScheme.error)))]),
-
-              Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall, bottom: Dimensions.paddingSizeEight),
-                child: Row(crossAxisAlignment: CrossAxisAlignment.start,children: [
-                  Text('${getTranslated('topic', context)} : ', style: textBold.copyWith(fontSize: Dimensions.fontSizeDefault)),
-                  Expanded(child: Text(supportTicketModel.subject!, style: textRegular)),
-                ],
-                ),
-              ),
-
+                        style: GoogleFonts.tajawal(color:Colors.black)))
+              ]),
+              //
+              // Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall, bottom: Dimensions.paddingSizeEight),
+              //   child: Row(crossAxisAlignment: CrossAxisAlignment.start,children: [
+              //     Text('${getTranslated('topic', context)} : ', style: textBold.copyWith(fontSize: Dimensions.fontSizeDefault)),
+              //     Expanded(child: Text(supportTicketModel.subject!, style: textRegular)),
+              //   ],
+              //   ),
+              // ),
 
 
+const SizedBox(height: 10,),
 
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text.rich(TextSpan(children: [
-                    TextSpan(text: '${getTranslated('priority', context)}',
-                        style: textRegular.copyWith()),
-                    const TextSpan(text: ': '),
-                    TextSpan(text: supportTicketModel.priority!.capitalize(), style: textRegular.copyWith(color:
-                    supportTicketModel.priority == 'High'?
-                    Colors.amber : supportTicketModel.priority == 'Urgent'? Theme.of(context).colorScheme.error :
-                    (supportTicketModel.priority == 'Low' || supportTicketModel.priority == 'low')?
-                    Theme.of(context).primaryColor : Colors.greenAccent))
-                  ])),
-                  Text(DateConverter.supportTicketDateFormat(DateTime.parse(supportTicketModel.createdAt!)),
-                      style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor)),
+                  // Text.rich(TextSpan(children: [
+                  //   TextSpan(text: '${getTranslated('priority', context)}',
+                  //       style: textRegular.copyWith()),
+                  //   const TextSpan(text: ': '),
+                  //   TextSpan(text: supportTicketModel.priority!.capitalize(), style: textRegular.copyWith(color:
+                  //   supportTicketModel.priority == 'High'?
+                  //   Colors.amber : supportTicketModel.priority == 'Urgent'? Theme.of(context).colorScheme.error :
+                  //   (supportTicketModel.priority == 'Low' || supportTicketModel.priority == 'low')?
+                  //   Theme.of(context).primaryColor : Colors.greenAccent))
+                  // ])),
+                  Text(DateConverter.supportTicketDateFormat(DateTime.parse(widget.supportTicketModel.createdAt!)),
+                      style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor,fontWeight: FontWeight.w500,)),
                 ],
               ),
             ]),

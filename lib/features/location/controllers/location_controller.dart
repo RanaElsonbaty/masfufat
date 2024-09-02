@@ -58,51 +58,12 @@ class LocationController with ChangeNotifier {
 
 
 
-  // void getCurrentLocation(BuildContext context, bool fromAddress, {GoogleMapController? mapController}) async {
-  //   _loading = true;
-  //   notifyListeners();
-  //   Position myPosition;
-  //   try {
-  //     Position newLocalData = await Geolocator.getCurrentPosition();
-  //     myPosition = newLocalData;
-  //   }catch(e) {
-  //     myPosition = Position(
-  //       latitude: double.parse('0'),
-  //       longitude: double.parse('0'),
-  //       timestamp: DateTime.now(), accuracy: 1, altitude: 1, heading: 1, speed: 1, speedAccuracy: 1, altitudeAccuracy: 1, headingAccuracy: 1,
-  //     );
-  //   }
-  //   if(fromAddress) {
-  //     _position = myPosition;
-  //   }else {
-  //     _pickPosition = myPosition;
-  //   }
-  //   if (mapController != null) {
-  //     mapController.animateCamera(CameraUpdate.newCameraPosition(
-  //       CameraPosition(target: LatLng(myPosition.latitude, myPosition.longitude), zoom: 17),
-  //     ));
-  //   }
-  //   geocoding.Placemark myPlaceMark;
-  //   try {
-  //       String address = await getAddressFromGeocode(LatLng(myPosition.latitude, myPosition.longitude), Get.context!);
-  //       myPlaceMark =geocoding. Placemark(name: address, locality: '', postalCode: '', country: '');
-  //
-  //   }catch (e) {
-  //     String address = await getAddressFromGeocode(LatLng(myPosition.latitude, myPosition.longitude),  Get.context!);
-  //     myPlaceMark = geocoding.Placemark(name: address, locality: '', postalCode: '', country: '');
-  //   }
-  //   fromAddress ? _address = myPlaceMark : _pickAddress = myPlaceMark;
-  //   if(fromAddress) {
-  //     _locationController.text = placeMarkToAddress(_address);
-  //   }
-  //   _loading = false;
-  //   notifyListeners();
-  // }
+
 
   void updateMapPosition(CameraPosition? position, bool fromAddress, String? address, BuildContext context) async {
     if(_updateAddAddressData) {
       _loading = true;
-      // notifyListeners();
+// notifyListeners();
       try {
         if (fromAddress) {
           _position = Position(
@@ -168,6 +129,15 @@ class LocationController with ChangeNotifier {
     _address = _pickAddress!;
     _locationController.text = placeMarkToAddress(_address);
     _updateAddAddressData = false;
+    notifyListeners();
+  }
+  bool _isEdit=false;
+  bool get isEdit=>_isEdit;
+  void clearEdit(){
+    _isEdit=false;
+  }
+  void getPosition(CameraPosition position){
+    _position=Position(longitude: position.target.longitude, latitude: position.target.latitude, timestamp: DateTime.now(), accuracy: 1, altitude: 1, altitudeAccuracy: 1, heading: 1, headingAccuracy: 1, speed: 1, speedAccuracy: 1);
     notifyListeners();
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/controllers/seller_product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
@@ -60,7 +61,9 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
 
   bool loading = false;
   bool lastPage = false;
+  double scrollPixcel=0.00;
   void _scrollListener() async {
+    // print('asdasdasda${scrollController.position.pixels }');
     if (lastPage == false) {
       if (loading == true) {
         return; // Prevent redundant fetches while loading
@@ -70,6 +73,10 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
       final double currentScrollPosition = scrollController.position.pixels;
 
       // Check if scroll position is near the end (adjustable threshold)
+setState(() {
+  scrollPixcel= currentScrollPosition;
+
+});
       if (currentScrollPosition >= maxScrollExtent - 1000.0) {
         setState(() {
           loading = true;
@@ -173,7 +180,7 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
               snap: false,
               pinned: true,
               floating: false,
-              title: Row(
+              title:scrollPixcel>=250? Row(
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
@@ -196,7 +203,7 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
                   ),
                 ],
                 // child:
-              ),
+              ).animate().fadeIn(duration: 300.ms):const SizedBox.shrink(),
               // c
               leading: InkWell(
                   onTap: () {
@@ -215,7 +222,7 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
                 background: Consumer<SplashController>(
                   builder:(context, splash, child) =>  Column(
                     children: [
-                      const SizedBox(height: 120,),
+                      const SizedBox(height: 110,),
                       ShopInfoWidget(
                           vacationIsOn: vacationIsOn,
                           sellerName: widget.name ?? "",
@@ -365,7 +372,7 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
 
                       // if(sellerProvider.shopMenuIndex == 1)
                      ],
-                  ),
+                  ).animate().fadeIn(duration: 300.ms),
                 ),
               ),
             ),

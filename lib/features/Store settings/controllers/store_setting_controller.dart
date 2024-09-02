@@ -68,6 +68,7 @@ class StoreSettingController extends ChangeNotifier {
   List<bool> _activeSwitch = [];
   List<bool> get activeSwitch => _activeSwitch;
   void getLen(bool isLink) {
+    _activeSwitch=[];
     _activeSwitch = List.filled(_linkedAccountsList.isNotEmpty?_linkedAccountsList.length:100, false);
     if(isLink==true){
       _activeSwitch.first=true;

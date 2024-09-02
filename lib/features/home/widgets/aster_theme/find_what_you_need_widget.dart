@@ -37,6 +37,7 @@ class FindWhatYouNeedView extends StatelessWidget {
                 return InkWell(onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (_) => BrandAndCategoryProductScreen(
                       isBrand: false,
+                      index:  index,
                       id: productController.findWhatYouNeedModel!.findWhatYouNeed![index].id.toString(),
                       name: productController.findWhatYouNeedModel!.findWhatYouNeed![index].name,
                     )));
@@ -90,6 +91,7 @@ class FindWhatYouNeedView extends StatelessWidget {
                                           onTap: () {
                                             Navigator.push(context, MaterialPageRoute(builder: (_) => BrandAndCategoryProductScreen(
                                               isBrand: false,
+                                              index: index,
                                               id: productController.findWhatYouNeedModel!.findWhatYouNeed![index].childes![subIndex].id.toString(),
                                               name: productController.findWhatYouNeedModel!.findWhatYouNeed![index].childes![subIndex].name,
                                             )));

@@ -104,7 +104,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 return  const NoInternetOrDataScreenWidget(isNoInternet: false,
             message: 'no_notification', icon: Images.noNotification,);  },
               itemBuilder: (context, item, index) {
-                return NotificationItemWidget(notificationItem: item as NotificationItemModel);
+                return NotificationItemWidget(notificationItem: item as NotificationItemModel, index: index,);
 
               },),
 

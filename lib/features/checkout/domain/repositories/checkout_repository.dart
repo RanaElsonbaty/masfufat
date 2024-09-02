@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_sixvalley_ecommerce/data/datasource/remote/dio/dio_client.dart';
 import 'package:flutter_sixvalley_ecommerce/data/datasource/remote/exception/api_error_handler.dart';
@@ -162,6 +163,27 @@ try{
     // TODO: implement update
     throw UnimplementedError();
   }
+  @override
+  Future<ApiResponse> createPaymentWithBankTransfer(
+      XFile attachment, String holderName,) async {
 
+    var data = FormData.fromMap({
+      'attachment': [
+        await MultipartFile.fromFile(attachment.path, filename: attachment.path)
+      ],
+      'holder_name': holderName
+    });
+    try {
+      Response response = await dioClient!.post(
+          AppConstants.placeBankTransfer,
+          data: data);
 
+      print('createPaymentWithBankTransfer =>$response');
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      print('createPaymentWithBankTransfer =>$e');
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+
+}
 }

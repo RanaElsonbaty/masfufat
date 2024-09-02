@@ -6,6 +6,7 @@ import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.d
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class SyncShippingAndBillingWidget extends StatelessWidget {
@@ -15,73 +16,72 @@ class SyncShippingAndBillingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
-    Container(decoration: const BoxDecoration(
-        image: DecorationImage(image: AssetImage(Images.mapBg,), fit: BoxFit.cover, )),
-        child: Card(margin: const EdgeInsets.all(Dimensions.marginSizeDefault),
-          child: Padding(padding: const EdgeInsets.all(Dimensions.homePagePadding),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              IconWithTextRowWidget(
-                  isTitle: true,
-                  icon: Icons.delivery_dining_outlined,
-                  imageIcon: Images.addressInfoIcon,
-                  iconColor: Theme.of(context).primaryColor,
-                  text: getTranslated('address_info', context)!,
-                  textColor: Theme.of(context).primaryColor),
+      orderProvider.syncOrderDetails!.shippingAddressData!=null?  Container(decoration: const BoxDecoration(
+        // image: DecorationImage(image: AssetImage(Images.mapBg,), fit: BoxFit.cover, )
+      ),
+        child: Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(getTranslated('Address_details', context)!,style: GoogleFonts.tajawal(
+                fontWeight: FontWeight.w500,
+                 fontSize: 16
+              ),),
+            ),
+            // Divider(thickness: .25, color: Theme.of(context).primaryColor.withOpacity(0.50),),
+            // Text(getTranslated('shipping', context)!, style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge),),
+            // const SizedBox(height: Dimensions.marginSizeSmall),
+Card(
+  color: const Color(0xFFEFECF5),
+  child: Column(
+    children: [
+      const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+
+      Padding(
+        padding: const EdgeInsets.all(3.0),
+        child: IconWithTextRowWidget(
+          icon: Icons.person_2_outlined,
+          text: orderProvider.syncOrderDetails!.shippingAddressData != null&&orderProvider.syncOrderDetails!.shippingAddressData!.contactPersonName!=null ?
+          orderProvider.syncOrderDetails!.shippingAddressData!.contactPersonName ?? '': '',),
+      ),
+      // const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+
+      Padding(
+        padding: const EdgeInsets.all(3.0),
+        child: IconWithTextRowWidget(
+          icon: Icons.call,
+          text: orderProvider.syncOrderDetails!.shippingAddressData != null&& orderProvider.syncOrderDetails!.shippingAddressData!.phone!=null ?
+          orderProvider.syncOrderDetails!.shippingAddressData!.phone! : '',),
+      ),
+      // const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+
+      Padding(
+        padding: const EdgeInsets.all(3.0),
+        child: Row(mainAxisAlignment:MainAxisAlignment.start, crossAxisAlignment:CrossAxisAlignment.start,
+            children: [
+              const Icon(Icons.location_on_outlined, color: Colors.black),
+              const SizedBox(width: Dimensions.marginSizeSmall),
+
+              Expanded(child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 1),
+                  child: Text(orderProvider.syncOrderDetails!.shippingAddressData != null&&orderProvider.syncOrderDetails!.shippingAddressData!.address!=null ?
+                  orderProvider.syncOrderDetails!.shippingAddressData!.address! : '',
+                      maxLines: 2, overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault,fontWeight: FontWeight.w400))))
+            ]),
+      ),
+
+      const SizedBox(height: Dimensions.paddingSizeSmall),
+
+    ],
+  ),
+)
 
 
-              // orderProvider.onlyDigital?
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Divider(thickness: .25, color: Theme.of(context).primaryColor.withOpacity(0.50),),
-                Text(getTranslated('shipping', context)!, style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge),),
-                const SizedBox(height: Dimensions.marginSizeSmall),
-
-
-
-                Row(
-                  children: [
-                    Expanded(
-                      child: IconWithTextRowWidget(
-                        icon: Icons.person,
-                        text: '${orderProvider.syncOrderDetails!.shippingAddressData != null ?
-                        orderProvider.syncOrderDetails!.shippingAddressData!.contactPersonName : ''}',),
-                    ),
-
-                    Expanded(
-                      child: IconWithTextRowWidget(
-                        icon: Icons.call,
-                        text: orderProvider.syncOrderDetails!.shippingAddressData != null ?
-                        orderProvider.syncOrderDetails!.shippingAddressData!.phone! : '',),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: Dimensions.marginSizeSmall),
-
-                Row(mainAxisAlignment:MainAxisAlignment.start, crossAxisAlignment:CrossAxisAlignment.start,
-                    children: [
-                      Icon(Icons.location_on, color: Provider.of<ThemeController>(context, listen: false).darkTheme?
-                      Colors.white : Theme.of(context).primaryColor.withOpacity(.30)),
-                      const SizedBox(width: Dimensions.marginSizeSmall),
-
-                      Expanded(child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 1),
-                          child: Text(orderProvider.syncOrderDetails!.shippingAddressData != null ?
-                          orderProvider.syncOrderDetails!.shippingAddressData!.address! : '',
-                              maxLines: 3, overflow: TextOverflow.ellipsis,
-                              style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault))))]),
-
-                const SizedBox(height: Dimensions.paddingSizeSmall),
-             ],
-              ),
-
-                  ]
-                ),
-              // ):const SizedBox(),
-            // ],
-            // ),
-
-          ),
+              ]
+            ),
 
         )
-    );
+    ):const SizedBox.shrink();
   }
 }

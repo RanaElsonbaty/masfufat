@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter_sixvalley_ecommerce/interface/repo_interface.dart';
 
 abstract class CheckoutRepositoryInterface implements RepositoryInterface{
@@ -5,7 +6,8 @@ abstract class CheckoutRepositoryInterface implements RepositoryInterface{
   Future<dynamic> cashOnDeliveryPlaceOrder(String? addressID, String? couponCode,String? couponDiscountAmount, String? billingAddressId, String? orderNote, bool? isCheckCreateAccount, String? password);
 
   Future<dynamic> offlinePaymentPlaceOrder(String? addressID, String? couponCode, String? couponDiscountAmount, String? billingAddressId, String? orderNote, List <String?> typeKey, List<String> typeValue, int? id, String name, String? paymentNote, bool? isCheckCreateAccount, String? password);
-
+  Future<dynamic> createPaymentWithBankTransfer(
+      XFile attachment, String holderName, );
   Future<dynamic> walletPaymentPlaceOrder(String? addressID, String? couponCode,String? couponDiscountAmount, String? billingAddressId, String? orderNote, bool? isCheckCreateAccount, String? password);
 
   Future<dynamic> delayedPaymentPlaceOrder(String? addressID, String? couponCode,String? couponDiscountAmount, String? billingAddressId, String? orderNote, bool? isCheckCreateAccount, String? password);

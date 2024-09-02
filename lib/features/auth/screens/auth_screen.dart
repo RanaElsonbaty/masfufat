@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/dashboard/screens/dashboard_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/widgets/sign_in_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/sign_up_pageBuilder.dart';
@@ -15,7 +15,7 @@ import '../widgets/sign_up_pageBuilder.dart';
 
 
 class AuthScreen extends StatefulWidget{
-  final bool fromLogout;
+    final bool fromLogout;
   const AuthScreen({super.key, this.fromLogout = false});
 
   @override
@@ -62,28 +62,15 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
             return Column(children: [
                 Stack(children: [
 
-                  Container(height: 200, decoration: BoxDecoration(color: Theme.of(context).primaryColor)),
-                  Image.asset(Images.loginBg,fit: BoxFit.cover,height: 200, opacity : const AlwaysStoppedAnimation(.15)),
+                  Container(height: 200, decoration: BoxDecoration(color: Theme.of(context).primaryColor.withOpacity(0.9))),
+                  // Image.asset(Images.loginBg,fit: BoxFit.cover,height: 200, opacity : const AlwaysStoppedAnimation(.15)),
 
-                  Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * .02),
-                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                        Image.asset(Images.logoWithNameImage, width: 200, height: 200,fit: BoxFit.fill,)])),
+                  Positioned(
+                      left: MediaQuery.of(context).size.width/3.5,
+                      right:  MediaQuery.of(context).size.width/3.5,
+                      bottom: 60,
+                      child: Image.asset(Images.whiteLogoWithMame, width: 160, height: 55,fit: BoxFit.fill,)),
 
-                  // Positioned(
-                  //   top: Dimensions.paddingSizeThirtyFive,
-                  //   left:  Provider.of<LocalizationController>(context, listen: false).isLtr ? Dimensions.paddingSizeLarge : null,
-                  //   right: Provider.of<LocalizationController>(context, listen: false).isLtr ? null : Dimensions.paddingSizeLarge,
-                  //   child: IconButton(
-                  //     icon: const Icon(Icons.arrow_back_ios, size: 30, color: Colors.white),
-                  //     onPressed: () {
-                  //       if(widget.fromLogout) {
-                  //         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const DashBoardScreen()), (route) => false);
-                  //       } else {
-                  //         Navigator.of(context).pop();
-                  //       }
-                  //     },
-                  //   )
-                  // ),
 
                 ]),
 
@@ -100,11 +87,12 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
                           InkWell(onTap: () => authProvider.updateSelectedIndex(0),
                               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                                 Text(getTranslated('login', context)!, style: authProvider.selectedIndex == 0 ?
-                                textRegular.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeLarge) :
-                                textRegular.copyWith(fontSize: Dimensions.fontSizeLarge)),
-                                Container(height: 3, width: 25, margin: const EdgeInsets.only(top: 8),
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                                      color: authProvider.selectedIndex == 0 ? Theme.of(context).primaryColor : Colors.transparent))])),
+                                GoogleFonts.tajawal(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeLarge,fontWeight: FontWeight.w500) :
+                                GoogleFonts.tajawal(fontSize: Dimensions.fontSizeLarge,fontWeight: FontWeight.w500)),
+                                // Container(height: 3, width: 25, margin: const EdgeInsets.only(top: 8),
+                                //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
+                                //       color: authProvider.selectedIndex == 0 ? Theme.of(context).primaryColor : Colors.transparent))
+                              ])),
                           const SizedBox(width: Dimensions.paddingSizeExtraLarge),
 
 
@@ -112,12 +100,23 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
                             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
                               Text(getTranslated('sign_up', context)!, style: authProvider.selectedIndex == 1 ?
-                              titleRegular.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeLarge) :
-                              titleRegular.copyWith(fontSize: Dimensions.fontSizeLarge)),
-                              Container(height: 3, width: 25, margin: const EdgeInsets.only(top: 8),
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                                    color: authProvider.selectedIndex == 1 ? Theme.of(context).primaryColor : Colors.transparent))])),
+                              GoogleFonts.tajawal(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeLarge,fontWeight: FontWeight.w500) :
+                              GoogleFonts.tajawal(fontSize: Dimensions.fontSizeLarge,fontWeight: FontWeight.w500)),
+            ]
+            )),
+const Spacer(),
+                          authProvider.selectedIndex==1&& authProvider.pageIndex==1?   InkWell(
+                            onTap: (){
+                              authProvider.initPageIndex(true);
+
+                            },
+                            child: Text(getTranslated('back', context)!,style: GoogleFonts.tajawal(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14
+                            ),),
+                          ):const SizedBox.shrink()
                         ])),
+                      const SizedBox(height: 20,)
                     ],),
                   ),
                 ),

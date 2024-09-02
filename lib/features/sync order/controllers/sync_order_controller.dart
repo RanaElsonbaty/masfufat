@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
 import 'dart:async';
@@ -115,6 +116,34 @@ class SyncOrderController with ChangeNotifier {
     _userTypeIndex = index;
     // getChatList(context, 1);
     notifyListeners();
+  }
+
+  Future<ApiResponse> bankAndDelayedPayment(
+      String orderID,
+      String paymentMethod,
+      String bank,
+      XFile attachment,
+      String holderName,
+      BuildContext context,
+      ) async {
+
+    notifyListeners();
+    ApiResponse apiResponse = await syncOrderServiceInterface.bankAndDelayedPayment(
+      orderID,
+      paymentMethod,
+      bank,
+      attachment,
+      holderName,
+    );
+    if (apiResponse.response != null &&
+        apiResponse.response!.statusCode == 200) {
+      return ApiResponse.withSuccess(apiResponse.response!);
+    } else {
+      ApiChecker.checkApi( apiResponse);
+      notifyListeners();
+
+      return ApiResponse.withError(apiResponse.error);
+    }
   }
 
 }

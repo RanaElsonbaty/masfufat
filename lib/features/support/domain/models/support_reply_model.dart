@@ -39,7 +39,7 @@ class SupportReplyModel {
     id: json["id"],
     supportTicketId: json["support_ticket_id"],
     adminId:json["admin_id"] ?? 0,
-    customerMessage: json["customer_message"],
+    customerMessage: json["customer_message"].toString()??'0',
     attachment: json["attachment"],
     adminMessage: json["admin_message"],
     position: json["position"],
@@ -95,7 +95,7 @@ class Attachment {
     fileType: json["file_type"],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
-    ticketConvId: json["ticket_conv_id"],
+    ticketConvId: json["ticket_conv_id"]??0,
     fileUrl: json["file_url"],
   );
 

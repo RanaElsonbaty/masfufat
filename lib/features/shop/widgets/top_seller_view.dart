@@ -30,7 +30,7 @@ class _TopSellerViewState extends State<TopSellerView> {
               scrollDirection: widget.isHomePage? Axis.horizontal : Axis.vertical,
               physics: const AlwaysScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
-                return topSellerProvider.sellerModel?[index].seller!.showSellersSection==1?SizedBox(width: 250,
+                return topSellerProvider.sellerModel?[index].seller!.showSellersSection==1?SizedBox(width: 200,
                   child: SellerCard(sellerModel: topSellerProvider.sellerModel?[index], isHomePage: widget.isHomePage,
                       index: index,length: topSellerProvider.sellerModel?.length ?? 0)):const SizedBox();
               },

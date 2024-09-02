@@ -69,11 +69,11 @@ class Chat {
     }
 
     message = json['message'];
-    sentByCustomer = json['sent_by_customer'];
-    sentBySeller = json['sent_by_seller'];
-    sentByAdmin = json['sent_by_admin'];
-    sentByDeliveryMan = json['sent_by_delivery_man'];
-    seenByCustomer = json['seen_by_customer'];
+    sentByCustomer = json['sent_by_customer']==1;
+    sentBySeller = json['sent_by_seller']==1;
+    sentByAdmin = json['sent_by_admin']==1;
+    sentByDeliveryMan = json['sent_by_delivery_man']==1;
+    seenByCustomer = json['seen_by_customer']==1;
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     sellerInfo = json['seller_info'] != null ? SellerInfo.fromJson(json['seller_info']) : null;

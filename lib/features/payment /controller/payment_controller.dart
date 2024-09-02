@@ -81,7 +81,7 @@ class PaymentController extends ChangeNotifier {
   initiate(BuildContext context) async {
   try{
     print('api key ----> $apiKey');
-    await MFSDK.init(apiKey, MFCountry.SAUDIARABIA, MFEnvironment.TEST);
+    await MFSDK.init(apiKey, MFCountry.SAUDIARABIA, MFEnvironment.LIVE);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await initSession(context);

@@ -195,5 +195,4 @@ class AddressController with ChangeNotifier {
     }
     return addressTypeList;
   }
-  
 }

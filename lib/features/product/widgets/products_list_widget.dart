@@ -4,6 +4,7 @@ import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/produ
 
 import 'package:flutter_sixvalley_ecommerce/features/product/enums/product_type.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/responsive_helper.dart';
+import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/product_shimmer_widget.dart';
@@ -29,10 +30,9 @@ class _ProductListWidgetState extends State<ProductListWidget> {
     super.initState();
     int offset = 1;
     widget.scrollController?.addListener(() {
-      // currentScrollPosition >= maxScrollExtent -
       if(  widget.scrollController!.position.pixels>= (widget.scrollController!.position.maxScrollExtent-4000.0)
 
-          && !Provider.of<ProductController>(context, listen: false).filterIsLoading) {
+          && !Provider.of<ProductController>(Get.context!, listen: false).filterIsLoading) {
         late int pageSize;
         if(widget.productType == ProductType.bestSelling || widget.productType == ProductType.topProduct ||
             widget.productType == ProductType.newArrival ||widget.productType == ProductType.discountedProduct || widget.productType == ProductType.featuredProduct) {
@@ -62,6 +62,7 @@ class _ProductListWidgetState extends State<ProductListWidget> {
         }else{
 
         }
+
       }
     });
 

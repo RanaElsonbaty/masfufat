@@ -16,6 +16,7 @@ import '../../../utill/custom_themes.dart';
 import '../../../utill/dimensions.dart';
 import '../../auth/controllers/auth_controller.dart';
 import '../../checkout/controllers/checkout_controller.dart';
+import '../../checkout/widgets/bank_transfer_bottom_sheet.dart';
 import '../../checkout/widgets/choose_payment_widget.dart';
 import '../../checkout/widgets/coupon_apply_widget.dart';
 import '../../checkout/widgets/order_place_dialog_widget.dart';
@@ -169,7 +170,11 @@ class _OrderCheckoutState extends State<OrderCheckout> {
 
                            }
 
-                         }else if(checkout.selectedDigitalPaymentMethodId==5){
+                         }else if(checkout.selectedDigitalPaymentMethodId==3){
+                           showAnimatedDialog(context, const BankTransfer(type: 'order',), dismissible: true, willFlip: true);
+
+                         }
+                         else if(checkout.selectedDigitalPaymentMethodId==5){
          await syncOrderProvider.placeBankTransferOrder(widget.orderDetailsModel.id.toString()).then((value) {
   if(value.response!=null&&value.response!.statusCode==200){
     _callback(true,value.response!.data,'',false);

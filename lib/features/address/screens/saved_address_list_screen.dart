@@ -34,7 +34,7 @@ class _SavedAddressListScreenState extends State<SavedAddressListScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) =>  
         // AddNewAddressScreen(isBilling: false)
-        const SelectLocationScreen(isEnableUpdate: false,fromCheckout: false,)
+        const SelectLocationScreen(edit: false,)
         )
         ),
         backgroundColor: ColorResources.getPrimary(context),

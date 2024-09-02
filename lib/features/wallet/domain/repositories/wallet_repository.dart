@@ -15,7 +15,7 @@ class WalletRepository implements WalletRepositoryInterface{
   @override
   Future<ApiResponse> getWalletTransactionList(int offset, String type) async {
     try {
-      Response response = await dioClient!.get('${AppConstants.walletTransactionUri}$offset&transaction_type=$type');
+      Response response = await dioClient!.get('${AppConstants.walletTransactionUri}$offset&type=$type');
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));

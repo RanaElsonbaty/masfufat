@@ -29,7 +29,7 @@ class SingleBannersWidget extends StatelessWidget {
               child: Container(width: MediaQuery.of(context).size.width,
                 height: height?? MediaQuery.of(context).size.width/2.2,
                 decoration:  BoxDecoration(borderRadius: BorderRadius.all(noRadius?
-                const Radius.circular(0): const Radius.circular(5))),
+                const Radius.circular(0): const Radius.circular(12))),
                 child: ClipRRect(borderRadius: BorderRadius.all(Radius.circular(noRadius?0:5)),
                   child: CustomImageWidget(image: '${bannerModel?.photo}',fit: BoxFit.fill,)))));
     },

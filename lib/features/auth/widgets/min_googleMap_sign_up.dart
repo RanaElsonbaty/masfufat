@@ -4,7 +4,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
 
 import 'package:provider/provider.dart';
-import '../../../utill/color_resources.dart';
 import '../../../utill/dimensions.dart';
 
 class MinGoogleMap extends StatefulWidget {
@@ -51,6 +50,7 @@ class _MinGoogleMapState extends State<MinGoogleMap> {
                      auth. placemarks = await geocoding.placemarkFromCoordinates(position.target.latitude, position.target.longitude);
                      setState(() {
                        auth. searchResult=auth.placemarks!.first.street!;
+                       auth.address.text=auth.placemarks!.first.street!;
 
                      });
                    }catch(e){}
@@ -79,55 +79,19 @@ class _MinGoogleMapState extends State<MinGoogleMap> {
                            auth.searchResult!=''?auth.searchResult:'search'
                             , maxLines: 1, overflow: TextOverflow.ellipsis)),
                         const Icon(Icons.search, size: 20)]))) ,
-              Center(child: Icon(Icons.location_on, color: Theme.of(context).primaryColor, size: 40)),
-          Positioned(bottom: 6, right: 0, left: 0,
+              Center(child: Icon(Icons.location_on_rounded, color: Theme.of(context).primaryColor, size: 40)),
+          Positioned(bottom: 20, right: 0, left: 0,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // InkWell(
-                //   onTap: (){
-                //     auth.getZoom(false);
-                //   },
-                //   child: Container(
-                //     height: 50,
-                //     width: 50,
-                //     margin: const EdgeInsets.only(right: Dimensions.paddingSizeLarge),
-                //
-                //     decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                //         color: ColorResources.getChatIcon(context)),
-                //     child: const Center(child: Text('+',style: TextStyle(
-                //       fontSize: 25
-                //     ),)),
-                //   ),
-                // ),
-                // const SizedBox(height: 5,),
-                //
-                // InkWell(
-                //   onTap: (){
-                //     auth.getZoom(true);
-                //
-                //   },
-                //   child: Container(
-                //     height: 50,
-                //     width: 50,
-                //     margin: const EdgeInsets.only(right: Dimensions.paddingSizeLarge),
-                //
-                //     decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                //         color: ColorResources.getChatIcon(context)),
-                //     child: const Center(child: Text('-',style: TextStyle(
-                //         fontSize: 25
-                //     ),)),
-                //   ),
-                // ),
-                // const SizedBox(height: 5,),
                 InkWell(onTap: () {
                   auth.getCurrentLocations( context);
                 },
-                    child: Container(width: 50, height: 50,
+                    child: Container(width: 35, height: 35,
                         margin: const EdgeInsets.only(right: Dimensions.paddingSizeLarge),
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                            color: ColorResources.getChatIcon(context)),
-                        child: Icon(Icons.my_location, color: Theme.of(context).primaryColor, size: 35))),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),
+                            color: Theme.of(context).primaryColor),
+                        child: const Icon(Icons.my_location, color: Colors.white, size: 20))),
               ],
             ),
           ),

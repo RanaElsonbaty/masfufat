@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_sixvalley_ecommerce/data/datasource/remote/dio/dio_client.dart';
 import 'package:flutter_sixvalley_ecommerce/features/sync%20order/domain/repositories/sync_order_repository_interface.dart';
@@ -84,7 +85,34 @@ class SyncOrderRepository implements SyncOrderRepositoryInterface{
     // TODO: implement update
     throw UnimplementedError();
   }
+  @override
+  Future<ApiResponse> bankAndDelayedPayment(
+      String orderID,
+      String paymentMethod,
+      String bank,
+      XFile attachment,
+      String holderName,
+  ) async {
+    var data = FormData.fromMap({
+      "id": orderID,
+      "payment_method": paymentMethod,
+      "bank": bank,
+      "attachment": [
+    await MultipartFile.fromFile(attachment.path, filename: attachment.path)
+    ],
+      "holder_name": holderName
+    });
 
+    try {
+      final response = await dioClient!.post(
+          "${AppConstants.baseUrl}${AppConstants.placeBankTransferSyncOrder}",
+          data: data,
+      );
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  }
 
 
 

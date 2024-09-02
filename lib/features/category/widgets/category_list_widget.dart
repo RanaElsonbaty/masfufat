@@ -25,6 +25,7 @@ class CategoryListWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraExtraSmall),
             child: TitleRowWidget(
               title: getTranslated('CATEGORY', context),
+
               onTap: () {
                 if(categoryProvider.categoryList.isNotEmpty) {
                   Navigator.push(context, MaterialPageRoute(builder: (_) => const CategoryScreen()));
@@ -46,6 +47,7 @@ class CategoryListWidget extends StatelessWidget {
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => BrandAndCategoryProductScreen(
                           isBrand: false,
+                          index:  index,
                           id: categoryProvider.categoryList[index].id.toString(),
                           name: categoryProvider.categoryList[index].name)));
                     },

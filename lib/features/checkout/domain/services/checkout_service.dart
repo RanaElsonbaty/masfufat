@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/domain/repositories/checkout_repository_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/domain/services/checkout_service_interface.dart';
 
@@ -35,6 +36,12 @@ class CheckoutService implements CheckoutServiceInterface{
   @override
   Future delayedPaymentPlaceOrder(String? addressID, String? couponCode, String? couponDiscountAmount, String? billingAddressId, String? orderNote, bool? isCheckCreateAccount, String? password) {
     return checkoutRepositoryInterface.delayedPaymentPlaceOrder(addressID, couponCode, couponDiscountAmount, billingAddressId, orderNote, isCheckCreateAccount, password);
+  }
+
+  @override
+  Future createPaymentWithBankTransfer(XFile attachment, String holderName) {
+    return checkoutRepositoryInterface.createPaymentWithBankTransfer(attachment, holderName,);
+
   }
 
 }

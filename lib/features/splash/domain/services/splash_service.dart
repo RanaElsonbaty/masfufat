@@ -36,4 +36,10 @@ class SplashService implements SplashServiceInterface{
     return splashRepositoryInterface.showIntro();
   }
 
+  @override
+  Future getMaintenanceMode() {
+    return splashRepositoryInterface.getMaintenanceMode();
+
+  }
+
 }

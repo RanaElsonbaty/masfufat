@@ -59,7 +59,7 @@ class AddressRepository implements AddressRepoInterface<ApiResponse>{
 
 
   @override
-  Future<ApiResponse> getList({int? offset,String}) async {
+  Future<ApiResponse> getList({int? offset,}) async {
     try {
       final response = await dioClient!.get('${AppConstants.addressListUri}?guest_id=${Provider.of<AuthController>(Get.context!, listen: false).getGuestToken()}');
       return ApiResponse.withSuccess(response);
@@ -96,7 +96,7 @@ class AddressRepository implements AddressRepoInterface<ApiResponse>{
   @override
   Future<ApiResponse> update(Map<String, dynamic> addressModel, int addressId) async {
     try {print('asdasdasdasdasdasdaE$addressModel');
-      Response response = await dioClient!.post(AppConstants.updateAddressUri, data: addressModel,options:
+      Response response = await dioClient!.put(AppConstants.updateAddressUri, data: addressModel,options:
       Options(
         method: 'PUT',
       ));

@@ -299,7 +299,12 @@ int selectedProductTypeIndex = 0;
   Future<void> getRecommendedProduct() async {
     ApiResponse apiResponse = await productServiceInterface!.getRecommendedProduct();
       if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-        _recommendedProduct = Product.fromJson(apiResponse.response!.data);
+     try{
+       if(apiResponse.response!.data!=[]||apiResponse.response!.data!={}||apiResponse.response!.data!=''){
+         _recommendedProduct = Product.fromJson(apiResponse.response!.data);
+
+       }
+     }catch(e){}
       }
       notifyListeners();
   }

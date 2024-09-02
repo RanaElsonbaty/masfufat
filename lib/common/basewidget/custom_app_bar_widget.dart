@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
@@ -33,11 +33,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: AppBar(
 
           actions: showResetIcon? [reset!]:[],
-          backgroundColor: Theme.of(context).cardColor,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             toolbarHeight: 50,
             iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyLarge?.color),
             automaticallyImplyLeading: false,
-            title: Text(title??'', style: textMedium.copyWith(
+            title: Text(title??'', style: GoogleFonts.tajawal(
                 fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyLarge?.color), maxLines: 1,textAlign: TextAlign.start, overflow: TextOverflow.ellipsis),
 
             centerTitle: true,

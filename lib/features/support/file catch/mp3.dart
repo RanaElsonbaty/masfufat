@@ -1,8 +1,12 @@
 import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/main.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:open_document/my_files/init.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 
 // import '../../../provider/auth_provider.dart';
 // import '../../../provider/support_ticket_provider.dart';
@@ -96,24 +100,40 @@ class _WaveBubbleState extends State<WaveBubble> {
     });
     if (isCheck) {
       _preparePlayer();
+
     }
     print('OpenDocument checkDocument => $isCheck');
   }
-
+  int milliseconds=0;
+  Duration duration=const Duration(seconds: 0);
+  String formattedDuration='';
   @override
   void initState() {
     super.initState();
-    // Provider.of<SupportTicketProvider>(context, listen: false)
-    //     .initialiseControllers();
-    print('asasasasaaaaaaaaaaaaaaaaaaaa${widget.path!}');
-    print('asasasasaaaaaaaaaaaaaaaaaaaa${widget.isSender}');
+    controller.addListener(()async {
+     await controller.onCompletion.first.then((value) async{
+       await controller.pausePlayer();
+       setState(() {});
+
+     });
+    });
     if (widget.isSender == true) {
       // print('asdasdasdasd${widget.isSender}');
       getDownloadFile().then((value) {
         _preparePlayer();
+
+
+
       });
       isCheck = true;
+
     } else {
+ setState(() {
+   milliseconds = controller.maxDuration; // Example: 20 seconds
+   duration = Duration(milliseconds: milliseconds);
+   formattedDuration = duration.toString().substring(2, 7);
+
+ });
       // getDownloadFile();
     }
     _preparePlayer();
@@ -122,11 +142,8 @@ class _WaveBubbleState extends State<WaveBubble> {
   void _preparePlayer() async {
     Directory appDirectory = await getApplicationDocumentsDirectory();
 
-    print('filePath => $filePath');
-    print('widget.path => ${widget.path}');
-    print('widget.appDirectory.path => ${appDirectory.path}');
     try {
-      controller.preparePlayer(
+     await controller.preparePlayer(
         path: widget.ofline == false
             ? widget.isSender == true
                 ? filePath
@@ -137,17 +154,23 @@ class _WaveBubbleState extends State<WaveBubble> {
     } catch (e) {
       print('preparePlayer => $e');
     }
-    print('asdasdadas$filePath');
     try {
       if (widget.index?.isOdd ?? false) {
-        controller.extractWaveformData(
+    await    controller.extractWaveformData(
           path: filePath,
-          noOfSamples: playerWaveStyle.getSamplesForWidth(widget.width ?? 400),
+
+          noOfSamples: playerWaveStyle.getSamplesForWidth(widget.width ?? 10),
         );
       }
     } catch (e) {
       print('extractWaveformData => $e');
     }
+    setState(() {
+      milliseconds = controller.maxDuration; // Example: 20 seconds
+      duration = Duration(milliseconds: milliseconds);
+      formattedDuration = duration.toString().substring(2, 7);
+
+    });
   }
 
   @override
@@ -158,13 +181,14 @@ class _WaveBubbleState extends State<WaveBubble> {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
-      width: 200,
-      height: 100,
-      margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+      // width: 200,
+      height: 50,
+      margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: const Color(0xFF343145),
+        borderRadius: BorderRadius.circular(0),
+        color: Theme.of(context).primaryColor,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -227,14 +251,13 @@ class _WaveBubbleState extends State<WaveBubble> {
 
                 filePath = "$path/$name";
                 if (!isCheck) {
-                  print('adadasdsdasdasd');
-                  // downloadFile(
-                  //     url: url,
-                  //     filePath: filePath,
-                      // token: Provider.of<AuthProvider>(
-                      //     context,
-                      //     listen: false)
-                      //     .getUserToken());
+                  downloadFile(
+                      url: url,
+                      filePath: filePath,
+                      token: Provider.of<AuthController>(
+                          Get.context!,
+                          listen: false)
+                          .getUserToken());
                 }
               },
               child: const Icon(
@@ -261,69 +284,25 @@ class _WaveBubbleState extends State<WaveBubble> {
             highlightColor: Colors.transparent,
           )
               : const SizedBox.shrink(),
-          // _platformVersion == '0'
-          //     ? widget.isSender == false && widget.ofline == true
-          //         ? !isCheck
-          //             ? InkWell(
-          //                 onTap: () async {
-          //                   String? url = widget.path!;
-          //                   final name =
-          //                       await OpenDocument.getNameFile(
-          //                           url: url);
-          //
-          //                   final path =
-          //                       await OpenDocument.getPathDocument();
-          //
-          //                   filePath = "$path/$name";
-          //                   if (!isCheck) {
-          //                     print('adadasdsdasdasd');
-          //                     downloadFile(
-          //                         url: url,
-          //                         filePath: filePath,
-          //                         token: Provider.of<AuthProvider>(
-          //                                 context,
-          //                                 listen: false)
-          //                             .getUserToken());
-          //                   }
-          //                 },
-          //                 child: Icon(
-          //                   Icons.download,
-          //                   size: 30,
-          //                 ))
-          //             : SizedBox()
-          //         : SizedBox()
-          //     : SizedBox.shrink(),
-          // Spacer(),
-          Expanded(
-            child: AudioFileWaveforms(
-              size: const Size(500, 20),
+          isCheck?  Text(formattedDuration,style: GoogleFonts.almarai(
+              fontSize: 10,fontWeight: FontWeight.w400,color: Colors.white
+            ),):const SizedBox.shrink(),
+            const SizedBox(width: 4,),
+            AudioFileWaveforms(
+            size:  Size(MediaQuery.of(context).size.width/4.5, 20),
 
-              playerController: controller,
-              margin: const EdgeInsets.only(right: 10),
-              waveformType: WaveformType.fitWidth,
+            playerController: controller,
+            margin: const EdgeInsets.only(right: 10),
+            waveformType: WaveformType.fitWidth,
 
-              backgroundColor: Colors.black,
-              // decoration: BoxDecoration(
-              //
-              // ),
+            backgroundColor: Colors.black,
+            // decoration: BoxDecoration(
+            //
+            // ),
 
-              playerWaveStyle: playerWaveStyle,
-            ),
+            playerWaveStyle: playerWaveStyle,
           ),
-          // if (widget.isSender) const SizedBox(width: 10),
-          // if (widget.isSender)
-          //   InkWell(
-          //       onTap: () {
-          //         support.refreshWave();
-          //         file = null;
-          //         // setState(() {});
-          //         // controller.setRefresh(refresh)
-          //       },
-          //       child: Icon(
-          //         Icons.cancel_outlined,
-          //         size: 20,
-          //       )),
-          // if (widget.isSender) const SizedBox(width: 10),
+
         ],
       ),
     );

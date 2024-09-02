@@ -5,6 +5,7 @@ import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dar
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/amount_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SyncOrderAmountCalculation extends StatelessWidget {
   final double itemTotalAmount;
@@ -18,44 +19,99 @@ class SyncOrderAmountCalculation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Container(padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+    return  Container(
+        // padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
         color: Theme.of(context).highlightColor,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-          AmountWidget(title: getTranslated('sub_total', context),
-              amount: PriceConverter.convertPrice(context, itemTotalAmount)),
+          Padding(
+            padding:  const EdgeInsets.all(Dimensions.paddingSizeSmall),
+            child: AmountWidget(title: getTranslated('sub_total', context),
+                amount: PriceConverter.convertPrice(context, itemTotalAmount)),
+          ),
 
+          const Divider(height: 1, color: Color(0xFFD8D8D8)),
 
           orderProvider.syncOrderDetails!.orderType == "POS"? const SizedBox():
-          AmountWidget(title: getTranslated('shipping_fee', context),
-              amount: PriceConverter.convertPrice(context, shippingCost)),
+          Padding(
+            padding:  const EdgeInsets.all(Dimensions.paddingSizeSmall),
+            child: AmountWidget(title: getTranslated('shipping_fee', context),
+                amount: PriceConverter.convertPrice(context, shippingCost)),
+          ),
+
+          const Divider(height: 1, color: Color(0xFFD8D8D8)),
 
 
-          AmountWidget(title: getTranslated('discount', context),
-              amount: PriceConverter.convertPrice(context, discount)),
+          Padding(
+            padding:  const EdgeInsets.all(Dimensions.paddingSizeSmall),
+            child: AmountWidget(title: getTranslated('discount', context),
+                amount: PriceConverter.convertPrice(context, discount)),
+          ),
 
 
-
+          const Divider(height: 1, color: Color(0xFFD8D8D8)),
 
           orderProvider.syncOrderDetails!.orderType == "POS"?
-          AmountWidget(title: getTranslated('extra_discount', context),
-              amount: PriceConverter.convertPrice(context, eeDiscount)):const SizedBox(),
+          Padding(
+            padding:  const EdgeInsets.all(Dimensions.paddingSizeSmall),
+            child: AmountWidget(title: getTranslated('extra_discount', context),
+                amount: PriceConverter.convertPrice(context, eeDiscount)),
+          ):const SizedBox(),
+
+          orderProvider.syncOrderDetails!.orderType == "POS"? const Divider(height: 1, color: Color(0xFFD8D8D8)):const SizedBox.shrink(),
 
 
-          AmountWidget(title: getTranslated('coupon_voucher', context),
-            amount: PriceConverter.convertPrice(context, discount),),
+          Padding(
+            padding:  const EdgeInsets.all(Dimensions.paddingSizeSmall),
+            child: AmountWidget(title: getTranslated('coupon_voucher', context),
+              amount: PriceConverter.convertPrice(context, discount),),
+          ),
+
+          const Divider(height: 1, color: Color(0xFFD8D8D8)),
 
 
-          AmountWidget(title: getTranslated('tax', context),
-              amount: PriceConverter.convertPrice(context, tax)),
+          Padding(
+            padding:  const EdgeInsets.all(Dimensions.paddingSizeSmall),
+            child: AmountWidget(title: getTranslated('tax', context),
+                amount: PriceConverter.convertPrice(context, tax)),
+          ),
 
-          AmountWidget(title: getTranslated('Shipping_tax', context),
-              amount: PriceConverter.convertPrice(context, shippingCost*0.15  )),
-          const Padding(padding: EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
-            child: Divider(height: 2, color: ColorResources.hintTextColor),),
+          const Divider(height: 1, color: Color(0xFFD8D8D8)),
+
+          Padding(
+            padding:  const EdgeInsets.all(Dimensions.paddingSizeSmall),
+            child: AmountWidget(title: getTranslated('Shipping_tax', context),
+                amount: PriceConverter.convertPrice(context, shippingCost*0.15  )),
+          ),
+
+          const Divider(height: 1, color: Color(0xFFD8D8D8)),
 
 
-          AmountWidget(title: getTranslated('total_payable', context),
-            amount: PriceConverter.convertPrice(context, (itemTotalAmount + shippingCost - eeDiscount! -  discount  + tax+(shippingCost*0.15))),),]));
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 4),
+            child: Container(
+              // height: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Theme.of(context).cardColor
+              ),
+              child: Padding(
+                padding:  const EdgeInsets.all(Dimensions.paddingSizeSmall),
+
+                child: Row(children: [
+                  Text( getTranslated('total_payable', context)!,
+                    style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyLarge!.color!,fontWeight: FontWeight.w400,),
+                  ),
+                  const Spacer(),
+                  Text(PriceConverter.convertPrice(context, (itemTotalAmount + shippingCost - eeDiscount! -  discount  + tax+(shippingCost*0.15))),
+                    style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault,fontWeight: FontWeight.w400,),
+                  )
+                ],),
+              ),
+            ),
+          ),
+          // AmountWidget(title: getTranslated('total_payable', context),
+          //   amount: PriceConverter.convertPrice(context, (itemTotalAmount + shippingCost - eeDiscount! -  discount  + tax+(shippingCost*0.15))),),
+        ]));
   }
 }

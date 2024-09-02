@@ -24,7 +24,7 @@ class NetworkInfo {
         if(result == ConnectivityResult.none) {
           isNotConnected = true;
         }else {
-          isNotConnected = !await (_updateConnectivityStatus() as FutureOr<bool>);
+          isNotConnected = !await (_updateConnectivityStatus() );
         }
         isNotConnected ? const SizedBox() : ScaffoldMessenger.of(Get.context!).hideCurrentSnackBar();
         ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
@@ -40,7 +40,7 @@ class NetworkInfo {
     });
   }
 
-  static Future<bool?> _updateConnectivityStatus() async {
+  static Future<bool> _updateConnectivityStatus() async {
      bool? isConnected;
      try {
        final List<InternetAddress> result = await InternetAddress.lookup('google.com');
@@ -50,6 +50,6 @@ class NetworkInfo {
      }catch(e) {
        isConnected = false;
      }
-     return isConnected;
+     return isConnected!;
   }
 }

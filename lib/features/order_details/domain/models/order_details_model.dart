@@ -31,6 +31,7 @@ class OrderDetailsModel {
   ImageFullUrl? digitalFileAfterSellFullUrl;
   ImageFullUrl? digitalFileReadyFullUrl;
   Review? _reviewData;
+   int? _refundRequest;
 
 
 
@@ -57,7 +58,7 @@ class OrderDetailsModel {
         List<VerificationImages>? verificationImages,
         Order? order,
         Review? review,
-
+       int? refundRequest,
       }) {
     _id = id;
     _orderId = orderId;
@@ -70,6 +71,7 @@ class OrderDetailsModel {
     _qty = qty;
     _price = price;
     _tax = tax;
+   _refundRequest = refundRequest;
     _taxModel = taxModel;
     _discount = discount;
     _deliveryStatus = deliveryStatus;
@@ -100,6 +102,7 @@ class OrderDetailsModel {
   String? get digitalFileAfterSell => _digitalFileAfterSell;
   Product? get productDetails => _productDetails;
   int? get qty => _qty;
+  int? get refundRequest => _refundRequest;
   double? get price => _price;
   double? get tax => _tax;
   String? get taxModel => _taxModel;
@@ -159,7 +162,7 @@ class OrderDetailsModel {
     digitalFileAfterSellFullUrl = json['digital_file_after_sell_full_url'] != null
         ? ImageFullUrl.fromJson(json['digital_file_after_sell_full_url']) : null;
 
-
+    _refundRequest =json['refund_request']??0;
     isExpanded = false;
 
     if(json['reviewData'] != null) {

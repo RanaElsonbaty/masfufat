@@ -143,7 +143,8 @@ class _AsterThemeHomeScreenState extends State<AsterThemeHomeScreen> {
 
             SliverToBoxAdapter(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                const BannersWidget(),
+                Consumer<BannerController>(builder:(context, banner, child) =>   BannersWidget(mainBannerList: banner.mainBannerList!=null?banner.mainBannerList!:[],)),
+
                 const SizedBox(height: Dimensions.paddingSizeDefault),
 
                 const CategoryListWidget(isHomePage: true),

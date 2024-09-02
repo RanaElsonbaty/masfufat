@@ -5,7 +5,6 @@ import 'package:collection/collection.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 
 class CodePickerWidget extends StatefulWidget {
   final ValueChanged<CountryCode>? onChanged;
@@ -170,7 +169,8 @@ class CodePickerWidgetState extends State<CodePickerWidget> {
             direction: Axis.horizontal,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              SizedBox(width: 25, child: Image.asset(widget.fromCountryList? Images.country : Images.callIcon, color: Theme.of(context).primaryColor.withOpacity(.6),)),
+              const Icon(Icons.arrow_drop_down,size: 25,color: Colors.white,),
+              // SizedBox(width: 25, child: Image.asset(widget.fromCountryList? Images.country : Images.iMark, color: Theme.of(context).primaryColor.withOpacity(.6),)),
                SizedBox(width: widget.fromCountryList? Dimensions.paddingSizeDefault : Dimensions.paddingSizeExtraSmall),
               if (widget.showFlagMain != null
                   ? widget.showFlagMain!
@@ -185,7 +185,7 @@ class CodePickerWidgetState extends State<CodePickerWidget> {
                     decoration: widget.flagDecoration,
                     margin: widget.alignLeft
                         ? const EdgeInsets.only(right: 16.0, left: 8.0)
-                        : const EdgeInsets.only(right: 16.0),
+                        : const EdgeInsets.only(right: 10.0),
                     child: Image.asset(
                       selectedItem!.flagUri!,
                       package: 'country_code_picker',

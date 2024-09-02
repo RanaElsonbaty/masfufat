@@ -1,8 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/domain/models/config_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/domain/services/splash_service_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SplashController extends ChangeNotifier {
   final SplashServiceInterface? splashServiceInterface;
@@ -29,6 +31,7 @@ class SplashController extends ChangeNotifier {
   bool get hasConnection => _hasConnection;
   bool get fromSetting => _fromSetting;
   bool get firstTimeConnectionCheck => _firstTimeConnectionCheck;
+  List<bool> isExpanded=[];
 
   Future<bool> initConfig(BuildContext context) async {
 
@@ -46,7 +49,7 @@ class SplashController extends ChangeNotifier {
       //   secondaryColor: ColorHelper.hexCodeToColor(_configModel?.secondaryColorCode),
       // );
 
-
+      isExpanded= List.filled(_configModel!.faq.isNotEmpty?_configModel!.faq.length:0, false);
       for(CurrencyList currencyList in _configModel!.currencyList) {
         if(currencyList.id == _configModel!.systemDefaultCurrency) {
           if(currencyCode == null || currencyCode.isEmpty) {
@@ -87,7 +90,10 @@ class SplashController extends ChangeNotifier {
     }
   }
 
-
+  void getIsExpanded( int index,val){
+    isExpanded[index] =val;
+    notifyListeners();
+  }
   void setCurrency(int index) {
     splashServiceInterface!.setCurrency(_configModel!.currencyList[index].code);
     getCurrencyData(_configModel!.currencyList[index].code);
@@ -112,6 +118,56 @@ class SplashController extends ChangeNotifier {
 
   void changeAnnouncementOnOff(bool on){
     _onOff = !_onOff;
+    notifyListeners();
+  }
+  bool _maintenanceMode=false;
+  bool get maintenanceMode=>_maintenanceMode;
+  Future getMaintenanceMode()async{
+    try {
+      ApiResponse apiResponse = await splashServiceInterface!.getMaintenanceMode();
+      if(apiResponse.response!=null&&apiResponse.response!.statusCode==200){
+        // print('asdasdasdaasdadasdasdadasdasdsdasd${apiResponse.response!.data['maintenance_mode']}');
+        if(apiResponse.response!.data['maintenance_mode'].runtimeType ==int){
+          _maintenanceMode=apiResponse.response!.data['maintenance_mode']==1?true:false;
+
+        }else{
+          _maintenanceMode=apiResponse.response!.data['maintenance_mode'];
+
+        }
+      }
+    }catch(e){
+
+    }
+  }
+  String _selectBank = 'select';
+  String get selectBank => _selectBank;
+  void getSelectBank(String select,bool notify) {
+    _selectBank = select;
+    if(notify){
+      notifyListeners();}
+  }
+  String iBAN ='';
+  String bankAccountNumber ='';
+  String bankName ='';
+  void getDeatils(String name,String cardID){
+    for (var element in _configModel!.paymentMethods.bankTransfer.banks) {
+      if(element.name==name||element.accountNumber==cardID){
+          bankAccountNumber=element.accountNumber;
+          iBAN=element.iban;
+          bankName=element.name;
+      }
+    }
+    notifyListeners();
+  }
+  XFile ?bankTransferImage;
+  void pickImage() async {
+
+  try{
+    bankTransferImage = await ImagePicker().pickImage(
+        imageQuality: 100, source: ImageSource.gallery);
+  }catch(e){
+
+  }
     notifyListeners();
   }
 

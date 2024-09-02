@@ -4,11 +4,14 @@ import 'package:provider/provider.dart';
 
 class PriceConverter {
   static String convertPrice(BuildContext context, double? price, {double? discount, String? discountType}) {
+
     if(discount != null && discountType != null){
+      // print('asdasdasdadsdasdsa----> $discount');
       if(discountType == 'amount' || discountType == 'flat') {
         price = price! - discount;
       }else if(discountType == 'percent' || discountType == 'percentage') {
         price = price! - ((discount / 100) * price);
+
       }
     }
     bool singleCurrency =Provider.of<SplashController>(context, listen: false).configModel!=null? Provider.of<SplashController>(context, listen: false).configModel!.currencyModel == 'single_currency':true;
