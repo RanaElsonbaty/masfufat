@@ -23,7 +23,7 @@ class SyncOrderType extends StatelessWidget {
             return Card(
               color:  sync.userTypeIndex == index
                   ? Theme.of(context).primaryColor
-                  : Theme.of(context).scaffoldBackgroundColor,
+                  : Theme.of(context).cardColor,
               child: Container(
                 height: 35,
                 alignment: Alignment.center,

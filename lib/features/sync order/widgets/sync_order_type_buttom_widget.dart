@@ -31,7 +31,8 @@ class _SyncOrderTypeButtomWidgetState extends State<SyncOrderTypeButtomWidget> {
         child: Container(height: 35,
           alignment: Alignment.center,
           decoration: BoxDecoration(color: syncOrderController.orderTypeIndex==widget.index?ColorResources.getPrimary(context)
-         : Theme.of(context).primaryColor.withOpacity(0.07),
+         :               Theme.of(context).hintColor,
+
               borderRadius: BorderRadius.circular(8)),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 4),

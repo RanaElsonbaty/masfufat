@@ -21,7 +21,7 @@ class IconWithTextRowWidget extends StatelessWidget {
         padding: const EdgeInsets.all(4.0),
         child: SizedBox(width: 17,child: Image.asset(imageIcon!, color: Theme.of(context).primaryColor.withOpacity(.5),)),
       ):
-        Icon(icon, color:  Colors.black, size: Dimensions.iconSizeDefault,),
+        Icon(icon, color: Theme.of(context).iconTheme.color, size: Dimensions.iconSizeDefault,),
         const SizedBox(width: Dimensions.marginSizeSmall,),
 
         Expanded(child: Padding(

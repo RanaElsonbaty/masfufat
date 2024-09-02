@@ -7,6 +7,7 @@ import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dar
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 class OrderWidget extends StatelessWidget {
@@ -66,7 +67,7 @@ class OrderWidget extends StatelessWidget {
             padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
             decoration: BoxDecoration(color: Theme.of(context).highlightColor,
               borderRadius: BorderRadius.circular(5),
-              boxShadow:  [BoxShadow(color: Colors.grey.withOpacity(.2), spreadRadius: 1, blurRadius: 7, offset: const Offset(0, 1))],),
+              boxShadow:  [BoxShadow(color: Colors.black.withOpacity(.25), spreadRadius: 0, blurRadius: 10, offset: const Offset(0, 4))],),
 
             child: Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
               child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -92,16 +93,16 @@ class OrderWidget extends StatelessWidget {
                 Expanded(flex: 5,
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     Row(children: [
-                      Expanded(child: Text('${getTranslated('order', context)!}# ${orderModel!.id.toString()}',
-                          style: textBold.copyWith(fontSize: Dimensions.fontSizeDefault, fontWeight: FontWeight.bold)))]),
+                      Expanded(child: Text('${getTranslated('order', context)!} ${orderModel!.id.toString()}# ',
+                          style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault, fontWeight: FontWeight.w500)))]),
                     const SizedBox(height: Dimensions.paddingSizeSmall),
 
                     Text(DateConverter.localDateToIsoStringAMPMOrder(orderModel!.createdAt),
-                        style: textMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor)),
+                        style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor, fontWeight: FontWeight.w500)),
                     const SizedBox(height: Dimensions.paddingSizeSmall),
 
-                    Text(PriceConverter.convertPrice(context, orderModel!.orderType == 'POS' ? orderAmount : orderModel!.orderAmount),
-                      style: textBold.copyWith(fontSize: Dimensions.fontSizeDefault, color: ColorResources.getPrimary(context)),),])),
+                    Text('${getTranslated('Total_Amount', context)}${PriceConverter.convertPrice(context, orderModel!.orderType == 'POS' ? orderAmount : orderModel!.orderAmount)}',
+                      style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault, color: ColorResources.getPrimary(context)),),])),
 
 
 
@@ -113,16 +114,11 @@ class OrderWidget extends StatelessWidget {
                       orderModel!.orderStatus == 'confirmed'? ColorResources.getGreen(context).withOpacity(.10)
                           :orderModel!.orderStatus == 'processing'? ColorResources.getPurple(context).withOpacity(.10):
                       orderModel!.orderStatus == 'canceled'? ColorResources.getRed(context).withOpacity(.10):
-                      ColorResources.getYellow(context).withOpacity(.1), borderRadius: BorderRadius.circular(50)),
+                      ColorResources.getYellow(context).withOpacity(.1), borderRadius: BorderRadius.circular(8)),
 
                     child: Text(getTranslated(orderModel!.orderStatus, context)??'',
-                        style: textMedium.copyWith(fontSize: Dimensions.fontSizeSmall, fontWeight: FontWeight.w500,
-                      color: orderModel!.orderStatus == 'delivered'?  ColorResources.getGreen(context) :
-                      orderModel!.orderStatus == 'pending'? Theme.of(context).primaryColor :
-                      orderModel!.orderStatus == 'confirmed'? ColorResources.getGreen(context)
-                          :orderModel!.orderStatus == 'processing'? ColorResources.getPurple(context) :
-                      (orderModel!.orderStatus == 'canceled' || orderModel!.orderStatus == "failed")? ColorResources.getRed(context) :
-                      ColorResources.getYellow(context)))),
+                        style: GoogleFonts.tajawal(fontSize: 14, fontWeight: FontWeight.w400,
+                            color: Theme.of(context).iconTheme.color))),
 
               ]),
             ),

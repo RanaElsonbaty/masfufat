@@ -152,10 +152,13 @@ class TitleRowWidget extends StatelessWidget {
             Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.homePagePadding),
               child: InkWell(onTap: onTap as void Function()?,
                 child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  isDetailsPage == null ? Text(getTranslated('all', context)!,
-                      style: GoogleFonts.cairo(color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,)) : const SizedBox.shrink(),
+                  isDetailsPage == null ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 4),
+                    child: Text(getTranslated('all', context)!,
+                        style: GoogleFonts.cairo(color:Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,)),
+                  ) : const SizedBox.shrink(),
                 ]),
               ),
             ):  const SizedBox.shrink(),

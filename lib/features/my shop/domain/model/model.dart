@@ -42,13 +42,13 @@ class Deleted {
   final int brandId;
   final int hasTax;
   final int tax;
-  final Type? taxType;
+  final String? taxType;
   final dynamic unit;
-  final DisplayFor displayFor;
-  final ProductType productType;
+  final String displayFor;
+  final String productType;
   final String itemNumber;
   final dynamic gtin;
-  final AddedBy addedBy;
+  final String addedBy;
   final int userId;
   final Props props;
   final dynamic mpn;
@@ -60,7 +60,7 @@ class Deleted {
   final dynamic size;
   final String? madeIn;
   final String images;
-  final Videos videos;
+  // final Videos videos;
   final dynamic linkedProductsIds;
   final List<PricingElement> pricing;
   final int? shippingCost;
@@ -88,7 +88,7 @@ class Deleted {
   final String brandImage;
   final DeletedPricings pricings;
   final bool inWishList;
-  final Synced synced;
+  final String synced;
   final String imageUrl;
   final dynamic promoTitle;
   final String? shortDesc;
@@ -127,7 +127,7 @@ class Deleted {
     required this.size,
     required this.madeIn,
     required this.images,
-    required this.videos,
+    // required this.videos,
     required this.linkedProductsIds,
     required this.pricing,
     required this.shippingCost,
@@ -177,13 +177,13 @@ class Deleted {
     brandId: json["brand_id"],
     hasTax: json["has_tax"],
     tax: json["tax"],
-    taxType: typeValues.map[json["tax_type"]]!,
+    taxType: json["tax_type"]??'',
     unit: json["unit"],
-    displayFor: displayForValues.map[json["display_for"]]!,
-    productType: productTypeValues.map[json["product_type"]]!,
+    displayFor: json["display_for"]??'',
+    productType: json["product_type"]??'',
     itemNumber: json["item_number"],
     gtin: json["gtin"],
-    addedBy: addedByValues.map[json["added_by"]]!,
+    addedBy:json["added_by"]??'',
     userId: json["user_id"],
     props: Props.fromJson(json["props"]),
     mpn: json["mpn"],
@@ -195,9 +195,9 @@ class Deleted {
     size: json["size"],
     madeIn: json["made_in"]!=null?json["made_in"].toString():"",
     images: json["images"],
-    videos: videosValues.map[json["videos"]]!,
+    // videos: videosValues.map[json["videos"]]!,
     linkedProductsIds: json["linked_products_ids"],
-    pricing: List<PricingElement>.from(json["pricing"].map((x) => PricingElement.fromJson(x))),
+      pricing: List<PricingElement>.from(json["pricing"].map((x) => PricingElement.fromJson(x))),
     shippingCost: json["shipping_cost"],
     status: json["status"],
     isShippingCostUpdated: json["is_shipping_cost_updated"],
@@ -223,7 +223,7 @@ class Deleted {
     brandImage: json["brand_image"],
     pricings: DeletedPricings.fromJson(json["pricings"]),
     inWishList: json["in_wish_list"],
-    synced: syncedValues.map[json["synced"]]!,
+    synced: json["synced"]??'',
     imageUrl: json["image_url"],
     promoTitle: json["promo_title"],
     shortDesc: json["short_desc"],
@@ -245,13 +245,13 @@ class Deleted {
     "brand_id": brandId,
     "has_tax": hasTax,
     "tax": tax,
-    "tax_type": typeValues.reverse[taxType],
+    "tax_type":taxType,
     "unit": unit,
-    "display_for": displayForValues.reverse[displayFor],
-    "product_type": productTypeValues.reverse[productType],
+    "display_for": displayFor,
+    "product_type":productType,
     "item_number": itemNumber,
     "gtin": gtin,
-    "added_by": addedByValues.reverse[addedBy],
+    "added_by": addedBy,
     "user_id": userId,
     "props": props.toJson(),
     "mpn": mpn,
@@ -261,9 +261,9 @@ class Deleted {
     "weight": weight,
     "space": space,
     "size": size,
-    "made_in": madeInValues.reverse[madeIn],
+    "made_in":madeIn,
     "images": images,
-    "videos": videosValues.reverse[videos],
+    // "videos": videosValues.reverse[videos],
     "linked_products_ids": linkedProductsIds,
     "pricing": List<dynamic>.from(pricing.map((x) => x.toJson())),
     "shipping_cost": shippingCost,
@@ -470,10 +470,10 @@ class PricingElement {
   final String value;
   final String? minQty;
   final String? maxQty;
-  final Type discountType;
+  final String discountType;
   final String? discountPrice;
   final String? suggestedPrice;
-  final DisplayFor? displayFor;
+  final String? displayFor;
 
   PricingElement({
     required this.pricingLevelId,
@@ -487,14 +487,14 @@ class PricingElement {
   });
 
   factory PricingElement.fromJson(Map<String, dynamic> json) => PricingElement(
-    pricingLevelId: json["pricing_level_id"],
-    value: json["value"],
-    minQty: json["min_qty"],
-    maxQty: json["max_qty"],
-    discountType: typeValues.map[json["discount_type"]]!,
-    discountPrice: json["discount_price"],
-    suggestedPrice: json["suggested_price"],
-    displayFor: displayForValues.map[json["display_for"]]!,
+    pricingLevelId: json["pricing_level_id"]??"",
+    value: json["value"].toString()??'',
+    minQty: json["min_qty"]??'',
+    maxQty: json["max_qty"]??'',
+    discountType: json["discount_type"]??'',
+    discountPrice: json["discount_price"]??'',
+    suggestedPrice: json["suggested_price"]??'',
+    displayFor: json["display_for"]!??'',
   );
 
   Map<String, dynamic> toJson() => {

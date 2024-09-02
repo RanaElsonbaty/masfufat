@@ -378,14 +378,17 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
 
                     support.isLoading==false?  InkWell(
                           onTap: ()async{
-                            if (_controller.text.isEmpty ) {
+                            if (_controller.text.isEmpty &&_controller.text=='') {
                                               } else {
                                            await     support.sendReply(widget.supportTicketModel.id,
                                                     _controller.text);
                                                 _controller.text = '';
+                                           _controller.clear();
                                               }
                           },
-                          child: Image.asset(Images.chatSend,width: 25,)):CircularProgressIndicator(),
+                          child: Image.asset(Images.chatSend,width: 25,)): CircularProgressIndicator(
+                      color: Theme.of(context).primaryColor,
+                    ),
                       const SizedBox(width: 10,),
 
                     ],

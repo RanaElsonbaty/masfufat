@@ -101,7 +101,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           padding: const EdgeInsets.all(4.0),
                           child: Column(children: [
                             // const SizedBox(height: 10,),
-                            CustomImageWidget(image: categoryProvider.searchCategoryList[index].iconUrl,width: 80,height: 80,),
+                            CustomImageWidget(image: categoryProvider.searchCategoryList[index].iconUrl,width: 80,height: 80,fit: BoxFit.fill,),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Row(

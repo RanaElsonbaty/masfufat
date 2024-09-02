@@ -18,6 +18,8 @@ class SyncShippingAndBillingWidget extends StatelessWidget {
     return
       orderProvider.syncOrderDetails!.shippingAddressData!=null?  Container(decoration: const BoxDecoration(
         // image: DecorationImage(image: AssetImage(Images.mapBg,), fit: BoxFit.cover, )
+        // color: Theme.of(context).cardColor,
+        //
       ),
         child: Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -32,7 +34,8 @@ class SyncShippingAndBillingWidget extends StatelessWidget {
             // Text(getTranslated('shipping', context)!, style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge),),
             // const SizedBox(height: Dimensions.marginSizeSmall),
 Card(
-  color: const Color(0xFFEFECF5),
+  color: Theme.of(context).cardColor,
+
   child: Column(
     children: [
       const SizedBox(height: Dimensions.paddingSizeExtraSmall),
@@ -59,7 +62,7 @@ Card(
         padding: const EdgeInsets.all(3.0),
         child: Row(mainAxisAlignment:MainAxisAlignment.start, crossAxisAlignment:CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.location_on_outlined, color: Colors.black),
+               Icon(Icons.location_on_outlined, color:Theme.of(context).iconTheme.color,),
               const SizedBox(width: Dimensions.marginSizeSmall),
 
               Expanded(child: Padding(

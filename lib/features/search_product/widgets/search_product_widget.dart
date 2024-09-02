@@ -128,14 +128,14 @@ priceMax: Provider.of<SearchProductController>(context, listen: false).maxFilter
             const SizedBox(height: Dimensions.paddingSizeSmall),
 
           Expanded(
-            child: PagedMasonryGridView(
+            child: PagedGridView(
 
                 addAutomaticKeepAlives: true,
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 shrinkWrap: true,
-                gridDelegateBuilder: (childCount) =>   const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                ),
+                // gridDelegateBuilder: (childCount) =>   const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                //   crossAxisCount: 2,
+                // ),
                 pagingController: _pagingController,
                 scrollDirection: Axis.vertical,
                 physics: const BouncingScrollPhysics(),
@@ -186,7 +186,7 @@ priceMax: Provider.of<SearchProductController>(context, listen: false).maxFilter
                                 return ProductWidget(
                                 productModel: item as Product);
 
-                    })),
+                    }), gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,mainAxisExtent: 330),),
           ),
             // SingleChildScrollView(
             //   controller: scrollController,

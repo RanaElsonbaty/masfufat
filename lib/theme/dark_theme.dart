@@ -6,8 +6,8 @@ ThemeData dark = ThemeData(
   brightness: Brightness.dark,
   highlightColor: const Color(0xFF252525),
   hintColor: const Color(0xFFc7c7c7),
-  cardColor: const Color(0xFFEFECF5),
   scaffoldBackgroundColor: const Color(0xFF000000),
+  cardColor: const Color(0xFF10130A),
   splashColor: Colors.transparent,
   colorScheme : const ColorScheme.dark(
     primary: Color(0xFF1455AC),

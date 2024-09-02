@@ -92,7 +92,6 @@ class _WaveBubbleState extends State<WaveBubble> {
     setState(() {
       filePath = "$path/$name";
     });
-    print('getDownloadFile => $filePath');
     bool isChecked = await OpenDocument.checkDocument(filePath: filePath);
 
     setState(() {
@@ -102,13 +101,13 @@ class _WaveBubbleState extends State<WaveBubble> {
       _preparePlayer();
 
     }
-    print('OpenDocument checkDocument => $isCheck');
   }
   int milliseconds=0;
   Duration duration=const Duration(seconds: 0);
   String formattedDuration='';
   @override
   void initState() {
+    print('file appDirectory --------> ${widget.appDirectory.path.split('/').last.split('/').last.split('/')}');
     super.initState();
     controller.addListener(()async {
      await controller.onCompletion.first.then((value) async{
@@ -127,7 +126,8 @@ class _WaveBubbleState extends State<WaveBubble> {
       });
       isCheck = true;
 
-    } else {
+    }
+    else {
  setState(() {
    milliseconds = controller.maxDuration; // Example: 20 seconds
    duration = Duration(milliseconds: milliseconds);
@@ -136,7 +136,7 @@ class _WaveBubbleState extends State<WaveBubble> {
  });
       // getDownloadFile();
     }
-    _preparePlayer();
+    // _preparePlayer();
   }
 
   void _preparePlayer() async {
@@ -152,7 +152,7 @@ class _WaveBubbleState extends State<WaveBubble> {
         shouldExtractWaveform: widget.index?.isEven ?? true,
       );
     } catch (e) {
-      print('preparePlayer => $e');
+      // print('preparePlayer => $e');
     }
     try {
       if (widget.index?.isOdd ?? false) {
@@ -197,10 +197,10 @@ class _WaveBubbleState extends State<WaveBubble> {
           Stack(
             children: [
               _platformVersion != '0'
-                  ? Padding(
-                padding: const EdgeInsets.all(8.0),
+                  ? const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: CircularProgressIndicator(
-                  color: Theme.of(context).primaryColor,
+                  color: Colors.white,
                 ),
               )
                   : const SizedBox.shrink(),
@@ -210,7 +210,7 @@ class _WaveBubbleState extends State<WaveBubble> {
                 top: 18,
                 child: Text(
                   _platformVersion,
-                  style: const TextStyle(
+                  style: const TextStyle(color: Colors.white,
                       fontSize: 10,
                       fontWeight: FontWeight.bold),
                 ),
@@ -239,32 +239,35 @@ class _WaveBubbleState extends State<WaveBubble> {
             highlightColor: Colors.transparent,
           )
               : !isCheck
-              ? InkWell(
-              onTap: () async {
-                String? url = widget.path!;
-                final name =
-                await OpenDocument.getNameFile(
-                    url: url);
+              ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                onTap: () async {
+                  String? url = widget.path!;
+                  final name =
+                  await OpenDocument.getNameFile(
+                      url: url);
 
-                final path =
-                await OpenDocument.getPathDocument();
+                  final path =
+                  await OpenDocument.getPathDocument();
 
-                filePath = "$path/$name";
-                if (!isCheck) {
-                  downloadFile(
-                      url: url,
-                      filePath: filePath,
-                      token: Provider.of<AuthController>(
-                          Get.context!,
-                          listen: false)
-                          .getUserToken());
-                }
-              },
-              child: const Icon(
-                Icons.download,
-                size: 30,
-                color: Colors.white,
-              ))
+                  filePath = "$path/$name";
+                  if (!isCheck) {
+                    downloadFile(
+                        url: url,
+                        filePath: filePath,
+                        token: Provider.of<AuthController>(
+                            Get.context!,
+                            listen: false)
+                            .getUserToken());
+                  }
+                },
+                child: const Icon(
+                  Icons.download,
+                  size: 25,
+                  color: Colors.white,
+                )),
+              )
               : IconButton(
             onPressed: () async {
               controller.playerState.isPlaying
@@ -289,7 +292,7 @@ class _WaveBubbleState extends State<WaveBubble> {
             ),):const SizedBox.shrink(),
             const SizedBox(width: 4,),
             AudioFileWaveforms(
-            size:  Size(MediaQuery.of(context).size.width/4.5, 20),
+            size:  Size(MediaQuery.of(context).size.width/4.5, 40),
 
             playerController: controller,
             margin: const EdgeInsets.only(right: 10),

@@ -60,6 +60,8 @@ class _MyShopSearchWidgetWidgetState extends State<MyShopSearchWidget> {
                   child: Row(children: [
                     if(controller.text.isNotEmpty)
                       InkWell(onTap: (){
+                        controller.clear();
+                        myShopProvider.search(myShopProvider.selectIndex, '');
 
                       }, child: const Icon(Icons.clear, size: 20,)),
 

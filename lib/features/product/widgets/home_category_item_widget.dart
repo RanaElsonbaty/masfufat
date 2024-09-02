@@ -15,7 +15,7 @@ class HomeCategoryProductItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 380,
+      height: 400,
       // color: index.isEven ? null : Theme.of(context).cardColor,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
@@ -32,9 +32,10 @@ class HomeCategoryProductItemWidget extends StatelessWidget {
                   name: homeCategoryProduct.name)));
             },
           ),
-          const SizedBox(height: Dimensions.paddingSizeSmall),
+          const SizedBox(height: Dimensions.paddingSizeDefault),
 
         ],
+
 SingleChildScrollView(
   scrollDirection: Axis.horizontal,
 

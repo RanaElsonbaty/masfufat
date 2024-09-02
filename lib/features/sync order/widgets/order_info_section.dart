@@ -87,7 +87,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                                 text:
                                 DateConverter.formatDate(widget.orderDetailsModel.createdAt!)));
                           },
-                          child: Image.asset(Images.copy,width: 25,)),
+                          child: Image.asset(Images.copy,width: 25,color: Theme.of(context).iconTheme.color,)),
                     ],
                   ),
                   const SizedBox(height: 10,),
@@ -119,7 +119,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                                 text:
                                 getTranslated(widget.orderDetailsModel.orderStatus!, context)!));
                           },
-                          child: Image.asset(Images.copy,width: 25,)),
+                          child: Image.asset(Images.copy,width: 25,color: Theme.of(context).iconTheme.color)),
                     ],
                   ),
                   const SizedBox(height: 10,),
@@ -162,7 +162,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                                 text:
                                 getTranslated(widget.orderDetailsModel.paymentStatus, context)!));
                           },
-                          child: Image.asset(Images.copy,width: 25,)),
+                          child: Image.asset(Images.copy,width: 25,color: Theme.of(context).iconTheme.color)),
                     ],
                   ),   const SizedBox(height: 10,),
                   Row(
@@ -193,7 +193,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                                 text:
                                 getTranslated(widget.orderDetailsModel.paymentMethod, context)!));
                           },
-                          child: Image.asset(Images.copy,width: 25,)),
+                          child: Image.asset(Images.copy,width: 25,color: Theme.of(context).iconTheme.color)),
                     ],
                   ),
                   const SizedBox(height: 10,),
@@ -227,7 +227,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
 
                             ));
                           },
-                          child: Image.asset(Images.copy,width: 25,)),
+                          child: Image.asset(Images.copy,width: 25,color: Theme.of(context).iconTheme.color)),
                     ],
                   ),
                   const SizedBox(height: 10,),
@@ -261,7 +261,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
 
                             ));
                           },
-                          child: Image.asset(Images.copy,width: 25,)),
+                          child: Image.asset(Images.copy,width: 25,color: Theme.of(context).iconTheme.color)),
                     ],
                   ),
                   const SizedBox(height: 10,),
@@ -295,7 +295,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
 
                             ));
                           },
-                          child: Image.asset(Images.copy,width: 25,)),
+                          child: Image.asset(Images.copy,width: 25,color: Theme.of(context).iconTheme.color)),
                     ],
                   ),
                 ],),
@@ -335,7 +335,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                                 ' ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.status != null ? widget.orderDetailsModel.externalOrder!.status! : ""}',
                             ));
                           },
-                          child: Image.asset(Images.copy,width: 25,)),
+                          child: Image.asset(Images.copy,width: 25,color: Theme.of(context).iconTheme.color)),
                     ],
                   ),
                   const SizedBox(height: 10,),
@@ -368,7 +368,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                                 '${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.isPendingPayment != null ? widget.orderDetailsModel.externalOrder!.details!.data!.isPendingPayment == true ? getTranslated('unpaid', context) : getTranslated('paid', context) : ""}',
                             ));
                           },
-                          child: Image.asset(Images.copy,width: 25,)),
+                          child: Image.asset(Images.copy,width: 25,color: Theme.of(context).iconTheme.color)),
                     ],
                   ),
                   const SizedBox(height: 10,),
@@ -402,7 +402,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
 
                             ));
                           },
-                          child: Image.asset(Images.copy,width: 25,)),
+                          child: Image.asset(Images.copy,width: 25,color: Theme.of(context).iconTheme.color)),
                     ],
                   ),
                   const SizedBox(height: 10,),
@@ -436,7 +436,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
 
                             ));
                           },
-                          child: Image.asset(Images.copy,width: 25,)),
+                          child: Image.asset(Images.copy,width: 25,color: Theme.of(context).iconTheme.color)),
                     ],
                   ),
                   const SizedBox(height: 10,),
@@ -470,7 +470,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
 
                             ));
                           },
-                          child: Image.asset(Images.copy,width: 25,)),
+                          child: Image.asset(Images.copy,width: 25,color: Theme.of(context).iconTheme.color)),
                     ],
                   ),
                   const SizedBox(height: 10,),
@@ -504,7 +504,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
 
                             ));
                           },
-                          child: Image.asset(Images.copy,width: 25,)),
+                          child: Image.asset(Images.copy,width: 25,color: Theme.of(context).iconTheme.color)),
                     ],
                   ),   const SizedBox(height: 10,),
                   Row(
@@ -537,7 +537,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
 
                             ));
                           },
-                          child: Image.asset(Images.copy,width: 25,)),
+                          child: Image.asset(Images.copy,width: 25,color: Theme.of(context).iconTheme.color )),
                     ],
                   ),
                 ],),

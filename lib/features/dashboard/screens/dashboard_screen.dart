@@ -116,7 +116,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
         bottomNavigationBar: Container(height: 75,
           decoration: BoxDecoration(borderRadius: const BorderRadius.vertical(
               top: Radius.circular(Dimensions.paddingSizeLarge)),
-            color: Theme.of(context).cardColor,
+            // color: Theme.of(context).cardColor,
             boxShadow: [BoxShadow(offset: const Offset(1,1), blurRadius: 2, spreadRadius: 1,
                 color: Theme.of(context).primaryColor.withOpacity(.125))],),
           child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,

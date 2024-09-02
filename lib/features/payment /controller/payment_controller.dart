@@ -382,7 +382,6 @@ class PaymentController extends ChangeNotifier {
  Future pay(BuildContext context) async {
     var executePaymentRequest = MFExecutePaymentRequest(invoiceValue: amount);
     executePaymentRequest.displayCurrencyIso = displayCurrencyIso;
-
     await mfCardView.pay(executePaymentRequest, MFLanguage.ENGLISH,
         (invoiceId) {
       debugPrint("-----------$invoiceId------------");
@@ -445,12 +444,13 @@ class PaymentController extends ChangeNotifier {
         .validate()
         .then((value) => log(value))
         .catchError((error) => {log(error.message)});
+    // mfCardView.
   }
 
   Widget build(BuildContext context, bool wallet, bool applePay) {
     mfCardView = MFCardPaymentView(cardViewStyle: cardViewStyle());
 
-    mfApplePayButton = MFApplePayButton(applePayStyle: MFApplePayStyle());
+    // mfApplePayButton = MFApplePayButton(applePayStyle: MFApplePayStyle());
     mfApplePayButton.applePayStyle!.height = 45;
     return embeddedCardView(wallet, applePay);
   }

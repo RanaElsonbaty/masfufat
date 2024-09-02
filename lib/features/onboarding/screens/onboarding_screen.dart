@@ -28,30 +28,31 @@ class OnBoardingScreen extends StatelessWidget {
           return Stack(clipBehavior: Clip.none, children: [
 
               Consumer<OnBoardingController>(
-                builder: (context, onBoardingList, child) => ListView(
-                  padding: const EdgeInsets.all(0),
+                builder: (context, onBoardingList, child) => Column(
+                  // padding: const EdgeInsets.all(0),
                   children: [
-                    SizedBox(height: height-300,
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height-200,
                       child: PageView.builder(
-                        
+
+                          // physics: const NeverScrollableScrollPhysics(),
                         itemCount: onBoardingList.onBoardingList.length,
                         controller: _pageController,
                         itemBuilder: (context, index) {
                           return Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                             child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end, children: [
-                                const SizedBox(height: 100,),
+                              mainAxisAlignment: MainAxisAlignment.center, children: [
+                                // const SizedBox(height: 100,),
                                 Image.asset(onBoardingList.onBoardingList[index].imageUrl,),
                                 Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault,horizontal: 15),
                                   child: Text(onBoardingList.onBoardingList[index].title,
                                       style: GoogleFonts.tajawal(fontSize: 24,fontWeight: FontWeight.w500), textAlign: TextAlign.center),),
-                                Expanded(
-                                  child: Text(onBoardingList.onBoardingList[index].description,
-                                      overflow: TextOverflow.visible,
-                                      textAlign: TextAlign.center, style: GoogleFonts.tajawal(
-                                    fontSize: 16,fontWeight: FontWeight.w400)),
-                                ),
+                                Text(onBoardingList.onBoardingList[index].description,
+                                    overflow: TextOverflow.visible,
+                                    textAlign: TextAlign.center, style: GoogleFonts.tajawal(
+                                  fontSize: 16,fontWeight: FontWeight.w400)),
                                 const SizedBox(height: Dimensions.paddingSizeDefault),
+
                               ],
                             ),
                           );
@@ -64,8 +65,47 @@ class OnBoardingScreen extends StatelessWidget {
                             // Provider.of<AuthController>(context, listen: false).getGuestIdUrl();
                             // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const AuthScreen()), (route) => false);
                           // }
-                        })),
+                        }),
+                    ),
+                    onBoardingList.selectedIndex == onBoardingList.onBoardingList.length - 1?
+                    Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                        child: Center(child: SizedBox(width: 120,child: CustomButton(
+                          textColor: Colors.white,
+                          radius: 5,backgroundColor: Theme.of(context).primaryColor,
+                          buttonText: getTranslated("Start_your_experience_now", context),
+                          onTap: (){
+                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const AuthScreen()), (route) => false);
+                          },))))
+                        :
+                    Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeExtraLarge),
+                      child: Stack(children: [
+                        if(onBoardingList.onBoardingList.isNotEmpty)
+                          Center(child: SizedBox(height: 50, width: 50,
+                              child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                                  value: (onBoardingList.selectedIndex + 1) / onBoardingList.onBoardingList.length,
+                                  backgroundColor: Theme.of(context).scaffoldBackgroundColor))),
 
+                        Align(alignment: Alignment.center,
+                            child: GestureDetector(
+                                onTap: () {
+                                  if (onBoardingList.selectedIndex == onBoardingList.onBoardingList.length - 1) {
+                                    Provider.of<SplashController>(context, listen: false).disableIntro();
+                                    // Provider.of<AuthController>(context, listen: false).getGuestIdUrl();
+                                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const AuthScreen()), (route) => false);
+                                  } else {
+                                    _pageController.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
+                                  }
+                                },
+                                child: Container(height: 40, width: 40,
+                                    margin: const EdgeInsets.only(top: 8),
+                                    decoration: const BoxDecoration(shape: BoxShape.circle,),
+                                    child: Center(child: Text((onBoardingList.selectedIndex+1).toString(),style: GoogleFonts.tajawal(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18
+                                    ),))))),
+                      ]),
+                    )
                 // Row(
                 //   mainAxisAlignment: MainAxisAlignment.center,
                 //   children: [
@@ -101,43 +141,7 @@ class OnBoardingScreen extends StatelessWidget {
                 //
                 //   },),
                 // ),
-                  onBoardingList.selectedIndex == onBoardingList.onBoardingList.length - 1?
-                  Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-                    child: Center(child: SizedBox(width: 120,child: CustomButton(
-                      textColor: Theme.of(context).primaryColor,
-                        radius: 5,backgroundColor: Theme.of(context).primaryColor.withOpacity(.1),
-                        buttonText: getTranslated("Start_your_experience_now", context),
-                    onTap: (){
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const AuthScreen()), (route) => false);
-                    },))))
-                      :
-                    Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeExtraLarge),
-                      child: Stack(children: [
-                        if(onBoardingList.onBoardingList.isNotEmpty)
-                        Center(child: SizedBox(height: 50, width: 50,
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
-                              value: (onBoardingList.selectedIndex + 1) / onBoardingList.onBoardingList.length,
-                              backgroundColor: Theme.of(context).scaffoldBackgroundColor))),
 
-                    Align(alignment: Alignment.center,
-                      child: GestureDetector(
-                        onTap: () {
-                          if (onBoardingList.selectedIndex == onBoardingList.onBoardingList.length - 1) {
-                            Provider.of<SplashController>(context, listen: false).disableIntro();
-                            // Provider.of<AuthController>(context, listen: false).getGuestIdUrl();
-                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const AuthScreen()), (route) => false);
-                          } else {
-                            _pageController.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
-                          }
-                        },
-                        child: Container(height: 40, width: 40,
-                          margin: const EdgeInsets.only(top: 5),
-                          decoration: const BoxDecoration(shape: BoxShape.circle,),
-                          child: Icon(onBoardingList.selectedIndex == onBoardingList.onBoardingList.length - 1 ? Icons.check : Icons.arrow_back,
-                            color: Theme.of(context).primaryColor, size: 30)))),
-                  ]),
-                )
               ],
             ),
           ),

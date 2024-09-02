@@ -468,7 +468,10 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                               } else if(stock >= widget.product!.minimumOrderQty!  || widget.product!.productType == "digital") {
                                 Provider.of<CartController>(context, listen: false).addToCartAPI(
                                     cart, context, details.variationIndex);
-                              }}
+                              }
+
+                              Navigator.pop(context);
+                        }
                         ),),
 
 

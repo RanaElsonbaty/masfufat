@@ -61,7 +61,7 @@ class SupportTicketReplyWidget extends StatelessWidget {
             //   childAspectRatio: 1
             //
             // ),
-            padding: EdgeInsets.all(0),
+            padding: const EdgeInsets.all(0),
               shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: replyModel.attachments.length,

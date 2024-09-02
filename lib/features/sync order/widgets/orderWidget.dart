@@ -75,7 +75,7 @@ class SyncOrderWidget extends StatelessWidget {
 
                   child: Text(getTranslated('${orderModel!.orderStatus}', context)??'',
                       style: GoogleFonts.tajawal(fontSize: 14, fontWeight: FontWeight.w400,
-                          color: Colors.black
+                          color: Theme.of(context).iconTheme.color
                       ))),
 
             ]),

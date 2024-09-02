@@ -35,7 +35,7 @@ class _SyncProductWidgetState extends State<SyncProductWidget> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        color: const Color(0xFFF7F7F7),
+        color: Theme.of(context).cardColor,
 
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0,horizontal: 10),
@@ -62,7 +62,6 @@ class _SyncProductWidgetState extends State<SyncProductWidget> {
                   builder:(context, myShopProvider, child) =>  InkWell(
                     onTap: ()async{
                       myShopProvider.selectOneProduct(widget.pending.id, true);
-                      // await myShopProvider.deleteProduct(widget.pending.id!);
                       showModalBottomSheet(context: context, builder: (BuildContext context)=> const ShowModalBottomSheetShop( delete: true,));
                     },
                     child: Container(

@@ -320,11 +320,17 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
 
                           padding: const EdgeInsets.symmetric(horizontal: 15),
                           child: authProvider.certificateImage != null
-                              ? ClipRRect(
-                            borderRadius: const BorderRadius.all(
-                                Radius.circular(12)),
-                                child: Image.file(
-                                File(authProvider.certificateImage!.path),fit: BoxFit.fill,),
+                              ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ClipRRect(
+                                                            borderRadius: const BorderRadius.all(
+                                  Radius.circular(12)),
+                                  child: Text(authProvider.certificateImage!.name,style: GoogleFonts.tajawal(
+                                    fontSize: 16
+                                  ),)
+                                  // Image.file(
+                                  // File(authProvider.certificateImage!.path),fit: BoxFit.fill,),
+                                ),
                               )
                               : ClipRRect(
                             borderRadius: const BorderRadius.all(
@@ -488,70 +494,23 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                     Consumer<AddressController>(
                       builder: (context, address, child) => Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-
-                            Container(
-                              width: MediaQuery.of(context).size.width/2,
-                                margin: const EdgeInsets.only(
-
-                                    top: Dimensions.marginSizeSmall),
-                                child: CustomTextFieldWidget(
-                                  hintText:
-                                      getTranslated('the_address', context),
-                                  // labelText:
-                                  //     getTranslated('the_address', context),
-                                  showLabelText: false,
-                                   titleText: getTranslated('the_address', context),
-                                  controller: authProvider.address,
-                                  focusNode: authProvider.addressFocus,
-                                  isPassword: false,
-                                  required: true,
-
-                                  nextFocus: authProvider.lanFocus,
-                                  inputAction: TextInputAction.next,
-                                  validator: (value) =>
-                                      ValidateCheck.validateEmptyText(
-                                          value, "the_address"),
-                                )),
-const SizedBox(width: 5,),
-                            Expanded(
-                              child: InkWell(
-                                onTap: (){
-                                  authProvider.showMap();
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-
-                                      top: Dimensions.marginSizeSmall),
-                                  height: 47,
-                                  decoration: BoxDecoration(
-                                    borderRadius:  BorderRadius.circular(12),
-                                    color: Theme.of(context).primaryColor
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      const SizedBox(width: 5,),
-
-                                Image.asset(Images.location,width: 20,),
-                                    const SizedBox(width: 5,),
-                                    Expanded(
-                                      child: Text(getTranslated('Locate_me_on_the_map', context)!,style: GoogleFonts.tajawal(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white
-                                      ),),
-                                    )
-                                  ],),
-                                ),
-                              ),
-                            )
-
-                          ],
+                        child: CustomTextFieldWidget(
+                          hintText:
+                              getTranslated('the_address', context),
+                          // labelText:
+                          //     getTranslated('the_address', context),
+                          showLabelText: false,
+                           titleText: getTranslated('the_address', context),
+                          controller: authProvider.address,
+                          focusNode: authProvider.addressFocus,
+                          isPassword: false,
+                          required: true,
+                                                
+                          nextFocus: authProvider.lanFocus,
+                          inputAction: TextInputAction.next,
+                          validator: (value) =>
+                              ValidateCheck.validateEmptyText(
+                                  value, "the_address"),
                         ),
                       ),
                     ),

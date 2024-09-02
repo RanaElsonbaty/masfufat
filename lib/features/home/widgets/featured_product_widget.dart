@@ -28,7 +28,6 @@ class FeaturedProductWidget extends StatelessWidget {
             onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_) => AllProductScreen(productType: ProductType.featuredProduct))),
           ),
         ),
-
         SizedBox(
           height: ResponsiveHelper.isTab(context)? MediaQuery.of(context).size.width * .58 : 320,
           child: CarouselSlider.builder(

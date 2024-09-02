@@ -88,20 +88,26 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
                   ),
                   const SizedBox(width: 10,),
                   Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Theme.of(context).primaryColor
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(
-                          child: Text(getTranslated('no', context)!,
-                            style: GoogleFonts.titilliumWeb(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500
+                    child: InkWell(
+                      onTap: (){
+                        Navigator.pop(diagloContext);
 
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Theme.of(context).primaryColor
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: Text(getTranslated('no', context)!,
+                              style: GoogleFonts.titilliumWeb(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500
+
+                              ),
                             ),
                           ),
                         ),

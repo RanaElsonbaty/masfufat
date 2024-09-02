@@ -26,7 +26,8 @@ class _LinkedProductWidgetState extends State<LinkedProductWidget> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        color: const Color(0xFFF7F7F7),
+        color: Theme.of(context).cardColor,
+
         child:
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0,horizontal: 10),

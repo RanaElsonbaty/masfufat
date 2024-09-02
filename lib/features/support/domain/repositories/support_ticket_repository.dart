@@ -80,7 +80,9 @@ class SupportTicketRepository implements SupportTicketRepositoryInterface{
       }
       }
 
-
+      attachmentFile.forEach((element) {
+        print('sdasdasdasdasdasdasdasd${element.filename}');
+      });
       var data =
       FormData.fromMap({'attachments[]': attachmentFile, 'message': message});
       final response = await dioClient!.post('${AppConstants.supportTicketReplyUri}$ticketID',data: data);

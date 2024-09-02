@@ -103,10 +103,23 @@ class ProductWidget extends StatelessWidget {
 
 
                   Padding(padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: Dimensions.paddingSizeSmall),
-                    child: Text(productModel.name ?? '', textAlign: TextAlign.center, style: GoogleFonts.tajawal(
-                    fontSize:14,
-                      fontWeight: FontWeight.w500
-                    ), maxLines: productNameLine, overflow: TextOverflow.ellipsis)),
+                    child: SizedBox(
+                      height: 40,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(productModel.name ?? '',
+                              textAlign: TextAlign.center, style: GoogleFonts.tajawal(
+                          fontSize:14,
+                            fontWeight: FontWeight.w500
+                          ), maxLines: 2,
+
+
+                              overflow: TextOverflow.ellipsis),
+                        ],
+                      ),
+                    )
+                  ),
                 // if(ratting > 0)
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
 
@@ -125,18 +138,18 @@ class ProductWidget extends StatelessWidget {
                    Row(
                      mainAxisAlignment: MainAxisAlignment.center,
                      children: [
+
+
+                       Text(PriceConverter.convertPrice(context,
+                           productModel.unitPrice, discountType: productModel.discountType,
+                           discount: productModel.discount ?? 0.00),
+                           style: GoogleFonts.tajawal(color: Theme.of(context).primaryColor,fontWeight: FontWeight.w500,fontSize: 16)),
                        productModel.discount!= null && productModel.discount! > 0 ?
 
                        Text(PriceConverter.convertPrice(context, productModel.unitPrice),
                            style: GoogleFonts.tajawal(color: Theme.of(context).hintColor,fontWeight: FontWeight.w500,
                                decoration: TextDecoration.lineThrough, fontSize:16))
                        : const SizedBox.shrink(),
-
-                       Text(PriceConverter.convertPrice(context,
-                           productModel.unitPrice, discountType: productModel.discountType,
-                           discount: productModel.discount ?? 0.00),
-                           style: GoogleFonts.tajawal(color: Theme.of(context).primaryColor,fontWeight: FontWeight.w500,fontSize: 16)),
-
                      ],
                    ),
                 const SizedBox(height: Dimensions.paddingSizeExtraSmall),
@@ -255,7 +268,7 @@ class ProductWidget extends StatelessWidget {
                         fontSize: Dimensions.fontSizeSmall), textAlign: TextAlign.center,),
                 ))))
               : const SizedBox.shrink(),
-          
+          // ,
 
           Positioned(top: 0, right: 2,
             child: FavouriteButtonWidget(
