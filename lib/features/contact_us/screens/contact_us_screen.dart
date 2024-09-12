@@ -64,59 +64,108 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                     ),),
                   ],
                 ),
-                const SizedBox(height:10,),
+                const SizedBox(height:30,),
 
-                InkWell(
-                  onTap: (){
-                     _openUrl('tel:+966920031434');
 
-                  },
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 60,
-                        width: 60,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFEFECF5),
-                          shape: BoxShape.circle
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(18.0),
-                          child: Image.asset(Images.contactCall),
-                        ),
-                      ),
-                      const SizedBox(width: 5,),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(getTranslated('Unified_number', context)!,style: GoogleFonts.tajawal(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16
-                          ),),
-                          Text('+966 920031434',
-                            textDirection: TextDirection.ltr,
-                            // textAlign: TextAlign.end,
-                            style: GoogleFonts.tajawal(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14,
-                                color: Colors.black.withOpacity(0.60)
-                          ),),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                InkWell(
-                  onTap: (){
-                    // _openUrl();
-                     _openUrl('mailto:care@masfufat.com');
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: InkWell(
+                    onTap: (){
+                       _openUrl('tel:+966920031434');
 
                     },
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 60,
+                          width: 60,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFEFECF5),
+                            shape: BoxShape.circle
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(18.0),
+                            child: Image.asset(Images.contactCall),
+                          ),
+                        ),
+                        const SizedBox(width: 5,),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(getTranslated('Unified_number', context)!,style: GoogleFonts.tajawal(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16
+                            ),),
+                            Text('+966 920031434',
+                              textDirection: TextDirection.ltr,
+                              // textAlign: TextAlign.end,
+                              style: GoogleFonts.tajawal(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: Colors.black.withOpacity(0.60)
+                            ),),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: InkWell(
+                    onTap: (){
+                      // _openUrl();
+                       _openUrl('mailto:care@masfufat.com');
+
+                      },
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 60,
+                          width: 60,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFEFECF5),
+                            shape: BoxShape.circle
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(18.0),
+                            child: Image.asset(Images.contactEmail),
+                          ),
+                        ),
+                        const SizedBox(width: 5,),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(getTranslated('Email', context)!,style: GoogleFonts.tajawal(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16
+                            ),),
+                            Text('care@masfufat.com',
+                              textDirection: TextDirection.ltr,
+                              // textAlign: TextAlign.end,
+                              style: GoogleFonts.tajawal(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: Colors.black.withOpacity(0.60)
+                            ),),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
                         height: 60,
@@ -127,7 +176,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(18.0),
-                          child: Image.asset(Images.contactEmail),
+                          child: Image.asset(Images.contactLocation),
                         ),
                       ),
                       const SizedBox(width: 5,),
@@ -135,83 +184,47 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(getTranslated('Email', context)!,style: GoogleFonts.tajawal(
+                          Text(getTranslated('the_address', context)!,style: GoogleFonts.tajawal(
                             fontWeight: FontWeight.w700,
                             fontSize: 16
                           ),),
-                          Text('care@masfufat.com',
+                          Text('السعودية, الرياض,حي الراشد',
                             textDirection: TextDirection.ltr,
                             // textAlign: TextAlign.end,
                             style: GoogleFonts.tajawal(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14,
-                                color: Colors.black.withOpacity(0.60)
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                              color: Colors.black.withOpacity(0.60)
                           ),),
                         ],
                       )
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 60,
-                      width: 60,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFEFECF5),
-                        shape: BoxShape.circle
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(18.0),
-                        child: Image.asset(Images.contactLocation),
-                      ),
-                    ),
-                    const SizedBox(width: 5,),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(getTranslated('the_address', context)!,style: GoogleFonts.tajawal(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16
-                        ),),
-                        Text('السعودية, الرياض,حي الراشد',
-                          textDirection: TextDirection.ltr,
-                          // textAlign: TextAlign.end,
-                          style: GoogleFonts.tajawal(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                            color: Colors.black.withOpacity(0.60)
-                        ),),
-                      ],
-                    )
-                  ],
-                ),
 
-                const SizedBox(height: 15,),
+                const SizedBox(height: 30,),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 90.0),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                    Image.asset(Images.whatsapp,width: 40,),
-                    Image.asset(Images.twitter,width: 40,),
-                    Image.asset(Images.threads,width: 40,),
-                    Image.asset(Images.instagram,width: 40,),
-                    Image.asset(Images.telegram,width: 40,),
+                    Image.asset(Images.whatsapp,width: 30,),
+                    Image.asset(Images.twitter,width: 30,),
+                    Image.asset(Images.threads,width: 30,),
+                    Image.asset(Images.instagram,width: 30,),
+                    Image.asset(Images.telegram,width: 30 ,),
                     ],
                   ),
                 ),
-                const SizedBox(height: 30,),
+                const SizedBox(height: 20,),
+                Divider(color: Colors.grey.shade400,),
+                const SizedBox(height: 20,),
+
                 Row(
                   children: [
-                  Text(getTranslated('Attach_message', context)!,style: GoogleFonts.tajawal(
-                    fontSize: 16,
+                  Text(getTranslated('Contact_Form', context)!,style: GoogleFonts.tajawal(
+                    fontSize: 18,
                     fontWeight: FontWeight.w700,
                   ),)
                   ],
@@ -273,9 +286,9 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
 
                 CustomTextFieldWidget(
                   required: true,
-                  titleText: getTranslated('subject', context),
-                  labelText: getTranslated('subject', context),
-                  hintText: getTranslated('subject', context),
+                  titleText: getTranslated('the_topic', context),
+                  labelText: getTranslated('the_topic', context),
+                  hintText: getTranslated('the_topic', context),
                   controller: subjectController,
                   showLabelText: false,
                   

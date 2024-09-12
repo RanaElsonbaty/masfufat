@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order/controllers/order_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/controllers/order_details_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/widgets/cancel_and_support_center_widget.dart';
@@ -19,6 +20,7 @@ import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dar
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class OrderDetailsScreen extends StatefulWidget {
@@ -72,12 +74,13 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         return;
       },
       child: Scaffold(
-        appBar: AppBar(elevation: 1, backgroundColor: Theme.of(context).cardColor,
-            toolbarHeight: 120, leadingWidth: 0, automaticallyImplyLeading: false,
-            title: Consumer<OrderDetailsController>(
-              builder: (context, orderProvider, _) {
-                return (orderProvider.orderDetails != null && orderProvider.orders != null) ?
-                const OrderDetailsStatusWidget():const SizedBox();})),
+          appBar: CustomAppBar(title: '${getTranslated('order', context)} ${ widget.orderId.toString()}#'),
+        // AppBar(elevation: 1, backgroundColor: Theme.of(context).cardColor,
+        //     toolbarHeight: 120, leadingWidth: 0, automaticallyImplyLeading: false,
+        //     title: Consumer<OrderDetailsController>(
+        //       builder: (context, orderProvider, _) {
+        //         return (orderProvider.orderDetails != null && orderProvider.orders != null) ?
+        //         const OrderDetailsStatusWidget():const SizedBox();})),
 
         body: Consumer<SplashController>(
           builder: (context, config, _) {
@@ -127,40 +130,18 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
 
 
-                  Container(height: 10, color: Theme.of(context).primaryColor.withOpacity(.1)),
-
-                  // config.configModel?.orderVerification == 1 && orderProvider.orders!.orderType != 'POS' ?
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+                    padding: const EdgeInsets.symmetric(horizontal: 20  ),
                     child: Row(mainAxisAlignment:  orderProvider.orders!.orderType != 'POS' ? MainAxisAlignment.spaceBetween : MainAxisAlignment.end, children: [
-
-                      // if(config.configModel?.orderVerification == 1 && orderProvider.orders!.orderType != 'POS')
                         Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
                             child: Center(child:
                             Text.rich(TextSpan(children: [
                               TextSpan(text: '${getTranslated('order_verification_code', context)} : ',
-                                  style: textRegular.copyWith(color: Theme.of(context).hintColor)),
+                                  style: GoogleFonts.tajawal(fontSize: 16,fontWeight: FontWeight.w500)),
                               TextSpan(text: orderProvider.orders?.verificationCode??'',
-                                  style: robotoBold.copyWith(color: Theme.of(context).primaryColor)),]))
+                                  style: GoogleFonts.tajawal(color: Theme.of(context).primaryColor,fontSize: 16,fontWeight: FontWeight.w500)),]))
                             )
                         ),
-
-
-
-                        // InkWell(
-                        //   onTap: (){
-                        //     orderProvider.getOrderInvoice(orderProvider.orders!.id.toString(), context);
-                        //   },
-                        //   child: Container(
-                        //     decoration: BoxDecoration(
-                        //       borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                        //       border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.15)),
-                        //     ),
-                        //     padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                        //     child:  orderProvider.isInvoiceLoading ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator()) :
-                        //     Image.asset(Images.downloadIcon, height: 15, width: 15),
-                        //   ),
-                        // ),
 
                       ],
                     ),
@@ -169,28 +150,41 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   ShippingAndBillingWidget(orderProvider: orderProvider),
 
 
-                  orderProvider.orders != null && orderProvider.orders!.orderNote != null?
-                  Padding(padding : const EdgeInsets.all(Dimensions.marginSizeSmall),
-                      child: Text.rich(TextSpan(children: [
-                        TextSpan(text: '${getTranslated('order_note', context)} : ',
-                            style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge,
-                                color: ColorResources.getReviewRattingColor(context))),
-
-                        TextSpan(text:  orderProvider.orders!.orderNote != null? orderProvider.orders!.orderNote ?? '': "",
-                            style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
-                                color: Theme.of(context).textTheme.bodyLarge?.color)),
-                      ]))):const SizedBox(),
-                  const SizedBox(height: Dimensions.paddingSizeSmall),
+                  // orderProvider.orders != null && orderProvider.orders!.orderNote != null?
+                  // Padding(padding : const EdgeInsets.all(Dimensions.marginSizeSmall),
+                  //     child: Text.rich(TextSpan(children: [
+                  //       TextSpan(text: '${getTranslated('order_note', context)} : ',
+                  //           style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge,
+                  //               color: ColorResources.getReviewRattingColor(context))),
+                  //
+                  //       TextSpan(text:  orderProvider.orders!.orderNote != null? orderProvider.orders!.orderNote ?? '': "",
+                  //           style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
+                  //               color: Theme.of(context).textTheme.bodyLarge?.color)),
+                  //     ]))):const SizedBox(),
+                  // const SizedBox(height: Dimensions.paddingSizeSmall),
 
 
 
                   // SellerSectionWidget(order: orderProvider),
+                  const SizedBox(height: Dimensions.paddingSizeSmall),
 
-
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Row(
+                      children: [
+                        Text(getTranslated('Order_informations', context)!,style: GoogleFonts.tajawal(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16
+                        ),)
+                      ],
+                    ),
+                  ),
                   if(orderProvider.orders != null)
                     OrderProductListWidget(orderType: orderProvider.orders!.orderType,
                       fromTrack: widget.fromTrack,isGuest:0,orderId: orderProvider.orders!.id.toString(), orderModel: orderProvider.orders!,),
 
+                  ShippingInfoWidget(order: orderProvider),
+                  // PaymentInfoWidget(order: orderProvider),
 
                   const SizedBox(height: Dimensions.marginSizeDefault),
                   OrderAmountCalculation(orderProvider: orderProvider,itemTotalAmount: itemTotalAmount,discount: discount,eeDiscount: eeDiscount,shippingCost: shippingCost, tax: tax,),
@@ -200,81 +194,12 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
                   const SizedBox(height: Dimensions.paddingSizeSmall,),
 
-                  // orderProvider.orders!.deliveryMan != null?
-                  // Container(padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-                  //     decoration: BoxDecoration(color: Theme.of(context).highlightColor,
-                  //         boxShadow: [BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.2), spreadRadius:2, blurRadius: 10)]),
-                  //     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  //       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //         children: [
-                  //           Text('${getTranslated('shipping_info', context)}', style: robotoBold),
-                  //           CallAndChatWidget(orderProvider: orderProvider, orderModel: orderProvider.orders),
-                  //         ],
-                  //       ),
-                  //       const SizedBox(height: Dimensions.marginSizeExtraSmall),
-                  //
-                  //       Row( children: [
-                  //         Text('${getTranslated('name', context)} : ',
-                  //             style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault)),
-                  //
-                  //
-                  //         Text((orderProvider.orders!.deliveryMan != null ) ?
-                  //         '${orderProvider.orders?.deliveryMan} ${orderProvider.orders?.deliveryMan}':'',
-                  //             style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault))]),
-                  //
-                  //       const SizedBox(height: 10,),
-                  //       Row( children: [
-                  //         Text('${getTranslated('email', context)} : ',
-                  //             style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault)),
-                  //
-                  //
-                  //         Text((orderProvider.orders!.deliveryMan != null ) ?
-                  //         '${orderProvider.orders?.deliveryMan}':'',
-                  //             style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault))]),
-                  //
-                  //       const SizedBox(height: Dimensions.paddingSizeDefault),
-                  //
-                  //
-                  //
-                  //     ])):
-
-
-                  // orderProvider.orders!.deliveryServiceName != null?
-                  ShippingInfoWidget(order: orderProvider),
 
 
 
-                  if(orderProvider.orderDetails != null && orderProvider.orderDetails!.isNotEmpty &&
-                      orderProvider.orderDetails![0].verificationImages != null &&orderProvider.orderDetails![0].verificationImages!.isNotEmpty)
-                    Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Padding(padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeSmall,
-                          Dimensions.paddingSizeSmall, Dimensions.paddingSizeSmall, Dimensions.paddingSizeExtraSmall),
-                        child: Text('${getTranslated('picture_uploaded_by', context)} ${orderProvider.orders!.deliveryMan != null?
-                        '${orderProvider.orders!.deliveryMan!.fName} ${orderProvider.orders!.deliveryMan!.lName}' : ''}',
-                          style: textMedium.copyWith(fontSize: Dimensions.fontSizeDefault),),),
-
-                      SizedBox(height: 120,
-                        child: ListView.builder(
-                            itemCount: orderProvider.orderDetails![0].verificationImages?.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index){
-                              return InkWell(onTap: (){
-                                  showDialog(context: context, builder: (_)=> ImageDialog(
-                                      imageUrl: '${orderProvider.orderDetails![0].verificationImages?[index].imageFullUrl?.path}'));
-                                },
-                                child: Padding(padding:  EdgeInsets.only(left: Dimensions.paddingSizeSmall,
-                                      right: orderProvider.orderDetails![0].verificationImages!.length == index+1?
-                                      Dimensions.paddingSizeSmall : 0),
-                                  child: SizedBox(width: 200,
-                                    child: ClipRRect(borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                                      child: Container(decoration: BoxDecoration(
-                                          border: Border.all(color: Theme.of(context).primaryColor.withOpacity(.25), width: .25),
-                                          borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall)),
-                                          child: CustomImageWidget(image: '${orderProvider.orderDetails![0].verificationImages?[index].imageFullUrl?.path}')),))));}))]),
 
 
-                  const SizedBox(height: Dimensions.paddingSizeDefault),
-                  PaymentInfoWidget(order: orderProvider),
+
                   const SizedBox(height: Dimensions.paddingSizeSmall),
                   CancelAndSupportWidget(orderModel: orderProvider.orders,orderDetailsModel: orderProvider.orderDetails!,),
                 ],

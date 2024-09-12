@@ -125,8 +125,6 @@ class SupportTicketReplyWidget extends StatelessWidget {
                             path:replyModel.attachments[attachmentIndex].fileUrl  ,
                           ): const SizedBox.shrink()),),
                     Row(
-
-
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Padding(
@@ -137,7 +135,6 @@ class SupportTicketReplyWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-
                   ],
                 ),
               ),

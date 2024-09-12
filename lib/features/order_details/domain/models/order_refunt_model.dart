@@ -9,7 +9,7 @@ OrderRefuntModel orderRefuntModelFromJson(String str) => OrderRefuntModel.fromJs
 String orderRefuntModelToJson(OrderRefuntModel data) => json.encode(data.toJson());
 
 class OrderRefuntModel {
-  final int productPrice;
+  final double productPrice;
   final int quntity;
   final int productTotalDiscount;
   final double productTotalTax;
@@ -30,7 +30,7 @@ class OrderRefuntModel {
   });
 
   factory OrderRefuntModel.fromJson(Map<String, dynamic> json) => OrderRefuntModel(
-    productPrice: json["product_price"],
+    productPrice: double.tryParse(json["product_price"].toString())!,
     quntity: json["quntity"],
     productTotalDiscount: json["product_total_discount"],
     productTotalTax: json["product_total_tax"].toDouble(),

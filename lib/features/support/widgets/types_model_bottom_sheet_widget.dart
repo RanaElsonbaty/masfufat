@@ -42,7 +42,7 @@ class _TypeModelBottomSheetWidgetState extends State<TypeModelBottomSheetWidget>
                           child: Row(children: [
                             Padding(padding: EdgeInsets.symmetric(horizontal:supportTicketProvider.selectedTypeIndex == index?
                             Dimensions.paddingSizeSmall:0),
-                              child: Text(getTranslated(supportTicketProvider.priority[index], context)??'',
+                              child: Text(getTranslated(supportTicketProvider.type[index], context)??'',
                                 style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault,
                                     color: supportTicketProvider.selectedTypeIndex == index? Theme.of(context).primaryColor:
                                     Theme.of(context).textTheme.bodyLarge?.color),),),

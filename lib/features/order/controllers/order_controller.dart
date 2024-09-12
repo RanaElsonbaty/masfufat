@@ -63,18 +63,67 @@ class OrderController with ChangeNotifier {
     }else if(_orderTypeIndex == 1){
       selectTypeOrders=[];
       if(orderModel!=null){
+        //  if(index==0){
+        //       _type ='all';
+        //     }
+        //     else if(index==1){
+        //       _type ='pending';
+        //
+        //     }
+        //     else if(index==2){
+        //       _type ='pending_payment';
+        //
+        //     }
+        //     else if(index==3){
+        //       _type ='financial_review';
+        //
+        //     }
+        //     else if(index==4){
+        //       _type ='new';
+        //
+        //     }
+        //     else if(index==5){
+        //       _type ='processing';
+        //
+        //     }
+        //     else if(index==6){
+        //       _type ='confirmed';
+        //
+        //     }
+        //     else if(index==7){
+        //       _type ='out_for_delivery';
+        //
+        //     }
+        //     else if(index==8){
+        //       _type ='delivered';
+        //
+        //     }
+        //     else if(index==9){
+        //       _type ='failed';
+        //
+        //     }
+        //     else if(index==10){
+        //       _type ='returning';
+        //
+        //     }
+        //     else if(index==11){
+        //       _type ='returned';
+        //
+        //     }
+        //     else if(index==12){
+        //       _type ='canceled';
+        //
+        //     }
         for (var element in orderModel!.reversed) {
-if(element.orderStatus==getTranslated('pending', context)||element.orderStatus=='new'||element.orderStatus=='pending_payment'){
+if(element.orderStatus=='pending'){
   selectTypeOrders.add(element);
 }
         }}
-      // selectedType = 'delivered';
-      // getOrderList(1, 'delivered');
     }else if(_orderTypeIndex == 2){
       selectTypeOrders=[];
       if(orderModel!=null){
         for (var element in orderModel!.reversed) {
-          if(element.orderStatus==getTranslated('confirmed', context)){
+          if(element.orderStatus=='pending_payment'){
             selectTypeOrders.add(element);
           }
         }}
@@ -84,7 +133,7 @@ if(element.orderStatus==getTranslated('pending', context)||element.orderStatus==
       selectTypeOrders=[];
       if(orderModel!=null){
         for (var element in orderModel!.reversed) {
-          if(element.orderStatus==getTranslated('processing', context)){
+          if(element.orderStatus=='financial_review'){
             selectTypeOrders.add(element);
           }
         }}
@@ -94,7 +143,7 @@ if(element.orderStatus==getTranslated('pending', context)||element.orderStatus==
       selectTypeOrders=[];
       if(orderModel!=null){
         for (var element in orderModel!.reversed) {
-          if(element.orderStatus==getTranslated('out_for_delivery', context)){
+          if(element.orderStatus=='new'){
             selectTypeOrders.add(element);
           }
         }}
@@ -104,7 +153,7 @@ if(element.orderStatus==getTranslated('pending', context)||element.orderStatus==
       selectTypeOrders=[];
       if(orderModel!=null){
         for (var element in orderModel!.reversed) {
-          if(element.orderStatus=='delivered'){
+          if(element.orderStatus=='processing'){
             selectTypeOrders.add(element);
           }
         }}
@@ -114,7 +163,7 @@ if(element.orderStatus==getTranslated('pending', context)||element.orderStatus==
       selectTypeOrders=[];
       if(orderModel!=null){
         for (var element in orderModel!.reversed) {
-          if(element.orderStatus==getTranslated('failed', context)){
+          if(element.orderStatus=='confirmed'){
             selectTypeOrders.add(element);
           }
         }}
@@ -124,7 +173,7 @@ if(element.orderStatus==getTranslated('pending', context)||element.orderStatus==
       selectTypeOrders=[];
       if(orderModel!=null){
         for (var element in orderModel!.reversed) {
-          if(element.orderStatus==getTranslated('returned', context)){
+          if(element.orderStatus=='out_for_delivery'){
             selectTypeOrders.add(element);
           }
         }}
@@ -134,12 +183,42 @@ if(element.orderStatus==getTranslated('pending', context)||element.orderStatus==
       selectTypeOrders=[];
       if(orderModel!=null){
         for (var element in orderModel!.reversed) {
-          if(element.orderStatus==getTranslated('CANCELED', context)){
+          if(element.orderStatus=='delivered'){
             selectTypeOrders.add(element);
           }
         }}
-      // selectedType = 'canceled';
-      // getOrderList(1, 'canceled');
+    }else if(_orderTypeIndex == 9){
+      selectTypeOrders=[];
+      if(orderModel!=null){
+        for (var element in orderModel!.reversed) {
+          if(element.orderStatus=='failed'){
+            selectTypeOrders.add(element);
+          }
+        }}
+    }else if(_orderTypeIndex == 10){
+      selectTypeOrders=[];
+      if(orderModel!=null){
+        for (var element in orderModel!.reversed) {
+          if(element.orderStatus=='returning'){
+            selectTypeOrders.add(element);
+          }
+        }}
+    }else if(_orderTypeIndex == 11){
+      selectTypeOrders=[];
+      if(orderModel!=null){
+        for (var element in orderModel!.reversed) {
+          if(element.orderStatus=='returned'){
+            selectTypeOrders.add(element);
+          }
+        }}
+    }else if(_orderTypeIndex == 12){
+      selectTypeOrders=[];
+      if(orderModel!=null){
+        for (var element in orderModel!.reversed) {
+          if(element.orderStatus=='canceled'){
+            selectTypeOrders.add(element);
+          }
+        }}
     }
     if(notify) {
       notifyListeners();

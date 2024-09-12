@@ -12,6 +12,16 @@ class SplashRepository implements SplashRepositoryInterface{
   SplashRepository({required this.dioClient, required this.sharedPreferences});
 
   @override
+  Future getConfigGuest() async{
+    try {
+      final response = await dioClient!.get(AppConstants.configUriGuest,
+      );
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  }
+  @override
   Future<ApiResponse> getConfig() async {
     try {
       final response = await dioClient!.get(AppConstants.configUri,
@@ -107,6 +117,8 @@ class SplashRepository implements SplashRepositoryInterface{
     // TODO: implement update
     throw UnimplementedError();
   }
+
+
 
 
 

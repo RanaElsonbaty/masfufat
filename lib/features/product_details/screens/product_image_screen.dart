@@ -60,31 +60,39 @@ class ProductImageScreenState extends State<ProductImageScreen> {
                 },
               ),
 
-              pageIndex != 0 ? Positioned(left: 5, top: 0, bottom: 0,
+            pageIndex != widget.imageList!.length-1 ? Positioned(left: 5, top: 0, bottom: 0,
                 child: Container(alignment: Alignment.center,
-                  decoration: const BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
+                  height: 40,
+                  width: 40,
+                  decoration:  BoxDecoration(color:  Colors.black.withOpacity(0.40), shape: BoxShape.circle),
+                  child: InkWell(
+                    onTap: () {
+    if(pageIndex! < widget.imageList!.length) {
+
+                        _pageController!.animateToPage(pageIndex!+1, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+                      }
+                    },
+                    child: const Icon(Icons.arrow_forward_ios,color: Colors.white, size: 25),
+                  ),
+                ),
+              ) : const SizedBox.shrink(),
+
+            pageIndex != 0 ?   Positioned(
+                right: 5, top: 0, bottom: 0,
+                child: Container(alignment: Alignment.center,
+                    height: 40,
+                    width: 40,
+                  decoration:  BoxDecoration(color:  Colors.black.withOpacity(0.40), shape: BoxShape.circle),
                   child: InkWell(
                     onTap: () {
                       if(pageIndex! > 0) {
                         _pageController!.animateToPage(pageIndex!-1, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
                       }
                     },
-                    child: const Icon(Icons.chevron_left_outlined, size: 40),
-                  ),
-                ),
-              ) : const SizedBox.shrink(),
-
-              pageIndex != widget.imageList!.length-1 ? Positioned(
-                right: 5, top: 0, bottom: 0,
-                child: Container(alignment: Alignment.center,
-                  decoration: const BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
-                  child: InkWell(
-                    onTap: () {
-                      if(pageIndex! < widget.imageList!.length) {
-                        _pageController!.animateToPage(pageIndex!+1, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
-                      }
-                    },
-                    child: const Icon(Icons.chevron_right_outlined, size: 40))),
+                    child: const Padding(
+                      padding: EdgeInsets.only(right: 8.0),
+                      child: Icon(Icons.arrow_back_ios,color: Colors.white, size: 25),
+                    ))),
               ) : const SizedBox.shrink(),
             ],
           ),

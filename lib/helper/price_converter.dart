@@ -18,7 +18,7 @@ class PriceConverter {
     bool inRight = Provider.of<SplashController>(context, listen: false).configModel!=null?Provider.of<SplashController>(context, listen: false).configModel!.currencySymbolPosition == 'right':true;
 
     return '${inRight ? '' : Provider.of<SplashController>(context, listen: false).myCurrency!.symbol} '
-        ' ${singleCurrency ? price : price! * Provider.of<SplashController>(context, listen: false).myCurrency!.exchangeRate} '
+        '${singleCurrency ? price : price! * Provider.of<SplashController>(context, listen: false).myCurrency!.exchangeRate} '
         '${inRight ? Provider.of<SplashController>(context, listen: false).myCurrency!.symbol: ''} ';
  }
 

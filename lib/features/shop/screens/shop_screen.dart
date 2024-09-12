@@ -46,16 +46,9 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
   int selectedIndex = 0;
 
   void _load() async{
-    // await Provider.of<SellerProductController>(context, listen: false).getSellerProductList(widget.sellerId.toString(), 1, "");
     await Provider.of<ShopController>(Get.context!, listen: false).getSellerInfo(widget.sellerId.toString());
-    // await Provider.of<SellerProductController>(Get.c/ontext!, listen: false).getSellerWiseBestSellingProductList(widget.sellerId.toString(), 1);
-    // await Provider.of<SellerProductController>(Get.context!, listen: false).getSellerWiseFeaturedProductList(widget.sellerId.toString(), 1);
-    // await Provider.of<SellerProductController>(Get.context!, listen: false).getSellerWiseRecommandedProductList(widget.sellerId.toString(), 1);
-    // await Provider.of<CouponController>(Get.context!, listen: false).getSellerWiseCouponList(widget.sellerId!, 1);
-    // await Provider.of<CategoryController>(Get.context!, listen: false).getSellerWiseCategoryList(widget.sellerId!);
     scrollController.addListener(_scrollListener);
     fetchPage(1);
-    // await Provider.of<BrandController>(Get.context!, listen: false).getSellerWiseBrandList(widget.sellerId!);
   }
   ScrollController scrollController = ScrollController();
 
@@ -63,7 +56,6 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
   bool lastPage = false;
   double scrollPixcel=0.00;
   void _scrollListener() async {
-    // print('asdasdasda${scrollController.position.pixels }');
     if (lastPage == false) {
       if (loading == true) {
         return; // Prevent redundant fetches while loading

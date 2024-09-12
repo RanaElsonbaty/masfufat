@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_sixvalley_ecommerce/features/address/controllers/address_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
@@ -18,16 +20,17 @@ class RemoveFromAddressBottomSheet extends StatelessWidget {
       decoration: BoxDecoration(color: Theme.of(context).cardColor,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.paddingSizeDefault))),
       child: Column(mainAxisSize: MainAxisSize.min, children: [
-        Container(width: 40,height: 5,decoration: BoxDecoration(color: Theme.of(context).hintColor.withOpacity(.5),
+        Container(width: 120,height: 5,decoration: BoxDecoration(color: Theme.of(context).hintColor.withOpacity(.5),
             borderRadius: BorderRadius.circular(20)),),
         const SizedBox(height: 40,),
 
-        Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
-          child: SizedBox(width: 60,child: Image.asset(Images.removeAddress)),),
-
-        const SizedBox(height: Dimensions.paddingSizeDefault,),
+        // Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
+        //   child: SizedBox(width: 60,child: Image.asset(Images.removeAddress)),),
+        //
+        // const SizedBox(height: Dimensions.paddingSizeDefault,),
         Text(getTranslated('remove_this_address', context)!,
           style: textBold.copyWith(fontSize: Dimensions.fontSizeLarge),),
+        const SizedBox(height: Dimensions.paddingSizeDefault,),
 
         Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall, bottom: Dimensions.paddingSizeLarge),
           child: Text('${getTranslated('address_will_remove', context)}'),),
@@ -36,17 +39,23 @@ class RemoveFromAddressBottomSheet extends StatelessWidget {
 
         Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeOverLarge),
           child: Row(mainAxisAlignment: MainAxisAlignment.center,children: [
-            SizedBox(width: 120,child: CustomButton(buttonText: '${getTranslated('cancel', context)}',
-              backgroundColor: Theme.of(context).colorScheme.tertiaryContainer.withOpacity(.5),
-              textColor: Theme.of(context).textTheme.bodyLarge?.color,
-              onTap: ()=> Navigator.pop(context),)),
+            Expanded(
+              child: SizedBox(child: CustomButton(buttonText: '${getTranslated('confirm', context)}',
+                  backgroundColor: Colors.red.shade500,
+                  onTap: (){
+                    Provider.of<AddressController>(context, listen: false).deleteAddress(addressId);
+                    Navigator.of(context).pop();
+                  })),
+            ),
+
             const SizedBox(width: Dimensions.paddingSizeDefault,),
-            SizedBox(width: 120,child: CustomButton(buttonText: '${getTranslated('remove', context)}',
-                backgroundColor: Theme.of(context).colorScheme.error,
-                onTap: (){
-                  Provider.of<AddressController>(context, listen: false).deleteAddress(addressId);
-                  Navigator.of(context).pop();
-                }))
+
+            Expanded(
+              child: SizedBox(child: CustomButton(buttonText: '${getTranslated('cancellation', context)}',
+                backgroundColor: const Color(0xFF5A409B).withOpacity(0.20),
+                textColor: Theme.of(context).textTheme.bodyLarge?.color,
+                onTap: ()=> Navigator.pop(context),)),
+            ),
           ],),
         )
 

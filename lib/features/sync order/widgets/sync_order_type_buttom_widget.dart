@@ -30,8 +30,8 @@ class _SyncOrderTypeButtomWidgetState extends State<SyncOrderTypeButtomWidget> {
         style: TextButton.styleFrom(padding: const EdgeInsets.all(0)),
         child: Container(height: 35,
           alignment: Alignment.center,
-          decoration: BoxDecoration(color: syncOrderController.orderTypeIndex==widget.index?ColorResources.getPrimary(context)
-         :               Theme.of(context).hintColor,
+          decoration: BoxDecoration(color: syncOrderController.orderTypeIndex==widget.index?Theme.of(context).primaryColor
+         :                    const Color(0xFFEFECF5),
 
               borderRadius: BorderRadius.circular(8)),
           child: Padding(
@@ -42,7 +42,7 @@ class _SyncOrderTypeButtomWidgetState extends State<SyncOrderTypeButtomWidget> {
                 Text(getTranslated(widget.text, context)!,
                     textAlign: TextAlign.center,
                     style: GoogleFonts.tajawal(color:   syncOrderController.orderTypeIndex == widget.index ?
-                Theme.of(context).highlightColor : Colors.black)),
+              Colors.white : Colors.black)),
                 const SizedBox(width: 5),
 
               ],

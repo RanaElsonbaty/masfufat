@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/domain/models/login_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/domain/models/register_model.dart';
@@ -16,11 +18,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
+import 'package:path/path.dart' as path; // Add this for path operations
 
 import 'package:flutter_google_places/flutter_google_places.dart' as loc;
 import 'package:google_api_headers/google_api_headers.dart' as header;
 import 'package:google_maps_webservice/places.dart' as places;
 import 'package:location/location.dart';
+import 'package:photo_manager/photo_manager.dart' as photo;
 
 class AuthController with ChangeNotifier {
   final AuthServiceInterface authServiceInterface;
@@ -46,9 +50,9 @@ class AuthController with ChangeNotifier {
   final TextEditingController address = TextEditingController();
   final TextEditingController lan = TextEditingController();
   final TextEditingController lot = TextEditingController();
-  XFile? storeImage;
-  XFile? commercialRegisterImage;
-  XFile? certificateImage;
+  File? storeImage;
+  File? commercialRegisterImage;
+  File? certificateImage;
   final TextEditingController walletCouponCode = TextEditingController();
 
   final FocusNode commercialRegistrationNoFocus = FocusNode();
@@ -60,24 +64,34 @@ class AuthController with ChangeNotifier {
   final FocusNode lotFocus = FocusNode();
   final FocusNode walletCouponCodeFocus = FocusNode();
 
-  void pickImage(bool isRemove,int? index) async {
-    if(isRemove) {
+  void pickImage(bool isRemove,int? index,File file) async {
+// print('asdasdadsasd${file.path}');
+
+// File files = File(file.path);
+// String fileName = files.path.;
+//
+// print(fileName);
+if(isRemove) {
       if(index != null){
-        // pickedImageFileStored.removeAt(index);
       }
     }else {
       if(index==0){
-      storeImage = await ImagePicker().pickImage(imageQuality: 40, source: ImageSource.gallery);
+      storeImage =file;
+      // await ImagePicker().pickImage(imageQuality: 40, source: ImageSource.gallery,requestFullMetadata: true);
       }else if(index ==1){
-        commercialRegisterImage = await ImagePicker().pickImage(imageQuality: 40, source: ImageSource.gallery);
+        commercialRegisterImage =file;
+
+        // await ImagePicker().pickImage(imageQuality: 40, source: ImageSource.gallery);
 
       }else {
-        certificateImage = await ImagePicker().pickImage(imageQuality: 40, source: ImageSource.gallery);
+        certificateImage = file;
+        // await ImagePicker().pickImage(imageQuality: 40, source: ImageSource.gallery);
 
       }
       // pickedImageFileStored.addAll(_pickedImageFiles);
     }
     notifyListeners();
+
   }
 
 int _pageIndex=0;

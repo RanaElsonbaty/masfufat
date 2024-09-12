@@ -10,6 +10,7 @@ import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dar
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../../helper/price_converter.dart';
 import '../../../main.dart';
 import '../../order/domain/models/order_model.dart';
 import '../domain/models/order_details_model.dart';
@@ -29,66 +30,20 @@ class _RefundRequestScreenState extends State<RefundRequestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'طلب استرجاع'),
+      appBar:  CustomAppBar(title: getTranslated('Refund_request', context)),
       body: SingleChildScrollView(
         child: Column(children: [
           const SizedBox(height: 10,),
-          // OrderProductListWidget(orderType: widget.orderModel!.orderType,
-          //
-          //       fromRefunt: true,
-          //     fromTrack: false,isGuest:0,orderId: widget.orderModel!.id.toString(), orderModel: widget.orderModel!,),
-          RefuntProductWidget(product: widget.orderDetailsModel.productDetails!,qty: widget.orderDetailsModel.qty!,),
+          widget.orderDetailsModel.productDetails!=null?   RefuntProductWidget(product: widget.orderDetailsModel.productDetails!,qty: widget.orderDetailsModel.qty!,):SizedBox(),
 
           const SizedBox(height: 10,),
         
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: Column(
-                    children: [
-                       Text(getTranslated('Subtotal', context)!,style: GoogleFonts.tajawal(),overflow: TextOverflow.visible,textAlign: TextAlign.center),
-                      const SizedBox(height: 5,),
 
-                      Text('${widget.orderModel!.orderAmount}'),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 5,),
-
-                Expanded(
-                  child: Column(
-                    children: [
-                       Text(' تخفيض (كوبون)',style: GoogleFonts.tajawal(),overflow: TextOverflow.visible,textAlign: TextAlign.center),
-                      const SizedBox(height: 5,),
-
-                      Text('${widget.orderModel!.discountAmount}'),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 5,),
-
-                Expanded(
-                  child: Column(
-                    children: [
-                       Text('إجمالي المبلغ المسترد',style: GoogleFonts.tajawal(),overflow: TextOverflow.visible,textAlign: TextAlign.center,),
-                      const SizedBox(height: 5,),
-
-                      Text('${widget.orderModel!.orderAmount}'),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 15,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Row(
               children: [
-                Text('سبب استرجاع المنتج',style: GoogleFonts.tajawal(),)
+                Text('${getTranslated('Reason_for_product_return', context)}',style: GoogleFonts.tajawal(),)
               ],
             ),
           ),
@@ -105,7 +60,7 @@ class _RefundRequestScreenState extends State<RefundRequestScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Row(
               children: [
-                Text('المرفقات',style: GoogleFonts.tajawal(),),
+                Text(getTranslated('Attachments', context)!,style: GoogleFonts.tajawal(),),
               ],
             ),
           ),
@@ -122,16 +77,16 @@ class _RefundRequestScreenState extends State<RefundRequestScreen> {
         
                     itemCount: provider.pikeImage.length+1,
         
-                    physics: const AlwaysScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
+                      scrollDirection: Axis.vertical,
         
         
                       itemBuilder: (context, index) {
                       if(index==0){
                         // dotted_border
                         return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical: 5),
                           child: InkWell(
                             onTap: (){
                               provider.pikeMultiImage();
@@ -142,25 +97,29 @@ class _RefundRequestScreenState extends State<RefundRequestScreen> {
                               color: Theme.of(context).iconTheme.color!,
                               borderType: BorderType.RRect,
                               child: Container(
-                                height: 140,
-                                width: 140,
+                                height: 50,
+                                // width: 14>0,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12)
                                 ),
-                                child: const Center(child: Icon(Icons.add,size: 50,)),
+                                child:  Center(child: Text(getTranslated('Download_attachments', context)!,style: GoogleFonts.tajawal(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,color: Theme.of(context).primaryColor
+                                ),)),
                               ),
                             ),
                           ),
                         );
                       }else{
                         return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical: 5),
                           child:Stack(children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: SizedBox(
-                                height: 140,
-                                width: 140,
+                                height: 50,
+                                width: MediaQuery.of(context).size.width,
+                                // width: 140,
                                 child: Image.file(File(provider.pikeImage[index-1].path,),fit: BoxFit.fill,),
                               ),
                             ),
@@ -190,7 +149,86 @@ class _RefundRequestScreenState extends State<RefundRequestScreen> {
             ),
           ),
           const SizedBox(width: 10,),
-        
+          const SizedBox(height: 10,),
+
+          Consumer<OrderDetailsController>(
+            builder:(context, provider, child) =>  Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(getTranslated('bill', context)!,style: GoogleFonts
+                      .tajawal(
+                      fontSize: 16,fontWeight: FontWeight.w500
+                  ),),
+                  const SizedBox(height: 5,),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(' ${getTranslated('Subtotal', context)}',style: GoogleFonts.tajawal(
+                          fontWeight: FontWeight.w400,fontSize: 14
+                      ),overflow: TextOverflow.visible,textAlign: TextAlign.center),
+                      // const SizedBox(height: 5,),
+
+                      Text(PriceConverter.convertPrice(context,provider.orderRefuntModel!=null?provider.orderRefuntModel!.subtotal:0.00)),
+                    ],
+                  ),
+                  const SizedBox(height: 5,),
+                  Divider(color: Colors.grey.shade300,height: 5,),
+                  const SizedBox(height: 5,),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                    children: [
+                      Text('${getTranslated('Discount_coupon', context)}',style: GoogleFonts.tajawal(
+                          fontWeight: FontWeight.w400,fontSize: 14
+
+                      ),overflow: TextOverflow.visible,textAlign: TextAlign.center),
+                      // const SizedBox(height: 5,),
+
+                      Text(PriceConverter.convertPrice(context,provider.orderRefuntModel!.couponDiscount),style: GoogleFonts.tajawal(
+                          fontWeight: FontWeight.w400,fontSize: 14
+
+                      ),),
+                    ],
+                  ),
+                  const SizedBox(height: 5,),
+                  Divider(color: Colors.grey.shade300,height: 5,),
+                  const SizedBox(height: 5,),
+
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Theme.of(context).cardColor
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                        children: [
+                          Text('${getTranslated('Total_refund_amount', context)}',style: GoogleFonts.tajawal(
+                              fontWeight: FontWeight.w400,fontSize: 14
+
+                          ),overflow: TextOverflow.visible,textAlign: TextAlign.center,),
+                          // const SizedBox(height: 5,),
+
+                          Text(PriceConverter.convertPrice(context,provider.orderRefuntModel!.refundAmount),style: GoogleFonts.tajawal(
+                              fontWeight: FontWeight.w400,fontSize: 14
+
+                          ),),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 10,),
           Consumer<OrderDetailsController>(
             builder:(context, provider, child) =>  Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),

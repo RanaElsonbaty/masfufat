@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
@@ -55,6 +56,10 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Timer(const Duration(seconds: 5), () {
+      Provider.of<SupportTicketController>(context, listen: false)
+          .getSupportTicketReplyList(context, widget.supportTicketModel.id);
+    });
     return Scaffold(
       appBar: CustomAppBar(
         title: widget.supportTicketModel.subject,
@@ -102,7 +107,10 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
                       itemBuilder: (context, index) {
                         return SizedBox(
                           height: 100,
-                          width: 100,
+                          width:support.pickedImageFileStored[index].path
+                              .endsWith('mp3') ||
+                              support.pickedImageFileStored[index].path
+                                  .endsWith('m4a')? 200 :100,
                           child: Stack(children: [
                             Padding(
                                 padding:
@@ -136,7 +144,14 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
                                                         .endsWith('mp3') ||
                                                     support.pickedImageFileStored[index].path
                                                         .endsWith('m4a')
-                                                ? const SizedBox.shrink()
+                                                ?WaveBubble(
+                                      appDirectory: Directory(support.pickedImageFileStored[index].path),
+                                      width: 100,
+                                      index: index,
+                                      isSender: true,
+                                      ofline: true,
+                                      path: support.pickedImageFileStored[index].path,
+                                    )
                                                 : support.pickedImageFileStored[index].path
                                                         .endsWith('temp')
                                                     ? Mp4Widget(
@@ -273,13 +288,14 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
                         onLongPressEnd: (vak)async{
                           print('onLongPressEnd');
                           try{
-                            support.  getMicOn(false);
-                            support.stopTimer();
-                            _controller.text = ' ';
+
+                            // _controller.text = '';
                         await  support.startOrStopRecording().then((value) {
-                          support.sendReply(widget.supportTicketModel.id,
-                              _controller.text);
+                          // support.sendReply(widget.supportTicketModel.id,
+                          //     _controller.text);
                         });
+                        support.  getMicOn(false);
+                        support.stopTimer();
 
 
 

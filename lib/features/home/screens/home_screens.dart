@@ -31,6 +31,7 @@ import 'package:flutter_sixvalley_ecommerce/features/shop/controllers/shop_contr
 import 'package:flutter_sixvalley_ecommerce/features/shop/screens/all_shop_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/shop/widgets/top_seller_view.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/features/wishlist/controllers/wishlist_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/responsive_helper.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
@@ -41,8 +42,11 @@ import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../brand/screens/brands_screen.dart';
+import '../../brand/widgets/brand_list_widget.dart';
 import '../../payment /controller/payment_controller.dart';
 import '../../product/widgets/latest_product_list_widget.dart';
+import '../../wishlist/screens/wishlist_screen.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -124,41 +128,43 @@ class _HomePageState extends State<HomePage> {
             pinned: false,
             centerTitle: false,
             automaticallyImplyLeading: false,
+surfaceTintColor: Theme.of(context).highlightColor,
             backgroundColor: Theme.of(context).highlightColor,
             title: Consumer<ProfileController>(
               builder:(context, profile, child) =>  Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                Container(
-                  height: 50,
-                  width: 50,
-                  decoration:  BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.black,
-                    border: Border.all(width: 1,color: Colors.grey)
-                  ),
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: CustomImageWidget(image: profile.userInfoModel!=null?profile.userInfoModel!.image:'')),
-                ),
-                  const SizedBox(width: 5,),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(profile.userInfoModel!=null?profile.userInfoModel!.name:"",
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.tajawal(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700
-
-                      ),),Text(profile.userInfoModel!=null?profile.userInfoModel!.id.toString():"",style: GoogleFonts.tajawal(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700
-
-                      ),),
-                    ],
-                  )
+                  Image.asset(Images.logoWithNameImage,width: 150,)
+                // Container(
+                //   height: 50,
+                //   width: 50,
+                //   decoration:  BoxDecoration(
+                //     shape: BoxShape.circle,
+                //     color: Colors.black,
+                //     border: Border.all(width: 1,color: Colors.grey)
+                //   ),
+                //   child: ClipRRect(
+                //       borderRadius: BorderRadius.circular(50),
+                //       child: CustomImageWidget(image: profile.userInfoModel!=null?profile.userInfoModel!.image:'')),
+                // ),
+                //   const SizedBox(width: 5,),
+                //   Column(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       Text(profile.userInfoModel!=null?profile.userInfoModel!.name:"",
+                //         overflow: TextOverflow.ellipsis,
+                //         style: GoogleFonts.tajawal(
+                //         fontSize: 16,
+                //         fontWeight: FontWeight.w700
+                //
+                //       ),),Text(profile.userInfoModel!=null?profile.userInfoModel!.id.toString():"",style: GoogleFonts.tajawal(
+                //         fontSize: 16,
+                //         fontWeight: FontWeight.w700
+                //
+                //       ),),
+                //     ],
+                //   )
               ],),
             ),
 
@@ -170,38 +176,73 @@ class _HomePageState extends State<HomePage> {
               //     child: Image.asset(Images.bag2, width: 30, height: 30,color: Theme.of(context).primaryColor)),
               //
               // const SizedBox(width: 15,),
-SizedBox(
-  height: 50,
-  width: 69,
-  child: Stack(
-    alignment: AlignmentDirectional.centerEnd,
-    children: [
-      InkWell(
-          onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_) => const NotificationScreen())),
-          child:Image.asset(Images.notification2,width: 30, height: 30,
-            color: Theme.of(context).primaryColor,)),
-      Positioned(
-        top: 5,
-        left: 15  ,
-        child: Consumer<NotificationController>(builder:(context, provider, child) {
-          return CircleAvatar(radius:provider.notificationModel.length<100? 8:10,backgroundColor: Colors.red,child:
-          Center(
-            child: Text(provider.notificationModel.isNotEmpty?provider.notificationModel.length.toString():'0',
-            style: GoogleFonts.tajawal(
-              fontWeight: FontWeight.w500,
-              fontSize: 13,
-              color: Colors.white
-            ),
 
-            ),
-          ),);
-        }),
-      ),
-    ],
-  ),
-),
+              SizedBox(
+                height: 50,
+                width: 35,
+                child: Stack(
+                  alignment: AlignmentDirectional.centerEnd,
+                  children: [
+                    InkWell(
+                        onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_) => const WishListScreen())),
+                        child:Image.asset(Images.wishlist,width: 25, height: 25,
+                          color: Theme.of(context).primaryColor,)),
+                    Positioned(
+                      top: 5,
+                      left: 15  ,
+                      child: Consumer<WishListController>(builder:(context, provider, child) {
+                        return provider.wishList!=null? CircleAvatar(radius:provider.wishList!.length<100? 9:10,backgroundColor: Colors.red,child:
+                        Center(
+                          child: Text(provider.wishList!.isNotEmpty?provider.wishList!.length.toString():'0',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 9,
+                                color: Colors.white
+                            ),
 
+                          ),
+                        ),):const SizedBox();
+                      }),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 5,),
+              SizedBox(
+                height: 50,
+                width: 35,
+                // width: 69,
+
+                child: Stack(
+                  alignment: AlignmentDirectional.centerEnd,
+                  children: [
+                    InkWell(
+                        onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_) => const NotificationScreen())),
+                        child:Image.asset(Images.notification2,width: 30, height: 30,
+                          color: Theme.of(context).primaryColor,)),
+                    Positioned(
+                      top: 5,
+                      left: 15  ,
+                      child: Consumer<NotificationController>(builder:(context, provider, child) {
+                        return CircleAvatar(radius:provider.notificationModel.length<100? 8:10,backgroundColor: Colors.red,child:
+                        Center(
+                          child: Text(provider.notificationModel.isNotEmpty?provider.notificationModel.length.toString():'0',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 9,
+                                color: Colors.white
+                            ),
+
+                          ),
+                        ),);
+                      }),
+                    ),
+                  ],
+                ),
+              ),
               const SizedBox(width: 10,),
+
+
 
             ],
           ),
@@ -331,28 +372,17 @@ SizedBox(
 
               const Padding(padding: EdgeInsets.only(bottom: Dimensions.paddingSizeDefault),
                   child: LatestProductListWidget()),
-
-
-
-
-            //   if(configModel?.brandSetting == "1")
-            //     TitleRowWidget(
-            //     title: getTranslated('brand', context),
-            //     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const BrandsView())),
-            //   ),
-            //
-            //   SizedBox(height: configModel?.brandSetting == "1" ? Dimensions.paddingSizeSmall: 0),
-
-              // if(configModel!.brandSetting == "1") ...[
-              //    BrandListWidget(isHomePage: true,scrollController: controller,),
-              //   const SizedBox(height: Dimensions.paddingSizeDefault),
-              // ],
-
-
-
               const HomeCategoryProductWidget(isHomePage: true),
               const SizedBox(height: Dimensions.paddingSizeDefault),
-            //
+              TitleRowWidget(
+                title: getTranslated('brand', context),
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const BrandsView())),
+              ),
+              const SizedBox(height:  Dimensions.paddingSizeSmall),
+              BrandListWidget(isHomePage: true,scrollController: controller,),
+              // const SizedBox(height: Dimensions.paddingSizeDefault),
+
+              //
             //   const FooterBannerSliderWidget(),
             //   const SizedBox(height: Dimensions.paddingSizeDefault),
 

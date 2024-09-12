@@ -23,35 +23,58 @@ class OrderAmountCalculation extends StatelessWidget {
 
           AmountWidget(title: getTranslated('sub_total', context),
               amount: PriceConverter.convertPrice(context, itemTotalAmount)),
+          const SizedBox(height: 5,),
 
+           Divider(color: Colors.grey.shade300,height: 10,),
+          const SizedBox(height: 5,),
 
           orderProvider.orders!.orderType == "POS"? const SizedBox():
           AmountWidget(title: getTranslated('shipping_fee', context),
               amount: PriceConverter.convertPrice(context, shippingCost)),
+          const SizedBox(height: 5,),
 
+ Divider(color: Colors.grey.shade300,height: 10,),
+          const SizedBox(height: 5,),
 
           AmountWidget(title: getTranslated('discount', context),
               amount: PriceConverter.convertPrice(context, discount)),
+           Divider(color: Colors.grey.shade300,height: 10,),
 
+          const SizedBox(height: 5,),
 
           orderProvider.orders!.orderType == "POS"?
           AmountWidget(title: getTranslated('extra_discount', context),
               amount: PriceConverter.convertPrice(context, eeDiscount)):const SizedBox(),
+          orderProvider.orders!.orderType == "POS"?
+           Divider(color: Colors.grey.shade300,height: 10,):const SizedBox(),
 
+          SizedBox(height:   orderProvider.orders!.orderType == "POS"?5:0,),
 
           AmountWidget(title: getTranslated('coupon_voucher', context),
             amount: PriceConverter.convertPrice(context, orderProvider.orders!.discountAmount),),
+          const SizedBox(height: 5,),
 
+           Divider(color: Colors.grey.shade300,height: 10,),
+          const SizedBox(height: 5,),
 
           AmountWidget(title: getTranslated('tax', context),
               amount: PriceConverter.convertPrice(context, tax)),
 
+          const SizedBox(height: 5,),
 
-          const Padding(padding: EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
-            child: Divider(height: 2, color: ColorResources.hintTextColor),),
+           Divider(height: 2, color:Colors.grey.shade300),
+const SizedBox(height: 5,),
 
-
-          AmountWidget(title: getTranslated('total_payable', context),
-            amount: PriceConverter.convertPrice(context, (itemTotalAmount + shippingCost - eeDiscount! - orderProvider.orders!.discountAmount - discount  + tax)),),]));
+          Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(8)
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AmountWidget(title: getTranslated('total_payable', context),
+                amount: PriceConverter.convertPrice(context, (itemTotalAmount + shippingCost - eeDiscount! - orderProvider.orders!.discountAmount - discount  + tax)),),
+            ),
+          ),]));
   }
 }

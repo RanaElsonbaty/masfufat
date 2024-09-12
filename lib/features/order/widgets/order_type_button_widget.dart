@@ -18,8 +18,8 @@ class OrderTypeButton extends StatelessWidget {
           style: TextButton.styleFrom(padding: const EdgeInsets.all(0)),
           child: Container(height: 35,
             alignment: Alignment.center,
-            decoration: BoxDecoration(color: orderController.orderTypeIndex == index ? ColorResources.getPrimary(context) :
-              Theme.of(context).hintColor,
+            decoration: BoxDecoration(color: orderController.orderTypeIndex == index ? Theme.of(context).primaryColor :
+              const Color(0xFFEFECF5),
               borderRadius: BorderRadius.circular(8 )),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 4),
@@ -27,7 +27,7 @@ class OrderTypeButton extends StatelessWidget {
               child: Row(crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center, children: [
                   Text(text!, style: GoogleFonts.tajawal(color: orderController.orderTypeIndex == index ?
-                  Theme.of(context).highlightColor : Colors.black)),
+                  Colors.white : Colors.black)),
                   const SizedBox(width: 5),
 
                 ],

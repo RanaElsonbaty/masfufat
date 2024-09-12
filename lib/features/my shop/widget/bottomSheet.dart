@@ -73,7 +73,7 @@ child: Consumer<MyShopController>(
 
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
-                            Dimensions.paddingSizeExtraLarge)),
+                            4)),
                     value: myStore.selectFilter!=null&&myStore.selectFilter==index, checkColor:Colors.white,onChanged: (val){
                     myStore.getSelectFilter(index);
 

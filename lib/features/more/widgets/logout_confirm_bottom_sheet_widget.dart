@@ -7,6 +7,7 @@ import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/screens/auth_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class LogoutCustomBottomSheetWidget extends StatelessWidget {
@@ -18,29 +19,38 @@ class LogoutCustomBottomSheetWidget extends StatelessWidget {
       decoration: BoxDecoration(color: Theme.of(context).cardColor,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.paddingSizeDefault))),
       child: Column(mainAxisSize: MainAxisSize.min, children: [
-        Container(width: 40,height: 4,decoration: BoxDecoration(
+        Container(width: 120,height: 4,decoration: BoxDecoration(
             color: Theme.of(context).hintColor.withOpacity(.5), borderRadius: BorderRadius.circular(20)),),
         const SizedBox(height: 30,),
 
-       Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
-          child: SizedBox(width: 60,child: Image.asset(Images.exitIcon)),),
-        const SizedBox(height: Dimensions.paddingSizeExtraSmall,),
+       // Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
+       //    child: SizedBox(width: 60,child: Image.asset(Images.exitIcon)),),
+       //  const SizedBox(height: Dimensions.paddingSizeExtraSmall,),
 
-        Text(getTranslated('sign_out', context)!, style: textBold.copyWith(fontSize: Dimensions.fontSizeLarge),),
+        Text(getTranslated('sign_out', context)!, style: GoogleFonts.tajawal(
+            fontWeight: FontWeight.w700,
+            fontSize: 20),),
 
         Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall, bottom: Dimensions.paddingSizeLarge),
-          child: Text('${getTranslated('want_to_sign_out', context)}'),),
+          child: Text('${getTranslated('want_to_sign_out', context)}',style: GoogleFonts.tajawal(
+            fontWeight: FontWeight.w400,
+            fontSize: 18
+          ),),),
 
         const SizedBox(height: Dimensions.paddingSizeDefault),
         Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeOverLarge),
           child: Row(mainAxisAlignment: MainAxisAlignment.center,children: [
-            Expanded(child: SizedBox(width: 120,child: CustomButton(buttonText: '${getTranslated('cancel', context)}',
-                backgroundColor: Theme.of(context).colorScheme.tertiaryContainer.withOpacity(.5),
+            Expanded(child: SizedBox(width: 120,child: CustomButton(buttonText: '${getTranslated('cancellation', context)}',
+                backgroundColor:const Color(0xff5A409B).withOpacity(0.20),
                 textColor: Theme.of(context).textTheme.bodyLarge?.color,
                 onTap: ()=> Navigator.pop(context),))),
 
             const SizedBox(width: Dimensions.paddingSizeDefault,),
-            Expanded(child: SizedBox(width: 120,child: CustomButton(buttonText: '${getTranslated('sign_out', context)}',
+            Expanded(child: SizedBox(width: 120,
+
+                child: CustomButton(
+                    backgroundColor: Colors.red.shade500,
+                    buttonText: '${getTranslated('sign_out', context)}',
                 onTap: (){
               // Provider.of<AuthController>(context, listen: false).logOut().then((condition) {
                 Navigator.pop(context);

@@ -57,6 +57,7 @@ class SplashScreenState extends State<SplashScreen>
     @override
   void initState() {
     super.initState();
+    Provider.of<SplashController>(context,listen: false).initConfigGuest(context);
     // AnimationController controller =
     // AnimationController(vsync: this, duration: const Duration(seconds: 20))
     //   ..addListener(() {
@@ -155,7 +156,7 @@ class SplashScreenState extends State<SplashScreen>
           } else
 
             if(Provider.of<AuthController>(Get.context!, listen: false).isLoggedIn()){
-           await   Provider.of<SplashController>(context, listen: false).initConfig(context);
+           await   Provider.of<SplashController>(Get.context!, listen: false).initConfig(context);
             Provider.of<AuthController>(Get.context!, listen: false).updateToken(Get.context!);
             if(widget.body != null){
               if (widget.body!.type == 'order') {

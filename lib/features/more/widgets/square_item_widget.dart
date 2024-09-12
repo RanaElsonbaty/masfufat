@@ -29,7 +29,7 @@ class SquareButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => navigateTo)),
       child: Padding(padding: const EdgeInsets.all(8.0),
-        child: Container(width: 130, height: 100,
+        child: Container(width: 150, height: 100,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
               color: Provider.of<ThemeController>(context).darkTheme ?
               Theme.of(context).primaryColor.withOpacity(.30) : Theme.of(context).primaryColor),
@@ -50,7 +50,7 @@ class SquareButtonWidget extends StatelessWidget {
 
             // Center(child: Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
             //     child: Image.asset(image, color: ColorResources.white))),
-
+const SizedBox(width: 5,),
             // if(isWallet)
               Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -66,18 +66,20 @@ class SquareButtonWidget extends StatelessWidget {
                 child: Row(
                   children: [
                     isLoyalty? Expanded(
+                      flex: 11,
                       child: Text(balance != null? balance!.toStringAsFixed(0) : '0',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style:  GoogleFonts.tajawal(color: Colors.white,fontWeight: FontWeight.w400,fontSize: 16)),
+                          style:  GoogleFonts.tajawal(color: Colors.white,fontWeight: FontWeight.w400,fontSize: 14)),
                     ):
 
                     Expanded(
+                      // flex: ,
                       child: Text(balance != null? PriceConverter.convertPrice(context, balance):'0',
                           maxLines: 1,
 
                           overflow: TextOverflow.ellipsis,
-                          style:  GoogleFonts.tajawal(color: Colors.white,fontWeight: FontWeight.w400,fontSize: 16)),
+                          style:  GoogleFonts.tajawal(color: Colors.white,fontWeight: FontWeight.w400,fontSize: 14)),
                     )
                   ],
                 ),

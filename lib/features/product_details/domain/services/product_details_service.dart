@@ -20,5 +20,9 @@ class ProductDetailsService implements ProductDetailsServiceInterface{
   Future getSharableLink(String productID) async{
     return await productDetailsRepositoryInterface.getSharableLink(productID);
   }
+  @override
+  Future getBarCodeProduct(String barcode) async{
+    return await productDetailsRepositoryInterface.getBarCodeProduct(barcode);
 
+  }
 }

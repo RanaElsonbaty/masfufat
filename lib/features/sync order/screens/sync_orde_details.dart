@@ -129,15 +129,15 @@ class _OrderSyncDetailsScreenState extends State<OrderSyncDetailsScreen> {
 
                       // Container(height: 10, color: Theme.of(context).primaryColor.withOpacity(.1)),
                       //
-                      const SizedBox(height: Dimensions.paddingSizeDefault),
 
 
-                      SyncShippingAndBillingWidget(orderProvider: orderProvider),
 
 // 100726
 
                       const SizedBox(height: Dimensions.paddingSizeDefault),
                        OrderInfoSection(orderDetailsModel: orderProvider.syncOrderDetails!,),
+                      const SizedBox(height: Dimensions.paddingSizeDefault),
+                      SyncShippingAndBillingWidget(orderProvider: orderProvider),
                       const SizedBox(height: Dimensions.paddingSizeDefault),
 
 

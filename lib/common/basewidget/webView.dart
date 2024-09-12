@@ -1,5 +1,6 @@
 import 'package:bcrypt/bcrypt.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/profile/controllers/profile_contrroller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
@@ -31,6 +32,7 @@ class _WepViewState extends State<WepView> {
   @override
   void initState() {
     super.initState();
+    // controller!.
     initData();
   }
 
@@ -61,7 +63,7 @@ class _WepViewState extends State<WepView> {
           },
           onPageFinished: (String url) async {
             Provider.of<ProfileController>(Get.context!, listen: false)
-                .getUserInfo(context);
+                .getUserInfo(Get.context!);
           },
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
@@ -94,15 +96,22 @@ class _WepViewState extends State<WepView> {
     try {
       return SafeArea(
           child: Scaffold(
-              appBar: AppBar(
-                // iconTheme: ,
-                iconTheme: const IconThemeData(color: Colors.white),
-                title: Text(
-                  getTranslated('profile', context)!,
-                  style: const TextStyle(color: Colors.white),
-                ),
-                backgroundColor: Colors.black,
-              ),
+            appBar: CustomAppBar(title: getTranslated('profile', context)!,
+
+              onBackPressed: () {
+              Provider.of<ProfileController>(context, listen: false)
+                  .getUserInfo(context);
+              Navigator.pop(context);
+            },),
+              // appBar: AppBar(
+              //   // iconTheme: ,
+              //   iconTheme: const IconThemeData(color: Colors.white),
+              //   title: Text(
+              //     getTranslated('profile', context)!,
+              //     style: const TextStyle(color: Colors.white),
+              //   ),
+              //   backgroundColor: Colors.black,
+              // ),
               body: WebViewWidget(controller: controller!)));
     } catch (e) {
       return Text(

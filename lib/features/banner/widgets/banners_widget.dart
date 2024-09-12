@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/banner/controllers/banner_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/banner/widgets/banner_shimmer.dart';
@@ -22,11 +24,49 @@ class BannersWidget extends StatefulWidget {
 
 class _BannersWidgetState extends State<BannersWidget> {
   PageController controller=PageController(viewportFraction: 1, keepPage: true);
+  Timer? _timer;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    initPage();
+  }
+
+  void initPage() {
+    try{
+      _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
+        if (controller.page!.round() < widget.mainBannerList.length - 1) {
+          // controller.jumpToPage(controller.page!.round() + 1);
+          controller.animateToPage(controller.page!.round() + 1, curve: Curves.easeInOutBack,duration: const Duration(seconds:2));
+        } else {
+          // controller.jumpToPage(0);
+          controller.animateToPage(0, curve: Curves.easeInOutBack,duration: const Duration(seconds:5));
+
+        }
+      });
+
+      controller.addListener(() {
+
+            _timer?.cancel();
+        _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
+          if (controller.page!.round() < widget.mainBannerList.length - 1) {
+            controller.animateToPage(controller.page!.round() + 1, curve: Curves.easeInOutBack,duration: const Duration(seconds:2));
+          } else {
+
+            controller.animateToPage(0, curve: Curves.easeInOutBack,duration: const Duration(seconds:5));
+
+          }
+        });
+      });
+    }catch(e){
+      print('banner jump error ---> $e');
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -35,7 +75,7 @@ class _BannersWidgetState extends State<BannersWidget> {
 
     final pages = List.generate(
         widget.mainBannerList.length ,
-            (index,) =>  widget.mainBannerList != null ? widget.mainBannerList.isNotEmpty ?
+            (index,) =>   widget.mainBannerList.isNotEmpty ?
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: SizedBox(height: width * 0.40, width: width,
@@ -61,7 +101,7 @@ class _BannersWidgetState extends State<BannersWidget> {
             ),
           ),
         ),
-      ) : const SizedBox() : const BannerShimmer(),
+      ) : const BannerShimmer(),
     );
     return Column(children: [
         Consumer<BannerController>(
@@ -72,8 +112,20 @@ class _BannersWidgetState extends State<BannersWidget> {
                 height:  width * 0.40,
                 child: PageView.builder(
                   controller: controller,
+
                   itemCount:pages.length ,
+
                   onPageChanged: (val){
+                    _timer?.cancel();
+                    _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+                      if (controller.page!.round() < widget.mainBannerList.length - 1) {
+                        controller.animateToPage(controller.page!.round() + 1, curve: Curves.easeInOutBack,duration: const Duration(seconds:2));
+                      } else {
+                        // controller.jumpToPage(0);
+                        controller.animateToPage(0, curve: Curves.easeInOutBack,duration: const Duration(seconds:2));
+
+                      }
+                    });
                   },
                   // itemCount: pages.length,
                   itemBuilder: (_, index) {
@@ -88,8 +140,10 @@ const SizedBox(height: 10,),
                   controller: controller,
                   count:  widget.mainBannerList.length,
                   axisDirection: Axis.horizontal,
+                    // ,
                   effect: SwapEffect(
                     dotHeight: 5,
+
                     dotWidth: 8,
                     activeDotColor: Theme.of(context).primaryColor
                   ),

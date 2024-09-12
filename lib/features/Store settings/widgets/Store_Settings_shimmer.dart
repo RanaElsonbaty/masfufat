@@ -61,21 +61,22 @@ class _StoreSettingsShimmerState extends State<StoreSettingsShimmer> {
                       const Spacer(),
                       Container(height: 30,width: 60, decoration: BoxDecoration(
                           // color: Colors.grey,
-                        border: Border.all(width: 1,),
-                          borderRadius: BorderRadius.circular(18)
+                        color: Colors.white,
+                        // border: Border.all(width: 1,),
+                          borderRadius: BorderRadius.circular(8)
                       ),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 30,
-                            width: 30,
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle
-                            ),
-                          ),
-                        ],
-                      ),
+                      // child: Row(
+                      //   children: [
+                      //     Container(
+                      //       height: 30,
+                      //       width: 30,
+                      //       decoration: const BoxDecoration(
+                      //         color: Colors.white,
+                      //         // shape: BoxShape.circle
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                       ),
                     ],),
 

@@ -19,7 +19,57 @@ class SyncOrderController with ChangeNotifier {
   String get type =>_type;
   void setIndex(int index,String type, {bool notify = true})async {
     _orderTypeIndex = index;
-    _type =type=='All_Order'?'all':type;
+    if(index==0){
+      _type ='all';
+    }
+    else if(index==1){
+      _type ='pending';
+
+    }
+    else if(index==2){
+      _type ='pending_payment';
+
+    }
+    else if(index==3){
+      _type ='financial_review';
+
+    }
+    else if(index==4){
+      _type ='new';
+
+    }
+    else if(index==5){
+      _type ='processing';
+
+    }
+    else if(index==6){
+      _type ='confirmed';
+
+    }
+    else if(index==7){
+      _type ='out_for_delivery';
+
+    }
+    else if(index==8){
+      _type ='delivered';
+
+    }
+    else if(index==9){
+      _type ='failed';
+
+    }
+    else if(index==10){
+      _type ='returning';
+
+    }
+    else if(index==11){
+      _type ='returned';
+
+    }
+    else if(index==12){
+      _type ='canceled';
+
+    }
     // getOrderList(type=='All_Order'?'all':type,'1');
 
     if(notify) {

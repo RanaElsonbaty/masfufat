@@ -13,6 +13,7 @@ import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/basewidget/custom_button_widget.dart';
@@ -80,79 +81,116 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
       child: Stack(children: [
           Card(color: Theme.of(context).cardColor,
             child: Column(children: [
-                const SizedBox(height: Dimensions.paddingSizeLarge),
-                Row(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const SizedBox(height: Dimensions.paddingSizeSmall),
+
+              Row(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
                     const SizedBox(width: Dimensions.marginSizeDefault),
 
-                    ClipRRect(borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
-                      child: Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
-                        border: Border.all(color: Theme.of(context).primaryColor.withOpacity(.125))),
-                        child: CustomImageWidget(image: '${widget.orderDetailsModel.productDetails?.imagesFullUrl}', width: 80, height: 80))),
-                    const SizedBox(width: Dimensions.marginSizeDefault),
+                    ClipRRect(borderRadius: BorderRadius.circular(12),
+                      child: CustomImageWidget(image: '${widget.orderDetailsModel.productDetails?.imagesFullUrl}', width: 80  , height: 80)),
+                    // const SizedBox(width: Dimensions.marginSizeDefault),
 
                     Expanded(flex: 3,
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                           Row(children: [
                             Expanded(child: Text(widget.orderDetailsModel.productDetails?.name??'',
-                              style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault),
+                              style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault,fontWeight: FontWeight.w400),
                               maxLines: 2, overflow: TextOverflow.ellipsis))]),
                           const SizedBox(height: Dimensions.marginSizeExtraSmall),
 
 
                         Row(children: [
 
-                          Text("${getTranslated('price', context)}: ",
-                            style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: 14),),
+                          Text("${getTranslated('price', context)} :",
+                            style: GoogleFonts.tajawal( fontSize: 16,fontWeight: FontWeight.w400),),
                           Text(PriceConverter.convertPrice(context, widget.orderDetailsModel.price),
-                            style: titilliumSemiBold.copyWith(color: ColorResources.getPrimary(context), fontSize: 16),),
+                            style: GoogleFonts.tajawal(fontSize: 16,fontWeight: FontWeight.w400),),
 
                           widget.orderDetailsModel.productDetails!=null&&widget.orderDetailsModel.productDetails!.taxModel!=null&&widget.orderDetailsModel.productDetails!.taxModel == 'exclude'?
                           Text('(${getTranslated('tax', context)} ${PriceConverter.convertPrice(context, widget.orderDetailsModel.tax)})',
-                            style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault),):
+                            style: GoogleFonts.tajawal(color: ColorResources.hintTextColor, fontSize: 14,fontWeight: FontWeight.w400),):
                           Text('(${getTranslated('tax', context)} ${widget.orderDetailsModel.productDetails!=null?widget.orderDetailsModel.productDetails!.taxModel:''})',
-                            style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault))]),
+                            style: GoogleFonts.tajawal(color: ColorResources.hintTextColor, fontSize: 14,fontWeight: FontWeight.w400))]),
                         const SizedBox(height: Dimensions.marginSizeExtraSmall),
 
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('${getTranslated('qty', context)}: ${widget.orderDetailsModel.qty}',
-                                style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: 14)),
-                            if (widget.orderModel.orderStatus == 'delivered'&&widget.fromRefunt==false) Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                                child: CustomButton(textColor: ColorResources.white,
-                                    backgroundColor: Theme.of(context).primaryColor,
-                                    buttonText:widget.orderDetailsModel.refundRequest==0? getTranslated('طلب استرجاع', context):getTranslated('تفاصيل طلب الاسترجاع', context),
-                                    onTap: () {
-                                      if(widget.orderDetailsModel.refundRequest==0) {
-                                        showModalBottomSheet(context: context,
-                                            builder: (BuildContext context) =>
-                                                ShowModalBottomSheetOrder(orderModel:widget. orderModel,
-                                                  orderDetailsModel: widget.orderDetailsModel,));
-                                      }else{
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => RefundRequestDetails(
-                                            orderModel: widget.orderModel,
-                                            orderDetailsModel: widget.orderDetailsModel
-                                        ),));
-                                      }
-                                    }),
+                                style: GoogleFonts.tajawal(fontWeight: FontWeight.w400, fontSize: 14)),
+
+                            if (widget.orderModel.orderStatus == 'delivered'&&widget.fromRefunt==false)
+                              InkWell(
+                                onTap: (){
+                                  if(widget.orderDetailsModel.refundRequest==0) {
+                                                showModalBottomSheet(context: context,
+                                                    builder: (BuildContext context) =>
+                                                        ShowModalBottomSheetOrder(orderModel:widget. orderModel,
+                                                          orderDetailsModel: widget.orderDetailsModel,));
+                                              }else{
+                                                Navigator.push(context, MaterialPageRoute(builder: (context) => RefundRequestDetails(
+                                                    orderModel: widget.orderModel,
+                                                    orderDetailsModel: widget.orderDetailsModel
+                                                ),));
+                                              }
+                                },
+                                child: Container(
+                                  height: 35,
+                                 width: 140,
+
+                                 decoration: BoxDecoration(
+                                   borderRadius: BorderRadius.circular(8),
+                                   color:widget.orderDetailsModel.refundRequest==0?Theme.of(context).primaryColor: Theme.of(context).primaryColor.withOpacity(0.30)
+                                 ),
+                                  child: Center(child: Text(widget.orderDetailsModel.refundRequest==0? getTranslated('Refund_request', context)!:getTranslated('Refund_Request_Details', context)!,
+
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.tajawal(
+                                    color:widget.orderDetailsModel.refundRequest==0?Colors.white: Colors.black,
+
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12
+                                  ),)),
+                                ),
                               ),
-                            )
+                            //   Expanded(
+                            //   child: Padding(
+                            //     padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                            //     child: CustomButton(textColor: ColorResources.white,
+                            //         backgroundColor: Theme.of(context).primaryColor,
+                            //         buttonText:widget.orderDetailsModel.refundRequest==0? getTranslated('طلب استرجاع', context):getTranslated('تفاصيل طلب الاسترجاع', context),
+                            //         onTap: () {
+                            //           if(widget.orderDetailsModel.refundRequest==0) {
+                            //             showModalBottomSheet(context: context,
+                            //                 builder: (BuildContext context) =>
+                            //                     ShowModalBottomSheetOrder(orderModel:widget. orderModel,
+                            //                       orderDetailsModel: widget.orderDetailsModel,));
+                            //           }else{
+                            //             Navigator.push(context, MaterialPageRoute(builder: (context) => RefundRequestDetails(
+                            //                 orderModel: widget.orderModel,
+                            //                 orderDetailsModel: widget.orderDetailsModel
+                            //             ),));
+                            //           }
+                            //         }),
+                            //   ),
+                            // )
                           ],
                         ),
-                        const SizedBox(height: Dimensions.marginSizeExtraSmall),
-                        
-                          const SizedBox(height: Dimensions.marginSizeExtraSmall),
+                        // const SizedBox(height: Dimensions.marginSizeExtraSmall),
+                        //
+                        //   const SizedBox(height: Dimensions.marginSizeExtraSmall),
 
                           ///Downloadable Product////////////
 
-                        Row(children: [
-                          const Spacer(),
-                          SizedBox(height: (widget.orderDetailsModel.productDetails != null &&
-                              widget.orderDetailsModel.productDetails?.productType =='digital' && widget.paymentStatus == 'paid')?
-                          Dimensions.paddingSizeExtraLarge : 0),
-
-                        ]),
+                        // Row(children: [
+                        //   const Spacer(),
+                        //   SizedBox(height: (widget.orderDetailsModel.productDetails != null &&
+                        //       widget.orderDetailsModel.productDetails?.productType =='digital' && widget.paymentStatus == 'paid')?
+                        //   Dimensions.paddingSizeExtraLarge : 0),
+                        //
+                        // ]),
 
 
                           const SizedBox(height: Dimensions.paddingSizeSmall),

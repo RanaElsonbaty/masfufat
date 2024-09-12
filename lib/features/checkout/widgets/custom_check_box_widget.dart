@@ -62,11 +62,11 @@ class CustomCheckBoxWidget extends StatelessWidget {
                       padding: const EdgeInsets.all(
                           Dimensions.paddingSizeExtraSmall),
                       child:icon!.startsWith('https://')?CustomImageWidget(image: icon!):Image.asset(icon!))),
-             id!=4? Text(
+             Text(
                 getTranslated(name, context)!,
                 style:
                     textRegular.copyWith(fontSize: Dimensions.fontSizeLarge),
-              ):const SizedBox.shrink(),
+              ),
             ]),
           ),
         );

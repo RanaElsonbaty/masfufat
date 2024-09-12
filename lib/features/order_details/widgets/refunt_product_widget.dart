@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/basewidget/custom_directionality_widget.dart';
@@ -27,10 +28,11 @@ class _RefuntProductWidgetState extends State<RefuntProductWidget> {
     final bool isLtr = Provider.of<LocalizationController>(context, listen: false).isLtr;
 
     return  Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-      child: Stack(children: [
-        Card(color: Theme.of(context).cardColor,
-          child: Column(children: [
-            const SizedBox(height: Dimensions.paddingSizeLarge),
+      child: Card(color: Theme.of(context).cardColor,
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Column(
+            children: [
             Row(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
               const SizedBox(width: Dimensions.marginSizeDefault),
 
@@ -44,7 +46,7 @@ class _RefuntProductWidgetState extends State<RefuntProductWidget> {
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Row(children: [
                     Expanded(child: Text(widget.product.name??'',
-                        style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault),
+                        style: GoogleFonts.tajawal(fontWeight: FontWeight.w500,fontSize: Dimensions.fontSizeDefault),
                         maxLines: 2, overflow: TextOverflow.ellipsis))]),
                   const SizedBox(height: Dimensions.marginSizeExtraSmall),
 
@@ -52,19 +54,19 @@ class _RefuntProductWidgetState extends State<RefuntProductWidget> {
                   Row(children: [
 
                     Text("${getTranslated('price', context)}: ",
-                      style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: 14),),
+                      style: GoogleFonts.tajawal(fontWeight: FontWeight.w500,fontSize: 14),),
                     Text(PriceConverter.convertPrice(context, widget.product.unitPrice),
-                      style: titilliumSemiBold.copyWith(color: ColorResources.getPrimary(context), fontSize: 16),),
+                      style: GoogleFonts.tajawal(fontWeight: FontWeight.w500,color: ColorResources.getPrimary(context), fontSize: 16),),
 
                     widget.product.taxModel!=null&&widget.product.taxModel == 'exclude'?
                     Text('(${getTranslated('tax', context)} ${PriceConverter.convertPrice(context, widget.product.tax)})',
-                      style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault),):
+                      style: GoogleFonts.tajawal(fontWeight: FontWeight.w500,color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault),):
                     Text('(${getTranslated('tax', context)} ${widget.product!=null?widget.product.taxModel:''})',
-                        style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault))]),
+                        style: GoogleFonts.tajawal(fontWeight: FontWeight.w500,color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault))]),
                   const SizedBox(height: Dimensions.marginSizeExtraSmall),
 
 
-                  const SizedBox(height: Dimensions.marginSizeExtraSmall),
+                  // const SizedBox(height: Dimensions.marginSizeExtraSmall),
 
                   const SizedBox(height: Dimensions.marginSizeExtraSmall),
 
@@ -187,40 +189,6 @@ class _RefuntProductWidgetState extends State<RefuntProductWidget> {
           ],
           ),
         ),
-
-        if(widget.product.discount! > 0) Positioned(
-          top: 35,
-          left: isLtr ? 20 : null,
-          right: isLtr ? null : 20,
-          child: Container(
-            height: 20,
-            alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.horizontal(
-                right: Radius.circular(isLtr ? Dimensions.paddingSizeExtraSmall : 0),
-                left: Radius.circular(isLtr ? 0 : Dimensions.paddingSizeExtraSmall),
-              ),
-            ),
-            child: CustomDirectionalityWidget(
-              child: Text(
-                PriceConverter.percentageCalculation(
-                  context,
-                  (widget.product.unitPrice! * widget.qty),
-                  widget.product.discount,
-                  getTranslated('amount', context),
-                ),
-                style: titilliumRegular.copyWith(
-                  fontSize: Dimensions.fontSizeExtraSmall,
-                  color: ColorResources.white,
-                ),
-              ),
-            ),
-          ),
-        )
-
-      ],
       ),
     );
   }

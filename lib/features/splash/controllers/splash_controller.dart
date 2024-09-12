@@ -6,11 +6,14 @@ import 'package:flutter_sixvalley_ecommerce/features/splash/domain/services/spla
 import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../domain/models/config_guist_model.dart' as guest;
+
 class SplashController extends ChangeNotifier {
   final SplashServiceInterface? splashServiceInterface;
   SplashController({required this.splashServiceInterface});
 
   ConfigModel? _configModel;
+  guest.ConfigGuest? _configModelGuest;
   BaseUrls? _baseUrls;
   CurrencyList? _myCurrency;
   CurrencyList? _usdCurrency;
@@ -23,6 +26,7 @@ class SplashController extends ChangeNotifier {
   bool get onOff => _onOff;
 
   ConfigModel? get configModel => _configModel;
+  guest.ConfigGuest? get configModelGuest => _configModelGuest;
   BaseUrls? get baseUrls => _baseUrls;
   CurrencyList? get myCurrency => _myCurrency;
   CurrencyList? get usdCurrency => _usdCurrency;
@@ -32,6 +36,47 @@ class SplashController extends ChangeNotifier {
   bool get fromSetting => _fromSetting;
   bool get firstTimeConnectionCheck => _firstTimeConnectionCheck;
   List<bool> isExpanded=[];
+  Future<bool> initConfigGuest(BuildContext context) async {
+
+    _hasConnection = true;
+    ApiResponse apiResponse = await splashServiceInterface!.getConfigGuest();
+    bool isSuccess;
+    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+
+      _configModelGuest = guest.ConfigGuest.fromJson(apiResponse.response!.data);
+      // _baseUrls = ConfigModel.fromJson(apiResponse.response!.data).baseUrls;
+      // String? currencyCode = splashServiceInterface!.getCurrency();
+
+      // themeController.setThemeColor(
+      //   primaryColor: ColorHelper.hexCodeToColor(_configModel?.primaryColorCode),
+      //   secondaryColor: ColorHelper.hexCodeToColor(_configModel?.secondaryColorCode),
+      // );
+
+      // isExpanded= List.filled(_configModel!.faq.isNotEmpty?_configModel!.faq.length:0, false);
+      // for(CurrencyList currencyList in _configModel!.currencyList) {
+      //   if(currencyList.id == _configModel!.systemDefaultCurrency) {
+      //     if(currencyCode == null || currencyCode.isEmpty) {
+      //       currencyCode = currencyList.code;
+      //     }
+      //     _defaultCurrency = currencyList;
+      //   }
+      //   if(currencyList.code == 'USD') {
+      //     _usdCurrency = currencyList;
+      //   }
+      // }
+      // getCurrencyData(currencyCode);
+      isSuccess = true;
+    } else {
+      isSuccess = false;
+      ApiChecker.checkApi( apiResponse);
+      if(apiResponse.error.toString() == 'Connection to API server failed due to internet connection') {
+        _hasConnection = false;
+      }
+    }
+    notifyListeners();
+
+    return isSuccess;
+  }
 
   Future<bool> initConfig(BuildContext context) async {
 

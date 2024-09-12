@@ -41,7 +41,7 @@ class Deleted {
   final String categoryIds;
   final int brandId;
   final int hasTax;
-  final int tax;
+  final double tax;
   final String? taxType;
   final dynamic unit;
   final String displayFor;
@@ -62,7 +62,7 @@ class Deleted {
   final String images;
   // final Videos videos;
   final dynamic linkedProductsIds;
-  final List<PricingElement> pricing;
+  // final List<PricingElement> pricing;
   final int? shippingCost;
   final int status;
   final int isShippingCostUpdated;
@@ -129,7 +129,7 @@ class Deleted {
     required this.images,
     // required this.videos,
     required this.linkedProductsIds,
-    required this.pricing,
+    // required this.pricing,
     required this.shippingCost,
     required this.status,
     required this.isShippingCostUpdated,
@@ -176,10 +176,10 @@ class Deleted {
     categoryIds: json["category_ids"],
     brandId: json["brand_id"],
     hasTax: json["has_tax"],
-    tax: json["tax"],
+    tax: double.parse(json["tax"]!=null?json["tax"].toString():'0.00'),
     taxType: json["tax_type"]??'',
     unit: json["unit"],
-    displayFor: json["display_for"]??'',
+    displayFor: json["display_for"].toString()??'',
     productType: json["product_type"]??'',
     itemNumber: json["item_number"],
     gtin: json["gtin"],
@@ -197,7 +197,7 @@ class Deleted {
     images: json["images"],
     // videos: videosValues.map[json["videos"]]!,
     linkedProductsIds: json["linked_products_ids"],
-      pricing: List<PricingElement>.from(json["pricing"].map((x) => PricingElement.fromJson(x))),
+      // pricing: List<PricingElement>.from(json["pricing"].map((x) => PricingElement.fromJson(x))),
     shippingCost: json["shipping_cost"],
     status: json["status"],
     isShippingCostUpdated: json["is_shipping_cost_updated"],
@@ -223,7 +223,7 @@ class Deleted {
     brandImage: json["brand_image"],
     pricings: DeletedPricings.fromJson(json["pricings"]),
     inWishList: json["in_wish_list"],
-    synced: json["synced"]??'',
+    synced: json["synced"].toString()??'',
     imageUrl: json["image_url"],
     promoTitle: json["promo_title"],
     shortDesc: json["short_desc"],
@@ -265,7 +265,7 @@ class Deleted {
     "images": images,
     // "videos": videosValues.reverse[videos],
     "linked_products_ids": linkedProductsIds,
-    "pricing": List<dynamic>.from(pricing.map((x) => x.toJson())),
+    // "pricing": List<dynamic>.from(pricing.map((x) => x.toJson())),
     "shipping_cost": shippingCost,
     "status": status,
     "is_shipping_cost_updated": isShippingCostUpdated,
@@ -520,8 +520,8 @@ final typeValues = EnumValues({
 class DeletedPricings {
   final String pricingLevelId;
   final double value;
-  final int minQty;
-  final int maxQty;
+  final String minQty;
+  final String maxQty;
   final Type discountType;
   final double discountPrice;
   final double suggestedPrice;
@@ -541,10 +541,10 @@ class DeletedPricings {
   });
 
   factory DeletedPricings.fromJson(Map<String, dynamic> json) => DeletedPricings(
-    pricingLevelId: json["pricing_level_id"],
+    pricingLevelId: json["pricing_level_id"]!=null? json["pricing_level_id"]??'':"",
     value: json["value"].toDouble(),
-    minQty: json["min_qty"],
-    maxQty: json["max_qty"],
+    minQty: json["min_qty"].toString(),
+    maxQty: json["max_qty"].toString(),
     discountType: typeValues.map[json["discount_type"]]!,
     discountPrice: json["discount_price"].toDouble(),
     suggestedPrice: json["suggested_price"]?.toDouble(),
@@ -695,7 +695,7 @@ class Linked {
   final String categoryIds;
   final int brandId;
   final int hasTax;
-  final int tax;
+  final double tax;
   final Type? taxType;
   final dynamic unit;
   final DisplayFor displayFor;
@@ -830,7 +830,7 @@ class Linked {
     categoryIds: json["category_ids"],
     brandId: json["brand_id"],
     hasTax: json["has_tax"],
-    tax: json["tax"],
+    tax: double.parse(json["tax"]!=null?json["tax"].toString():'0.00'),
     taxType: json["tax_type"]!=null?typeValues.map[json["tax_type"]??'']!:null,
     unit: json["unit"],
     displayFor: displayForValues.map[json["display_for"]]!,

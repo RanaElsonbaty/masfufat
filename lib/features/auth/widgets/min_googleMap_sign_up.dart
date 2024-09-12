@@ -14,15 +14,7 @@ class MinGoogleMap extends StatefulWidget {
 }
 
 class _MinGoogleMapState extends State<MinGoogleMap> {
-  // GoogleMapController? _controller;
-  // final TextEditingController _locationController = TextEditingController();
-  // CameraPosition? _cameraPosition;
-  // List<geocoding.Placemark> ?placemarks;
-  // Location location = Location();
-  // final Map<String, Marker> _markers = {};
-  // String searchResult='';
-  // double latitude = 0;
-  // double longitude = 0;
+
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthController>(
@@ -30,6 +22,7 @@ class _MinGoogleMapState extends State<MinGoogleMap> {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           height: 250,
+          width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
 

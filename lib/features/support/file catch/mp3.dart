@@ -107,7 +107,7 @@ class _WaveBubbleState extends State<WaveBubble> {
   String formattedDuration='';
   @override
   void initState() {
-    print('file appDirectory --------> ${widget.appDirectory.path.split('/').last.split('/').last.split('/')}');
+    // print('file appDirectory --------> ${widget.appDirectory.path.split('/').last.split('/').last.split('/')}');
     super.initState();
     controller.addListener(()async {
      await controller.onCompletion.first.then((value) async{
@@ -292,7 +292,7 @@ class _WaveBubbleState extends State<WaveBubble> {
             ),):const SizedBox.shrink(),
             const SizedBox(width: 4,),
             AudioFileWaveforms(
-            size:  Size(MediaQuery.of(context).size.width/4.5, 40),
+            size:  Size(100, 40),
 
             playerController: controller,
             margin: const EdgeInsets.only(right: 10),

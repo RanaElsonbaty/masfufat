@@ -47,9 +47,9 @@ class ProductRepository implements ProductRepositoryInterface{
     try {
       String uri;
       if(isBrand){
-        uri = '${AppConstants.categoryProductUri}?brand=$id&page=$offset${search.isNotEmpty?'&search=$search':''}${price!='&from_price=0.0&to_price=0.0'?price:''}${syncFilter.isNotEmpty?'&product_type=$syncFilter':''}${filter.isNotEmpty?'&order_by=$filter':""}';
+        uri = '${AppConstants.categoryProductUri}?brand=$id&page=$offset${price!='&from_price=0.0&to_price=0.0'?price:''}${syncFilter.isNotEmpty?'&product_type=$syncFilter':''}${filter.isNotEmpty?'&order_by=$filter':""}${search.isNotEmpty?'&search=$search':''}';
       }else {
-        uri = '${AppConstants.categoryProductUri}?category=$id&page=$offset${search.isNotEmpty?'&search=$search':''}${price!='&from_price=0.0&to_price=0.0'?price:''}${syncFilter.isNotEmpty?'&product_type=$syncFilter':''}${filter.isNotEmpty?'&order_by=$filter':""}';
+        uri = '${AppConstants.categoryProductUri}?category=$id&page=$offset${price!='&from_price=0.0&to_price=0.0'?price:''}${syncFilter.isNotEmpty?'&product_type=$syncFilter':''}${filter.isNotEmpty?'&order_by=$filter':""}${search.isNotEmpty?'&search=$search':''}';
       }
       final response = await dioClient!.get(uri);
       return ApiResponse.withSuccess(response);

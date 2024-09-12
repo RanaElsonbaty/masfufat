@@ -51,21 +51,29 @@ class _OrderScreenState extends State<OrderScreen> {
                   children: [
                     OrderTypeButton(text: getTranslated('All_Order', context), index: 0),
                     const SizedBox(width: Dimensions.paddingSizeSmall),
-                    OrderTypeButton(text: getTranslated('pending', context), index: 1),
+                    OrderTypeButton(text: getTranslated('hanging', context), index: 1),
                     const SizedBox(width: Dimensions.paddingSizeSmall),
-                    OrderTypeButton(text: getTranslated('confirmed', context), index: 2),
+                    OrderTypeButton(text: getTranslated('Waiting_for_payment', context), index: 2),
                     const SizedBox(width: Dimensions.paddingSizeSmall),
-                    OrderTypeButton(text: getTranslated('processing', context), index: 3),
+                    OrderTypeButton(text: getTranslated('Under_financial_review', context), index: 3),
                     const SizedBox(width: Dimensions.paddingSizeSmall),
-                    OrderTypeButton(text: getTranslated('out_for_delivery', context), index: 4),
+                    OrderTypeButton(text: getTranslated('New', context), index: 4),
                     const SizedBox(width: Dimensions.paddingSizeSmall),
-                    OrderTypeButton(text: getTranslated('delivered', context), index: 5),
+                    OrderTypeButton(text: getTranslated('Preparing', context), index: 5),
                     const SizedBox(width: Dimensions.paddingSizeSmall),
-                    OrderTypeButton(text: getTranslated('failed', context), index: 6),
+                    OrderTypeButton(text: getTranslated('ready', context), index: 6),
                     const SizedBox(width: Dimensions.paddingSizeSmall),
-                    OrderTypeButton(text: getTranslated('returned', context), index: 7),
+                    OrderTypeButton(text: getTranslated('In_progress', context), index: 7),
                     const SizedBox(width: Dimensions.paddingSizeSmall),
-                    OrderTypeButton(text: getTranslated('CANCELED', context), index: 8),
+                    OrderTypeButton(text: getTranslated('DELIVERED', context), index: 8),
+                    const SizedBox(width: Dimensions.paddingSizeSmall),
+                    OrderTypeButton(text: getTranslated('Delivery_failed', context), index: 9),
+                    const SizedBox(width: Dimensions.paddingSizeSmall),
+                    OrderTypeButton(text: getTranslated('Recovering', context), index: 10),
+                    const SizedBox(width: Dimensions.paddingSizeSmall),
+                    OrderTypeButton(text: getTranslated('Retrieved', context), index: 11),
+   const SizedBox(width: Dimensions.paddingSizeSmall),
+                    OrderTypeButton(text: getTranslated('Canceled', context), index: 12),
 
                   ],
                 ),
@@ -77,7 +85,7 @@ class _OrderScreenState extends State<OrderScreen> {
             Expanded(child: orderController.orderModel != null &&orderController.orderModel!.isNotEmpty? (orderController.orderModel!= null )?
             SingleChildScrollView(
               controller: scrollController,
-              child: PaginatedListView(scrollController: scrollController,
+              child:orderController.selectTypeOrders.isNotEmpty? PaginatedListView(scrollController: scrollController,
                 onPaginate: (int? offset) async{
                   await orderController.getOrderList(offset!, orderController.selectedType);
                 },
@@ -91,7 +99,8 @@ class _OrderScreenState extends State<OrderScreen> {
                   itemBuilder: (context, index) => OrderWidget(orderModel: orderController.selectTypeOrders[index]),
                 ),
 
-              ),
+              ) : const NoInternetOrDataScreenWidget(isNoInternet: false, icon: Images.noOrder, message: 'no_order_found',) ,
+
             ) : const NoInternetOrDataScreenWidget(isNoInternet: false, icon: Images.noOrder, message: 'no_order_found',) :
             const OrderShimmerWidget()
             )

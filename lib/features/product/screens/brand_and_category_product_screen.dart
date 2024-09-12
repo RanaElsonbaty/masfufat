@@ -36,7 +36,7 @@ class BrandAndCategoryProductScreen extends StatefulWidget {
 
 class _BrandAndCategoryProductScreenState extends State<BrandAndCategoryProductScreen> {
   ScrollController scrollController =ScrollController();
-  static const _pageSize = 50;
+  static const _pageSize = 25;
   final PagingController pagingController =
   PagingController(firstPageKey: 1);
   int _page=1;
@@ -181,9 +181,7 @@ _page=1;
                                             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
                                                 color: Theme.of(context).primaryColor,
                                                 border: Border.all(color: Theme.of(context).hintColor.withOpacity(.25))),
-                                            child: const SizedBox(width: 25,height: 24,child: Icon(Icons.filter_list,
-                                                color:
-                                                Colors.white)),),])),
+                                            child:  SizedBox(width: 25,height: 24,child: Image.asset(Images.filterIcon)),),])),
                                   ],
                                 ),
                               ),
@@ -194,96 +192,98 @@ _page=1;
                     ),
                   ),
                 ),
-           widget.isBrand==false?     Container(
-                  height: 60,
-                  alignment: AlignmentDirectional.centerStart,
-                  child: Consumer<CategoryController>(
-                              builder:(context, categoryProvider, child) =>  ListView.builder(
-                                physics: const AlwaysScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
+           widget.isBrand==false?     Consumer<CategoryController>(
+             builder:(context, categoryProvider, child) => categoryProvider.categoryList[widget.index].childes.isNotEmpty?  Container(
+                    height: 60,
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Consumer<CategoryController>(
+                                builder:(context, categoryProvider, child) => ListView.builder(
+                                  physics: const AlwaysScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
 
-                                padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                                itemCount: categoryProvider.categoryList[widget.index].childes.length+1,
-                                itemBuilder: (context, index) {
-                                  late CategoryModel subCategory;
-                                  if(index != 0) {
-                                    subCategory = categoryProvider.categoryList[widget.index].childes[index-1];
-                                  }
-                                  if(index == 0) {
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                      child: InkWell(
-                                        onTap: (){
-    if( selectIndex!=index) {
-      setState(() {
-        selectIndex = index;
-        _page = 1;
-      });
+                                  padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                  itemCount: categoryProvider.categoryList[widget.index].childes.length+1,
+                                  itemBuilder: (context, index) {
+                                    late CategoryModel subCategory;
+                                    if(index != 0) {
+                                      subCategory = categoryProvider.categoryList[widget.index].childes[index-1];
+                                    }
+                                    if(index == 0) {
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                        child: InkWell(
+                                          onTap: (){
+                 if( selectIndex!=index) {
+                   setState(() {
+                     selectIndex = index;
+                     _page = 1;
+                   });
 
-      fetchPage(page, widget.isBrand, widget.id.toString(), Get.context!, true);
-      pagingController.refresh();
-    }
-                                        },
-                                        child: Container(
-                                          height:35,
-                                          decoration: BoxDecoration(
-                                            color:selectIndex==index?Theme.of(context).primaryColor: const Color(0xFFEFECF5),
-                                            borderRadius: BorderRadius.circular(12),
+                   fetchPage(page, widget.isBrand, widget.id.toString(), Get.context!, true);
+                   pagingController.refresh();
+                 }
+                                          },
+                                          child: Container(
+                                            height:35,
+                                            decoration: BoxDecoration(
+                                              color:selectIndex==index?Theme.of(context).primaryColor: const Color(0xFFEFECF5),
+                                              borderRadius: BorderRadius.circular(12),
 
-                                          ),child:Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                            child: Center(
-                                            child: Text(getTranslated('all_products', context)!,style: GoogleFonts.tajawal(
+                                            ),child:Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                              child: Center(
+                                              child: Text(getTranslated('all_products', context)!,style: GoogleFonts.tajawal(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 16,
+                                                 color:  selectIndex==index?Colors.white:Colors.black
+                                              ),),
+                                                                                    ),
+                                            ),
+
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                        child: InkWell(
+                                          onTap: (){
+                                            if( selectIndex!=index){
+                                            setState(() {
+                                              selectIndex=index;
+                                              _page=1;
+
+                                            });
+                                            fetchPage(page,widget.isBrand, subCategory.id.toString(), Get.context!,true);
+             pagingController.refresh();}
+                                          },
+                                          child: Container(
+                                            height:35,
+                                            decoration: BoxDecoration(
+                                              color:selectIndex==index?Theme.of(context).primaryColor: const Color(0xFFEFECF5),
+                                              borderRadius: BorderRadius.circular(12),
+
+                                            ),child:Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                              child: Center(
+                                                child: Text(subCategory.name,style: GoogleFonts.tajawal(
                                                 fontWeight: FontWeight.w400,
                                                 fontSize: 16,
-                                               color:  selectIndex==index?Colors.white:Colors.black
-                                            ),),
-                                                                                  ),
-                                          ),
-
-                                        ),
-                                      ),
-                                    );
-                                  } else {
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                      child: InkWell(
-                                        onTap: (){
-                                          if( selectIndex!=index){
-                                          setState(() {
-                                            selectIndex=index;
-                                            _page=1;
-
-                                          });
-                                          fetchPage(page,widget.isBrand, subCategory.id.toString(), Get.context!,true);
-pagingController.refresh();}
-                                        },
-                                        child: Container(
-                                          height:35,
-                                          decoration: BoxDecoration(
-                                            color:selectIndex==index?Theme.of(context).primaryColor: const Color(0xFFEFECF5),
-                                            borderRadius: BorderRadius.circular(12),
-
-                                          ),child:Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                            child: Center(
-                                              child: Text(subCategory.name,style: GoogleFonts.tajawal(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 16,
-                                                color: selectIndex==index?Colors.white:Colors.black
-                                                                              ),),
+                                                  color: selectIndex==index?Colors.white:Colors.black
+                                                                                ),),
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  }
+                                      );
+                                    }
 
-                                },
-                              ),
-                  ),
-                ):const SizedBox.shrink(),
+                                  },
+                                ),
+                    ),
+                  ):const SizedBox( ),
+           ):const SizedBox.shrink(),
                 Expanded(
                   child: PagedGridView(
                     shrinkWrap: true,
@@ -293,7 +293,7 @@ pagingController.refresh();}
                   
                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                      crossAxisCount: 2,
-                   mainAxisSpacing: 5,crossAxisSpacing: 5,mainAxisExtent: 310
+                   mainAxisSpacing: 5,crossAxisSpacing: 5,mainAxisExtent: 330
                    ),
                     builderDelegate: PagedChildBuilderDelegate(
                          firstPageProgressIndicatorBuilder: (context) {

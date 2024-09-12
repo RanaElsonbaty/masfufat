@@ -36,7 +36,7 @@ class FavouriteButtonWidget extends StatelessWidget {
               child: Icon( wishProvider.addedIntoWish.contains(productId) ?
               CupertinoIcons.heart_fill : CupertinoIcons.heart,
                   color: wishProvider.addedIntoWish.contains(productId) ? const Color(0xFFFF5050):
-                 const Color(0xFF959595), size: 25),
+                  Theme.of(context).iconTheme.color, size: 25),
             )));
       }
     );

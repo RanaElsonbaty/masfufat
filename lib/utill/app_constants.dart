@@ -12,6 +12,7 @@ class AppConstants {
   static const String brandUri = '/api/v1/brands';
   static const String countries = '/api/v1/getList/countries';
   static const String provinces = '/api/v1/getChildren/provinces/';
+  static const String barcodeURI = '/api/v1/products/details_by_barcode/';
 
   static const String brandProductUri = '/api/v1/products/products-lazy?brand_id=';
   static const String categoryProductUri = '/api/v1/products/products-lazy';
@@ -30,6 +31,7 @@ class AppConstants {
   static const String searchUri = '/api/v1/products/products-lazy?';
   static const String getSuggestionProductName = '/api/v1/products/suggestion-product?guest_id=1&name=';
   static const String configUri = '/api/v1/config';
+  static const String configUriGuest = '/api/v1/config-guest';
   static const String addWishListUri = '/api/v1/customer/wish-list/add?product_id=';
   static const String removeWishListUri = '/api/v1/customer/wish-list/remove?product_id=';
   static const String updateProfileUri = '/api/v1/customer/update-profile';
@@ -217,7 +219,7 @@ class AppConstants {
   static const String userAddress = 'user_address';
 
   static List<LanguageModel> languages = [
-    LanguageModel(imageUrl: Images.ar, languageName: 'Arabic', countryCode: 'SA', languageCode: 'ar'),
+    LanguageModel(imageUrl: Images.ar, languageName: 'العربية', countryCode: 'SA', languageCode: 'ar'),
 
     LanguageModel(imageUrl: Images.en, languageName: 'English', countryCode: 'US', languageCode: 'en'),
     // LanguageModel(imageUrl: Images.hi, languageName: 'Hindi', countryCode: 'IN', languageCode: 'hi'),

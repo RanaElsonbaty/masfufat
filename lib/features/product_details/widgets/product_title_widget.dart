@@ -12,6 +12,7 @@ import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/rating_bar_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 
@@ -34,8 +35,56 @@ class ProductTitleWidget extends StatelessWidget {
           return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
             Text(productModel!.name ?? '',
-                style: titleRegular.copyWith(fontSize: Dimensions.fontSizeLarge), maxLines: 2),
-            const SizedBox(height: Dimensions.paddingSizeDefault),
+                style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeLarge,fontWeight: FontWeight.w400,), ),
+            const SizedBox(height: Dimensions.paddingSizeSmall),
+            Row(children: [
+              const Icon(Icons.star,color: Colors.yellow,size: 20,),
+              const SizedBox(width: 2,),
+              Text(double.tryParse(averageRatting!=null?averageRatting!:'0.00').toString()),
+              // RatingBar(rating: productModel!.reviews != null ? productModel!.reviews!.isNotEmpty ?
+              const SizedBox(width: 2,),
+
+              // double.parse(averageRatting!) : 0.0 : 0.0),
+              Text('(${productModel?.reviewsCount})',style: GoogleFonts.cairo(
+                color: Colors.grey
+              ),)]),
+            // const SizedBox(height: Dimensions.paddingSizeSmall),
+            const SizedBox(height: Dimensions.paddingSizeSmall),
+
+
+
+            Consumer<ReviewController>(
+                builder: (context, reviewController, _) {
+                  return Row(children: [
+                    // if(reviewController.reviewList!=null)
+
+                    Text.rich(TextSpan(children: [
+                      TextSpan(text: '${details.productDetailsModel!.reviews != null ? details.productDetailsModel!.reviews!.length : 0} ',
+                          style: GoogleFonts.tajawal(
+                              color: Provider.of<ThemeController>(context, listen: false).darkTheme?
+                              Theme.of(context).hintColor : Theme.of(context).primaryColor,
+                              fontSize: Dimensions.fontSizeDefault)),
+                      TextSpan(text: '${getTranslated('Product_Reviews', context)}  | ',
+                          style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault,))])),
+
+// if(details.orderCount!=null)
+                     Text.rich(TextSpan(children: [
+                      TextSpan(text: '${details.productDetailsModel!.orderCount ?? 0} ', style: GoogleFonts.tajawal(
+                          color: Provider.of<ThemeController>(context, listen: false).darkTheme?
+                          Theme.of(context).hintColor : Theme.of(context).primaryColor,
+                          fontSize: Dimensions.fontSizeDefault)),
+                      TextSpan(text: '${getTranslated('orders', context)}  | ',
+                          style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault,))])),
+// if(details.wishCount!=null)
+                    Text.rich(TextSpan(children: [
+                      TextSpan(text: '${details.productDetailsModel!.wishList!.length ?? 0} ', style: GoogleFonts.tajawal(
+                          color: Provider.of<ThemeController>(context, listen: false).darkTheme?
+                          Theme.of(context).hintColor : Theme.of(context).primaryColor,
+                          fontSize: Dimensions.fontSizeDefault)),
+                      TextSpan(text: '${getTranslated('wish_listed', context)}',
+                          style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault,))])),
+                  ]);}),
+            const SizedBox(height: Dimensions.paddingSizeSmall),
 
 
             Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
@@ -43,122 +92,30 @@ class ProductTitleWidget extends StatelessWidget {
                   discount: productModel!.discount, discountType: productModel!.discountType):''}'
                   '${endingPrice !=null ? ' - ${PriceConverter.convertPrice(context, endingPrice,
                   discount: productModel!.discount, discountType: productModel!.discountType)}' : ''}',
-                  style: titilliumBold.copyWith(color: ColorResources.getPrimary(context),
-                      fontSize: Dimensions.fontSizeLarge)),
+                  style: GoogleFonts.tajawal(color: ColorResources.getPrimary(context),
+                      fontSize: Dimensions.fontSizeLarge,fontWeight: FontWeight.w700)),
 
               if(productModel!.discount != null && productModel!.discount! > 0)...[
                 const SizedBox(width: Dimensions.paddingSizeSmall),
 
                 Text('${PriceConverter.convertPrice(context, startingPrice)}'
                     '${endingPrice!= null ? ' - ${PriceConverter.convertPrice(context, endingPrice)}' : ''}',
-                    style: titilliumRegular.copyWith(color: Theme.of(context).hintColor,
+                    style: GoogleFonts.tajawal(color: Theme.of(context).hintColor,
                         decoration: TextDecoration.lineThrough)),
               ],
             ]),
             const SizedBox(height: Dimensions.paddingSizeSmall),
 
 
-            Row(children: [
-               RatingBar(rating: productModel!.reviews != null ? productModel!.reviews!.isNotEmpty ?
-               double.parse(averageRatting!) : 0.0 : 0.0),
-              Text('(${productModel?.reviewsCount})')]),
-            const SizedBox(height: Dimensions.paddingSizeSmall),
-
-
-
-            Consumer<ReviewController>(
-              builder: (context, reviewController, _) {
-                return Row(children: [
-                  Text.rich(TextSpan(children: [
-                    TextSpan(text: '${reviewController.reviewList != null ? reviewController.reviewList!.length : 0} ',
-                        style: textMedium.copyWith(
-                        color: Provider.of<ThemeController>(context, listen: false).darkTheme?
-                        Theme.of(context).hintColor : Theme.of(context).primaryColor,
-                  fontSize: Dimensions.fontSizeDefault)),
-                TextSpan(text: '${getTranslated('reviews', context)} | ',
-                    style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault,))])),
-
-
-                  Text.rich(TextSpan(children: [
-                    TextSpan(text: '${details.orderCount} ', style: textMedium.copyWith(
-                        color: Provider.of<ThemeController>(context, listen: false).darkTheme?
-                        Theme.of(context).hintColor : Theme.of(context).primaryColor,
-                        fontSize: Dimensions.fontSizeDefault)),
-                    TextSpan(text: '${getTranslated('orders', context)} | ',
-                        style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault,))])),
-
-                  Text.rich(TextSpan(children: [
-                    TextSpan(text: '${details.wishCount} ', style: textMedium.copyWith(
-                        color: Provider.of<ThemeController>(context, listen: false).darkTheme?
-                        Theme.of(context).hintColor : Theme.of(context).primaryColor,
-                        fontSize: Dimensions.fontSizeDefault)),
-                    TextSpan(text: '${getTranslated('wish_listed', context)}',
-                        style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault,))])),
-                ]);}),
-            const SizedBox(height: Dimensions.paddingSizeSmall),
-
-
-
-            productModel!.colors != null && productModel!.colors!.isNotEmpty ?
-            Row( children: [
-              Text('${getTranslated('select_variant', context)} : ',
-                  style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeLarge)),
-              Expanded(child: SizedBox(height: 40,
-                  child: ListView.builder(
-                    itemCount: productModel!.colors!.length,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-
-                    itemBuilder: (context, index) {
-                      return Center(child: Container(
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall)),
-                          child: Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
-                            child: Container(
-                              height: 20, width: 20,
-                              padding: const EdgeInsets.all( Dimensions.paddingSizeExtraSmall),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: ColorHelper.hexCodeToColor(productModel?.colors?[index].code),
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ))));
-                      },
-                  ))),
-            ]) : const SizedBox(),
-          productModel!.colors != null &&  productModel!.colors!.isNotEmpty ?
-          const SizedBox(height: Dimensions.paddingSizeSmall) : const SizedBox(),
 
 
 
 
-            productModel!.choiceOptions!=null && productModel!.choiceOptions!.isNotEmpty?
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: productModel!.choiceOptions!.length,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return Row(crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Text('${getTranslated('available', context)} ${productModel!.choiceOptions![index].title} :',
-                      style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeLarge)),
-                  const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-                  Expanded(child: Padding(padding: const EdgeInsets.all(2.0),
-                      child: SizedBox(height: 40,
-                        child: ListView.builder(
-                         scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemCount: productModel!.choiceOptions![index].options!.length,
-                          itemBuilder: (context, i) {
-                            return Center(child: Padding(padding: const EdgeInsets.only(right: Dimensions.paddingSizeDefault),
-                                child: Text(productModel!.choiceOptions![index].options![i].trim(), maxLines: 1,
-                                    overflow: TextOverflow.ellipsis, style: textRegular.copyWith(
-                                      fontSize: Dimensions.fontSizeLarge,
-                                        color: Provider.of<ThemeController>(context, listen: false).darkTheme?
-                                        const Color(0xFFFFFFFF) : Theme.of(context).primaryColor))));
-                          })))),
-                ]);
-              },
-            ):const SizedBox(),
+
+
+
+
+
           ]);
         },
       ),

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
@@ -50,81 +51,67 @@ class _RefundRequestDetailsState extends State<RefundRequestDetails> {
         child: Consumer<OrderDetailsController>(
           builder:(context, provider, child) {
 
-            return provider.isRefuntLoading==false?  Column(children: [
+            return provider.isRefuntLoading==false&&provider.orderRefuntModel!=null?  Column(children: [
 
             const SizedBox(height: 10,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Row(
                 children: [
-                  Text('${getTranslated('Return_Request_Number', context)}${provider.orderRefuntModel!=null?provider.orderRefuntModel!.refundRequest.first.id:''}',style: GoogleFonts.tajawal(),overflow: TextOverflow.visible,)
+                  Text('${getTranslated('Return_Request_Number', context)} ',style: GoogleFonts.tajawal(
+
+                    fontSize: 16,fontWeight: FontWeight.w500
+                  ),overflow: TextOverflow.visible,),
+                  Text('${provider.orderRefuntModel!=null?provider.orderRefuntModel!.refundRequest.first.id:''}',style: GoogleFonts.tajawal(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 16,fontWeight: FontWeight.w500
+                  ),overflow: TextOverflow.visible,),
                 ],
               ),
             ),Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Row(
                 children: [
-                  Text('${getTranslated('Order_return_status', context)} ${provider.orderRefuntModel!=null?getTranslated(provider.orderRefuntModel!.refundRequest.first.status, context):''}',style: GoogleFonts.tajawal(),overflow: TextOverflow.visible,)
+                  Text('${getTranslated('Order_return_status', context)} '
+                    ,style: GoogleFonts.tajawal(
+
+                        fontSize: 16,fontWeight: FontWeight.w500
+                    ),overflow: TextOverflow.visible,),   Text(' ${provider.orderRefuntModel!=null?getTranslated(provider.orderRefuntModel!.refundRequest.first.status, context):''}'
+                    ,style: GoogleFonts.tajawal(
+                        color: Theme.of(context).primaryColor,
+
+                        fontSize: 16,fontWeight: FontWeight.w500
+                    ),overflow: TextOverflow.visible,),
                 ],
               ),
             ),
             const SizedBox(height: 5,),
-            widget.orderDetailsModel.productDetails!=null? RefuntProductWidget(product: widget.orderDetailsModel.productDetails!,qty: widget.orderDetailsModel.qty!,):const SizedBox.shrink(),
-            const SizedBox(height: 10,),
-
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Text(' ${getTranslated('Subtotal', context)}',style: GoogleFonts.tajawal(),overflow: TextOverflow.visible,textAlign: TextAlign.center),
-                        const SizedBox(height: 5,),
-
-                        Text(PriceConverter.convertPrice(context,provider.orderRefuntModel!=null?provider.orderRefuntModel!.subtotal:0.00)),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 5,),
-
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Text('${getTranslated('Discount_coupon', context)}',style: GoogleFonts.tajawal(),overflow: TextOverflow.visible,textAlign: TextAlign.center),
-                        const SizedBox(height: 5,),
-
-                        Text(PriceConverter.convertPrice(context,provider.orderRefuntModel!.couponDiscount)),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 5,),
-
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Text('${getTranslated('Total_refund_amount', context)}',style: GoogleFonts.tajawal(),overflow: TextOverflow.visible,textAlign: TextAlign.center,),
-                        const SizedBox(height: 5,),
-
-                        Text(PriceConverter.convertPrice(context,provider.orderRefuntModel!.refundAmount)),
-                      ],
-                    ),
-                  ),
+                Text(getTranslated('Return_Request_Information', context)!,style: GoogleFonts.tajawal(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16
+                ),)
                 ],
               ),
             ),
+            widget.orderDetailsModel.productDetails!=null? RefuntProductWidget(product: widget.orderDetailsModel.productDetails!,qty: widget.orderDetailsModel.qty!,):const SizedBox.shrink(),
             const SizedBox(height: 15,),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Row(
                 children: [
-                  Text('${getTranslated('Reason_for_product_return', context)}',style: GoogleFonts.tajawal(),)
+                  Text('${getTranslated('Reason_for_product_return', context)}',style: GoogleFonts.tajawal(
+            fontWeight: FontWeight.w500,
+            fontSize: 16
+            ))
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 5),
               child: CustomTextFieldWidget(
                 maxLines: 5,
                 controller: noteController,
@@ -137,10 +124,15 @@ class _RefundRequestDetailsState extends State<RefundRequestDetails> {
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Row(
                 children: [
-                  Text('${getTranslated('Attachments', context)}',style: GoogleFonts.tajawal(),),
+                  Text('${getTranslated('Attachments', context)}',style: GoogleFonts.tajawal(
+                      fontSize: 16,fontWeight: FontWeight.w500
+
+                  ),),
                 ],
               ),
             ),
+
+
             Consumer<OrderDetailsController>(
               builder:(context, provider, child) =>  SizedBox(
                 height: 150,
@@ -154,16 +146,16 @@ class _RefundRequestDetailsState extends State<RefundRequestDetails> {
 
                       itemCount: provider.orderRefuntModel!.refundRequest.first.status=='pending'?(provider.refuntDetailsImage.length+1):provider.refuntDetailsImage.length,
 
-                      physics: const AlwaysScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
+                      scrollDirection: Axis.vertical,
 
 
                       itemBuilder: (context, index) {
                         if(index==0&&provider.orderRefuntModel!.refundRequest.first.status=='pending'){
                           // dotted_border
                           return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                            padding: const EdgeInsets.symmetric(vertical: 5.0,horizontal: 5),
                             child: InkWell(
                               onTap: ()async{
                                 showModalBottomSheet(context: context,
@@ -177,26 +169,29 @@ class _RefundRequestDetailsState extends State<RefundRequestDetails> {
                                 color: Theme.of(context).iconTheme.color!,
                                 borderType: BorderType.RRect,
                                 child: Container(
-                                  height: 140,
-                                  width: 140,
+                                  height: 50,
+                                  // width: 140,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(12)
                                   ),
-                                  child: const Center(child: Icon(Icons.add,size: 50,)),
+                                  child:  Center(child: Text(getTranslated('Download_attachments', context)!,style: GoogleFonts.tajawal(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,color: Theme.of(context).primaryColor
+                                  ),)),
                                 ),
                               ),
                             ),
                           );
                         }else{
                           return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                              padding: const EdgeInsets.symmetric(vertical: 5.0,horizontal: 5),
                               child:Stack(children: [
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
                                   child: SizedBox(
                                     height: 140,
-                                    width: 140,
-                                    child:provider.refuntDetailsImage.isNotEmpty&&provider.refuntDetailsImage[provider.orderRefuntModel!.refundRequest.first.status!='pending'?index:index-1].startsWith('/')?Image.file(File(provider.refuntDetailsImage[provider.orderRefuntModel!.refundRequest.first.status!='pending'?index:index-1])): CustomImageWidget(image: "https://platform.masfufat.com/storage/app/public/refund/${provider.refuntDetailsImage[provider.orderRefuntModel!.refundRequest.first.status!='pending'?index:index-1]}"),
+                                    width: MediaQuery.of(context).size.width,
+                                    child:provider.refuntDetailsImage.isNotEmpty&&provider.refuntDetailsImage[provider.orderRefuntModel!.refundRequest.first.status!='pending'?index:index-1].startsWith('/')?Image.file(File(provider.refuntDetailsImage[provider.orderRefuntModel!.refundRequest.first.status!='pending'?index:index-1])): CustomImageWidget(image: "https://platform.masfufat.com/storage/app/public/refund/${provider.refuntDetailsImage[provider.orderRefuntModel!.refundRequest.first.status!='pending'?index:index-1]}",fit: BoxFit.fill,),
                                   ),
                                 ),
                         provider.orderRefuntModel!.refundRequest.first.status=='pending'?  Positioned(
@@ -263,6 +258,84 @@ class _RefundRequestDetailsState extends State<RefundRequestDetails> {
               ),
             ),
             const SizedBox(width: 10,),
+              const SizedBox(height: 10,),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(getTranslated('bill', context)!,style: GoogleFonts
+                      .tajawal(
+                      fontSize: 16,fontWeight: FontWeight.w500
+                    ),),
+                    const SizedBox(height: 5,),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(' ${getTranslated('Subtotal', context)}',style: GoogleFonts.tajawal(
+                          fontWeight: FontWeight.w400,fontSize: 14
+                        ),overflow: TextOverflow.visible,textAlign: TextAlign.center),
+                        // const SizedBox(height: 5,),
+
+                        Text(PriceConverter.convertPrice(context,provider.orderRefuntModel!=null?provider.orderRefuntModel!.subtotal:0.00)),
+                      ],
+                    ),
+                    const SizedBox(height: 5,),
+                    Divider(color: Colors.grey.shade300,height: 5,),
+                    const SizedBox(height: 5,),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                      children: [
+                        Text('${getTranslated('Discount_coupon', context)}',style: GoogleFonts.tajawal(
+                            fontWeight: FontWeight.w400,fontSize: 14
+
+                        ),overflow: TextOverflow.visible,textAlign: TextAlign.center),
+                        // const SizedBox(height: 5,),
+
+                        Text(PriceConverter.convertPrice(context,provider.orderRefuntModel!.couponDiscount),style: GoogleFonts.tajawal(
+                            fontWeight: FontWeight.w400,fontSize: 14
+
+                        ),),
+                      ],
+                    ),
+                    const SizedBox(height: 5,),
+                    Divider(color: Colors.grey.shade300,height: 5,),
+                    const SizedBox(height: 5,),
+
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Theme.of(context).cardColor
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                          children: [
+                            Text('${getTranslated('Total_refund_amount', context)}',style: GoogleFonts.tajawal(
+                                fontWeight: FontWeight.w400,fontSize: 14
+
+                            ),overflow: TextOverflow.visible,textAlign: TextAlign.center,),
+                            // const SizedBox(height: 5,),
+
+                            Text(PriceConverter.convertPrice(context,provider.orderRefuntModel!.refundAmount),style: GoogleFonts.tajawal(
+                                fontWeight: FontWeight.w400,fontSize: 14
+
+                            ),),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10,),
 
               provider.orderRefuntModel!.refundRequest.first.status=='pending'? Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),

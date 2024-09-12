@@ -83,7 +83,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
   }
   void initPayment()async{
     Provider.of<PaymentController>(context,listen: false).getIsLoading(true,false);
-  await   Provider.of<PaymentController>(context,listen: false).getAmount(( (widget.totalOrderAmount + widget.shippingFee - widget.discount -( _couponDiscount!=null?_couponDiscount!:0) + widget.tax)));
+  await   Provider.of<PaymentController>(context,listen: false).getAmount(( (widget.totalOrderAmount)));
   //  await  Provider.of<PaymentController>(Get.context!,listen: false).getApiKey(Get.context!);
     await Provider.of<PaymentController>(Get.context!,listen: false).initiate(Get.context!);
   //   await Provider.of<PaymentController>(Get.context!,listen: false).getPaymentMethod(Get.context!,'cart');
@@ -206,7 +206,7 @@ else if(orderProvider.selectedDigitalPaymentMethodId==0){
                                         else if(orderProvider.selectedDigitalPaymentMethodId==4){
                                           showAnimatedDialog(context, WalletPaymentWidget(
                                               currentBalance: profileProvider.balance ?? 0,
-                                              orderAmount: _order + widget.shippingFee - widget.discount - _couponDiscount! + widget.tax,
+                                              orderAmount: _order,
                                               onTap: (){if(profileProvider.balance! <
                                                   (_order + widget.shippingFee - widget.discount - _couponDiscount! + widget.tax)){
                                                 showCustomSnackBar(getTranslated('insufficient_balance', context), context, isToaster: true);
@@ -268,7 +268,7 @@ else if(orderProvider.selectedDigitalPaymentMethodId==0){
 
 
 
-                        const SizedBox(height: 10,),
+                        // const SizedBox(height: 5,),
 
                         Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                             child: ChoosePaymentWidget(onlyDigital: widget.onlyDigital)),

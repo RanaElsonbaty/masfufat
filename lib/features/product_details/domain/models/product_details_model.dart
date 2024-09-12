@@ -2,10 +2,6 @@
 
 import 'dart:convert';
 
-import 'package:flutter_sixvalley_ecommerce/features/shop/domain/models/seller_info_model.dart';
-
-import '../../../product/domain/models/product_model.dart';
-
 
 
 class ProductDetailsModel {
@@ -17,8 +13,10 @@ class ProductDetailsModel {
   String? _productType;
   List<CategoryIds>? _categoryIds;
   int? _brandId;
+  List? _wishList;
   String? _brand;
-  String? _unit;
+  int? _orderCount;
+   String? _unit;
   int? _minQty;
   String? _itemNumber;
   int? _refundable;
@@ -78,8 +76,8 @@ class ProductDetailsModel {
   double? _reviewsFourAvg;
   double? _reviewsFiveAvg;
 
-  List<Reviews>? _reviews;
-  Shop? _seller;
+  List<Review>? _reviews;
+  Seller? _seller;
   String? _gtin;
   String? _mpn;
   String? _length;
@@ -98,8 +96,10 @@ class ProductDetailsModel {
     String? addedBy,
     ProductDisplayFor? displayFor,
     String? space,
+    List? wishList,
     String? unit,
     int? reviewsOneCount,
+    int? orderCount,
     int? reviewsTwoCount,
     int? reviewsThreeCount,
     int? reviewsFourCount,
@@ -172,17 +172,21 @@ class ProductDetailsModel {
     int? reviewsCount,
     String? averageReview,
     String? madeIn,
-    List<Reviews>? reviews,
-    Shop? seller,
+    List<Review>? reviews,
+    Seller? seller,
   }) {
     if (id != null) {
       _id = id;
     }
     if (brand != null) {
       _brand = brand;
+    } if (wishList != null) {
+      _wishList = wishList;
     }
     if (color != null) {
       _color = color;
+    }if (orderCount != null) {
+      _orderCount = orderCount;
     }
     if (desc != null) {
       _desc = desc;
@@ -444,6 +448,7 @@ class ProductDetailsModel {
   String? get brandImg => _brandImg;
   bool? get inWishList => _inWishList;
   int? get userId => _userId;
+  int? get orderCount => _orderCount;
   int? get reviewsOneCount => _reviewsOneCount;
   int? get reviewsTwoCount => _reviewsTwoCount;
   int? get reviewsThreeCount => _reviewsThreeCount;
@@ -464,6 +469,7 @@ class ProductDetailsModel {
   String? get productType => _productType;
   List<CategoryIds>? get categoryIds => _categoryIds;
   int? get brandId => _brandId;
+  List? get wishList => _wishList;
   String? get unit => _unit;
   int? get minQty => _minQty;
   int? get refundable => _refundable;
@@ -506,8 +512,8 @@ class ProductDetailsModel {
   ProductDisplayFor? get displayFor => _displayFor;
   int? get reviewsCount => _reviewsCount;
   String? get averageReview => _averageReview ?? "0.0";
-  List<Reviews>? get reviews => _reviews;
-  Shop? get seller => _seller;
+  List<Review>? get reviews => _reviews;
+  Seller? get seller => _seller;
 
   ProductDetailsModel.fromJson(Map<String, dynamic> json) {
     // log('doidid ${json['user_id']}');
@@ -525,6 +531,23 @@ class ProductDetailsModel {
     } else {
       _displayFor = ProductDisplayFor.BOTH;
     }
+    _orderCount = json['order_count'] ?? 0;
+    try{
+      if (json['wish_list'] != null) {
+        _wishList = json['wish_list'];
+      }}catch(e){
+      _wishList=[];
+    }
+    // try{
+    //   if (json['reviews'] != null) {
+    //     _reviews = json['reviews'];
+    //   }
+    // }catch(e){
+    //   _reviews=[];
+    //
+    //   print('product reviews error ---> $e');
+    //
+    // }
     _name = json['name'];
     _brandImg = json['brand_image'];
     _inWishList = json['in_wish_list'];
@@ -695,21 +718,19 @@ class ProductDetailsModel {
         : 0;
     _averageReview = json['average_review'].toString();
     if (json['reviews'] != null) {
-      _reviews = <Reviews>[];
-      json['reviews'].forEach((v) {
-        _reviews!.add(Reviews.fromJson(v));
-      });
-    }
- try{
-   _seller =
-   json['seller'] != null ? Shop.fromJson(json['seller']) : null;
- }catch(E){
+      _reviews=  List<Review>.from(json["reviews"].map((x) {
+        return Review.fromJson(x);
+      }));
 
- }
+    }else{
+      _reviews=[];
+    }
+    _seller =
+    json['seller'] != null ? Seller.fromJson(json['seller']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = _id;
     data['added_by'] = _addedBy;
     data['user_id'] = _userId;
@@ -738,11 +759,11 @@ class ProductDetailsModel {
     data['variant_product'] = _variantProduct;
     data['attributes'] = _attributes;
     if (_choiceOptions != null) {
-      // data['choice_options'] =
-      //     this._choiceOptions!.map((v) => v.toJson()).toList();
+      data['choice_options'] =
+          _choiceOptions!.map((v) => v.toJson()).toList();
     }
     if (_variation != null) {
-      // data['variation'] = this._variation!.map((v) => v.toJson()).toList();
+      data['variation'] = _variation!.map((v) => v.toJson()).toList();
     }
     data['published'] = _published;
     data['unit_price'] = _unitPrice;
@@ -771,7 +792,7 @@ class ProductDetailsModel {
     data['reviews_count'] = _reviewsCount;
     data['average_review'] = _averageReview;
     if (_reviews != null) {
-      data['reviews'] = _reviews!.map((v) => v.toJson()).toList();
+      // data['reviews'] = _reviews!.map((v) => v.toJson()).toList();
     }
     if (_seller != null) {
       data['seller'] = _seller!.toJson();
@@ -823,7 +844,7 @@ class CategoryIds {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = _id;
     data['position'] = _position;
     return data;
@@ -852,115 +873,91 @@ class Colorss {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['name'] = _name;
     data['code'] = _code;
     return data;
   }
 }
 
-class Reviews {
-  int? _id;
-  int? _productId;
-  int? _customerId;
-  String? _comment;
-  List<dynamic>? _attachment;
-  int? _rating;
-  int? _status;
-  String? _createdAt;
-  String? _updatedAt;
-  Customer? _customer;
+class Review {
+  final int id;
+  final int productId;
+  final int customerId;
+  final dynamic deliveryManId;
+  final dynamic orderId;
+  final String comment;
+  final String attachment;
+  final int rating;
+  final int status;
+  final int isSaved;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final int deleted;
+  final List<String> attachmentUrl;
+  final dynamic customerName;
+  final dynamic customerImageUrl;
+  final dynamic customer;
 
-  Reviews(
-      {int? id,
-        int? productId,
-        int? customerId,
-        String? comment,
-        List<dynamic>? attachment,
-        int? rating,
-        int? status,
-        String? createdAt,
-        String? updatedAt,
-        Customer? customer}) {
-    if (id != null) {
-      _id = id;
-    }
-    if (productId != null) {
-      _productId = productId;
-    }
-    if (customerId != null) {
-      _customerId = customerId;
-    }
-    if (comment != null) {
-      _comment = comment;
-    }
-    if (attachment != null) {
-      _attachment = attachment;
-    }
-    if (rating != null) {
-      _rating = rating;
-    }
-    if (status != null) {
-      _status = status;
-    }
-    if (createdAt != null) {
-      _createdAt = createdAt;
-    }
-    if (updatedAt != null) {
-      _updatedAt = updatedAt;
-    }
-    if (customer != null) {
-      _customer = customer;
-    }
-  }
+  Review({
+    required this.id,
+    required this.productId,
+    required this.customerId,
+    required this.deliveryManId,
+    required this.orderId,
+    required this.comment,
+    required this.attachment,
+    required this.rating,
+    required this.status,
+    required this.isSaved,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deleted,
+    required this.attachmentUrl,
+    required this.customerName,
+    required this.customerImageUrl,
+    required this.customer,
+  });
 
-  int? get id => _id;
-  int? get productId => _productId;
-  int? get customerId => _customerId;
-  String? get comment => _comment;
-  List<dynamic>? get attachment => _attachment;
-  int? get rating => _rating;
-  int? get status => _status;
-  String? get createdAt => _createdAt;
-  String? get updatedAt => _updatedAt;
-  Customer? get customer => _customer;
-  String? _customerName;
-  String? get customerName => _customerName;
-  String? _customerimage;
-  String? get customerimage => _customerimage;
-  Reviews.fromJson(Map<String, dynamic> json) {
-    _id = json['id'];
-    _productId = json['product_id'];
-    _customerId = json['customer_id'];
-    _comment = json['comment'];
-    _attachment = json['attachment_url'];
-    _rating = json['rating'];
-    _status = json['status'];
-    _createdAt = json['created_at'];
-    _updatedAt = json['updated_at'];
-    _customerName = json['customer_name'];
-    _customerimage = json['customer_image_url'];
-    _customer = (json['customer'] != null
-        ? Customer.fromJson(json['customer'])
-        : null)!;
-  }
+  factory Review.fromJson(Map<String, dynamic> json) => Review(
+    id: json["id"],
+    productId: json["product_id"],
+    customerId: json["customer_id"],
+    deliveryManId: json["delivery_man_id"],
+    orderId: json["order_id"],
+    comment: json["comment"],
+    attachment: json["attachment"],
+    rating: json["rating"],
+    status: json["status"],
+    isSaved: json["is_saved"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+    deleted: json["deleted"],
+    attachmentUrl: List<String>.from(json["attachment_url"].map((x) => x)),
+    customerName: json["customer_name"],
+    customerImageUrl: json["customer_image_url"],
+    customer: json["customer"],
+  );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = _id;
-    data['product_id'] = _productId;
-    data['customer_id'] = _customerId;
-    data['comment'] = _comment;
-    data['attachment'] = _attachment;
-    data['rating'] = _rating;
-    data['status'] = _status;
-    data['created_at'] = _createdAt;
-    data['updated_at'] = _updatedAt;
-    if (_customer != null) {
-      data['customer'] = _customer!.toJson();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "product_id": productId,
+    "customer_id": customerId,
+    "delivery_man_id": deliveryManId,
+    "order_id": orderId,
+    "comment": comment,
+    "attachment": attachment,
+    "rating": rating,
+    "status": status,
+    "is_saved": isSaved,
+    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt.toIso8601String(),
+    "deleted": deleted,
+    "attachment_url": List<dynamic>.from(attachmentUrl.map((x) => x)),
+    "customer_name": customerName,
+    "customer_image_url": customerImageUrl,
+    "customer": customer,
+  };
 }
 
 class Customer {
@@ -1017,7 +1014,7 @@ class Customer {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = _id;
     data['f_name'] = _fName;
     data['l_name'] = _lName;
@@ -1025,6 +1022,37 @@ class Customer {
     data['image'] = _image;
     data['email'] = _email;
 
+    return data;
+  }
+}
+class ChoiceOptions {
+  String? _name;
+  String? _title;
+  List<String>? _options;
+
+  ChoiceOptions({String? name, String? title, List<String>? options}) {
+    _name = name;
+    _title = title;
+    _options = options;
+  }
+
+  String? get name => _name;
+  String? get title => _title;
+  List<String>? get options => _options;
+
+  ChoiceOptions.fromJson(Map<String, dynamic> json) {
+    _name = json['name'];
+    _title = json['title'];
+    if (json['options'] != null) {
+      _options = json['options'].cast<String>();
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['name'] = _name;
+    data['title'] = _title;
+    data['options'] = _options;
     return data;
   }
 }
@@ -1039,4 +1067,195 @@ ProductDisplayFor getProductDisplayFor(String displayFor) {
     return ProductDisplayFor.ADD;
   }
   return ProductDisplayFor.BOTH;
+}
+
+class Variation {
+  String? _type;
+  double? _price;
+  String? _sku;
+  int? _qty;
+
+  Variation({String? type, double? price, String? sku, int? qty}) {
+    _type = type;
+    _price = price;
+    _sku = sku;
+    _qty = qty;
+  }
+
+  String? get type => _type;
+  double? get price => _price;
+  String? get sku => _sku;
+  int? get qty => _qty;
+
+  Variation.fromJson(Map<String, dynamic> json) {
+    if (json['type'] != null) {
+      _type = json['type'];
+    }
+    if (json['price'] != null) {
+      _price = json['price'].toDouble();
+    }
+    if (json['sku'] != null) {
+      _sku = json['sku'];
+    }
+    if (json['qty'] != null) {
+      _qty = json['qty'];
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['type'] = _type;
+    data['price'] = _price;
+    data['sku'] = _sku;
+    data['qty'] = _qty;
+    return data;
+  }
+}
+class Seller {
+  int? _id;
+  String? _companyName;
+  String? _lName;
+  String? _phone;
+  String? _image;
+  Shop? _shop;
+
+  Seller(
+      {int? id,
+        String? companyName,
+        String? lName,
+        String? phone,
+        String? image,
+        Shop? shop}) {
+    _id = id;
+    _companyName = companyName;
+    _lName = lName;
+    _phone = phone;
+    _image = image;
+    _shop = shop;
+  }
+
+  int? get id => _id;
+  String? get companyName => _companyName;
+  String? get lName => _lName;
+  String? get phone => _phone;
+  String? get image => _image;
+  Shop? get shop => _shop;
+
+  Seller.fromJson(Map<String, dynamic> json) {
+    _id = json['id'];
+    _companyName = json['company_name'];
+    _lName = json['l_name'];
+    _phone = json['phone'];
+    _image = json['image'];
+    _shop = json['shop'] != null ? Shop.fromJson(json['shop']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['id'] = _id;
+    data['company_name']['value'] = _companyName;
+    data['l_name'] = _lName;
+    data['phone'] = _phone;
+    data['image'] = _image;
+    data['shop'] = _shop!.toJson();
+    return data;
+  }
+}
+
+class Shop {
+  int? _id;
+  int? _sellerId;
+  String? _name;
+  String? _address;
+  String? _contact;
+  String? _image;
+  String? _createdAt;
+  String? _updatedAt;
+  String? _banner;
+  int? _temporaryClose;
+  String? _vacationEndDate;
+  String? _vacationStartDate;
+  int? _vacationStatus;
+
+  Shop(
+      {int? id,
+        int? sellerId,
+        String? name,
+        String? address,
+        String? contact,
+        String? image,
+        String? createdAt,
+        String? updatedAt,
+        String? banner,
+        int? temporaryClose,
+        String? vacationEndDate,
+        String? vacationStartDate,
+        int? vacationStatus}) {
+    _id = id;
+    _sellerId = sellerId;
+    _name = name;
+    _address = address;
+    _contact = contact;
+    _image = image;
+    _createdAt = createdAt;
+    _updatedAt = updatedAt;
+    _banner = banner;
+    _temporaryClose = temporaryClose;
+    _vacationEndDate = vacationEndDate;
+    _vacationStartDate = vacationStartDate;
+    _vacationStatus = vacationStatus;
+  }
+
+  int? get id => _id;
+  int? get sellerId => _sellerId;
+  String? get name => _name;
+  String? get address => _address;
+  String? get contact => _contact;
+  String? get image => _image;
+  String? get createdAt => _createdAt;
+  String? get updatedAt => _updatedAt;
+  String? get banner => _banner;
+  int? get temporaryClose => _temporaryClose;
+  String? get vacationEndDate => _vacationEndDate;
+  String? get vacationStartDate => _vacationStartDate;
+  int? get vacationStatus => _vacationStatus;
+
+  Shop.fromJson(Map<String, dynamic> json) {
+    _id = json['id'];
+    _sellerId = int.tryParse(json['seller_id'].toString()) ?? 0;
+    _name = json['name'];
+    _address = json['address'];
+    _contact = json['contact'];
+    _image = json['image'];
+    _createdAt = json['created_at'];
+    _updatedAt = json['updated_at'];
+    _banner = json['banner'];
+    _temporaryClose = json['temporary_close'] != null
+        ? int.parse(json['temporary_close'].toString())
+        : 0;
+    _vacationEndDate = json['vacation_end_date'];
+    _vacationStartDate = json['vacation_start_date'];
+    _vacationStatus = json['vacation_status'] != null
+        ? int.parse(json['vacation_status'].toString())
+        : 0;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['id'] = _id;
+    data['seller_id'] = _sellerId;
+    data['name'] = _name;
+    data['address'] = _address;
+    data['contact'] = _contact;
+    data['image'] = _image;
+    data['created_at'] = _createdAt;
+    data['updated_at'] = _updatedAt;
+    data['banner'] = _banner;
+    data['temporary_close'] = _temporaryClose;
+    data['vacation_end_date'] = _vacationEndDate;
+    data['vacation_start_date'] = _vacationEndDate;
+    data['vacation_status'] = _vacationStatus;
+
+    return data;
+  }
 }

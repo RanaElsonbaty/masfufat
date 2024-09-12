@@ -253,8 +253,15 @@ String? get imagesFullUrl => _imagesFullUrl;
       try{
         _images = json['images'] != null ? json['images'].cast<String>() : [];
       }catch(e){
-        _images = json['images'] != null ? jsonDecode(json['images']).cast<String>() : [];
-      }
+try{
+
+   _images = json['images'] != null && json['images'] != null ? jsonDecode(json['images'])['sa'].cast<String>() : [];
+} catch(e){
+_images = json['images'] != null && json['images'] != null ? jsonDecode(json['images']).cast<String>() : [];
+
+// print('asdasdasdasdasda${jsonDecode(json['images'])['sa']}');
+
+}     }
     }
 
     if (json['image_url'] != null) {
@@ -353,7 +360,7 @@ String? get imagesFullUrl => _imagesFullUrl;
       _isMultiPly = int.parse(json['multiply_qty'].toString());
     }
     if(json['reviews_count']!=null){
-      _reviewCount = int.parse(json['reviews_count'].toString());
+      _reviewCount = json['reviews_count']!=null?int.parse(json['reviews_count'].toString()):0;
     }
     _videoUrl = json['video_url'];
     if(json['minimum_order_qty'] != null){

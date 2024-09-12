@@ -56,6 +56,7 @@ class SupportTicketController extends ChangeNotifier {
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       _supportTicketList = [];
       apiResponse.response!.data.forEach((supportTicket) => _supportTicketList!.add(SupportTicketModel.fromJson(supportTicket)));
+      getSearch('',isFilter,filterType);
     } else {
       ApiChecker.checkApi( apiResponse);
     }
@@ -271,6 +272,10 @@ void addPickCameraToList(){
           pickedImageFileStored.add(XFile(path));
           notifyListeners();
         }
+      //   2024-09-11 08:10:19.022797.m4a
+      //   2024-09-11-66e1280a0552d
+      //   2024-09-02-66d56710d74f9
+
       } else {
         await _recorderController.record(path: path!);
       }
@@ -341,7 +346,73 @@ void getMicOn(bool val){
     _isRunning = false;
     _timer?.cancel();
   }
+  List<SupportTicketModel>  _searchSupportTicket=[];
 
+  List<SupportTicketModel> get searchSupportTicket => _searchSupportTicket;
+  bool _isFilter=false;
+  bool get isFilter=>_isFilter;
+  String _filterType='';
+  String get filterType=>_filterType;
+  void getFilter(String filter){
+
+    if(filter=='PENDING'){
+    _filterType='pending';
+    _isFilter=true;
+    notifyListeners();
+
+    }
+  else  if(filter=='open'){
+      _filterType='open';
+      _isFilter=true;
+      notifyListeners();
+
+    }
+    else if(filter=='closed'){
+      _isFilter=true;
+      _filterType='close';
+      notifyListeners();
+
+    }
+    else if(filter=='all'){
+      _isFilter=false;
+      _filterType='';
+      notifyListeners();
+
+    }
+    getSearch('',_isFilter,_filterType);
+  }
+
+void getSearch(String val,bool filter,String filterType){
+  _searchSupportTicket=[];
+  if(val.isNotEmpty){
+  for (var element in _supportTicketList!) {
+    if(element.id.toString().contains(val)||element.type!.contains(val)||element.subject!.contains(val)){
+      if(filter&&filterType==element.status!){
+        _searchSupportTicket.add(element);
+
+      }
+      notifyListeners();
+    }
+  }
+  }else{
+    if(filter) {
+      for (var element in _supportTicketList!) {
+        if(filterType==element.status!){
+          if(filter&&filterType==element.status!){
+            _searchSupportTicket.add(element);
+
+          }
+          notifyListeners();
+        }
+      }
+
+    }else{
+      _searchSupportTicket.addAll(_supportTicketList!);
+
+    }
+    notifyListeners();
+  }
+}
 
 
 }

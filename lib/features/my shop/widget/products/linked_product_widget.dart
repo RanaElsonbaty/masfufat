@@ -26,7 +26,10 @@ class _LinkedProductWidgetState extends State<LinkedProductWidget> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        color: Theme.of(context).cardColor,
+        decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(8)
+        ),
 
         child:
         Padding(
@@ -42,7 +45,7 @@ class _LinkedProductWidgetState extends State<LinkedProductWidget> {
                       myShopProvider.selectOneProduct(widget.linked.id,val!);
                     },
                       checkColor: Colors.white,
-
+                      fillColor: myShopProvider.selectIds.contains(widget.linked.id)? null:MaterialStateProperty.all(Colors.white),
                       side: BorderSide.none,
                       activeColor: Theme.of(context).primaryColor,
                       shape: RoundedRectangleBorder(
@@ -56,7 +59,9 @@ class _LinkedProductWidgetState extends State<LinkedProductWidget> {
                   builder:(context, myShopProvider, child) =>  InkWell(
                     onTap: ()async{
                       myShopProvider.selectOneProduct(widget.linked.id, true);
-                      showModalBottomSheet(context: context, builder: (BuildContext context)=> const ShowModalBottomSheetShop( delete: true,));
+                      showModalBottomSheet(context: context,
+                          // backgroundColor: Colors.white,
+                          builder: (BuildContext context)=> const ShowModalBottomSheetShop( delete: true,));
                     },
                     child: Container(
                       height: 50,

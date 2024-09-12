@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/controllers/seller_product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/controllers/product_details_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/features/product_details/screens/product_image_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/bottom_cart_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/product_image_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/product_specification_widget.dart';
@@ -18,9 +19,17 @@ import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_c
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/title_row_widget.dart';
+import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
+import '../../../common/basewidget/custom_image_widget.dart';
+import '../../../utill/color_resources.dart';
 import '../../my shop/controllers/my_shop_controller.dart';
+import '../widgets/Logistics_information_widget.dart';
+import '../widgets/favourite_button_widget.dart';
+import '../widgets/reviewComSection.dart';
 
 class ProductDetails extends StatefulWidget {
   final int? productId;
@@ -48,10 +57,11 @@ class _ProductDetailsState extends State<ProductDetails> {
     // Provider.of<ProductDetailsController>(context, listen: false).getCount(widget.productId.toString(), context);
     Provider.of<ProductDetailsController>(context, listen: false).getSharableLink(widget.slug.toString(), context);
   }
+  final PageController _controller = PageController(initialPage: 0);
 
   @override
   void initState() {
-    Provider.of<ProductDetailsController>(context, listen: false).selectReviewSection(false, isUpdate: false);
+    Provider.of<ProductDetailsController>(context, listen: false).selectReviewSection(0, isUpdate: false);
     _loadData(context);
     super.initState();
   }
@@ -60,7 +70,34 @@ class _ProductDetailsState extends State<ProductDetails> {
   Widget build(BuildContext context) {
     ScrollController scrollController = ScrollController();
     return Scaffold(
-      appBar: CustomAppBar(title: getTranslated('product_details', context)),
+      appBar: CustomAppBar(title: getTranslated('product_details', context),
+      // showActionButton: true,
+        showResetIcon: true,
+        reset: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Consumer<ProductDetailsController>(
+            builder:(context, productController, child) =>  Row(children: [
+              InkWell(onTap: () {
+                if(productController.sharableLink != null) {
+                  Share.share(productController.sharableLink!,
+                    subject:productController.productDetailsModel!.name ,
+
+
+                  );
+                }
+              },
+                  child: SizedBox(width: 40, height: 40,
+                      child: Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                          child: Image.asset(Images.share, color: Theme.of(context).primaryColor))))
+,
+              const SizedBox(width: 5,),
+              FavouriteButtonWidget(backgroundColor: ColorResources.getImageBg(context),
+                  productId:widget.productId),
+            ],),
+          ),
+        ),
+
+      ),
 
       body: RefreshIndicator(onRefresh: () async => _loadData(context),
         child: Consumer<ProductDetailsController>(
@@ -70,10 +107,137 @@ class _ProductDetailsState extends State<ProductDetails> {
               child: !details.isDetails?
               Column(children: [
 
-                ProductImageWidget(productModel: details.productDetailsModel),
+                ProductImageWidget(productModel: details.productDetailsModel, controller: _controller,),
+                Divider(
+                  color: Colors.grey.shade300,
 
+                ),
+                
                 Column(children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(height: 70,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12)
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            addAutomaticKeepAlives: false,
+                            addRepaintBoundaries: false,
+                            itemCount: details.productDetailsModel!.images!.length>4?4:details.productDetailsModel!.images!.length,
+                            itemBuilder: (context, index) {
+                              if(index!=3) {
+                                return
 
+                                  InkWell(onTap: () {
+                                    details
+                                        .setImageSliderSelectedIndex(index);
+                                    if (_controller.hasClients) {
+                                      _controller.animateToPage(index,
+                                          duration: const Duration(
+                                              microseconds: 50),
+                                          curve: Curves.ease);
+                                    }
+                                  },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 4.0),
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all(width: 1,
+                                                    color: Colors.grey),
+                                                color: Theme
+                                                    .of(context)
+                                                    .cardColor,
+                                                borderRadius: BorderRadius
+                                                    .circular(Dimensions
+                                                    .paddingSizeExtraSmall)),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius
+                                                  .circular(Dimensions
+                                                  .paddingSizeExtraSmall),
+                                              child: CustomImageWidget(
+                                                  height: 60, width: 60,
+                                                  image: details.productDetailsModel!
+                                                      .images![index]),
+                                            )),
+                                      ));
+                              }else{
+                                return  InkWell(
+                                  onTap: () {
+                                    // productModel!.productImagesNull! ? null :
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) =>
+                                        ProductImageScreen(title: getTranslated('product_image', context),imageList: details.productDetailsModel!.images!,)));
+                                  },
+                                  child: Stack(
+                                    children: [
+
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 4.0),
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all(width: 1,
+                                                    color: Colors.grey),
+                                                color: Theme
+                                                    .of(context)
+                                                    .cardColor,
+                                                borderRadius: BorderRadius
+                                                    .circular(Dimensions
+                                                    .paddingSizeExtraSmall)),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius
+                                                  .circular(Dimensions
+                                                  .paddingSizeExtraSmall),
+                                              child: CustomImageWidget(
+                                                  height: 60, width: 60,
+                                                  fit: BoxFit.fill,
+                                                  image: details.productDetailsModel!
+                                                      .images![index]),
+                                            )),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 4.0),
+
+                                        child: Container(
+                                          height: 60,
+                                          width: 60,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius
+                                                  .circular(Dimensions
+                                                  .paddingSizeExtraSmall),
+                                              color: Colors.black.withOpacity(0.40)
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(top: 4.0),
+                                            child: Center(
+                                              child: Text('${(details.productDetailsModel!.images!.length-4)}+',
+                                                style: GoogleFonts.tajawal(
+
+                                                    color: Colors.white,fontWeight: FontWeight.w700,fontSize: 20
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                            },),
+                        ),
+                      ),
+                    ],
+                  ),
+                  
+const SizedBox(height: 10,),
                   ProductTitleWidget(productModel: details.productDetailsModel,
                       averageRatting: details.productDetailsModel?.averageReview?? "0"),
 
@@ -82,43 +246,42 @@ class _ProductDetailsState extends State<ProductDetails> {
                   const ReviewAndSpecificationSectionWidget(),
 
 
-                  details.isReviewSelected?
-                  Column(children: [
-                    ReviewSection(details: details),
+                  details.index==2?
+                   Column(children: [
+                    const SizedBox(height: 5,),
+                    ReviewComSection(productDetailsModel:details.productDetailsModel! ,)
+                    // ReviewSection(details: details),
+                    // _ProductDetailsProductListWidget(scrollController: scrollController),
+                  ]):   details.index==0?
 
-                    _ProductDetailsProductListWidget(scrollController: scrollController),
-
-
-                  ]):
-
-                  Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment:MainAxisAlignment.start,children: [
                     (details.productDetailsModel?.details != null && details.productDetailsModel!.details!.isNotEmpty) ?
-                    Container(
-                      margin: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
-                      padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                      child: ProductSpecificationWidget(
-                        productSpecification: details.productDetailsModel!.details ?? '',
-                      ),
+                    Row(
+                      children: [
+                        ProductSpecificationWidget(
+                          productSpecification: details.productDetailsModel!.details ?? '',
+                        ),
+                      ],
                     ) : const SizedBox(),
 
-                    (details.productDetailsModel?.videoUrl != null && details.isValidYouTubeUrl(details.productDetailsModel!.videoUrl.toString()))?
-                    YoutubeVideoWidget(url: details.productDetailsModel!.videoUrl.toString()):const SizedBox(),
+                    // (details.productDetailsModel?.videoUrl != null && details.isValidYouTubeUrl(details.productDetailsModel!.videoUrl.toString()))?
+                    // YoutubeVideoWidget(url: details.productDetailsModel!.videoUrl.toString()):const SizedBox(),
 
 
-                    (details.productDetailsModel != null &&Provider.of<SplashController>(context,listen: false).configModel!.showSellersSection!=1) ?
-                    ShopInfoWidget(sellerId: details.productDetailsModel!.addedBy == 'seller'? details.productDetailsModel!.userId.toString() : "0") : const SizedBox.shrink(),
+                    // (details.productDetailsModel != null &&Provider.of<SplashController>(context,listen: false).configModel!.showSellersSection!=1) ?
+                    // ShopInfoWidget(sellerId: details.productDetailsModel!.addedBy == 'seller'? details.productDetailsModel!.userId.toString() : "0") : const SizedBox.shrink(),
 
-                    const SizedBox(height: Dimensions.paddingSizeLarge,),
+                    // const SizedBox(height: Dimensions.paddingSizeLarge,),
 
-                    Container(padding: const EdgeInsets.only(top: Dimensions.paddingSizeLarge, bottom: Dimensions.paddingSizeDefault),
-                        decoration: BoxDecoration(color: Theme.of(context).cardColor),
-                        child: const PromiseWidget()),
+                    // Container(padding: const EdgeInsets.only(top: Dimensions.paddingSizeLarge, bottom: Dimensions.paddingSizeDefault),
+                    //     decoration: BoxDecoration(color: Theme.of(context).cardColor),
+                    //     child: const PromiseWidget()),
 
                     // _ProductDetailsProductListWidget(scrollController: scrollController),
 
 
 
-                  ],),
+                  ],):LogisticsInformationWidget(productDetailsModel: details.productDetailsModel!,),
                 ],),
               ],
               ):
@@ -162,12 +325,12 @@ class _ProductDetailsProductListWidget extends StatelessWidget {
                           Navigator.push(context, MaterialPageRoute(builder: (_) => TopSellerProductScreen(
                             fromMore: true,
                             sellerId: productDetailsController.productDetailsModel?.seller?.id,
-                            temporaryClose: productDetailsController.productDetailsModel?.seller?.temporaryClose==1,
-                            vacationStatus: productDetailsController.productDetailsModel?.seller?.vacationStatus==1,
-                            vacationEndDate: productDetailsController.productDetailsModel?.seller?.vacationEndDate,
-                            vacationStartDate: productDetailsController.productDetailsModel?.seller?.vacationStartDate,
-                            name: productDetailsController.productDetailsModel?.seller?.name,
-                            banner: productDetailsController.productDetailsModel?.seller?.banner,
+                            temporaryClose: productDetailsController.productDetailsModel?.seller?.shop!.temporaryClose==1,
+                            vacationStatus: productDetailsController.productDetailsModel?.seller?.shop!.vacationStatus==1,
+                            vacationEndDate: productDetailsController.productDetailsModel?.seller?.shop!.vacationEndDate,
+                            vacationStartDate: productDetailsController.productDetailsModel?.seller?.shop!.vacationStartDate,
+                            name: productDetailsController.productDetailsModel?.seller?.shop!.name,
+                            banner: productDetailsController.productDetailsModel?.seller?.shop!.banner,
                             image: productDetailsController.productDetailsModel?.seller?.image,
                           )));
 

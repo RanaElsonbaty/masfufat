@@ -21,6 +21,7 @@ import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 
@@ -71,7 +72,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
 
 
 
-              Variation? variation;
+              // Variation? variation;
               String? variantName = (widget.product!.colors != null && widget.product!.colors!.isNotEmpty) ?
               widget.product!.colors![details.variantIndex!].name : null;
               List<String> variationList = [];
@@ -146,7 +147,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                 widget.product!.colors![details.variantIndex!].name : '',
                 color: (widget.product!.colors != null && widget.product!.colors!.isNotEmpty) ?
                 widget.product!.colors![details.variantIndex!].code : '',
-                variation : variation,
+                // variation :  ,
                 quantity: details.quantity,
                 variantKey: variantKey,
                 digitalVariantPrice: digitalVariantPrice
@@ -155,13 +156,29 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
 
               return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-                Align(alignment: Alignment.centerRight, child: InkWell(onTap: () => Navigator.pop(context),
-                  child: Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-                    child: Icon(Icons.cancel, color: Theme.of(context).hintColor, size: 30)))),
+                Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: Center(
+                    child: Container(
+
+                      height: 5,
+                      width: 120,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.grey
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15 ,),
+                // Align(alignment: Alignment.centerRight, child: InkWell(onTap: () => Navigator.pop(context),
+                //   child: Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+                //     child: Icon(Icons.cancel, color: Theme.of(context).hintColor, size: 30)))),
 
                 // Product details
                 Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.homePagePadding),
                   child: Column(children: [
+
                       Row(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
                         Column(
                           children: [
@@ -183,40 +200,35 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                                 decoration: BoxDecoration(color:Theme.of(context).colorScheme.error,
                                     borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.paddingSizeExtraSmall))),
                                 child: Padding(padding: const EdgeInsets.all(5),
-                                    child: CustomDirectionalityWidget(
-                                      child: Text(PriceConverter.percentageCalculation(context, widget.product!.unitPrice,
-                                          widget.product!.discount, widget.product!.discountType),
-                                          style: titilliumRegular.copyWith(color: const Color(0xFFFFFFFF),
-                                              fontSize: Dimensions.fontSizeDefault)),
-                                    )),
+                                    child: Text(PriceConverter.percentageCalculation(context, widget.product!.unitPrice,
+                                        widget.product!.discount, widget.product!.discountType),
+                                        style: GoogleFonts.tajawal(color: const Color(0xFFFFFFFF),
+                                            fontSize: Dimensions.fontSizeDefault))),
                               ) : const SizedBox(width: 93)
                             ]),
                             const SizedBox(height: 10),
-                            widget.product!.productType != "digital" ?
-                            Text('$stock ${getTranslated('in_stock', context)}',
-                              style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeLarge),
-                              maxLines: 1) : const SizedBox(),
+
                           ],
                         ),
 
 
 
 
-                        const SizedBox(width: 20),
+                        const SizedBox(width: 5),
                         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                             Text(widget.product!.name ?? '',
-                                style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeLarge),
+                                style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeLarge),
                                 maxLines: 2, overflow: TextOverflow.ellipsis),
 
-                                const SizedBox(height: Dimensions.paddingSizeSmall),
+                                // const SizedBox(height: Dimensions.paddingSizeSmall),
                                 Row(children: [
                                    const Icon(Icons.star_rate_rounded, color: Color(0xFFFB9C1F)),
                                   Text(double.parse(ratting).toStringAsFixed(1),
                                       style: titilliumSemiBold.copyWith(fontSize: Dimensions.fontSizeLarge),
                                       maxLines: 2, overflow: TextOverflow.ellipsis),],),
 
-                          const SizedBox(height:  Dimensions.paddingSizeSmall),
-
+                          // const SizedBox(height:  Dimensions.paddingSizeSmall),
+                          //
 
                           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
@@ -225,7 +237,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                                   discount: widget.product?.discount, discountType: widget.product?.discountType):''}'
                                   '${endingPrice !=null ? ' - ${PriceConverter.convertPrice(context, endingPrice,
                                   discount: widget.product?.discount, discountType: widget.product?.discountType)}' : ''}',
-                                  style: titilliumRegular.copyWith(color: Theme.of(context).primaryColor,
+                                  style: GoogleFonts.tajawal(color: Theme.of(context).primaryColor,
                                       fontSize: Dimensions.fontSizeExtraLarge)),
                             ),
 
@@ -233,10 +245,13 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                             CustomDirectionalityWidget(
                               child: Text('${PriceConverter.convertPrice(context, startingPrice)}'
                                   '${endingPrice!= null ? ' - ${PriceConverter.convertPrice(context, endingPrice)}' : ''}',
-                                  style: titilliumRegular.copyWith(color: Theme.of(context).hintColor,
+                                  style: GoogleFonts.tajawal(color: Theme.of(context).hintColor,
                                       decoration: TextDecoration.lineThrough)),
                             ):const SizedBox(),
-
+                            widget.product!.productType != "digital" ?
+                            Text('$stock ${getTranslated('in_stock', context)}',
+                                style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeLarge),
+                                maxLines: 1) : const SizedBox(),
                           ]),
                         ]))])])),
 
@@ -261,7 +276,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                     itemBuilder: (ctx, index) {
                       return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                         Text('${getTranslated('available', context)}  ${widget.product!.choiceOptions![index].title} : ',
-                            style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault)),
+                            style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault)),
                         const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
 
@@ -283,7 +298,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                                           Theme.of(context).cardColor: const Color(0x00FFFFFF))),
                                           child: Padding(padding: const EdgeInsets.symmetric(horizontal : Dimensions.paddingSizeDefault),
                                             child: Center(child: Text(widget.product!.choiceOptions![index].options![i].trim(), maxLines: 1,
-                                                  overflow: TextOverflow.ellipsis, style: titilliumRegular.copyWith(
+                                                  overflow: TextOverflow.ellipsis, style: GoogleFonts.tajawal(
                                                 fontSize: Dimensions.fontSizeDefault,
                                                 color: (details.variationIndex![index] != i &&
                                                     !Provider.of<ThemeController>(context, listen: false).darkTheme) ?
@@ -342,7 +357,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                                     ),
                                     child: Center(
                                       child: Text(extentions[index][i].trim(), maxLines: 1,
-                                          overflow: TextOverflow.ellipsis, style: titilliumRegular.copyWith(
+                                          overflow: TextOverflow.ellipsis, style: GoogleFonts.tajawal(
                                             fontSize: Dimensions.fontSizeDefault,
                                             color: isSelect ?  Colors.white : Theme.of(context).primaryColor.withOpacity(0.85),
                                           )),
@@ -363,7 +378,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                 // Quantity
                 Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.homePagePadding),
                   child: Row(children: [
-                    Text(getTranslated('quantity', context)!, style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                    Text(getTranslated('quantity', context)!, style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeLarge)),
                     const SizedBox(width: Dimensions.paddingSizeSmall,),
                     QuantityButton(isIncrement: false, quantity: details.quantity,
                         stock: stock, minimumOrderQuantity: widget.product!.minimumOrderQty,
@@ -371,7 +386,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
 
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-                      child: Text(details.quantity.toString(), style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                      child: Text(details.quantity.toString(), style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeLarge)),
                     ),
 
                     QuantityButton(isIncrement: true, quantity: details.quantity, stock: stock,
@@ -380,47 +395,42 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                 const SizedBox(height: Dimensions.paddingSizeSmall),
 
 
-                Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-                  child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Text(getTranslated('total_price', context)!, style: robotoBold),
-                    const SizedBox(width: Dimensions.paddingSizeSmall),
-                    CustomDirectionalityWidget(
-                      child: Text(PriceConverter.convertPrice(context, priceWithQuantity),
-                        style: titilliumBold.copyWith(color: ColorResources.getPrimary(context), fontSize: Dimensions.fontSizeLarge)),
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Text(getTranslated('total_price', context)!, style: GoogleFonts.tajawal()),
+                  const SizedBox(width: Dimensions.paddingSizeSmall),
+                  Text(PriceConverter.convertPrice(context, priceWithQuantity),
+                    style: GoogleFonts.tajawal(color: ColorResources.getPrimary(context), fontSize: Dimensions.fontSizeLarge)),
+                  widget.product!.taxModel == 'exclude' ?
+                  Padding(
+                    padding: const EdgeInsets.only(top: Dimensions.paddingSizeExtraSmall),
+                    child: Row(
+                      children: [
+                        Text('(', style: GoogleFonts.tajawal(
+                          color: ColorResources.hintTextColor,
+                          fontSize: Dimensions.fontSizeDefault,
+                        )),
+
+                        Text('${getTranslated('tax', context)} : ', style: GoogleFonts.tajawal(
+                          color: ColorResources.hintTextColor,
+                          fontSize: Dimensions.fontSizeDefault,
+                        )),
+
+                        Text('${widget.product?.tax}%', style: GoogleFonts.tajawal(
+                          color: ColorResources.hintTextColor,
+                          fontSize: Dimensions.fontSizeDefault,
+                        )),
+
+                        Text(')', style: GoogleFonts.tajawal(
+                          color: ColorResources.hintTextColor,
+                          fontSize: Dimensions.fontSizeDefault,
+                        )),
+                      ],
                     ),
-                    widget.product!.taxModel == 'exclude' ?
-                    Padding(
-                      padding: const EdgeInsets.only(top: Dimensions.paddingSizeExtraSmall),
-                      child: Row(
-                        children: [
-                          Text('(', style: titilliumRegular.copyWith(
-                            color: ColorResources.hintTextColor,
-                            fontSize: Dimensions.fontSizeDefault,
-                          )),
 
-                          Text('${getTranslated('tax', context)} : ', style: titilliumRegular.copyWith(
-                            color: ColorResources.hintTextColor,
-                            fontSize: Dimensions.fontSizeDefault,
-                          )),
-
-                          CustomDirectionalityWidget(
-                            child: Text('${widget.product?.tax}%', style: titilliumRegular.copyWith(
-                              color: ColorResources.hintTextColor,
-                              fontSize: Dimensions.fontSizeDefault,
-                            )),
-                          ),
-
-                          Text(')', style: titilliumRegular.copyWith(
-                            color: ColorResources.hintTextColor,
-                            fontSize: Dimensions.fontSizeDefault,
-                          )),
-                        ],
-                      ),
-
-                    ):
-                    Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeExtraSmall),
-                      child: Text('(${getTranslated('tax', context)} ${widget.product?.tax})',
-                        style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault)))])),
+                  ):
+                  Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeExtraSmall),
+                    child: Text('(${getTranslated('tax', context)} ${widget.product?.tax})',
+                      style: GoogleFonts.tajawal(color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault)))]),
                 const SizedBox(height: Dimensions.paddingSizeSmall),
 
                 (stock! == 0 && widget.product!.productType == "physical") ?
@@ -487,23 +497,6 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
     );
   }
 
-  void _buyNow(CartModelBody cart, BuildContext context, List<ChoiceOptions> choices, List<int>? variationIndexes, Response<dynamic>? response) {
-    if(response!.data['status'] == 1){
-      CartModel cart = CartModel.fromJson(response.data['cart']);
-      _navigateToCheckoutScreen(context, cart, 0);
-
-    } else if (response.data['status'] == 2) {
-      List<ShippingMethodModel>? shippingMethodList = [];
-
-      response.data['shipping_method_list'].forEach((element) {
-        shippingMethodList.add(ShippingMethodModel.fromJson(element));
-      });
-
-      showDialog(context: context, builder: (context) => Dialog(
-        backgroundColor: Colors.transparent,
-        child: ChooseShippingMethodDialog(shippingMethodList, cart, choices, variationIndexes, _navigateToCheckoutScreen)));
-    }
-  }
 
   void _navigateToCheckoutScreen(BuildContext context, CartModel cart, double shippingCost) {
     final double discount = cart.discount! * cart.quantity!;

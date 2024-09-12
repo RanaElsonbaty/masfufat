@@ -107,10 +107,10 @@ class _StoreSectionState extends State<StoreSection> {
                                 check: false,
                                 storeSetting: true,
                               ),));}else{
-                              showDialog<String>(
+                              showBottomSheet(
                                   context: context,
-                                  builder: (BuildContext context) => Dialog(
-
+                                  builder: (BuildContext context) => Container(
+                                    height: 250,
                                     child: Padding(
                                       padding: const EdgeInsets.all(15.0),
                                       child: Column(
@@ -146,10 +146,12 @@ class _StoreSectionState extends State<StoreSection> {
                               //   associated_store
                             }
                           }else{
-                            showDialog<String>(
+                            showBottomSheet(
                                 context: context,
-                                builder: (BuildContext context) => Dialog(
 
+                                builder: (BuildContext context) => Container(
+
+                                  height: 250,
                                   child: Padding(
                                     padding: const EdgeInsets.all(15.0),
                                     child: Column(
@@ -160,8 +162,9 @@ class _StoreSectionState extends State<StoreSection> {
                                           style: GoogleFonts.tajawal(
                                             fontSize: 20,
                                             color: storeProvider
-                                                .activeSwitch[widget.index]?Colors.white:null ,
+                                                .activeSwitch[widget.index]?Theme.of(context).iconTheme.color:null ,
                                             fontWeight: FontWeight.w700,
+
                                           ),
                                         ),
                                         const SizedBox(height: 15),
@@ -228,6 +231,7 @@ class _StoreSectionState extends State<StoreSection> {
                                 .activeSwitch[widget.index]?getTranslated('Unlink', context)!:getTranslated("link", context)!,style: GoogleFonts.tajawal(
                               fontWeight: FontWeight.w700,
                               fontSize: 14,
+                              color: Colors.white
                             ),),),
                           ),
                         ),
@@ -306,58 +310,59 @@ class _StoreSectionState extends State<StoreSection> {
               Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 15.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius:
-                      BorderRadius.circular(8),
-                      color: Colors.white,
-                      border: Border.all(
+                child: InkWell(
+                  onTap: () {
+                    if(widget.store.token!=null){
+                      showCustomSnackBar(
+                          getTranslated(
+                              'The_text_has_been_copied',
+                              context),
+                          context,
+                          isError: false);
+                      Clipboard.setData(ClipboardData(
+                          text:
+                          "${widget.store.token}"));}else{
+                      showCustomSnackBar(
+                          getTranslated(
+                              'Thereـisـnoـapplicationـkeyـcurrently',
+                              context),
+                          context,
+                          isError: true,isToaster: false);
+                      // Thereـisـnoـapplicationـkeyـcurrently
+                    }
 
-                          width: 0.5,
-                          color: Colors.grey)),
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius:
+                        BorderRadius.circular(8),
+                        color: Colors.white,
+                        border: Border.all(
 
-                  child:Stack(children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                          widget.store
-                              .token!=null?  widget.store
-                              .token
-                              .toString():'no key',
-                          textDirection: TextDirection.ltr,
-                          style: TextStyle(
-                            color: Colors.black ,
-                          ),
-                          overflow: TextOverflow.visible),
-                    ),
-                          Positioned(
-                            bottom: 5,
-                            right: 5,
-                            child: InkWell(
-                                            onTap: () {
-                                              if(widget.store.token!=null){
-                                                showCustomSnackBar(
-                                                    getTranslated(
-                                                        'The_text_has_been_copied',
-                                                        context),
-                                                    context,
-                                                    isError: false);
-                                                Clipboard.setData(ClipboardData(
-                                                    text:
-                                                    "${widget.store.token}"));}else{
-                                                showCustomSnackBar(
-                                                    getTranslated(
-                                                        'Thereـisـnoـapplicationـkeyـcurrently',
-                                                        context),
-                                                    context,
-                                                    isError: true,isToaster: false);
-                                                // Thereـisـnoـapplicationـkeyـcurrently
-                                              }
-                                            },
-                                            child:Image.asset(Images.documentCopy,width: 20,height: 20,color: Colors.black,),
-                                          ),
-                          ),
-                  ],)
+                            width: 0.5,
+                            color: Colors.grey)),
+
+                    child:Stack(children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                            widget.store
+                                .token!=null?  widget.store
+                                .token
+                                .toString():'no key',
+                            textDirection: TextDirection.ltr,
+                            style: TextStyle(
+                              color: Colors.black ,
+                            ),
+                            overflow: TextOverflow.visible),
+                      ),
+                            Positioned(
+                              bottom: 5,
+                              right: 5,
+                              child: Image.asset(Images.documentCopy,width: 20,height: 20,color: Colors.black,),
+                            ),
+                    ],)
+                  ),
                 ),
               ),
               const SizedBox(

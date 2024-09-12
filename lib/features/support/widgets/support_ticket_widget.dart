@@ -71,23 +71,41 @@ class _SupportTicketWidgetState extends State<SupportTicketWidget> {
                 // SizedBox(width: 15, child: Image.asset(supportTicketModel.type?.toLowerCase() == 'website problem'? Images.websiteProblem :
                 // supportTicketModel.type == 'Complaint'? Images.complaint : supportTicketModel.type == 'Partner request'?
                 // Images.partnerRequest : Images.infoQuery)),
-                const SizedBox(width: Dimensions.paddingSizeSmall,),
+            Container(
+              height: 25,
+              width: 25,
+              padding: const EdgeInsets.only(top: 3),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: const Color(0xFFFAF2F2)
+              ),
+              child: Center(
+                child: Text(
+                          widget.supportTicketModel.id.toString(), style: GoogleFonts.tajawal(
+                      color: Colors.black,fontWeight: FontWeight.w500,fontSize: 16)),
+              ),
+            ),
+          const SizedBox(width: Dimensions.paddingSizeSmall,),
                   Expanded(child: Text(
-                      getTranslated(type, context)!, style: GoogleFonts.tajawal(
+                     '${ getTranslated(type, context)!} ', style: GoogleFonts.tajawal(
                     color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(.75),fontWeight: FontWeight.w500,fontSize: 16))),
+                const SizedBox(width: Dimensions.paddingSizeSmall,),
 
-                Container(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeExtraSmall),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
-                        color: widget.supportTicketModel.status == 'open' ?
-                        const Color(0xffec1013).withOpacity(0.57) :widget.supportTicketModel.status == 'pending' ?
-                        const Color(0xFF1B9D00).withOpacity(0.38) : const Color(0xFF5A409B).withOpacity(0.20)),
 
-                    child: Text(widget.supportTicketModel.status == 'pending' ? getTranslated('pending', context)! :
-                    widget.supportTicketModel.status == 'open' ? getTranslated('open', context)! :
-                    getTranslated('closed', context)!,
-                        style: GoogleFonts.tajawal(color:Colors.black)))
               ]),
+              const SizedBox(height: 5,),
+              Row(
+                children: [
+                  Expanded(child: Text(
+                  widget.supportTicketModel.subject!,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.tajawal(
+                      color: Theme.of(context).hintColor,fontWeight: FontWeight.w500,fontSize: 16))),
+                  const SizedBox(width: 50,),
+                ],
+              ),
+              // const SizedBox(width: Dimensions.paddingSizeSmall,),
               //
               // Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall, bottom: Dimensions.paddingSizeEight),
               //   child: Row(crossAxisAlignment: CrossAxisAlignment.start,children: [
@@ -101,6 +119,7 @@ class _SupportTicketWidgetState extends State<SupportTicketWidget> {
 const SizedBox(height: 10,),
 
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Text.rich(TextSpan(children: [
                   //   TextSpan(text: '${getTranslated('priority', context)}',
@@ -112,8 +131,22 @@ const SizedBox(height: 10,),
                   //   (supportTicketModel.priority == 'Low' || supportTicketModel.priority == 'low')?
                   //   Theme.of(context).primaryColor : Colors.greenAccent))
                   // ])),
-                  Text(DateConverter.supportTicketDateFormat(DateTime.parse(widget.supportTicketModel.createdAt!)),
-                      style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor,fontWeight: FontWeight.w500,)),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(DateConverter.supportTicketDateFormat(DateTime.parse(widget.supportTicketModel.updatedAt!)),
+                        style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor,fontWeight: FontWeight.w500,)),
+                  ),
+                  Container(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeExtraSmall),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
+                          color: widget.supportTicketModel.status == 'open' ?
+                          const Color(0xffec1013).withOpacity(0.57) :widget.supportTicketModel.status == 'pending' ?
+                          const Color(0xFF1B9D00).withOpacity(0.38) : const Color(0xFF5A409B).withOpacity(0.20)),
+
+                      child: Text(widget.supportTicketModel.status == 'pending' ? getTranslated('pending', context)! :
+                      widget.supportTicketModel.status == 'open' ? getTranslated('open', context)! :
+                      getTranslated('closed', context)!,
+                          style: GoogleFonts.tajawal(color:Theme.of(context).iconTheme.color))),
                 ],
               ),
             ]),

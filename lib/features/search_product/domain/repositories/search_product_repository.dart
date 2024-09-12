@@ -29,7 +29,7 @@ class SearchProductRepository implements SearchProductRepositoryInterface{
       // &from_price=$startingPrice&to_price=$endingPrice
       // order_by
       // product_type
-      final response = await dioClient!.get("${AppConstants.baseUrl}${AppConstants.searchUri}${brand==false?'category=${categoryIds??0}':'brand=${categoryIds??0}'}&page=$offset&search=$query&product_type=$syncFilter&order_by=${sort ?? ''}&${(priceMax!='0.0'?"from_price=$priceMin&to_price=$priceMax":'')}",
+      final response = await dioClient!.get("${AppConstants.baseUrl}${AppConstants.searchUri}${brand==false?'category=${categoryIds??0}':'brand=${categoryIds??0}'}&page=$offset&product_type=$syncFilter&order_by=${sort ?? ''}&${(priceMax!='0.0'?"from_price=$priceMin&to_price=$priceMax":'')}&search=$query",
 
             );
       return ApiResponse.withSuccess(response);

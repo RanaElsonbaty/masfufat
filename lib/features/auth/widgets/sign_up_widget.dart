@@ -82,11 +82,18 @@ class SignUpWidgetState extends State<SignUpWidget> {
                       Container(margin: const EdgeInsets.only(left: Dimensions.marginSizeDefault, right: Dimensions.marginSizeDefault,
                           top: Dimensions.marginSizeSmall),
                         child: CustomTextFieldWidget(
+                          // textAlign: TextAlign.end,
                           hintText: getTranslated('enter_your_email', context),
                           // labelText: getTranslated('enter_your_email', context),
                           focusNode: authProvider.emailFocus,
                             lTf: true,
 showLabelText: false,
+                            onChanged: (text) {
+                              setState(() {
+
+                              });
+                            },
+
 titleText: getTranslated('email', context),
                           nextFocus: authProvider.phoneFocus,
                           required: true,
@@ -119,6 +126,11 @@ titleText: getTranslated('email', context),
                             authProvider.countryDialCode = countryCode.dialCode!;
                             authProvider.setCountryCode(countryCode.dialCode!);
                           },
+                            onChanged: (text) {
+                              setState(() {
+
+                              });
+                            },
                             textAlign: TextAlign.center,
                           isAmount: true,
                           validator: (value)=> ValidateCheck.validateEmptyText(value, "phone_must_be_required"),
@@ -136,11 +148,16 @@ titleText: getTranslated('email', context),
                           // labelText: getTranslated('password', context),
                           titleText: getTranslated('password', context),
                           showLabelText: false,
+
                           controller: authProvider.passwordController,
                           focusNode: authProvider.passwordFocus,
                           isPassword: true,required: true,
-                          lTf: true,
+                          lTf: authProvider.passwordController.text.isNotEmpty?true:false,
+                          onChanged: (text) {
+                            setState(() {
 
+                            });
+                          },
                           nextFocus: authProvider.confirmPasswordFocus,
                           inputAction: TextInputAction.next,
                           validator: (value)=> ValidateCheck.validatePassword(value, "password_must_be_required"),
@@ -177,9 +194,11 @@ titleText: getTranslated('email', context),
                       child: CustomButton(
                         isLoading: authProvider.isLoading,
 
-                        onTap:     authProvider.companyName.text!=''&&authProvider.licenseHolderName.text!=''&&
+                        onTap:
+                        authProvider.companyName.text!=''&&authProvider.licenseHolderName.text!=''&&
                             authProvider.emailController.text!=''&&authProvider.phoneController.text!=''
-                            &&authProvider.passwordController.text!='' &&authProvider.passwordController.text.length>=8&&authProvider.passwordController.text.trim()==authProvider.confirmPasswordController.text.trim()?(){
+                            &&authProvider.passwordController.text!='' &&authProvider.passwordController.text.length>=8&&authProvider.passwordController.text.trim()==authProvider.confirmPasswordController.text.trim()?
+                            (){
                           if(
                           authProvider.companyName.text!=''&&authProvider.licenseHolderName.text!=''&&
                               authProvider.emailController.text!=''&&authProvider.phoneController.text!=''
@@ -187,7 +206,9 @@ titleText: getTranslated('email', context),
                             authProvider.initPageIndex(false);
 
                           }
-                        }:null, buttonText: getTranslated('next', context),
+                        }
+                        :null,
+                        buttonText: getTranslated('next', context),
                       ),
                     )),
 

@@ -1,6 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
@@ -113,15 +114,16 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
                 if (widget.isRequiredFill)
                   TextSpan(text: " *", style: GoogleFonts.tajawal(
                         fontWeight: FontWeight.w500, fontSize: 16, color: Colors.red))])),
-        if (widget.titleText != null) const SizedBox(height: 8),
+        if (widget.titleText != null) const SizedBox(height: 10),
         Directionality(
-          textDirection:widget.lTf==true? TextDirection.ltr:TextDirection.rtl,
+          textDirection:widget.lTf==true&&widget.controller!.text.isNotEmpty? TextDirection.ltr:TextDirection.rtl,
 
           child: TextFormField(
             maxLines: widget.maxLines,
             controller: widget.controller,
             focusNode: widget.focusNode,
             validator: widget.validator,
+
             textAlign: widget.textAlign,
             readOnly: widget.readOnly,
             onTap: widget.onTap,
@@ -150,13 +152,13 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
               alignLabelWithHint: true,
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none
+                  borderSide:widget.showBorder?const BorderSide(width: 0.1):BorderSide.none
                 ),
               focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none),
+                  borderSide:widget.showBorder?const BorderSide(width: 0.1):BorderSide.none              ),
 
               enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none),
+                  borderSide:widget.showBorder?const BorderSide(width: 0.1):BorderSide.none                  ),
 
               fillColor: widget.backGroundColor ?? Theme.of(context).cardColor,
               floatingLabelStyle: widget.showLabelText ? GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault,

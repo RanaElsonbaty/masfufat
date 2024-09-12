@@ -6,6 +6,7 @@ import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/produ
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
+import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
@@ -16,6 +17,7 @@ import 'package:provider/provider.dart';
 
 import '../../features/cart/controllers/cart_controller.dart';
 import '../../features/cart/domain/models/cart_model.dart';
+import '../../features/product/widgets/carousel_slider.dart';
 import '../../features/product_details/widgets/cart_bottom_sheet_widget.dart';
 
 
@@ -51,14 +53,18 @@ class ProductWidget extends StatelessWidget {
               ),
               child: Stack(
                 children: [
-                  Consumer<SplashController>(
-                    builder: (context, splashProvider, child) =>  CustomImageWidget(
-                      image:productModel.images!=null&&productModel.images!.isNotEmpty&&productModel.images!.first.startsWith('https://platform.masfufat.com/storage/app/public/product/sa/')? productModel.images!.first:productModel.imagesFullUrl!=null&&productModel.imagesFullUrl!.isNotEmpty?productModel.imagesFullUrl!:'',
-                      fit: BoxFit.fill,
-                      height: boxConstraint.maxWidth * 0.82,
-                      width: boxConstraint.maxWidth,
-                    ),
+                  CarouselSliderWidget(
+                    isCategory: false,
+                    productModel: productModel,
                   ),
+                  // Consumer<SplashController>(
+                  //   builder: (context, splashProvider, child) =>  CustomImageWidget(
+                  //     image:productModel.images!=null&&productModel.images!.isNotEmpty&&productModel.images!.first.startsWith('${AppConstants.baseUrl}/storage/app/public/product/sa/')? productModel.images!.first:productModel.imagesFullUrl!=null&&productModel.imagesFullUrl!.isNotEmpty?productModel.imagesFullUrl!:'${AppConstants.baseUrl}/storage/app/public/product/sa/${productModel.images!.first}',
+                  //     fit: BoxFit.fill,
+                  //     height: boxConstraint.maxWidth * 0.82,
+                  //     width: boxConstraint.maxWidth,
+                  //   ),
+                  // ),
 
                   if(productModel.currentStock! == 0 && productModel.productType == 'physical')...[
                     // Container(
@@ -128,7 +134,7 @@ class ProductWidget extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 2.0),
                     child: Text(ratting.toStringAsFixed(1), style: GoogleFonts.cairo(fontSize: Dimensions.fontSizeDefault)),
                   ),
-                  Text('(${productModel.reviewCount.toString()})',
+                  Text('(${productModel.reviewCount!=null?productModel.reviewCount.toString():0})',
                       style: GoogleFonts.cairo(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor))]),
 
 
@@ -157,7 +163,7 @@ class ProductWidget extends StatelessWidget {
                   builder:(context, cartProvider, child) {
                     bool inCart=false;
                     for (var element in cartProvider.cartList) {
-                      if(element.id==productModel.id){
+                      if(element.product!.id==productModel.id){
                         inCart=true;
                       }
                     }
@@ -181,7 +187,32 @@ class ProductWidget extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Row(
                         children: [
+                          Expanded(
+                            child: InkWell(
+                              onTap: (){
+                                CartModelBody cart = CartModelBody(
+                                  productId: productModel.id,
+                                  quantity: 1,
+                                );
+                                Provider.of<CartController>(context, listen: false).addToCartAPI(
+                                    cart, context, []);
+                              },
+                              child: Container(
+                                height: 30,
 
+                                decoration: BoxDecoration(
+                                    color:inCart?Colors.grey: Theme.of(context).primaryColor.withOpacity(0.20),
+                                    borderRadius: BorderRadius.circular(4)
+                                ),
+                                child: Center(child: Text(getTranslated('buy', context)!,style: GoogleFonts.tajawal(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color:inCart?Colors.white: Colors.black
+                                ),)),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 5,),
                           Expanded(
                             child: InkWell(
                               onTap: (){
@@ -201,43 +232,18 @@ class ProductWidget extends StatelessWidget {
                               child: Container(
                                 height: 30,
                                 decoration: BoxDecoration(
-                                  color:sync?Colors.grey: Theme.of(context).primaryColor,
-                                  borderRadius: BorderRadius.circular(4)
+                                    color:sync?Colors.grey: Theme.of(context).primaryColor,
+                                    borderRadius: BorderRadius.circular(4)
                                 ),
                                 child: Center(child: Text(getTranslated('sync', context)!,style: GoogleFonts.tajawal(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white
-                                ),)),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 5,),
-                          Expanded(
-                            child: InkWell(
-                              onTap: (){
-                                CartModelBody cart = CartModelBody(
-                                    productId: productModel.id,
-                                    quantity: 1,
-                                );
-                                Provider.of<CartController>(context, listen: false).addToCartAPI(
-                                    cart, context, []);
-                              },
-                              child: Container(
-                                height: 30,
-
-                                decoration: BoxDecoration(
-                                  color:inCart?Colors.grey: Theme.of(context).primaryColor.withOpacity(0.20),
-                                  borderRadius: BorderRadius.circular(4)
-                                ),
-                                child: Center(child: Text(getTranslated('buy', context)!,style: GoogleFonts.tajawal(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.black
+                                    color: Colors.white
                                 ),)),
                               ),
                             ),
                           ),
+
                         ],
                       ),
                     );
@@ -270,7 +276,7 @@ class ProductWidget extends StatelessWidget {
               : const SizedBox.shrink(),
           // ,
 
-          Positioned(top: 0, right: 2,
+          Positioned(top: 0, left: 2,
             child: FavouriteButtonWidget(
 
               // backgroundColor: ColorResources.getImageBg(context),

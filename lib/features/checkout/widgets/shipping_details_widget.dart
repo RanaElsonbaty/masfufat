@@ -113,7 +113,7 @@ class _ShippingDetailsWidgetState extends State<ShippingDetailsWidget> {
                   //     child: Text('${getTranslated('select_a_shipping_address', context)}',
                   //         style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeLarge,fontWeight: FontWeight.w500,))
                   // ),
-                      if(widget.billingAddress && !shippingProvider.sameAsBilling)
+                  //     if(widget.billingAddress && !shippingProvider.sameAsBilling)
                       Card(child: Container(padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeDefault),
                             color: Theme.of(context).cardColor),

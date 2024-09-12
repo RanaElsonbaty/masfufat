@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../../../common/basewidget/custom_button_widget.dart';
 import '../../../common/basewidget/custom_textfield_widget.dart';
 import '../../../common/basewidget/show_custom_snakbar_widget.dart';
+import '../../../common/pick_photo_Screen.dart';
 import '../../../helper/velidate_check.dart';
 import '../../../localization/language_constrants.dart';
 import '../../../main.dart';
@@ -22,6 +23,7 @@ import '../../category/controllers/category_controller.dart';
 import '../../dashboard/screens/dashboard_screen.dart';
 import '../../deal/controllers/featured_deal_controller.dart';
 import '../../deal/controllers/flash_deal_controller.dart';
+import '../../more/screens/html_screen_view.dart';
 import '../../my shop/controllers/my_shop_controller.dart';
 import '../../notification/controllers/notification_controller.dart';
 import '../../payment /controller/payment_controller.dart';
@@ -228,13 +230,18 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                     ),
                     InkWell(
                       onTap: () {
-                        authProvider.pickImage(false, 1);
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => GridGallery(index: 2,onTap: (File file){
+                          authProvider.pickImage(false,1, file);
+
+                        },video: false, ),));
+                        // authProvider.pickImage(false, 1);
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: DottedBorder(
                           borderType: BorderType.RRect,
                           color: Theme.of(context).primaryColor,
+                          // stackFit:  StackFit.e,
                           radius: const Radius.circular(12),
 
                           strokeCap: StrokeCap.butt,
@@ -245,8 +252,16 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                               ? ClipRRect(
                             borderRadius: const BorderRadius.all(
                                 Radius.circular(12)),
-                                child: Image.file(File(
-                                authProvider.commercialRegisterImage!.path),fit: BoxFit.fill,),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(
+                                    child: Text(authProvider.commercialRegisterImage!.path.split('/').last,style: GoogleFonts.tajawal(
+                                        fontSize: 14
+                                    ),),
+                                  ),
+                                )
+                                // Image.file(File(
+                                // authProvider.commercialRegisterImage!.path),fit: BoxFit.fill,),
                               )
                               : ClipRRect(
                             borderRadius: const BorderRadius.all(
@@ -309,7 +324,11 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                     ),
                     InkWell(
                       onTap: () {
-                        authProvider.pickImage(false, 2);
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => GridGallery(index: 2,onTap: (File file){
+                          authProvider.pickImage(false,2, file);
+
+                        },video: false, ),));
+                        // authProvider.pickImage(false, 2);
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -325,8 +344,8 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                                 child: ClipRRect(
                                                             borderRadius: const BorderRadius.all(
                                   Radius.circular(12)),
-                                  child: Text(authProvider.certificateImage!.name,style: GoogleFonts.tajawal(
-                                    fontSize: 16
+                                  child: Text(authProvider.certificateImage!.path.split('/').last,style: GoogleFonts.tajawal(
+                                    fontSize: 14
                                   ),)
                                   // Image.file(
                                   // File(authProvider.certificateImage!.path),fit: BoxFit.fill,),
@@ -395,12 +414,17 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                     ),
                     InkWell(
                       onTap: () {
-                        authProvider.pickImage(false, 0);
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => GridGallery(index: 2,onTap: (File file){
+                          authProvider.pickImage(false,0, file);
+
+                        },video: false, ),));
+                        // authProvider.pickImage(false, 0,);
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: DottedBorder(
                           borderType: BorderType.RRect,
+
                           radius: const Radius.circular(12),
                           padding: const EdgeInsets.symmetric(horizontal: 15),
                             color: Theme.of(context).primaryColor
@@ -409,7 +433,16 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                               ? ClipRRect(
                               borderRadius: const BorderRadius.all(
                                   Radius.circular(12)),
-                              child: Image.file(File(authProvider.storeImage!.path),fit: BoxFit.fill,))
+                              child:Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(
+                                  child: Text(authProvider.storeImage!.path.split('/').last,style: GoogleFonts.tajawal(
+                                      fontSize: 14
+                                  ),),
+                                ),
+                              )
+                          )
+                              // Image.file(File(authProvider.storeImage!.path),fit: BoxFit.fill,))
                               : ClipRRect(
                             borderRadius: const BorderRadius.all(
                                 Radius.circular(12)),
@@ -491,6 +524,7 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                                         "Governorate"))),
                       ),
                     ),
+                    const SizedBox(height: 10,),
                     Consumer<AddressController>(
                       builder: (context, address, child) => Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -514,70 +548,8 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                         ),
                       ),
                     ),
-                    Visibility(
-                         visible: authProvider.showGoogleMap,
-                        child: const MinGoogleMap()),
-                    Visibility(
-                      visible: authProvider.showGoogleMap,
+                     MinGoogleMap(),
 
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Hero(
-                                  tag: 'Coordinates_Longitude',
-                                  child: Container(
-                                      margin: const EdgeInsets.only(
-                                          // left: Dimensions.marginSizeDefault,
-                                          // right: Dimensions.marginSizeDefault,
-                                          top: Dimensions.marginSizeSmall),
-                                      child: CustomTextFieldWidget(
-                                        isPassword: false,
-                                        required: true,
-                                        isEnabled: false,
-
-                                        hintText: getTranslated(
-                                            'Coordinates_Longitude', context),
-                                        // labelText: getTranslated(
-                                        //     'Coordinates_Longitude', context),
-                                        showLabelText: false,
-                                        titleText: getTranslated('Coordinates_Longitude', context),
-                                        controller: authProvider.lan,
-                                        // focusNode: _confirmPasswordFocus,
-                                        inputAction: TextInputAction.done,
-                                        // validator: (value)=> ValidateCheck.validateConfirmPassword(value, _passwordController.text.trim()),
-                                      ))),
-                            ),
-                            const SizedBox(width: 10,),
-                            Expanded(
-                              child: Hero(
-                                  tag: 'Coordinates_Latitude',
-                                  child: Container(
-                                      margin: const EdgeInsets.only(
-                                          // left: Dimensions.marginSizeDefault,
-                                          // right: Dimensions.marginSizeDefault,
-                                          top: Dimensions.marginSizeSmall),
-                                      child: CustomTextFieldWidget(
-                                        isPassword: false,
-                                        required: true,
-                                        isEnabled: false,
-                                        hintText: getTranslated(
-                                            'Coordinates_Latitude', context),
-                                        // labelText: getTranslated(
-                                        //     'Coordinates_Latitude', context),
-                                        showLabelText: false,
-                                        titleText: getTranslated('Coordinates_Latitude', context),
-                                        controller: authProvider.lot,
-                                        // focusNode: _confirmPasswordFocus,
-                                        inputAction: TextInputAction.done,
-                                        // validator: (value)=> ValidateCheck.validateConfirmPassword(value, _passwordController.text.trim()),
-                                      ))),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
 
 
 
@@ -599,15 +571,35 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                                 borderRadius: BorderRadius.circular(6)),
                           ),
                           Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                                child: Text(
-                                                            getTranslated(
-                                  'I_acknowledge_that_I_am_the_owner', context)!,
-                                  style: GoogleFonts.tajawal(
+                              child: InkWell(
+                                onTap: (){
+                                  Navigator.push(context,MaterialPageRoute(builder: (context) =>  HtmlViewScreen(
+                                    title:
+                                    getTranslated('terms_condition', context),
+                                    url: Provider.of<SplashController>(context,
+                                        listen: false)
+                                        .configModelGuest !=
+                                        null
+                                        ? Provider.of<SplashController>(context,
+                                        listen: false)
+                                        .configModelGuest!
+                                        .termsConditions
+                                        .sa
+                                        : '',
+                                  )));
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                                  child: Text(
+                                                              getTranslated(
+                                    'I_acknowledge_that_I_am_the_owner', context)!,
+                                    style: GoogleFonts.tajawal(
+                                      decoration: TextDecoration.underline,
+                                      color: Colors.blue,
+                                    ),
+                                                            ),
 
-                                  ),
-                                                          ),
+                                ),
                               )),
                         ],
                       ),

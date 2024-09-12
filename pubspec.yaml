@@ -12,6 +12,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   pull_down_button: ^0.10.1
+  flutter_barcode_scanner: ^2.0.0
+  photo_manager: ^3.3.0
   cupertino_icons: ^1.0.6
   get_it: ^7.6.6
   provider: ^6.0.3
@@ -56,7 +58,7 @@ dependencies:
   pinput: ^5.0.0
 
   smooth_page_indicator: ^1.2.0+3
-  google_maps_flutter: ^2.5.2
+  google_maps_flutter: any
   geocoding: ^2.0.0
   geolocator: ^10.1.0
   flutter_typeahead: ^4.0.0

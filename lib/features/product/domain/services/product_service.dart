@@ -63,4 +63,6 @@ class ProductService implements ProductServiceInterface{
     return await productRepositoryInterface.getRelatedProductList(id);
   }
 
+
+
 }

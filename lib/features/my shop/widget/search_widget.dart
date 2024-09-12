@@ -79,7 +79,7 @@ class _MyShopSearchWidgetWidgetState extends State<MyShopSearchWidget> {
                             borderRadius: const BorderRadius.all( Radius.circular(Dimensions.paddingSizeSmall))),
                             child: SizedBox(width : 18,height: 18, child: Padding(
                               padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                              child: Image.asset(   widget.selectIndex==2?Images.filterImage:Images.search, color: Colors.white),
+                              child: Image.asset(   widget.selectIndex==2?Images.filterIcon:Images.search, color: Colors.white),
                             ))),
                       ),
                     ),

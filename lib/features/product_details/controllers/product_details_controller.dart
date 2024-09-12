@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/domain/models/product_details_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/domain/services/product_details_service_interface.dart';
+import 'package:flutter_sixvalley_ecommerce/features/product_details/screens/product_details_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
@@ -45,10 +46,11 @@ class ProductDetailsController extends ChangeNotifier {
     ApiResponse apiResponse = await productDetailsServiceInterface.get(productId);
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       _isDetails = false;
-      print('asdasdasdasdasdasd----> ${apiResponse.response!.data}');
+      // print('asdasdasdasdasdasd----> ${apiResponse.response!.data}');
       _productDetailsModel = ProductDetailsModel.fromJson(apiResponse.response!.data);
       if(_productDetailsModel != null){
         log("=====slug===>$slug/ $productId");
+        // _productDetailsModel.w
         // Provider.of<SellerProductController>(Get.context!, listen: false).
         // getSellerProductList(_productDetailsModel?.addedBy == 'admin' ? '0' : productDetailsModel!.userId.toString(), 1, productId, reload: true);
       }
@@ -73,8 +75,11 @@ class ProductDetailsController extends ChangeNotifier {
   }
 
   bool isReviewSelected = false;
-  void selectReviewSection(bool review, {bool isUpdate = true}){
-    isReviewSelected = review;
+  int _index=0;
+  int get index=>_index;
+  void selectReviewSection(int index, {bool isUpdate = true}){
+    // isReviewSelected = review;
+    _index=index;
 
     if(isUpdate) {
       notifyListeners();
@@ -154,5 +159,35 @@ class ProductDetailsController extends ChangeNotifier {
     _digitalVariationIndex = 0;
     _digitalVariationSubindex = 0;
   }
+  Future<bool> getProductDetailsBarCode( String barCode) async {
+    _isDetails = true;
+    notifyListeners();
+  try{
+    ApiResponse apiResponse =
+    await productDetailsServiceInterface.getBarCodeProduct( barCode);
 
+    if (apiResponse.response != null &&
+        apiResponse.response!.statusCode == 200) {
+      _isDetails = false;
+      _productDetailsModel =
+          ProductDetailsModel.fromJson(apiResponse.response!.data);
+
+
+      Navigator.push(Get.context!,MaterialPageRoute(builder: (context) => ProductDetails(productId: _productDetailsModel!.id!, slug: _productDetailsModel!.slug!)));
+
+
+      _isDetails = false;
+      notifyListeners();
+    }
+    _isDetails=false;
+    notifyListeners();
+return true;
+  }catch(e){
+    _isDetails=false;
+    notifyListeners();
+    return false;
+
+  }
+
+  }
 }

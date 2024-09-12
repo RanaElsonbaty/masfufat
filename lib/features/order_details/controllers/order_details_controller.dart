@@ -154,7 +154,7 @@ class OrderDetailsController with ChangeNotifier {
        _orderRefuntModel=OrderRefuntModel.fromJson(apiResponse.response!.data);
      }
    }catch(e){
-print('get Order Refund error ----> $e');
+rethrow;
    }
    _isRefuntLoading =false;
    notifyListeners();

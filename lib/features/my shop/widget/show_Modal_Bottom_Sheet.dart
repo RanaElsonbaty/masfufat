@@ -20,7 +20,8 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
   BuildContext diagloContext=Get.context!;
   @override
   Widget build(BuildContext context) {
-    return  SizedBox(
+    return  Container(
+
       height: 250,
       width: MediaQuery.of(context).size.width,
       child:widget.delete?
@@ -28,12 +29,34 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-        Text(getTranslated('Do_you_want_to_delete_all', Get.context!)!,
+            Container(
+              height: 5,
+              width: 120,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.grey
+              ),
+            ),
+        const SizedBox(height: 15,),
+        Text(getTranslated('Delete_product', Get.context!)!,
         style: GoogleFonts.titilliumWeb(
-          fontSize: 30,
+          fontSize: 20,
           fontWeight: FontWeight.w700
+
+        ),
+        ),
+            const SizedBox(height: 5,),
+
+            Text(getTranslated('Are_you_sure_you_want_to_delete_the_selected_products', Get.context!)!,
+        textAlign: TextAlign.center,
+         overflow: TextOverflow.visible,
+        maxLines: 2,
+        style: GoogleFonts.titilliumWeb(
+          fontSize: 18,
+
+          fontWeight: FontWeight.w400
 
         ),
         ),
@@ -67,17 +90,17 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          color: Theme.of(context).primaryColor
+                          color: Colors.red.shade600
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Center(
-                            child: Text(getTranslated('yes', context)!,
+                            child: Text(getTranslated('confirm', context)!,
                               style: GoogleFonts.titilliumWeb(
-                                  fontSize: 18,
+                                  fontSize: 20,
                                   color: Colors.white,
 
-                                  fontWeight: FontWeight.w500
+                                  fontWeight: FontWeight.w400
 
                               ),
                             ),
@@ -96,16 +119,16 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            color: Theme.of(context).primaryColor
+                            color: Theme.of(context).primaryColor.withOpacity(0.20)
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Center(
-                            child: Text(getTranslated('no', context)!,
+                            child: Text(getTranslated('cancellation', context)!,
                               style: GoogleFonts.titilliumWeb(
-                                  fontSize: 18,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400
 
                               ),
                             ),

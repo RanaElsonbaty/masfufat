@@ -15,23 +15,7 @@ class PaymentInfoWidget extends StatelessWidget {
       decoration: BoxDecoration(color: Theme.of(context).highlightColor),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-        Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
-            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text(getTranslated('PAYMENT_STATUS', context)!,
-                  style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
 
-              Text(
-              order!.orders!.paymentStatus ,
-                  style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeSmall))])),
-
-
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text(getTranslated('PAYMENT_PLATFORM', context)!,
-                  style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
-
-              Text(order!.orders!.paymentMethod,
-                  style: titilliumBold.copyWith(color: Theme.of(context).primaryColor)),
-            ]),
           ]),
     );
   }

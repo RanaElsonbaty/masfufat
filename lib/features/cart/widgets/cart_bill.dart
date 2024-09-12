@@ -79,7 +79,7 @@ class _CartBillState extends State<CartBill> {
         return Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
-          children: [
+          children: <Widget>[
             Row(
               children: [
                 Text(getTranslated('bill', context)!,style: GoogleFonts.tajawal(
@@ -233,36 +233,41 @@ class _CartBillState extends State<CartBill> {
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
                     ),),
-                    if(widget.fromCheckOut==true)
-                        InkWell(
-                      onTap: (){
-      Navigator.push(context, MaterialPageRoute(builder: (_) => CheckoutScreen(quantity: 1,
-      cartList: widget.cartList,totalOrderAmount:total, shippingFee:shipping, discount: dic,
-      tax:tax,  hasPhysical: false)));
 
-                      },
-                      child: Container(
-                        // height: 35,
-                        // width: 100,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                            child: Text(getTranslated('Complete_payment', context)!,style: GoogleFonts.tajawal(
-                              fontSize: 14,fontWeight: FontWeight.w500,
-                              color: Colors.white
-                            ),),
-                          ),
-                        ),
-                      ),
-                    )
                   ],
                 ),
               ),
-            )
+            ),
+            const SizedBox(height: 10,),
+            if(widget.fromCheckOut==true)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 37),
+                child: InkWell(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => CheckoutScreen(quantity: 1,
+                        cartList: widget.cartList,totalOrderAmount:total, shippingFee:shipping, discount: dic,
+                        tax:tax,  hasPhysical: false)));
+
+                  },
+                  child: Container(
+                    height: 50,
+                    // width: 100,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Text(getTranslated('Complete_payment', context)!,style: GoogleFonts.tajawal(
+                            fontSize: 14,fontWeight: FontWeight.w500,
+                            color: Colors.white
+                        ),),
+                      ),
+                    ),
+                  ),
+                ),
+              )
 
           ],
         ),

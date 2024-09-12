@@ -1,6 +1,8 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/domain/models/cart_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/shipping/controllers/shipping_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
@@ -355,24 +357,20 @@ class CartScreenState extends State<CartScreen> {
                                     sellerGroupList[index].shopInfo!.isNotEmpty ?
 
                                     Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
-                                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                      child: Row( children: [
                                         Expanded(
+                                          flex: 11,
                                             child: Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                                                 child: Row(children: [
 
-                                                  Flexible(child: Text(sellerGroupList[index].shopInfo!, maxLines: 1, overflow: TextOverflow.ellipsis,
+                                                  Expanded(
+                                                    child: Text('${sellerGroupList[index].shopInfo!} (${cartProductList[index].length})', maxLines: 1, overflow: TextOverflow.ellipsis,
                                                       textAlign: TextAlign.start, style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeLarge,
                                                           fontWeight: FontWeight.w500,
                                                           // color: Provider.of<ThemeController>(context, listen: false).darkTheme?
                                                           // Theme.of(context).hintColor : Theme.of(context).primaryColor
-                                                      )),),
-                                                  Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
-                                                      child: Text('(${cartProductList[index].length})',
-                                                          style: GoogleFonts.tajawal(
-                                                              // color: Colors.black,
-                                                              fontWeight: FontWeight.w500,
-
-                                                              fontSize: Dimensions.fontSizeLarge))),
+                                                      )),
+                                                  ),
 
                                                   // if(shopClose)
                                                   //   JustTheTooltip(
@@ -395,7 +393,8 @@ class CartScreenState extends State<CartScreen> {
 
                                                 ]))),
 
-                                        SizedBox(width: 200, child: configProvider.configModel!.shippingMethod =='sellerwise_shipping' &&
+                                        configProvider.configModel!.shippingMethod =='sellerwise_shipping' &&
+                                            sellerGroupList[index].shippingType == 'order_wise' && hasPhysical ?SizedBox(width: 200, child: configProvider.configModel!.shippingMethod =='sellerwise_shipping' &&
                                             sellerGroupList[index].shippingType == 'order_wise' && hasPhysical ?
 
                                         Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
@@ -432,7 +431,7 @@ class CartScreenState extends State<CartScreen> {
                                             ),
                                           ),
                                         ) : const SizedBox()
-                                          ,)
+                                          ,):const SizedBox.square()
                                       ],
                                       ),
                                     ) : const SizedBox(),

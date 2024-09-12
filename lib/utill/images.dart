@@ -8,6 +8,9 @@ class Images {
   static const String homeIcon = 'assets/images/home-icon.png';
   static const String copyIcon = 'assets/images/copyIcon.png';
   static const String myStoreIcon = 'assets/images/my-store-icon.png';
+  static const String heart = 'assets/images/heart.png';
+  static const String barcode = 'assets/images/barcode.png';
+  static const String heartOutLine = 'assets/images/heart-outline.png';
   static const String documentCopy = 'assets/images/document-copy.png';
   static const String cartIcon = 'assets/images/cart-icon.png';
   static const String orderIcon = 'assets/images/order-icon.png';
@@ -29,11 +32,13 @@ class Images {
   static const String syncIcon = 'assets/images/syncIcon.png';
   static const String shoppingImage = 'assets/images/order.png';
   static const String shoppingIcon = 'assets/images/orderIcon.png';
+  static const String shoppingIcon2 = 'assets/images/order-icon-2.png';
   static const String wishImage = 'assets/images/wish.png';
   static const String background = 'assets/images/background.jpg';
   static const String couponBannerImage = 'assets/images/coupon_banner.png';
   static const String chatImage = 'assets/images/chat.png';
   static const String filterImage = 'assets/images/filter.png';
+  static const String filterIcon = 'assets/images/filter-icon.png';
   static const String fastDelivery = 'assets/images/fast_delivery.png';
   static const String delivery = 'assets/images/delivery.png';
   static const String toolbarBackground = 'assets/images/toolbar_background.jpg';

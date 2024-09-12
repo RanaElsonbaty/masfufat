@@ -79,53 +79,53 @@ priceMax: Provider.of<SearchProductController>(context, listen: false).maxFilter
               child:  SearchSuggestion(pagingController: _pagingController,)),
           const SizedBox(width: Dimensions.paddingSizeDefault,),
 
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: Padding(padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                child: Row(children: [
-                  Expanded(child: Text('${getTranslated('product_list', context)}',style: robotoBold,)),
+            // Padding(
+            //   padding: const EdgeInsets.all(8),
+            //   child: Padding(padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            //     child: Row(children: [
+            //       Expanded(child: Text('${getTranslated('product_list', context)}',style: robotoBold,)),
+            //
+            //
+            //       InkWell(onTap: () => showModalBottomSheet(context: context,
+            //           isScrollControlled: true, backgroundColor: Colors.transparent,
+            //           builder: (c) =>  SearchFilterBottomSheet( pagingController: _pagingController,)),
+            //         child: Stack(children: [
+            //             Container(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall,
+            //                 horizontal: Dimensions.paddingSizeExtraSmall),
+            //               decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
+            //                   border: Border.all(color: Theme.of(context).hintColor.withOpacity(.25))),
+            //               child: SizedBox(width: 25,height: 24,child: Image.asset(Images.sort,
+            //                   color: Provider.of<ThemeController>(context, listen: false).darkTheme?
+            //                   Colors.white:Theme.of(context).primaryColor)),),
+            //           if(searchProductController.isSortingApplied)
+            //           CircleAvatar(radius: 5, backgroundColor: Theme.of(context).primaryColor,)
+            //           ],
+            //         )),
+            //       const SizedBox(width: Dimensions.paddingSizeDefault,),
+            //
+            //
+            //       InkWell(onTap: () => showModalBottomSheet(context: context,
+            //           isScrollControlled: true, backgroundColor: Colors.transparent,
+            //           builder: (c) =>   ProductFilterDialog(fromShop: false,pagingController: _pagingController,)),
+            //
+            //         child: Stack(children: [
+            //             Container(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall,
+            //                 horizontal: Dimensions.paddingSizeExtraSmall),
+            //               decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
+            //                   border: Border.all(color: Theme.of(context).hintColor.withOpacity(.25))),
+            //               child: SizedBox(width: 25,height: 24, child: Image.asset(Images.dropdown,
+            //                   color: Provider.of<ThemeController>(context, listen: false).darkTheme?
+            //                   Colors.white:Theme.of(context).primaryColor))),
+            //           if(searchProductController.isFilterApplied)
+            //             CircleAvatar(radius: 5, backgroundColor: Theme.of(context).primaryColor,)
+            //           ],
+            //         ))
+            //     ]
+            //     )
+            //   ),
+            // ),
 
-
-                  InkWell(onTap: () => showModalBottomSheet(context: context,
-                      isScrollControlled: true, backgroundColor: Colors.transparent,
-                      builder: (c) =>  SearchFilterBottomSheet( pagingController: _pagingController,)),
-                    child: Stack(children: [
-                        Container(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall,
-                            horizontal: Dimensions.paddingSizeExtraSmall),
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: Theme.of(context).hintColor.withOpacity(.25))),
-                          child: SizedBox(width: 25,height: 24,child: Image.asset(Images.sort,
-                              color: Provider.of<ThemeController>(context, listen: false).darkTheme?
-                              Colors.white:Theme.of(context).primaryColor)),),
-                      if(searchProductController.isSortingApplied)
-                      CircleAvatar(radius: 5, backgroundColor: Theme.of(context).primaryColor,)
-                      ],
-                    )),
-                  const SizedBox(width: Dimensions.paddingSizeDefault,),
-
-
-                  InkWell(onTap: () => showModalBottomSheet(context: context,
-                      isScrollControlled: true, backgroundColor: Colors.transparent,
-                      builder: (c) =>   ProductFilterDialog(fromShop: false,pagingController: _pagingController,)),
-
-                    child: Stack(children: [
-                        Container(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall,
-                            horizontal: Dimensions.paddingSizeExtraSmall),
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: Theme.of(context).hintColor.withOpacity(.25))),
-                          child: SizedBox(width: 25,height: 24, child: Image.asset(Images.dropdown,
-                              color: Provider.of<ThemeController>(context, listen: false).darkTheme?
-                              Colors.white:Theme.of(context).primaryColor))),
-                      if(searchProductController.isFilterApplied)
-                        CircleAvatar(radius: 5, backgroundColor: Theme.of(context).primaryColor,)
-                      ],
-                    ))
-                ]
-                )
-              ),
-            ),
-
-            const SizedBox(height: Dimensions.paddingSizeSmall),
+            // const SizedBox(height: Dimensions.paddingSizeSmall),
 
           Expanded(
             child: PagedGridView(

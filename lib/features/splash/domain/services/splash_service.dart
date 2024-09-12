@@ -42,4 +42,10 @@ class SplashService implements SplashServiceInterface{
 
   }
 
+  @override
+  Future getConfigGuest() {
+    return splashRepositoryInterface.getConfigGuest();
+
+  }
+
 }

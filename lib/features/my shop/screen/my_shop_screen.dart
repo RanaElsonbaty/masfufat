@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
@@ -57,7 +59,7 @@ body:  SafeArea(
         //   backgroundColor: Theme.of(context).highlightColor,
         //   title: Image.asset(Images.logoWithNameImage, height: 150),
         // ),
-        const SliverToBoxAdapter(
+         const SliverToBoxAdapter(
           child: Column(children: [
             SizedBox(height: 5,),
             Row(
@@ -78,11 +80,14 @@ body:  SafeArea(
                   child:   MyShopSearchWidget( selectIndex: myShopProvider.selectIndex,)
               )),
         ),
-        SliverPersistentHeader(pinned: false,
+        Consumer<MyShopController>(
+          builder:(context, myShopProvider, child) =>  SliverPersistentHeader(pinned: false,
 
-            delegate: SliverDelegate(
-          child: Consumer<MyShopController>(builder:(context, myShopProvider, child) =>  HeaderSection(index:myShopProvider.selectIndex ,pending: myShopProvider.selectIndex==0,))
-        )),
+              delegate: SliverDelegate(
+                height: myShopProvider.selectIndex==0?100:60,
+            child: Consumer<MyShopController>(builder:(context, myShopProvider, child) =>  HeaderSection(index:myShopProvider.selectIndex ,pending: myShopProvider.selectIndex==0,))
+          )),
+        ),
 
          SliverToBoxAdapter(
           child: Consumer<MyShopController>(

@@ -32,16 +32,36 @@ class _ShowModalBottomSheetOrderState extends State<ShowModalBottomSheetOrder> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(getTranslated('هل انت متاكد؟', Get.context!)!,
+            Container(
+              width: 160,
+              height: 5,
+              decoration: BoxDecoration(
+                color: Colors.grey,
+                borderRadius: BorderRadius.circular(8)
+              ),
+            ),
+            const SizedBox(height: 20,),
+            Text(getTranslated('Refund_request', Get.context!)!,
+              textAlign: TextAlign.center,
               style: GoogleFonts.titilliumWeb(
-                  fontSize: 30,
+                  fontSize: 20,
                   fontWeight: FontWeight.w700
 
               ),
             ),
             const SizedBox(height: 10,),
+
+            Text(getTranslated('Are_you_sure_you_want_to_return_the_product', Get.context!)!,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.titilliumWeb(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400
+
+              ),
+            ),
+            const SizedBox(height: 30,),
             Consumer<MyShopController>(
               builder:(context, myShopProvider, child) =>  Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -56,48 +76,24 @@ class _ShowModalBottomSheetOrderState extends State<ShowModalBottomSheetOrder> {
 
 
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Theme.of(context).primaryColor
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                            child: Text(getTranslated('yes', context)!,
-                              style: GoogleFonts.titilliumWeb(
-                                  fontSize: 18,
-                                  color: Colors.white,
-
-                                  fontWeight: FontWeight.w500
-
-                              ),
-                            ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Theme.of(context).primaryColor
                           ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10,),
-                  Expanded(
-                    child: InkWell(
-                      onTap: (){
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Theme.of(context).primaryColor
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                            child: Text(getTranslated('no', context)!,
-                              style: GoogleFonts.titilliumWeb(
-                                  fontSize: 18,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(
+                              child: Text(getTranslated('Confirm_return_request', context)!,
+                                style: GoogleFonts.titilliumWeb(
+                                    fontSize: 18,
+                                    color: Colors.white,
 
+                                    fontWeight: FontWeight.w500
+
+                                ),
                               ),
                             ),
                           ),

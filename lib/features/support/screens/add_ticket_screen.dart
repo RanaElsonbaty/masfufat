@@ -19,8 +19,8 @@ import 'package:provider/provider.dart';
 import '../widgets/types_model_bottom_sheet_widget.dart';
 
 class AddTicketScreen extends StatefulWidget {
-  final TicketModel ticketModel;
-  const AddTicketScreen({super.key, required this.ticketModel});
+
+  const AddTicketScreen({super.key, });
 
   @override
   AddTicketScreenState createState() => AddTicketScreenState();
@@ -69,7 +69,7 @@ class AddTicketScreenState extends State<AddTicketScreen> {
 
       Row(
         children: [
-          Text(getTranslated('Select_Support_Card_Category', context)!,style: GoogleFonts.tajawal(
+          Text(getTranslated('the_topic', context)!,style: GoogleFonts.tajawal(
             fontWeight: FontWeight.w500,
             fontSize: 16
           ),)
@@ -111,7 +111,7 @@ class AddTicketScreenState extends State<AddTicketScreen> {
 
                 Row(
                   children: [
-                    Text(getTranslated('the_topic', context)!,style: GoogleFonts.tajawal(
+                    Text(getTranslated('Ticket_Title', context)!,style: GoogleFonts.tajawal(
                         fontWeight: FontWeight.w500,
                         fontSize: 16
                     ),)
@@ -131,7 +131,7 @@ class AddTicketScreenState extends State<AddTicketScreen> {
             const SizedBox(height: Dimensions.paddingSizeLarge),
                 Row(
                   children: [
-                    Text(getTranslated('Description', context)!,style: GoogleFonts.tajawal(
+                    Text(getTranslated('specification', context)!,style: GoogleFonts.tajawal(
                         fontWeight: FontWeight.w500,
                         fontSize: 16
                     ),)
@@ -230,7 +230,7 @@ class AddTicketScreenState extends State<AddTicketScreen> {
                       }else if (supportTicketProvider.selectedPriorityIndex == -1) {
                         showCustomSnackBar(getTranslated('priority_is_required', context), context);
                       } else {
-                        SupportTicketBody supportTicketModel = SupportTicketBody('${getTranslated(widget.ticketModel.title, context)}',
+                        SupportTicketBody supportTicketModel = SupportTicketBody('${getTranslated(supportTicketProvider.selectedType, context)}',
                             _subjectController.text, _descriptionController.text, supportTicketProvider.selectedPriority);
                         supportTicketProvider.createSupportTicket(supportTicketModel);
                       }

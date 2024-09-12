@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/features/search_product/widgets/search_filter_bottom_sheet_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/features/search_product/controllers/search_product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
@@ -10,6 +11,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakba
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'package:substring_highlight/substring_highlight.dart';
+
+import '../../../common/basewidget/product_filter_dialog_widget.dart';
 
 class SearchSuggestion extends StatefulWidget{
   final bool fromCompare;
@@ -156,24 +159,17 @@ class _SearchSuggestionState extends State<SearchSuggestion> {
 
 
                                InkWell(onTap: (){
-                                   if(controller.text.trim().isNotEmpty) {
-                                     focusNode.unfocus();
-                                       // searchProvider.saveSearchAddress( controller.text.toString());
-                                       // searchProvider.searchProduct( query : controller.text.toString(), offset: 1);
-                                     try{
-                                       widget.pagingController!.refresh();
+                                 showModalBottomSheet(context: context,
+                                     isScrollControlled: true, backgroundColor: Colors.transparent,
+                                     builder: (c) =>   SearchFilterBottomSheet(pagingController: widget.pagingController! ,));
 
-                                     } catch(e){}
-                                   }else{
-                                     showCustomSnackBar(getTranslated('enter_somethings', context), context);
-                                   }
-                                 },
+                               },
                                  child: Padding(padding: const EdgeInsets.all(5),
                                    child: Container(width: 40, height: 50,decoration: BoxDecoration(color: Theme.of(context).primaryColor,
                                        borderRadius: const BorderRadius.all( Radius.circular(Dimensions.paddingSizeSmall))),
                                        child: SizedBox(width : 18,height: 18, child: Padding(
                                          padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                                         child: Image.asset(Images.search, color: Colors.white),
+                                         child: Image.asset(Images.filterIcon, color: Colors.white),
                                        ))),
                                  ),
                                ),

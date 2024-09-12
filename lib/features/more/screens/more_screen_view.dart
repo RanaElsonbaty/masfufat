@@ -26,8 +26,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/basewidget/webView.dart';
+import '../../../localization/controllers/localization_controller.dart';
 import '../../Store settings/screen/store_setting_screen.dart';
 import '../../order/controllers/order_controller.dart';
+import '../../payment /controller/payment_controller.dart';
 import '../../setting/widgets/select_currency_bottom_sheet_widget.dart';
 import '../../setting/widgets/select_language_bottom_sheet_widget.dart';
 import 'faq_screen_view.dart';
@@ -50,15 +52,12 @@ class _MoreScreenState extends State<MoreScreen> {
         !Provider.of<AuthController>(context, listen: false).isLoggedIn();
     if (Provider.of<AuthController>(context, listen: false).isLoggedIn()) {
       Provider.of<SplashController>(context, listen: false).initConfig(context);
-      Provider.of<OrderController>(context, listen: false)
-          .getOrderList(1, 'ongoing')
-          .then((value) {
-        Provider.of<OrderController>(context, listen: false)
-            .setIndex(0, context, notify: false);
-      });
-      // version = Provider.of<SplashController>(context,listen: false).configModel!.softwareVersion ?? 'version';
       Provider.of<ProfileController>(context, listen: false)
           .getUserInfo(context);
+      Provider.of<PaymentController>(context,listen: false).getPaymentMethod(context,'wallet');
+
+      Provider.of<PaymentController>(context,listen: false).getType('wallet_charge');
+      Provider.of<PaymentController>(context,listen: false).getAmount(0);
       if (Provider.of<SplashController>(context, listen: false)
               .configModel!
               .walletStatus ==
@@ -141,11 +140,11 @@ class _MoreScreenState extends State<MoreScreen> {
                                 image: Images.profileIcon,
                                 title: getTranslated('profile', context),
                                 navigateTo: const WepView(
-                                  url:
-                                      '${AppConstants.baseUrl}/api/v1/auth/login_',
+                                  url: '${AppConstants.baseUrl}/api/v1/auth/login_',
                                   check: false,
                                   sub: false,
-                                )),
+                                )
+                            ),
                           MenuButtonWidget(
                               image: Images.shoppingIcon,
                               title: getTranslated('TRACK_ORDER', context),
@@ -198,82 +197,73 @@ class _MoreScreenState extends State<MoreScreen> {
                     Padding(
                         padding:
                             const EdgeInsets.all(Dimensions.paddingSizeDefault),
-                        child: Container(
-                            // padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                            // decoration: BoxDecoration(
-                            // decoration: BoxDecoration(
-                            //     borderRadius: BorderRadius.circular(Dimensions.fontSizeExtraSmall),
-                            //     boxShadow: [BoxShadow(color: Theme.of(context).hintColor.withOpacity(.05),
-                            //         blurRadius: 1, spreadRadius: 1,offset: const Offset(0,1))],
-                            //     color: Provider.of<ThemeController>(context).darkTheme ?
-                            //     Colors.white.withOpacity(.05) : Theme.of(context).cardColor),
-                            child: Column(children: [
-                          SwitchListTile(
-                            value:
-                                Provider.of<ThemeController>(context).darkTheme,
-                            activeColor: Colors.white,
-                            activeTrackColor: Theme.of(context).primaryColor,
-                            inactiveThumbColor: Theme.of(context).primaryColor,
-                            trackOutlineColor: MaterialStatePropertyAll(
-                                Theme.of(context).primaryColor),
-                            onChanged: (bool isActive) =>
-                                Provider.of<ThemeController>(context,
-                                        listen: false)
-                                    .toggleTheme(),
-                            title: Row(
-                              children: [
-                                Container(
-                                  height: 35,
-                                  width: 35,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(14),
-                                      color: Theme.of(context).primaryColor),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Image.asset(
-                                      Images.darkModeIcon,
-                                      width: 20,
-                                      height: 20,
-                                      fit: BoxFit.fill,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                        child: Column(children: [
+                                                  SwitchListTile(
+                        value:
+                            Provider.of<ThemeController>(context).darkTheme,
+                        activeColor: Colors.white,
+                        activeTrackColor: Theme.of(context).primaryColor,
+                        inactiveThumbColor: Theme.of(context).primaryColor,
+                        trackOutlineColor: MaterialStatePropertyAll(
+                            Theme.of(context).primaryColor),
+                        onChanged: (bool isActive) =>
+                            Provider.of<ThemeController>(context,
+                                    listen: false)
+                                .toggleTheme(),
+                        title: Row(
+                          children: [
+                            Container(
+                              height: 35,
+                              width: 35,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(14),
+                                  color: Theme.of(context).primaryColor),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Image.asset(
+                                  Images.darkModeIcon,
+                                  width: 20,
+                                  height: 20,
+                                  fit: BoxFit.fill,
+                                  color: Colors.white,
                                 ),
-                                const SizedBox(
-                                  width: 12,
-                                ),
-                                Text(getTranslated('dark_theme', context)!,
-                                    style: titilliumRegular.copyWith(
-                                        fontSize: Dimensions.fontSizeLarge)),
-                              ],
+                              ),
                             ),
-                          ),
-                          TitleButton(
-                              image: Images.languageChange,
-                              title: getTranslated('choose_language', context),
-                              onTap: () => showModalBottomSheet(
-                                  backgroundColor: Colors.transparent,
-                                  isScrollControlled: true,
-                                  context: context,
-                                  builder: (_) =>
-                                      const SelectLanguageBottomSheetWidget())),
-                          TitleButton(
-                              image: Images.currencyIcon,
-                              title:
-                                  '${getTranslated('currency', context)} (${Provider.of<SplashController>(context).myCurrency!.name})',
-                              onTap: () => showModalBottomSheet(
-                                  backgroundColor: Colors.transparent,
-                                  isScrollControlled: true,
-                                  context: context,
-                                  builder: (_) =>
-                                      const SelectCurrencyBottomSheetWidget())),
-                          MenuButtonWidget(
-                              image: Images.myStoreIcons,
-                              title: getTranslated(
-                                  'Settings_for_linking_my_online_store',
-                                  context),
-                              navigateTo: const StoreSettingScreen()),
-                        ]))),
+                            const SizedBox(
+                              width: 12,
+                            ),
+                            Text(getTranslated('dark_theme', context)!,
+                                style: titilliumRegular.copyWith(
+                                    fontSize: Dimensions.fontSizeLarge)),
+                          ],
+                        ),
+                                                  ),
+                                                  TitleButton(
+                          image: Images.languageChange,
+                          title: '${getTranslated('choose_language', context)} (${AppConstants.languages[Provider.of<LocalizationController>(context, listen: false).languageIndex!].languageName})',
+                          onTap: () => showModalBottomSheet(
+                              backgroundColor: Colors.transparent,
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (_) =>
+                                  const SelectLanguageBottomSheetWidget())),
+                                                  TitleButton(
+                          image: Images.currencyIcon,
+                          title:
+                              '${getTranslated('currency', context)} (${Provider.of<SplashController>(context).myCurrency!.name})',
+                          onTap: () => showModalBottomSheet(
+                              backgroundColor: Colors.transparent,
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (_) =>
+                                  const SelectCurrencyBottomSheetWidget())),
+                                                  MenuButtonWidget(
+                          image: Images.myStoreIcons,
+                          title: getTranslated(
+                              'Settings_for_linking_my_online_store',
+                              context),
+                          navigateTo: const StoreSettingScreen()),
+                                                ])),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       child: Container(

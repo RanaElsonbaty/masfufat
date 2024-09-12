@@ -40,6 +40,16 @@ class ProductDetailsRepository implements ProductDetailsRepositoryInterface {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
+  @override
+  Future<ApiResponse> getBarCodeProduct( String barcode) async {
+    try {
+      final response = await dioClient!
+          .get('${AppConstants.baseUrl}${AppConstants.barcodeURI}$barcode');
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  }
 
   @override
   Future add(value) {

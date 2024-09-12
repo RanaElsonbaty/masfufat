@@ -13,7 +13,7 @@ class WishListController extends ChangeNotifier {
 
   final bool _isLoading = false;
   bool get isLoading => _isLoading;
-  List<WishlistModel>? _wishList;
+  List<WishlistModel>? _wishList=[];
   List<WishlistModel>? get wishList => _wishList;
   List<int> addedIntoWish =[];
 

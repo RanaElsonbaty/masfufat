@@ -450,7 +450,7 @@ class PaymentController extends ChangeNotifier {
   Widget build(BuildContext context, bool wallet, bool applePay) {
     mfCardView = MFCardPaymentView(cardViewStyle: cardViewStyle());
 
-    // mfApplePayButton = MFApplePayButton(applePayStyle: MFApplePayStyle());
+    mfApplePayButton = MFApplePayButton(applePayStyle: MFApplePayStyle());
     mfApplePayButton.applePayStyle!.height = 45;
     return embeddedCardView(wallet, applePay);
   }

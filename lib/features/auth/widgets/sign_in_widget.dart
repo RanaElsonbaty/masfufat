@@ -234,9 +234,12 @@ Row(
                           // onTap: ()=> authProvider.updateRemember(),
                           authProvider.updateRemember();
                         }
+
                         ,activeColor: Theme.of(context).primaryColor,
                           checkColor: Colors.white,
+                          side: BorderSide(color: Theme.of(context).primaryColor,width: 2),
                           shape: RoundedRectangleBorder(
+                            side: BorderSide(color: Theme.of(context).primaryColor),
                             borderRadius: BorderRadius.circular(4)
                           ),
                         ),
@@ -249,7 +252,7 @@ Row(
                         //     color: authProvider.isRemember!? Theme.of(context).primaryColor.withOpacity(.75): Colors.transparent))),
 
 
-                      Text(getTranslated('remember', context)!, style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault))]),
+                      Text(getTranslated('remember', context)!, style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault,color: Theme.of(context).primaryColor))]),
                     );
                   }
                 ),

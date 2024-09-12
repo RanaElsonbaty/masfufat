@@ -41,14 +41,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
   List<geocoding.Placemark> ?placemarks;
   Location location = Location();
   final Map<String, Marker> _markers = {};
-  List<LatLng> mark=[
-    // 24.742815361248567, 46.818026416003704
-    const LatLng(24.742815361248567, 46.818026416003704),
-    const LatLng(24.746171169952415, 46.81526407599449),
-    const LatLng(24.743709359244182, 46.81161660701037),
-    const LatLng(24.736635454757227, 46.81161660701037),
-    const LatLng(24.722420656686346, 46.816661171615124),
-  ];
+
   String searchResult='';
 
   bool locationEdit=false;
@@ -67,6 +60,8 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
     if (widget.edit) {
       getEditLocation();
     } else {
+      // lat=0.000;
+      // lon=0.000;
       getUserLocation();
     }
   }
@@ -85,7 +80,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
   }
 
   void getUserLocation() {}
-
+    double zoom =15;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,26 +88,15 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
             title: getTranslated('select_delivery_address', context)),
         body: Stack(children: [
           GoogleMap(
+            zoomControlsEnabled: false,
 
-            initialCameraPosition: CameraPosition(target: LatLng(lat, lon)),
+            initialCameraPosition: CameraPosition(target: LatLng(lat, lon),zoom: zoom),
             myLocationButtonEnabled: false,
             onLongPress: (argument) {
               locationEdit=true;
 
             },
-            // polygons: {
-            //   Polygon(polygonId:   PolygonId('1'),points: mark,onTap: (){
-            //     print('object');
-            //
-            //   },
-            //       consumeTapEvents: true,
-            //   fillColor: Colors.green.shade300
-            //   ),
-            //
-            // },
-
             onCameraMove: (position) async{
-
               if(position.zoom>=15){
              try{
                placemarks = await geocoding.placemarkFromCoordinates(position.target.latitude,  position.target.longitude);
@@ -123,8 +107,9 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
              }catch(e){
                print(e)
 ;             }}
-              print('asdadsadadad${position.target}');
+
             },
+            // mapType: MapType.satellite,
             onMapCreated: (controller) {
               mapController = controller;
             },
@@ -146,7 +131,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
 
           Positioned(
             bottom: 70,
-            right: 20,
+            right: 10,
             child: Column(
               children: [
                 InkWell(
@@ -158,8 +143,8 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
                     child: Container(
                         width: 50,
                         height: 50,
-                        margin: const EdgeInsets.only(
-                            right: Dimensions.paddingSizeLarge),
+                        // margin: const EdgeInsets.only(
+                        //     right: Dimensions.paddingSizeLarge),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(
                                 Dimensions.paddingSizeSmall),
@@ -198,6 +183,53 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
                       ),
                     )),
               )),
+
+          Positioned(
+            left: 10,
+              bottom: 65,
+              child: Container(
+                height: 100,
+                width: 50,
+                decoration: BoxDecoration(
+                  color:ColorResources.getChatIcon(context),
+                  borderRadius: BorderRadius.circular(4)
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 15,),
+
+                  InkWell(
+                      onTap: (){
+                        mapController!.animateCamera(CameraUpdate.newCameraPosition(
+                          CameraPosition(
+                              target: LatLng(
+                                lat,
+                                lon,
+                              ),
+                              zoom: zoom+5),
+                        ));
+                      },
+                      child: const Icon(Icons.add)),
+
+                  Divider(color: Colors.grey.shade500,),
+
+                  InkWell(
+                      onTap: (){
+                        mapController!.animateCamera(CameraUpdate.newCameraPosition(
+                          CameraPosition(
+                              target: LatLng(
+                                lat,
+                                lon,
+                              ),
+                              zoom: zoom-5),
+                        ));
+                      },
+                      child: const Icon(Icons.minimize)),
+                    const SizedBox(height: 20,),
+
+                ],),
+              ))
 
           // locationController.loading ?
           // Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor))) :
@@ -297,6 +329,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
   }
   void getCurrentLocations(BuildContext context, ) async {
  try{
+
    Position myPosition;
    Position newLocalData = await getLocation();
    myPosition = newLocalData;
@@ -310,13 +343,15 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
      lon= myPosition.longitude;
      lat=myPosition.latitude;
    });
- }catch(e){}
+ }catch(e){
+   print('asdasdadsadasdasdasdas----->$e');
+ }
 
   }
   Future<void> handleSearch() async {
     places.Prediction? p = await loc.PlacesAutocomplete.show(
         context: context,
-        apiKey: 'AIzaSyC2BO1gDok2Pt8pa-MFypDjiOnfZjZWruc',
+        apiKey: 'AIzaSyAEFRLByymAFIq3xzSr37UdAqnZoPN_aoo',
         onError: onError, // call the onError function below
         mode: loc.Mode.overlay,
         language: 'en', //you can set any language for search
@@ -345,8 +380,8 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
       backgroundColor: Colors.transparent,
       content: AwesomeSnackbarContent(
         title: 'Message',
-        message: response.errorMessage!,
         contentType: ContentType.failure,
+        message: response.errorMessage!,
       ),
     ));
 
@@ -355,7 +390,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
   Future<void> displayPrediction(
       places.Prediction p, ScaffoldState? currentState) async {
     places.GoogleMapsPlaces placess = places.GoogleMapsPlaces(
-        apiKey: 'AIzaSyC2BO1gDok2Pt8pa-MFypDjiOnfZjZWruc',
+        apiKey: 'AIzaSyAEFRLByymAFIq3xzSr37UdAqnZoPN_aoo',
         apiHeaders: await const header.GoogleApiHeaders().getHeaders());
     places.PlacesDetailsResponse detail =
     await placess.getDetailsByPlaceId(p.placeId!);
