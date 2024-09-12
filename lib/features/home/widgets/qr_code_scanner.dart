@@ -79,6 +79,7 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
 
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
