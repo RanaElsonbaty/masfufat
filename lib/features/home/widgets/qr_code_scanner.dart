@@ -19,6 +19,8 @@ class QrCodeScanner extends StatefulWidget {
 
 
 
+
+
 class _QrCodeScannerState extends State<QrCodeScanner> {
   // String _scanBarcode = 'Unknown';
 
