@@ -14,6 +14,8 @@ class QrCodeScanner extends StatefulWidget {
   final bool fromHome;
 
   @override
+
+
   State<QrCodeScanner> createState() => _QrCodeScannerState();
 }
 
