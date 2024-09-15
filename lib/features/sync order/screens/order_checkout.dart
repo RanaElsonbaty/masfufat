@@ -167,6 +167,7 @@ class _OrderCheckoutState extends State<OrderCheckout> {
                                }
                              });
                            }catch(e){
+                             print(e);
 
                            }
 

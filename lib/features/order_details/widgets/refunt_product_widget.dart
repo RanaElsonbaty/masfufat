@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
-import '../../../common/basewidget/custom_directionality_widget.dart';
 import '../../../common/basewidget/custom_image_widget.dart';
 import '../../../helper/price_converter.dart';
-import '../../../localization/controllers/localization_controller.dart';
 import '../../../localization/language_constrants.dart';
 import '../../../utill/color_resources.dart';
-import '../../../utill/custom_themes.dart';
 import '../../../utill/dimensions.dart';
 import '../../product/domain/models/product_model.dart';
 
@@ -25,7 +21,6 @@ class _RefuntProductWidgetState extends State<RefuntProductWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isLtr = Provider.of<LocalizationController>(context, listen: false).isLtr;
 
     return  Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
       child: Card(color: Theme.of(context).cardColor,
@@ -61,7 +56,7 @@ class _RefuntProductWidgetState extends State<RefuntProductWidget> {
                     widget.product.taxModel!=null&&widget.product.taxModel == 'exclude'?
                     Text('(${getTranslated('tax', context)} ${PriceConverter.convertPrice(context, widget.product.tax)})',
                       style: GoogleFonts.tajawal(fontWeight: FontWeight.w500,color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault),):
-                    Text('(${getTranslated('tax', context)} ${widget.product!=null?widget.product.taxModel:''})',
+                    Text('(${getTranslated('tax', context)} ${widget.product.taxModel})',
                         style: GoogleFonts.tajawal(fontWeight: FontWeight.w500,color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault))]),
                   const SizedBox(height: Dimensions.marginSizeExtraSmall),
 

@@ -4,7 +4,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/screens/order_details_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/push_notification/models/notification_body.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
@@ -163,10 +162,10 @@ class SplashScreenState extends State<SplashScreen>
                 Navigator.of(Get.context!).pushReplacement(MaterialPageRoute(builder: (BuildContext context) =>
                     OrderDetailsScreen(orderId: widget.body!.orderId)));
               }else if(widget.body!.type == 'notification'){
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) =>
+                Navigator.of(Get.context!).pushReplacement(MaterialPageRoute(builder: (BuildContext context) =>
                 const NotificationScreen()));
               }else {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) =>
+                Navigator.of(Get.context!).pushReplacement(MaterialPageRoute(builder: (BuildContext context) =>
                 const InboxScreen(isBackButtonExist: true,)));
               }
             }else{

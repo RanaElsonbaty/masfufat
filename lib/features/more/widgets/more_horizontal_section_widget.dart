@@ -1,24 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/more/widgets/square_item_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/order/controllers/order_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wallet/screens/wallet_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/wishlist/controllers/wishlist_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/wishlist/screens/wishlist_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/responsive_helper.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/features/cart/controllers/cart_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/profile/controllers/profile_contrroller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
-import 'package:flutter_sixvalley_ecommerce/features/cart/screens/cart_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/loyaltyPoint/screens/loyalty_point_screen.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:provider/provider.dart';
 
 import '../../../theme/controllers/theme_controller.dart';
-import '../../order/screens/order_page_builder.dart';
 import '../../wallet/controllers/wallet_controller.dart';
 import '../../wallet/widgets/wallet_card_widget.dart';
 
@@ -54,7 +48,7 @@ class MoreHorizontalSection extends StatelessWidget {
                           return Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
                               child: InkWell(
                                 onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => WalletScreen(),));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const WalletScreen(),));
                                 },
                                 child: Container(height: MediaQuery.of(context).size.width/3.0,
                                   width: MediaQuery.of(context).size.width-30,

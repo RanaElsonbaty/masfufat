@@ -356,7 +356,7 @@ class StoreInformations {
     address: json["address"] ?? '',
     plan: json["plan"],
     remember: json["remember"]!=null? json["remember"].toString():'',
-    image: json["image"],
+    image: json["image"]??'',
     IdNumber:json['id_number'] ?? "",
     identityType:json['identity_type'] ?? "",
     commercialRegistrationImg: json["commercial_registration_img"] ?? '',

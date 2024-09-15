@@ -323,7 +323,6 @@ void getMicOn(bool val){
 }
   int _seconds = 0;
   int get seconds =>_seconds;
-  bool _isRunning = false;
   bool get isRunning =>_isRecording;
   Timer? _timer;
   String _formattedDuration='';
@@ -331,7 +330,6 @@ void getMicOn(bool val){
   void startTimer() {
     _seconds=0;
     _formattedDuration='';
-    _isRunning = true;
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         _seconds++;
         Duration duration = Duration(seconds: _seconds);
@@ -343,12 +341,11 @@ void getMicOn(bool val){
   }
 
   void stopTimer() {
-    _isRunning = false;
     _timer?.cancel();
   }
-  List<SupportTicketModel>  _searchSupportTicket=[];
+  List<SupportTicketModel>?  _searchSupportTicket;
 
-  List<SupportTicketModel> get searchSupportTicket => _searchSupportTicket;
+  List<SupportTicketModel> ?get searchSupportTicket => _searchSupportTicket;
   bool _isFilter=false;
   bool get isFilter=>_isFilter;
   String _filterType='';
@@ -383,12 +380,13 @@ void getMicOn(bool val){
   }
 
 void getSearch(String val,bool filter,String filterType){
+    if(_supportTicketList!=null){
   _searchSupportTicket=[];
   if(val.isNotEmpty){
   for (var element in _supportTicketList!) {
     if(element.id.toString().contains(val)||element.type!.contains(val)||element.subject!.contains(val)){
       if(filter&&filterType==element.status!){
-        _searchSupportTicket.add(element);
+        _searchSupportTicket!.add(element);
 
       }
       notifyListeners();
@@ -399,7 +397,7 @@ void getSearch(String val,bool filter,String filterType){
       for (var element in _supportTicketList!) {
         if(filterType==element.status!){
           if(filter&&filterType==element.status!){
-            _searchSupportTicket.add(element);
+            _searchSupportTicket!.add(element);
 
           }
           notifyListeners();
@@ -407,12 +405,13 @@ void getSearch(String val,bool filter,String filterType){
       }
 
     }else{
-      _searchSupportTicket.addAll(_supportTicketList!);
+      _searchSupportTicket!.addAll(_supportTicketList!);
 
     }
     notifyListeners();
   }
 }
+  }
 
 
 }

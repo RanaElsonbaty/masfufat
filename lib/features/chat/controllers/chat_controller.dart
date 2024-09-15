@@ -727,7 +727,6 @@ try{
   }
   int _seconds = 0;
   int get seconds =>_seconds;
-  bool _isRunning = false;
   bool get isRunning =>_isRecording;
   Timer? _timer;
   String _formattedDuration='';
@@ -735,7 +734,6 @@ try{
   void startTimer() {
     _seconds=0;
     _formattedDuration='';
-    _isRunning = true;
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _seconds++;
       Duration duration = Duration(seconds: _seconds);
@@ -753,7 +751,6 @@ try{
 
   }
   void stopTimer() {
-    _isRunning = false;
     _timer?.cancel();
   }
 

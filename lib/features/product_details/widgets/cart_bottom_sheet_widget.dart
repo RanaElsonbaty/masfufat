@@ -1,15 +1,11 @@
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_directionality_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/domain/models/cart_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/screens/checkout_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/color_selection_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/controllers/product_details_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/domain/models/product_details_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/shipping_method_dialog.dart';
-import 'package:flutter_sixvalley_ecommerce/features/shipping/domain/models/shipping_method_model.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/product_helper.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
@@ -135,7 +131,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
 
               double total = 0, avg = 0;
               for (var review in widget.product!.reviews!) {
-                total += review.rating!;
+                total += review.rating;
               }
               avg = total /widget.product!.reviews!.length;
               String ratting = widget.product!.reviews != null && widget.product!.reviews!.isNotEmpty?

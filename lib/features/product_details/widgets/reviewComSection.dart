@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/domain/models/product_details_model.dart';
@@ -52,7 +50,7 @@ class _ReviewComSectionState extends State<ReviewComSection> {
                   const Spacer(),
                   Padding(
                     padding: const EdgeInsets.only(top: 4.0),
-                    child: Text(DateConverter.convertStringTimeToDate(widget.productDetailsModel.reviews![index].createdAt??DateTime.now(),),style: GoogleFonts.tajawal(
+                    child: Text(DateConverter.convertStringTimeToDate(widget.productDetailsModel.reviews![index].createdAt,),style: GoogleFonts.tajawal(
                       fontSize: 12,fontWeight: FontWeight.w400
                     ),),
                   )
@@ -64,7 +62,8 @@ class _ReviewComSectionState extends State<ReviewComSection> {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Text(widget.productDetailsModel.reviews![index].comment??'',
+                      child: Text(widget.productDetailsModel.reviews![index].comment
+                        ,
                       style: GoogleFonts.tajawal(
                         fontWeight: FontWeight.w400,
                         fontSize: 12
@@ -88,7 +87,7 @@ class _ReviewComSectionState extends State<ReviewComSection> {
                     const SizedBox(width: 5,),
                     Padding(
                       padding: const EdgeInsets.only(top: 2.0),
-                      child: Text(widget.productDetailsModel.reviews![index].rating.toString()??'',style: GoogleFonts.poppins(
+                      child: Text(widget.productDetailsModel.reviews![index].rating.toString(),style: GoogleFonts.poppins(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).hintColor
@@ -106,6 +105,6 @@ class _ReviewComSectionState extends State<ReviewComSection> {
               )
             ],),
           );
-        }, ):NoInternetOrDataScreenWidget(isNoInternet: false);
+        }, ):const NoInternetOrDataScreenWidget(isNoInternet: false);
   }
 }

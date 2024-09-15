@@ -8,6 +8,7 @@ import 'package:open_document/open_document_exception.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../main.dart';
 import '../../../utill/app_constants.dart';
 import '../../../utill/images.dart';
 
@@ -162,7 +163,7 @@ class _DocxAndXlsxFileState extends State<DocxAndXlsxFile> {
               }
               if (Platform.isAndroid) {
                 Navigator.push(
-                    context,
+                    Get.context!,
                     MaterialPageRoute(
                       builder: (context) => MyFilesScreen(
                           filePath: filePath!,

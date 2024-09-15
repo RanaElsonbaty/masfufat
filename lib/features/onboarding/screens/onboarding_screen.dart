@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/screens/auth_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/onboarding/controllers/onboarding_controller.dart';
@@ -24,7 +22,6 @@ class OnBoardingScreen extends StatelessWidget {
     Provider.of<OnBoardingController>(context, listen: false).getOnBoardingList();
 
 
-    double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: Consumer<OnBoardingController>(
@@ -53,7 +50,7 @@ class OnBoardingScreen extends StatelessWidget {
                 ),
 
               SizedBox(
-                height: MediaQuery.of(context).size.height>300? MediaQuery.of(context).size.height-300: MediaQuery.of(context).size.height-200,
+                height: MediaQuery.of(context).size.height>300? MediaQuery.of(context).size.height-250: MediaQuery.of(context).size.height-200,
                 child: PageView.builder(
                 
                   // physics: const NeverScrollableScrollPhysics(),
@@ -68,18 +65,14 @@ class OnBoardingScreen extends StatelessWidget {
                             Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault,horizontal: 15),
                               child: Text(onBoardingList.onBoardingList[index].title,
                                   style: GoogleFonts.tajawal(fontSize: 24,fontWeight: FontWeight.w500), textAlign: TextAlign.center),),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Text(onBoardingList.onBoardingList[index].description,
-                                      overflow: TextOverflow.visible,
-                                      textAlign: TextAlign.center, style: GoogleFonts.tajawal(
-                                          fontSize: 16,fontWeight: FontWeight.w400)),
-                                ),
-                              ],
+                            Expanded(
+                              child: Text(onBoardingList.onBoardingList[index].description,
+                                  overflow: TextOverflow.visible,
+                                  textAlign: TextAlign.center, style: GoogleFonts.tajawal(
+                                      fontSize: 16,fontWeight: FontWeight.w400)),
                             ),
                             // const SizedBox(height: Dimensions.paddingSizeDefault),
-                
+
                           ],
                         ),
                       );
@@ -157,7 +150,7 @@ class OnBoardingScreen extends StatelessWidget {
                           child: Container(height: 40, width: 40,
                               margin: const EdgeInsets.only(top: 4,right: 3),
                               decoration: const BoxDecoration(shape: BoxShape.circle,),
-                              child: Center(child: Icon(Icons.arrow_forward_ios,size: 20,))))),
+                              child: const Center(child: Icon(Icons.arrow_forward_ios,size: 20,))))),
                 ]),
               ),
 

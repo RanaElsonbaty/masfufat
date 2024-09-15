@@ -1,15 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/screens/product_details_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/favourite_button_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,7 +14,6 @@ import 'package:provider/provider.dart';
 import '../../features/cart/controllers/cart_controller.dart';
 import '../../features/cart/domain/models/cart_model.dart';
 import '../../features/product/widgets/carousel_slider.dart';
-import '../../features/product_details/widgets/cart_bottom_sheet_widget.dart';
 
 
 class ProductWidget extends StatelessWidget {
@@ -207,7 +202,7 @@ class ProductWidget extends StatelessWidget {
                                 child: Center(child: Text(getTranslated('buy', context)!,style: GoogleFonts.tajawal(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
-                                    color:inCart?Colors.white: Colors.black
+                                    color:inCart?Colors.white: Theme.of(context).iconTheme.color
                                 ),)),
                               ),
                             ),

@@ -10,7 +10,6 @@ import 'package:flutter_sixvalley_ecommerce/features/checkout/widgets/payment_me
 import 'package:flutter_sixvalley_ecommerce/features/payment%20/controller/payment_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/profile/controllers/profile_contrroller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/shipping/controllers/shipping_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
@@ -19,7 +18,6 @@ import 'package:flutter_sixvalley_ecommerce/features/coupon/controllers/coupon_c
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/amount_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/animated_custom_dialog_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widget.dart';
@@ -27,7 +25,6 @@ import 'package:flutter_sixvalley_ecommerce/features/checkout/widgets/order_plac
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_textfield_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/widgets/choose_payment_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/checkout/widgets/coupon_apply_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/widgets/shipping_details_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/widgets/wallet_payment_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/dashboard/screens/dashboard_screen.dart';
@@ -86,7 +83,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
   await   Provider.of<PaymentController>(context,listen: false).getAmount(( (widget.totalOrderAmount)));
   //  await  Provider.of<PaymentController>(Get.context!,listen: false).getApiKey(Get.context!);
     await Provider.of<PaymentController>(Get.context!,listen: false).initiate(Get.context!);
-  //   await Provider.of<PaymentController>(Get.context!,listen: false).getPaymentMethod(Get.context!,'cart');
+    await Provider.of<PaymentController>(Get.context!,listen: false).getPaymentMethod(Get.context!,'cart');
   //   Provider.of<PaymentController>(Get.context!,listen: false).getType('cart');
   //   Provider.of<PaymentController>(Get.context!,listen: false).cardViewStyle();
     Provider.of<PaymentController>(Get.context!,listen: false).getType('cart');
@@ -208,7 +205,7 @@ else if(orderProvider.selectedDigitalPaymentMethodId==0){
                                               currentBalance: profileProvider.balance ?? 0,
                                               orderAmount: _order,
                                               onTap: (){if(profileProvider.balance! <
-                                                  (_order + widget.shippingFee - widget.discount - _couponDiscount! + widget.tax)){
+                                                  (_order + widget.shippingFee - widget.discount - (_couponDiscount!=null?_couponDiscount!:0.00) + widget.tax)){
                                                 showCustomSnackBar(getTranslated('insufficient_balance', context), context, isToaster: true);
                                               } else{
                                                 Navigator.pop(context);

@@ -121,7 +121,7 @@ Provider.of<MyShopController>(Get.context!,listen: false).getList();
         showCustomSnackBar(getTranslated('minimum_password_length', context), context);
       }else{
         await Provider.of<AuthController>(context, listen: false).login(loginBody, route);
-        Provider.of<SplashController>(context, listen: false).initConfig(context).then((bool isSuccess) {
+        Provider.of<SplashController>(Get.context!, listen: false).initConfig(Get.context!).then((bool isSuccess) {
 
         });
       }
@@ -190,7 +190,7 @@ Row(
                 controller: _emailController,
                 showLabelText: true,
                   required: true,
-                  validator: (value) =>ValidateCheck.validateEmptyText(value, "enter_email_or_mobile"))),
+                  validator: (value) =>ValidateCheck.validateEmail(value, ))),
             const SizedBox(height: Dimensions.paddingSizeDefault,),
 
           Row(
@@ -207,15 +207,13 @@ Row(
           const SizedBox(height: 5,),
             CustomTextFieldWidget(
               showLabelText: true, required: true,
-              // labelText: getTranslated('password', context),
               hintText: '********',
               inputAction: TextInputAction.done,
               isPassword: true,
 
-              // prefixIcon: Images.pass,
               focusNode: _passNode,
               controller: _passwordController,
-                validator: (value) =>ValidateCheck.validateEmptyText(value, 'enter_your_password')),
+                validator: (value) =>ValidateCheck.validatePassword(value, 'enter_your_password')),
 
 
 
@@ -243,13 +241,6 @@ Row(
                             borderRadius: BorderRadius.circular(4)
                           ),
                         ),
-                        // SizedBox(width : 20, height : 20,
-                        //   child: Container(alignment: Alignment.center,
-                        //     decoration: BoxDecoration(
-                        //         border: Border.all(color: Theme.of(context).primaryColor.withOpacity(.75), width: 1.5),
-                        //         borderRadius: BorderRadius.circular(6)),
-                        //     child: Icon(CupertinoIcons.checkmark_alt,size: 15,
-                        //     color: authProvider.isRemember!? Theme.of(context).primaryColor.withOpacity(.75): Colors.transparent))),
 
 
                       Text(getTranslated('remember', context)!, style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault,color: Theme.of(context).primaryColor))]),
@@ -274,29 +265,6 @@ Row(
             const SizedBox(width: Dimensions.paddingSizeDefault),
 
 
-
-            // const SocialLoginWidget(),
-
-            // Consumer<AuthController>(
-            //   builder: (context, authProvider,_) {
-            //     return GestureDetector(onTap: () {
-            //         if (!authProvider.isLoading) {
-            //           Provider.of<AuthController>(context, listen: false).getGuestIdUrl();
-            //           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const DashBoardScreen()), (route) => false);
-            //         }
-            //       },
-            //       child: Container(width: double.infinity, height: 40, alignment: Alignment.center,
-            //         decoration: BoxDecoration(color: Colors.transparent, borderRadius: BorderRadius.circular(6),),
-            //         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            //             Text(getTranslated('continue_as', context)!, style: titleRegular.copyWith(color: ColorResources.getHint(context))),
-            //             const SizedBox(width: Dimensions.paddingSizeExtraSmall,),
-            //             Text(getTranslated('guest', context)!, style: titleHeader),
-            //           ],
-            //         ),
-            //       ),
-            //     );
-            //   }
-            // ),
           ],
         ),
       ),

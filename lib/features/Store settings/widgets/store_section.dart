@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sixvalley_ecommerce/features/Store%20settings/controllers/store_setting_controller.dart';
@@ -109,7 +108,7 @@ class _StoreSectionState extends State<StoreSection> {
                               ),));}else{
                               showBottomSheet(
                                   context: context,
-                                  builder: (BuildContext context) => Container(
+                                  builder: (BuildContext context) => SizedBox(
                                     height: 250,
                                     child: Padding(
                                       padding: const EdgeInsets.all(15.0),
@@ -149,7 +148,7 @@ class _StoreSectionState extends State<StoreSection> {
                             showBottomSheet(
                                 context: context,
 
-                                builder: (BuildContext context) => Container(
+                                builder: (BuildContext context) => SizedBox(
 
                                   height: 250,
                                   child: Padding(
@@ -351,7 +350,7 @@ class _StoreSectionState extends State<StoreSection> {
                                 .token
                                 .toString():'no key',
                             textDirection: TextDirection.ltr,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.black ,
                             ),
                             overflow: TextOverflow.visible),

@@ -730,7 +730,7 @@ class ProductDetailsModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = _id;
     data['added_by'] = _addedBy;
     data['user_id'] = _userId;
@@ -844,7 +844,7 @@ class CategoryIds {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = _id;
     data['position'] = _position;
     return data;
@@ -873,7 +873,7 @@ class Colorss {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = _name;
     data['code'] = _code;
     return data;
@@ -1014,7 +1014,7 @@ class Customer {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = _id;
     data['f_name'] = _fName;
     data['l_name'] = _lName;
@@ -1049,7 +1049,7 @@ class ChoiceOptions {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = _name;
     data['title'] = _title;
     data['options'] = _options;
@@ -1103,7 +1103,7 @@ class Variation {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['type'] = _type;
     data['price'] = _price;
     data['sku'] = _sku;
@@ -1151,7 +1151,7 @@ class Seller {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = _id;
     data['company_name']['value'] = _companyName;
     data['l_name'] = _lName;
@@ -1241,7 +1241,7 @@ class Shop {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = _id;
     data['seller_id'] = _sellerId;
     data['name'] = _name;

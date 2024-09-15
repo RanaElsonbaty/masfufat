@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/title_row_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/address/controllers/address_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
@@ -39,7 +38,6 @@ import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.d
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../brand/screens/brands_screen.dart';
@@ -134,7 +132,7 @@ surfaceTintColor: Theme.of(context).highlightColor,
               builder:(context, profile, child) =>  Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Image.asset(Images.logoWithNameImage,width: 150,)
+                  Consumer<ThemeController>(builder:(context, value, child) =>  Image.asset(value.darkTheme?Images.whiteLogoWithMame:Images.logoWithNameImage,width:value.darkTheme? 120:150,))
                 // Container(
                 //   height: 50,
                 //   width: 50,
@@ -191,7 +189,7 @@ surfaceTintColor: Theme.of(context).highlightColor,
                       top: 5,
                       left: 15  ,
                       child: Consumer<WishListController>(builder:(context, provider, child) {
-                        return provider.wishList!=null? CircleAvatar(radius:provider.wishList!.length<100? 9:10,backgroundColor: Colors.red,child:
+                        return provider.wishList!=null&&provider.wishList!.isNotEmpty? CircleAvatar(radius:provider.wishList!.length<100? 9:10,backgroundColor: Colors.red,child:
                         Center(
                           child: Text(provider.wishList!.isNotEmpty?provider.wishList!.length.toString():'0',
                             style: const TextStyle(
@@ -224,7 +222,7 @@ surfaceTintColor: Theme.of(context).highlightColor,
                       top: 5,
                       left: 15  ,
                       child: Consumer<NotificationController>(builder:(context, provider, child) {
-                        return CircleAvatar(radius:provider.notificationModel.length<100? 8:10,backgroundColor: Colors.red,child:
+                        return provider.notificationModel.isNotEmpty? CircleAvatar(radius:provider.notificationModel.length<100? 8:10,backgroundColor: Colors.red,child:
                         Center(
                           child: Text(provider.notificationModel.isNotEmpty?provider.notificationModel.length.toString():'0',
                             style: const TextStyle(
@@ -234,7 +232,7 @@ surfaceTintColor: Theme.of(context).highlightColor,
                             ),
 
                           ),
-                        ),);
+                        ),):const SizedBox.square();
                       }),
                     ),
                   ],

@@ -181,6 +181,7 @@ class SplashController extends ChangeNotifier {
         }
       }
     }catch(e){
+      print(e);
 
     }
   }

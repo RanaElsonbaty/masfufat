@@ -7,6 +7,7 @@ import 'package:flutter_sixvalley_ecommerce/features/chat/controllers/chat_contr
 import 'package:flutter_sixvalley_ecommerce/features/support/controllers/support_ticket_controller.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
 import 'Display_Picture_Screen.dart';
 
 class CameraScreen extends StatefulWidget {
@@ -154,7 +155,7 @@ class CameraScreenState extends State<CameraScreen> {
                                 //   value.addPhoto([value.takePhoto!], false, true);
                                 // }
                                 // if (!mounted) return;
-                                Navigator.push(context,MaterialPageRoute(builder: (context) {
+                                Navigator.push(Get.context!,MaterialPageRoute(builder: (context) {
                                   return DisplayPictureScreen(image: [image],);
                                 },));
                                 // await Navigator.of(context).push(

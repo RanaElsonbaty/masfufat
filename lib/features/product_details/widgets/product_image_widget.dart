@@ -1,29 +1,19 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/controllers/product_details_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/domain/models/product_details_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/screens/product_image_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/controllers/localization_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/favourite_button_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:widget_zoom/widget_zoom.dart';
 
 
 class ProductImageWidget extends StatelessWidget {
   final ProductDetailsModel? productModel;
   final PageController controller;
-  ProductImageWidget({super.key, required this.productModel, required this.controller});
+  const ProductImageWidget({super.key, required this.productModel, required this.controller});
 
   // final PageController _controller = PageController(initialPage: 0);
   @override
@@ -51,11 +41,16 @@ class ProductImageWidget extends StatelessWidget {
                     itemCount: productModel!.images!.length,
                     itemBuilder: (context, index) {
 
-                      return CustomImageWidget(
-                          height: 100,
-                          fit: BoxFit.fill,
-                          width: MediaQuery.of(context).size.width,
-                          image: productModel!.images![index]);
+                      return WidgetZoom(
+                        heroAnimationTag: 'null',
+                         closeFullScreenImageOnDispose: false,
+
+                        zoomWidget: CustomImageWidget(
+                            height: 100,
+                            fit: BoxFit.fill,
+                            width: MediaQuery.of(context).size.width,
+                            image: productModel!.images![index]),
+                      );
                     },
                     onPageChanged: (index) => productController.setImageSliderSelectedIndex(index),
                   ):const SizedBox()),
@@ -162,22 +157,5 @@ class ProductImageWidget extends StatelessWidget {
     ): const SizedBox();
   }
 
-  List<Widget> _indicators(BuildContext context) {
-    List<Widget> indicators = [];
-    for (int index = 0; index < productModel!.images!.length; index++) {
-      indicators.add(Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraExtraSmall),
-        child: Container(width: index == Provider.of<ProductDetailsController>(context).imageSliderIndex? 20 : 6, height: 6,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: index == Provider.of<ProductDetailsController>(context).imageSliderIndex ?
-            Theme.of(context).primaryColor : Theme.of(context).hintColor,
-          ),
-
-        ),
-      ));
-    }
-    return indicators;
-  }
 
 }

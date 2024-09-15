@@ -16,8 +16,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widge
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../../../common/basewidget/custom_button_widget.dart';
 import '../../order/domain/models/order_model.dart';
+import '../../product_details/screens/product_details_screen.dart';
 import '../screens/refund_request_details.dart';
 
 
@@ -77,264 +77,270 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
     //   }
     // }
 
-    return Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-      child: Stack(children: [
-          Card(color: Theme.of(context).cardColor,
-            child: Column(children: [
-              const SizedBox(height: Dimensions.paddingSizeSmall),
+    return InkWell(
+      onTap: (){
+        Navigator.push(context,MaterialPageRoute(builder: (context) => ProductDetails(productId: widget.orderDetailsModel.productDetails!.id, slug: widget.orderDetailsModel.productDetails!.slug),));
 
-              Row(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    const SizedBox(width: Dimensions.marginSizeDefault),
+      },
+      child: Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+        child: Stack(children: [
+            Card(color: Theme.of(context).cardColor,
+              child: Column(children: [
+                const SizedBox(height: Dimensions.paddingSizeSmall),
 
-                    ClipRRect(borderRadius: BorderRadius.circular(12),
-                      child: CustomImageWidget(image: '${widget.orderDetailsModel.productDetails?.imagesFullUrl}', width: 80  , height: 80)),
-                    // const SizedBox(width: Dimensions.marginSizeDefault),
+                Row(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      const SizedBox(width: Dimensions.marginSizeDefault),
 
-                    Expanded(flex: 3,
-                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      ClipRRect(borderRadius: BorderRadius.circular(12),
+                        child: CustomImageWidget(image: '${widget.orderDetailsModel.productDetails?.imagesFullUrl}', width: 80  , height: 80)),
+                      // const SizedBox(width: Dimensions.marginSizeDefault),
+
+                      Expanded(flex: 3,
+                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                            Row(children: [
+                              Expanded(child: Text(widget.orderDetailsModel.productDetails?.name??'',
+                                style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault,fontWeight: FontWeight.w400),
+                                maxLines: 2, overflow: TextOverflow.ellipsis))]),
+                            const SizedBox(height: Dimensions.marginSizeExtraSmall),
+
+
                           Row(children: [
-                            Expanded(child: Text(widget.orderDetailsModel.productDetails?.name??'',
-                              style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault,fontWeight: FontWeight.w400),
-                              maxLines: 2, overflow: TextOverflow.ellipsis))]),
+
+                            Text("${getTranslated('price', context)} :",
+                              style: GoogleFonts.tajawal( fontSize: 16,fontWeight: FontWeight.w400),),
+                            Text(PriceConverter.convertPrice(context, widget.orderDetailsModel.price),
+                              style: GoogleFonts.tajawal(fontSize: 16,fontWeight: FontWeight.w400),),
+
+                            widget.orderDetailsModel.productDetails!=null&&widget.orderDetailsModel.productDetails!.taxModel!=null&&widget.orderDetailsModel.productDetails!.taxModel == 'exclude'?
+                            Text('(${getTranslated('tax', context)} ${PriceConverter.convertPrice(context, widget.orderDetailsModel.tax)})',
+                              style: GoogleFonts.tajawal(color: ColorResources.hintTextColor, fontSize: 14,fontWeight: FontWeight.w400),):
+                            Text('(${getTranslated('tax', context)} ${widget.orderDetailsModel.productDetails!=null?widget.orderDetailsModel.productDetails!.taxModel:''})',
+                              style: GoogleFonts.tajawal(color: ColorResources.hintTextColor, fontSize: 14,fontWeight: FontWeight.w400))]),
                           const SizedBox(height: Dimensions.marginSizeExtraSmall),
 
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('${getTranslated('qty', context)}: ${widget.orderDetailsModel.qty}',
+                                  style: GoogleFonts.tajawal(fontWeight: FontWeight.w400, fontSize: 14)),
 
-                        Row(children: [
+                              if (widget.orderModel.orderStatus == 'delivered'&&widget.fromRefunt==false)
+                                InkWell(
+                                  onTap: (){
+                                    if(widget.orderDetailsModel.refundRequest==0) {
+                                                  showModalBottomSheet(context: context,
+                                                      builder: (BuildContext context) =>
+                                                          ShowModalBottomSheetOrder(orderModel:widget. orderModel,
+                                                            orderDetailsModel: widget.orderDetailsModel,));
+                                                }else{
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => RefundRequestDetails(
+                                                      orderModel: widget.orderModel,
+                                                      orderDetailsModel: widget.orderDetailsModel
+                                                  ),));
+                                                }
+                                  },
+                                  child: Container(
+                                    height: 35,
+                                   width: 140,
 
-                          Text("${getTranslated('price', context)} :",
-                            style: GoogleFonts.tajawal( fontSize: 16,fontWeight: FontWeight.w400),),
-                          Text(PriceConverter.convertPrice(context, widget.orderDetailsModel.price),
-                            style: GoogleFonts.tajawal(fontSize: 16,fontWeight: FontWeight.w400),),
+                                   decoration: BoxDecoration(
+                                     borderRadius: BorderRadius.circular(8),
+                                     color:widget.orderDetailsModel.refundRequest==0?Theme.of(context).primaryColor: Theme.of(context).primaryColor.withOpacity(0.30)
+                                   ),
+                                    child: Center(child: Text(widget.orderDetailsModel.refundRequest==0? getTranslated('Refund_request', context)!:getTranslated('Refund_Request_Details', context)!,
 
-                          widget.orderDetailsModel.productDetails!=null&&widget.orderDetailsModel.productDetails!.taxModel!=null&&widget.orderDetailsModel.productDetails!.taxModel == 'exclude'?
-                          Text('(${getTranslated('tax', context)} ${PriceConverter.convertPrice(context, widget.orderDetailsModel.tax)})',
-                            style: GoogleFonts.tajawal(color: ColorResources.hintTextColor, fontSize: 14,fontWeight: FontWeight.w400),):
-                          Text('(${getTranslated('tax', context)} ${widget.orderDetailsModel.productDetails!=null?widget.orderDetailsModel.productDetails!.taxModel:''})',
-                            style: GoogleFonts.tajawal(color: ColorResources.hintTextColor, fontSize: 14,fontWeight: FontWeight.w400))]),
-                        const SizedBox(height: Dimensions.marginSizeExtraSmall),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.tajawal(
+                                      color:widget.orderDetailsModel.refundRequest==0?Colors.white: Colors.black,
 
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('${getTranslated('qty', context)}: ${widget.orderDetailsModel.qty}',
-                                style: GoogleFonts.tajawal(fontWeight: FontWeight.w400, fontSize: 14)),
-
-                            if (widget.orderModel.orderStatus == 'delivered'&&widget.fromRefunt==false)
-                              InkWell(
-                                onTap: (){
-                                  if(widget.orderDetailsModel.refundRequest==0) {
-                                                showModalBottomSheet(context: context,
-                                                    builder: (BuildContext context) =>
-                                                        ShowModalBottomSheetOrder(orderModel:widget. orderModel,
-                                                          orderDetailsModel: widget.orderDetailsModel,));
-                                              }else{
-                                                Navigator.push(context, MaterialPageRoute(builder: (context) => RefundRequestDetails(
-                                                    orderModel: widget.orderModel,
-                                                    orderDetailsModel: widget.orderDetailsModel
-                                                ),));
-                                              }
-                                },
-                                child: Container(
-                                  height: 35,
-                                 width: 140,
-
-                                 decoration: BoxDecoration(
-                                   borderRadius: BorderRadius.circular(8),
-                                   color:widget.orderDetailsModel.refundRequest==0?Theme.of(context).primaryColor: Theme.of(context).primaryColor.withOpacity(0.30)
-                                 ),
-                                  child: Center(child: Text(widget.orderDetailsModel.refundRequest==0? getTranslated('Refund_request', context)!:getTranslated('Refund_Request_Details', context)!,
-
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.tajawal(
-                                    color:widget.orderDetailsModel.refundRequest==0?Colors.white: Colors.black,
-
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 12
-                                  ),)),
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12
+                                    ),)),
+                                  ),
                                 ),
-                              ),
-                            //   Expanded(
-                            //   child: Padding(
-                            //     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                            //     child: CustomButton(textColor: ColorResources.white,
-                            //         backgroundColor: Theme.of(context).primaryColor,
-                            //         buttonText:widget.orderDetailsModel.refundRequest==0? getTranslated('طلب استرجاع', context):getTranslated('تفاصيل طلب الاسترجاع', context),
-                            //         onTap: () {
-                            //           if(widget.orderDetailsModel.refundRequest==0) {
-                            //             showModalBottomSheet(context: context,
-                            //                 builder: (BuildContext context) =>
-                            //                     ShowModalBottomSheetOrder(orderModel:widget. orderModel,
-                            //                       orderDetailsModel: widget.orderDetailsModel,));
-                            //           }else{
-                            //             Navigator.push(context, MaterialPageRoute(builder: (context) => RefundRequestDetails(
-                            //                 orderModel: widget.orderModel,
-                            //                 orderDetailsModel: widget.orderDetailsModel
-                            //             ),));
-                            //           }
-                            //         }),
-                            //   ),
-                            // )
+                              //   Expanded(
+                              //   child: Padding(
+                              //     padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                              //     child: CustomButton(textColor: ColorResources.white,
+                              //         backgroundColor: Theme.of(context).primaryColor,
+                              //         buttonText:widget.orderDetailsModel.refundRequest==0? getTranslated('طلب استرجاع', context):getTranslated('تفاصيل طلب الاسترجاع', context),
+                              //         onTap: () {
+                              //           if(widget.orderDetailsModel.refundRequest==0) {
+                              //             showModalBottomSheet(context: context,
+                              //                 builder: (BuildContext context) =>
+                              //                     ShowModalBottomSheetOrder(orderModel:widget. orderModel,
+                              //                       orderDetailsModel: widget.orderDetailsModel,));
+                              //           }else{
+                              //             Navigator.push(context, MaterialPageRoute(builder: (context) => RefundRequestDetails(
+                              //                 orderModel: widget.orderModel,
+                              //                 orderDetailsModel: widget.orderDetailsModel
+                              //             ),));
+                              //           }
+                              //         }),
+                              //   ),
+                              // )
+                            ],
+                          ),
+                          // const SizedBox(height: Dimensions.marginSizeExtraSmall),
+                          //
+                          //   const SizedBox(height: Dimensions.marginSizeExtraSmall),
+
+                            ///Downloadable Product////////////
+
+                          // Row(children: [
+                          //   const Spacer(),
+                          //   SizedBox(height: (widget.orderDetailsModel.productDetails != null &&
+                          //       widget.orderDetailsModel.productDetails?.productType =='digital' && widget.paymentStatus == 'paid')?
+                          //   Dimensions.paddingSizeExtraLarge : 0),
+                          //
+                          // ]),
+
+
+                            const SizedBox(height: Dimensions.paddingSizeSmall),
                           ],
                         ),
-                        // const SizedBox(height: Dimensions.marginSizeExtraSmall),
-                        //
-                        //   const SizedBox(height: Dimensions.marginSizeExtraSmall),
-
-                          ///Downloadable Product////////////
-
-                        // Row(children: [
-                        //   const Spacer(),
-                        //   SizedBox(height: (widget.orderDetailsModel.productDetails != null &&
-                        //       widget.orderDetailsModel.productDetails?.productType =='digital' && widget.paymentStatus == 'paid')?
-                        //   Dimensions.paddingSizeExtraLarge : 0),
-                        //
-                        // ]),
-
-
-                          const SizedBox(height: Dimensions.paddingSizeSmall),
-                        ],
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
 
-              ///Review and Refund Request///////////////////
-              // Consumer<OrderController>(
-              //   builder: (context, orderController, _) {
-              //     return Padding(padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault),
-              //         child: Row(children: [
-              //           const Spacer(),
-              //           orderController.orderTypeIndex == 1 && widget.orderType != "POS"?
-              //           InkWell(onTap: () {
-              //             if(orderController.orderTypeIndex == 1) {
-              //               Provider.of<ReviewController>(context, listen: false).removeData();
-              //               showDialog(context: context, builder: (context) => Dialog(
-              //                   insetPadding: EdgeInsets.zero, backgroundColor: Colors.transparent,
-              //                   child: ReviewDialog(productID: widget.orderDetailsModel.productDetails!.id.toString(),
-              //                       orderId: widget.orderId,
-              //                       callback: widget.callback,
-              //                       orderDetailsModel: widget.orderDetailsModel,
-              //                       orderType: widget.orderType)));
-              //             }
-              //           },
-              //           child: Container(decoration: BoxDecoration(color:  Colors.deepOrangeAccent,
-              //             borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall)),
-              //             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
-              //             child: Row(children: [
-              //               const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-              //               const Icon(Icons.star_outline_outlined, color: Colors.white, size: 20,),
-              //               const SizedBox(width: Dimensions.paddingSizeSmall),
-              //
-              //               Text(getTranslated(widget.orderDetailsModel.reviewModel == null ? 'review' : 'reviewed', context)!, style: textRegular.copyWith(
-              //                   fontSize: Dimensions.fontSizeDefault, color: ColorResources.white)),
-              //               const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-              //             ]))) : const SizedBox.shrink(),
-              //
-              //           const SizedBox(width: Dimensions.paddingSizeSmall,),
-              //
-              //           Consumer<RefundController>(builder: (context,refund,_){
-              //             return (orderController.orderTypeIndex == 1 && widget.orderDetailsModel.refundReq == 0 &&
-              //                 widget.orderType != "POS")?
-              //             InkWell(onTap: () {
-              //               Provider.of<ReviewController>(context, listen: false).removeData();
-              //               refund.getRefundReqInfo(widget.orderDetailsModel.id).then((value) {
-              //                 if(value.response!.statusCode==200){
-              //                   Navigator.push(context, MaterialPageRoute(builder: (_) =>
-              //                       RefundBottomSheet(product: widget.orderDetailsModel.productDetails,
-              //                         orderDetailsId: widget.orderDetailsModel.id!, orderId: widget.orderId,)));}
-              //               });},
-              //
-              //               child: refund.isRefund ?
-              //               Center(child: CircularProgressIndicator(color: Theme.of(context).primaryColor)):
-              //               Container(margin: const EdgeInsets.only(left: Dimensions.paddingSizeSmall),
-              //                 padding: const EdgeInsets.symmetric(vertical: 8,
-              //                     horizontal: Dimensions.paddingSizeDefault),
-              //                 decoration: BoxDecoration(color: ColorResources.getPrimary(context),
-              //                   borderRadius: BorderRadius.circular(5),),
-              //
-              //                 child: Text(getTranslated('refund_request', context)!,
-              //                     style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault,
-              //                       color: Theme.of(context).highlightColor,)),),) :const SizedBox();
-              //           }),
-              //
-              //
-              //           Consumer<RefundController>(builder: (context,refundController,_){
-              //             return (orderController.orderTypeIndex == 1 && widget.orderDetailsModel.refundReq != 0 &&
-              //                 widget.orderType != "POS")?
-              //
-              //             InkWell(onTap: () {
-              //               Provider.of<ReviewController>(context, listen: false).removeData();
-              //               refundController.getRefundReqInfo(widget.orderDetailsModel.id).then((value) {
-              //                 if(value.response!.statusCode==200){
-              //                   Navigator.push(context, MaterialPageRoute(builder: (_) =>
-              //                       RefundDetailsWidget(product: widget.orderDetailsModel.productDetails,
-              //                         orderDetailsId: widget.orderDetailsModel.id,
-              //                         orderDetailsModel:  widget.orderDetailsModel, createdAt: widget.orderDetailsModel.createdAt,)));
-              //                 }});},
-              //
-              //
-              //
-              //                 child: refundController.isLoading?
-              //                 Center(child: CircularProgressIndicator(color: Theme.of(context).primaryColor)):
-              //                 Container(
-              //                   margin: const EdgeInsets.only(left: Dimensions.paddingSizeSmall),
-              //                   padding: const EdgeInsets.symmetric(vertical: 8,
-              //                       horizontal: Dimensions.paddingSizeDefault),
-              //                   decoration: BoxDecoration(color: ColorResources.getPrimary(context),
-              //                     borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),),
-              //
-              //                   child: Text(getTranslated('refund_status_btn', context)??'',
-              //                       style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault,
-              //                         color: Theme.of(context).highlightColor,)),)) :const SizedBox();}),
-              //           const SizedBox(width: 10)]));}),
+                ///Review and Refund Request///////////////////
+                // Consumer<OrderController>(
+                //   builder: (context, orderController, _) {
+                //     return Padding(padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault),
+                //         child: Row(children: [
+                //           const Spacer(),
+                //           orderController.orderTypeIndex == 1 && widget.orderType != "POS"?
+                //           InkWell(onTap: () {
+                //             if(orderController.orderTypeIndex == 1) {
+                //               Provider.of<ReviewController>(context, listen: false).removeData();
+                //               showDialog(context: context, builder: (context) => Dialog(
+                //                   insetPadding: EdgeInsets.zero, backgroundColor: Colors.transparent,
+                //                   child: ReviewDialog(productID: widget.orderDetailsModel.productDetails!.id.toString(),
+                //                       orderId: widget.orderId,
+                //                       callback: widget.callback,
+                //                       orderDetailsModel: widget.orderDetailsModel,
+                //                       orderType: widget.orderType)));
+                //             }
+                //           },
+                //           child: Container(decoration: BoxDecoration(color:  Colors.deepOrangeAccent,
+                //             borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall)),
+                //             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
+                //             child: Row(children: [
+                //               const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                //               const Icon(Icons.star_outline_outlined, color: Colors.white, size: 20,),
+                //               const SizedBox(width: Dimensions.paddingSizeSmall),
+                //
+                //               Text(getTranslated(widget.orderDetailsModel.reviewModel == null ? 'review' : 'reviewed', context)!, style: textRegular.copyWith(
+                //                   fontSize: Dimensions.fontSizeDefault, color: ColorResources.white)),
+                //               const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                //             ]))) : const SizedBox.shrink(),
+                //
+                //           const SizedBox(width: Dimensions.paddingSizeSmall,),
+                //
+                //           Consumer<RefundController>(builder: (context,refund,_){
+                //             return (orderController.orderTypeIndex == 1 && widget.orderDetailsModel.refundReq == 0 &&
+                //                 widget.orderType != "POS")?
+                //             InkWell(onTap: () {
+                //               Provider.of<ReviewController>(context, listen: false).removeData();
+                //               refund.getRefundReqInfo(widget.orderDetailsModel.id).then((value) {
+                //                 if(value.response!.statusCode==200){
+                //                   Navigator.push(context, MaterialPageRoute(builder: (_) =>
+                //                       RefundBottomSheet(product: widget.orderDetailsModel.productDetails,
+                //                         orderDetailsId: widget.orderDetailsModel.id!, orderId: widget.orderId,)));}
+                //               });},
+                //
+                //               child: refund.isRefund ?
+                //               Center(child: CircularProgressIndicator(color: Theme.of(context).primaryColor)):
+                //               Container(margin: const EdgeInsets.only(left: Dimensions.paddingSizeSmall),
+                //                 padding: const EdgeInsets.symmetric(vertical: 8,
+                //                     horizontal: Dimensions.paddingSizeDefault),
+                //                 decoration: BoxDecoration(color: ColorResources.getPrimary(context),
+                //                   borderRadius: BorderRadius.circular(5),),
+                //
+                //                 child: Text(getTranslated('refund_request', context)!,
+                //                     style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault,
+                //                       color: Theme.of(context).highlightColor,)),),) :const SizedBox();
+                //           }),
+                //
+                //
+                //           Consumer<RefundController>(builder: (context,refundController,_){
+                //             return (orderController.orderTypeIndex == 1 && widget.orderDetailsModel.refundReq != 0 &&
+                //                 widget.orderType != "POS")?
+                //
+                //             InkWell(onTap: () {
+                //               Provider.of<ReviewController>(context, listen: false).removeData();
+                //               refundController.getRefundReqInfo(widget.orderDetailsModel.id).then((value) {
+                //                 if(value.response!.statusCode==200){
+                //                   Navigator.push(context, MaterialPageRoute(builder: (_) =>
+                //                       RefundDetailsWidget(product: widget.orderDetailsModel.productDetails,
+                //                         orderDetailsId: widget.orderDetailsModel.id,
+                //                         orderDetailsModel:  widget.orderDetailsModel, createdAt: widget.orderDetailsModel.createdAt,)));
+                //                 }});},
+                //
+                //
+                //
+                //                 child: refundController.isLoading?
+                //                 Center(child: CircularProgressIndicator(color: Theme.of(context).primaryColor)):
+                //                 Container(
+                //                   margin: const EdgeInsets.only(left: Dimensions.paddingSizeSmall),
+                //                   padding: const EdgeInsets.symmetric(vertical: 8,
+                //                       horizontal: Dimensions.paddingSizeDefault),
+                //                   decoration: BoxDecoration(color: ColorResources.getPrimary(context),
+                //                     borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),),
+                //
+                //                   child: Text(getTranslated('refund_status_btn', context)??'',
+                //                       style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault,
+                //                         color: Theme.of(context).highlightColor,)),)) :const SizedBox();}),
+                //           const SizedBox(width: 10)]));}),
 
-              // widget.orderDetailsModel.deliveryStatus == 'delivered' && widget.orderType != "POS" ?
-              // // ReviewReplyWidget(orderDetailsModel: widget.orderDetailsModel, index: widget.index) : const SizedBox(),
-              //
-              // const SizedBox(height: Dimensions.paddingSizeSmall),
+                // widget.orderDetailsModel.deliveryStatus == 'delivered' && widget.orderType != "POS" ?
+                // // ReviewReplyWidget(orderDetailsModel: widget.orderDetailsModel, index: widget.index) : const SizedBox(),
+                //
+                // const SizedBox(height: Dimensions.paddingSizeSmall),
 
-               //widget.orderDetailsModel.refundReq == 0 && widget.orderType != "POS"?
-              //const SizedBox(height: Dimensions.paddingSizeLarge) : const SizedBox(),
+                 //widget.orderDetailsModel.refundReq == 0 && widget.orderType != "POS"?
+                //const SizedBox(height: Dimensions.paddingSizeLarge) : const SizedBox(),
 
-              ],
-            ),
-          ),
-
-        if(widget.orderDetailsModel.discount! > 0) Positioned(
-          top: 35,
-          left: isLtr ? 20 : null,
-          right: isLtr ? null : 20,
-          child: Container(
-            height: 20,
-            alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.horizontal(
-                right: Radius.circular(isLtr ? Dimensions.paddingSizeExtraSmall : 0),
-                left: Radius.circular(isLtr ? 0 : Dimensions.paddingSizeExtraSmall),
+                ],
               ),
             ),
-            child: CustomDirectionalityWidget(
-              child: Text(
-                PriceConverter.percentageCalculation(
-                  context,
-                  (widget.orderDetailsModel.price! * widget.orderDetailsModel.qty!),
-                  widget.orderDetailsModel.discount,
-                  getTranslated('amount', context),
+
+          if(widget.orderDetailsModel.discount! > 0) Positioned(
+            top: 35,
+            left: isLtr ? 20 : null,
+            right: isLtr ? null : 20,
+            child: Container(
+              height: 20,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.horizontal(
+                  right: Radius.circular(isLtr ? Dimensions.paddingSizeExtraSmall : 0),
+                  left: Radius.circular(isLtr ? 0 : Dimensions.paddingSizeExtraSmall),
                 ),
-                style: titilliumRegular.copyWith(
-                  fontSize: Dimensions.fontSizeExtraSmall,
-                  color: ColorResources.white,
+              ),
+              child: CustomDirectionalityWidget(
+                child: Text(
+                  PriceConverter.percentageCalculation(
+                    context,
+                    (widget.orderDetailsModel.price! * widget.orderDetailsModel.qty!),
+                    widget.orderDetailsModel.discount,
+                    getTranslated('amount', context),
+                  ),
+                  style: titilliumRegular.copyWith(
+                    fontSize: Dimensions.fontSizeExtraSmall,
+                    color: ColorResources.white,
+                  ),
                 ),
               ),
             ),
-          ),
-        )
+          )
 
-      ],
+        ],
+        ),
       ),
     );
   }

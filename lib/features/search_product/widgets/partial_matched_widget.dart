@@ -12,7 +12,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'package:substring_highlight/substring_highlight.dart';
 
-import '../../../common/basewidget/product_filter_dialog_widget.dart';
 
 class SearchSuggestion extends StatefulWidget{
   final bool fromCompare;

@@ -238,10 +238,10 @@ class AuthRepository implements AuthRepoInterface{
   }
 
   @override
-  Future<ApiResponse> resetPassword(String identity, String otp ,String password, String confirmPassword) async {
-    try {
+  Future<ApiResponse> resetPassword(String identity, String otp ,String password, String confirmPassword ) async {
+    try {print('sadasdasdasdasdasd  ---- $identity ---- $otp ----- $password');
       Response response = await dioClient!.post(
-          AppConstants.resetPasswordUri, data: {"_method" : "put", "identity": identity.trim(), "otp": otp,"password": password, "confirm_password":confirmPassword});
+          AppConstants.resetPasswordUri, data: {"_method" : "put", "identity": identity, "otp": otp,"password": password,'confirm_password':confirmPassword });
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
@@ -284,9 +284,9 @@ class AuthRepository implements AuthRepoInterface{
         'Content-Type': 'application/json',
       };
       var data = json.encode({
-        "identity": identity
+        "identity": "helaltarek1234@gmail.com"
       });
-      Response response = await dioClient!.post(AppConstants.forgetPasswordUri, data: data,options: Options(
+      Response response = await dioClient!.post(AppConstants.baseUrl+AppConstants.forgetPasswordUri, data: data,options: Options(
         headers: headers
       ));
       return ApiResponse.withSuccess(response);

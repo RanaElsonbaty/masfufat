@@ -87,7 +87,7 @@ class AuthService implements AuthServiceInterface{
 
   @override
   Future resetPassword(String otp, String identity, String password, String confirmPassword) {
-    return authRepoInterface.resetPassword(otp, identity, password, confirmPassword);
+    return authRepoInterface.resetPassword(otp, identity, password,  confirmPassword);
   }
 
   @override

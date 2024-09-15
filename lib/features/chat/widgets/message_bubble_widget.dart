@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/chat/domain/models/message_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/chat/controllers/chat_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/chat/widgets/chatting_multi_image_slider.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/controllers/localization_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
@@ -31,7 +30,6 @@ class MessageBubbleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    List images = [];
     List files = [];
 
     if(previous != null){

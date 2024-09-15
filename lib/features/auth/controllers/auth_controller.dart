@@ -14,17 +14,15 @@ import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dar
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
-import 'package:path/path.dart' as path; // Add this for path operations
+// Add this for path operations
 
 import 'package:flutter_google_places/flutter_google_places.dart' as loc;
 import 'package:google_api_headers/google_api_headers.dart' as header;
 import 'package:google_maps_webservice/places.dart' as places;
 import 'package:location/location.dart';
-import 'package:photo_manager/photo_manager.dart' as photo;
 
 class AuthController with ChangeNotifier {
   final AuthServiceInterface authServiceInterface;
@@ -344,11 +342,11 @@ void initPageIndex (bool first){
   }
 
 
-  Future<ApiResponse> verifyOtpForResetPassword(String phone) async {
+  Future<ApiResponse> verifyOtpForResetPassword(String email,String otp) async {
     _isPhoneNumberVerificationButtonLoading = true;
     notifyListeners();
 
-    ApiResponse apiResponse = await authServiceInterface.verifyOtp(phone, _verificationCode);
+    ApiResponse apiResponse = await authServiceInterface.verifyOtp(email, otp);
     _isPhoneNumberVerificationButtonLoading = false;
     notifyListeners();
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
@@ -368,11 +366,15 @@ void initPageIndex (bool first){
     _isPhoneNumberVerificationButtonLoading = false;
     notifyListeners();
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-      showCustomSnackBar(getTranslated('password_reset_successfully', Get.context!), Get.context!);
+      showCustomSnackBar(getTranslated('password_reset_successfully', Get.context!), Get.context!,isError: false);
       Navigator.pushAndRemoveUntil(Get.context!, MaterialPageRoute(builder: (_) => const AuthScreen()), (route) => false);
     } else {
       _isPhoneNumberVerificationButtonLoading = false;
+    try{
       ApiChecker.checkApi(apiResponse);
+    }catch(e){
+      showCustomSnackBar(getTranslated('failed', Get.context!), Get.context!);
+    }
     }
     notifyListeners();
     return apiResponse;

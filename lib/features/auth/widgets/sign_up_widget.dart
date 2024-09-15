@@ -77,7 +77,7 @@ class SignUpWidgetState extends State<SignUpWidget> {
                         required: true,
                         capitalization: TextCapitalization.words,
                         controller: authProvider.licenseHolderName,
-                        validator: (value)  => ValidateCheck.validateEmptyText(value, "Full_name_of_license_holder_is_required"))),
+                        validator: (value)  => ValidateCheck.validateEmptyText(value,'Enter_the_owner_full_name' ))),
 
                       Container(margin: const EdgeInsets.only(left: Dimensions.marginSizeDefault, right: Dimensions.marginSizeDefault,
                           top: Dimensions.marginSizeSmall),
@@ -133,7 +133,7 @@ titleText: getTranslated('email', context),
                             },
                             textAlign: TextAlign.center,
                           isAmount: true,
-                          validator: (value)=> ValidateCheck.validateEmptyText(value, "phone_must_be_required"),
+                          validator: (value)=> ValidateCheck.validatePhoneNumber(value, "phone_must_be_required"),
                           inputAction: TextInputAction.next,
                           inputType: TextInputType.phone
                         )),
@@ -197,13 +197,20 @@ titleText: getTranslated('email', context),
                         onTap:
                         authProvider.companyName.text!=''&&authProvider.licenseHolderName.text!=''&&
                             authProvider.emailController.text!=''&&authProvider.phoneController.text!=''
-                            &&authProvider.passwordController.text!='' &&authProvider.passwordController.text.length>=8&&authProvider.passwordController.text.trim()==authProvider.confirmPasswordController.text.trim()?
-                            (){
+                            &&authProvider.passwordController.text!='' &&authProvider.passwordController.text.length>=8&&authProvider.passwordController.text.trim()==authProvider.confirmPasswordController.text.trim()
+                       && ValidateCheck.validateEmail(authProvider.emailController.text) == null&&ValidateCheck.validateConfirmPassword(authProvider.confirmPasswordController.text, authProvider.passwordController.text.trim())==null&&ValidateCheck.validatePhoneNumber(authProvider.phoneController.text, "phone_must_be_required")==null?  (){
                           if(
+
                           authProvider.companyName.text!=''&&authProvider.licenseHolderName.text!=''&&
                               authProvider.emailController.text!=''&&authProvider.phoneController.text!=''
                              &&authProvider.passwordController.text!='' &&authProvider.passwordController.text.length>=8&&authProvider.passwordController.text.trim()==authProvider.confirmPasswordController.text.trim()){
-                            authProvider.initPageIndex(false);
+                            if(ValidateCheck.validateEmail(authProvider.emailController.text) == null&&ValidateCheck.validateConfirmPassword(authProvider.confirmPasswordController.text, authProvider.passwordController.text.trim())==null&&ValidateCheck.validatePhoneNumber(authProvider.phoneController.text, "phone_must_be_required")==null){
+                              authProvider.initPageIndex(false);
+
+                            }else{
+                              print('object');
+
+                            }
 
                           }
                         }

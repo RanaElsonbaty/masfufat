@@ -7,6 +7,7 @@ import '../../../../helper/price_converter.dart';
 import '../../../../localization/language_constrants.dart';
 import '../../../../utill/dimensions.dart';
 import '../../../../utill/images.dart';
+import '../../product_details/screens/product_details_screen.dart';
 
 class ProductSyncOrder extends StatefulWidget {
   const ProductSyncOrder({super.key,  this.syncOrder, required this.products});
@@ -66,37 +67,8 @@ class _ProductSyncOrderState extends State<ProductSyncOrder> {
               if (widget.products.isNotEmpty) {
                 return InkWell(
                 onTap: () {
-                  // Product ?productModel;
-                  // productModel=Product(
-                  //     id: widget.products[index].id!,
-                  //     im:widget. products[index].images!,
-                  //     shippingCost:widget. products[index].shippingCost,
-                  //     shortDesc:widget. products[index].shortDesc,
-                  //     slug:widget. products[index].slug,
-                  //     imageUrl: widget.products[index].images!.first,
-                  //     itemNumber:widget. products[index].itemNumber,
-                  //     addedBy:widget.products[index].addedBy ,
-                  //     discount: widget.products[index].discount,
-                  //     discountType:widget.products[index].discountType ,
-                  //     displayFor:widget.products[index].displayFor  ,variation:widget.products[index].variation  ,reviews:widget. products[index].reviews,reviewCount:widget. products[index].reviewsCount,tax:widget.products[index].tax ,taxModel:widget.products[index].taxModel ,taxType: widget.products[index].taxType,thumbnail:widget.products[index].thumbnail ,unit: widget.products[index].unit,unitPrice:widget.products[index].unitPrice ,updatedAt:widget. products[index].updatedAt,orderCount: 0,purchasePrice:widget.products[index].purchasePrice ,
-                  //     code: widget.products[index].code,currentStock: widget.products[index].currentStock.toString(),name:widget.products[index].name ,minimumOrderQty:widget.products[index].minimumOrderQty ,minQty:widget.products[index].minQty
-                  // );
-                  // Navigator.push(
-                  //     context,
-                  //     CustomPageRouteBuilder(
-                  //       pageBuilder:
-                  //           (context, animation, secondaryAnimation) =>
-                  //           ProductsDetailsScreen(
-                  //             // index: indexx,
-                  //             productModel:productModel,
-                  //             // products[index],
-                  //             productId:widget.products[index].id!,
-                  //             images: widget.products[index].images!,
-                  //             // slug:widget. products[index].slug!,
-                  //             price:widget.products[index].unitPrice
-                  //                 .toString(),
-                  //           ),
-                  //     ));
+                  Navigator.push(context,MaterialPageRoute(builder: (context) => ProductDetails(productId: widget.products[index].id, slug: widget.products[index].slug),));
+
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(

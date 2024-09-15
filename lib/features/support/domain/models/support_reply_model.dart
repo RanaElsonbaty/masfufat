@@ -39,7 +39,7 @@ class SupportReplyModel {
     id: json["id"],
     supportTicketId: json["support_ticket_id"],
     adminId:json["admin_id"] ?? 0,
-    customerMessage: json["customer_message"].toString()??'0',
+    customerMessage: json["customer_message"].toString(),
     attachment: json["attachment"],
     adminMessage: json["admin_message"],
     position: json["position"],

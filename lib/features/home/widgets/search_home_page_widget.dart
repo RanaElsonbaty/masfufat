@@ -21,10 +21,11 @@ class SearchHomePageWidget extends StatelessWidget {
           vertical: Dimensions.paddingSizeExtraExtraSmall),
       child: Container(
         padding: const EdgeInsets.symmetric(
-            horizontal: Dimensions.homePagePadding,
+            // horizontal: Dimensions.homePagePadding,
             vertical: Dimensions.paddingSizeSmall),
         alignment: Alignment.center,
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               padding: EdgeInsets.only(

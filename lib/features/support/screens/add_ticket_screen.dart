@@ -6,7 +6,6 @@ import 'package:flutter_sixvalley_ecommerce/features/support/domain/models/suppo
 import 'package:flutter_sixvalley_ecommerce/features/support/widgets/priority_bottom_sheet_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/support/widgets/support_ticket_type_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
@@ -29,7 +28,6 @@ class AddTicketScreen extends StatefulWidget {
 class AddTicketScreenState extends State<AddTicketScreen> {
   final TextEditingController _subjectController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _issueTypeController = TextEditingController();
   final FocusNode _subjectNode = FocusNode();
   List<TicketModel> issueTypeList = [
     TicketModel(Images.websiteProblem, 'website_problem'),

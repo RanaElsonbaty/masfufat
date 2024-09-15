@@ -6,14 +6,10 @@ import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/bot
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/product_image_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/product_specification_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/product_title_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/promise_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/review_and_specification_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/shop_info_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/youtube_video_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/review/controllers/review_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/home/shimmers/product_details_shimmer.dart';
-import 'package:flutter_sixvalley_ecommerce/features/review/widgets/review_section.dart';
 import 'package:flutter_sixvalley_ecommerce/features/shop/screens/shop_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
@@ -68,7 +64,6 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   @override
   Widget build(BuildContext context) {
-    ScrollController scrollController = ScrollController();
     return Scaffold(
       appBar: CustomAppBar(title: getTranslated('product_details', context),
       // showActionButton: true,
@@ -201,7 +196,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                       .images![index]),
                                             )),
                                       ),
-                                      Padding(
+                                      details.productDetailsModel!.images!.length>4?  Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 4.0),
 
@@ -226,7 +221,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                             ),
                                           ),
                                         ),
-                                      ),
+                                      ):SizedBox(),
                                     ],
                                   ),
                                 );

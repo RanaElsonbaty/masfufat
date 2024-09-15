@@ -190,10 +190,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           onTap: () {
                             bool phoneVerification = splashProvider.configModel?.forgotPasswordVerification =='phone';
                             if(phoneVerification && widget.fromForgetPassword){
-                              authProvider.verifyOtpForResetPassword(widget.mobileNumber).then((value) {
+                              authProvider.verifyOtpForResetPassword(widget.mobileNumber,'').then((value) {
                                 if(value.response?.statusCode == 200) {
                                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                                      builder: (_) => ResetPasswordScreen(mobileNumber: widget.mobileNumber,
+                                      builder: (_) => ResetPasswordScreen(email: widget.mobileNumber,
                                           otp: authProvider.verificationCode)), (route) => false);
                                 }else {
                                   showCustomSnackBar(getTranslated('input_valid_otp', context), context, isError: true);

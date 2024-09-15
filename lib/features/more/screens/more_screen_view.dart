@@ -28,7 +28,6 @@ import 'package:provider/provider.dart';
 import '../../../common/basewidget/webView.dart';
 import '../../../localization/controllers/localization_controller.dart';
 import '../../Store settings/screen/store_setting_screen.dart';
-import '../../order/controllers/order_controller.dart';
 import '../../payment /controller/payment_controller.dart';
 import '../../setting/widgets/select_currency_bottom_sheet_widget.dart';
 import '../../setting/widgets/select_language_bottom_sheet_widget.dart';

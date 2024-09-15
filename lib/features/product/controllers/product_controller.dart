@@ -304,7 +304,10 @@ int selectedProductTypeIndex = 0;
          _recommendedProduct = Product.fromJson(apiResponse.response!.data);
 
        }
-     }catch(e){}
+     }catch(e){
+       print(e);
+
+     }
       }
       notifyListeners();
   }

@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/widget/show_Modal_Bottom_Sheet.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
@@ -8,7 +6,6 @@ import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'bottomSheet.dart';
 
 class HeaderSection extends StatefulWidget {
   const HeaderSection({super.key, required this.index, required this.pending});

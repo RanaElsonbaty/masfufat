@@ -165,7 +165,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
                       showBorder: true,
 
-                      validator: (value)=> ValidateCheck.validateEmptyText(value,'enter_email_or_mobile'),
+                      validator: (value)=> ValidateCheck.validateEmail(value,),
                     ),
                   ),
                   const SizedBox(height: 70),
@@ -184,7 +184,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     if(_controller.text.isNotEmpty){
 
 
-                        // if(forgetFormKey.currentState?.validate() ?? false) {
 
                           authProvider.forgetPassword(_controller.text).then((value) {
                             if(value.response?.statusCode == 200) {
@@ -192,8 +191,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                               if (!currentFocus.hasPrimaryFocus) {
                                 currentFocus.unfocus();
                               }
-                              Navigator.push(context,MaterialPageRoute(builder: (context) => const EmailOtpVerification(),));
-                              _controller.clear();
+                              Navigator.push(context,MaterialPageRoute(builder: (context) =>  EmailOtpVerification(email: _controller.text,),));
+                              // _controller.clear();
 
                               // showAnimatedDialog(context, SuccessDialog(
                               //   icon: Icons.send,

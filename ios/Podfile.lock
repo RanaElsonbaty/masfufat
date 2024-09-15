@@ -191,7 +191,7 @@ PODS:
     - Flutter
   - location (0.0.1):
     - Flutter
-  - MyFatoorah (2.0.149)
+  - MyFatoorah (2.0.150)
   - myfatoorah_flutter (0.0.1):
     - Flutter
     - MyFatoorah (~> 2.0.147)
@@ -468,7 +468,7 @@ SPEC CHECKSUMS:
   image_picker_ios: c560581cceedb403a6ff17f2f816d7fea1421fc1
   just_audio: baa7252489dbcf47a4c7cc9ca663e9661c99aafa
   location: d5cf8598915965547c3f36761ae9cc4f4e87d22e
-  MyFatoorah: 760796369d6742268c6455f52adbdf37b4bb3e97
+  MyFatoorah: 873dc818d6562f80cf8fd9fbf89832eb16344c86
   myfatoorah_flutter: f134d8bc309420053e048c1895388a88737880f0
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
   open_document: 63eea128860263e68b67ef3b31f74a5ae22e4c71

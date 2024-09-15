@@ -5,7 +5,6 @@ import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.d
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/home/shimmers/recommended_product_shimmer.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/screens/product_details_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/favourite_button_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -170,7 +169,7 @@ class RecommendedProductWidget extends StatelessWidget {
                                           }
                                           return Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                                            child: Container(
+                                            child: SizedBox(
                                               height: 30,
                                               width: 180,
                                               child: Row(

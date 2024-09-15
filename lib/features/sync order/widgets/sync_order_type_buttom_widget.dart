@@ -5,8 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
-import '../../../utill/color_resources.dart';
-import '../../../utill/custom_themes.dart';
 
 class SyncOrderTypeButtomWidget extends StatefulWidget {
   const SyncOrderTypeButtomWidget({super.key, required this.text, required this.index, required this.pagingController});

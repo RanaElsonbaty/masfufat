@@ -13,6 +13,7 @@ class ValidateCheck{
     final kEmailValid = RegExp(pattern);
     bool isValid = kEmailValid.hasMatch(value.toString());
     if (value!.isEmpty) {
+
       return '\u26A0 ${getTranslated('email_is_required', Get.context!)}';
     } else if (isValid == false) {
       return '\u26A0 ${getTranslated("enter_valid_email_address", Get.context!)}';
@@ -35,12 +36,34 @@ class ValidateCheck{
     }
     return null;
   }
+  static String? validatePhoneNumber(String? value, String? message) {
+    if (value == null || value.isEmpty) {
+      return getTranslated(message, Get.context!) ?? 'This field is required';
+    } else if (value.length < 9 || value.length > 13) {
+      return getTranslated(getTranslated(message, Get.context!), Get.context!);
+    }
+
+
+    return null;
+  }
   static String? validateConfirmPassword(String? value, String? password) {
     if (value == null || value.isEmpty) {
       return getTranslated('confirm_password_must_be_required', Get.context!);
     }else if(value != password){
       return getTranslated('confirm_password_not_matched', Get.context!);
     }
+    return null;
+  }
+  static String? validateUrl(String? value, String? message) {
+    if (value == null || value.isEmpty) {
+      return getTranslated(message, Get.context!) ?? 'This field is required';
+    }
+
+    final urlRegExp = RegExp(r"^(http|https):\/\/[a-zA-Z0-9-\.]+\.[a-zA-Z]{2,5}(?:\/\S*)?$");
+    if (!urlRegExp.hasMatch(value)) {
+      return getTranslated(getTranslated(message, Get.context!), Get.context!);
+    }
+
     return null;
   }
 }

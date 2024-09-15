@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_sixvalley_ecommerce/data/datasource/remote/dio/dio_client.dart';
@@ -80,9 +79,9 @@ class SupportTicketRepository implements SupportTicketRepositoryInterface{
       }
       }
 
-      attachmentFile.forEach((element) {
+      for (var element in attachmentFile) {
         print('sdasdasdasdasdasdasdasd${element.filename}');
-      });
+      }
       var data =
       FormData.fromMap({'attachments[]': attachmentFile, 'message': message});
       final response = await dioClient!.post('${AppConstants.supportTicketReplyUri}$ticketID',data: data);

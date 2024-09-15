@@ -54,7 +54,10 @@ class FlashDealController extends ChangeNotifier {
       } else {
         notifyListeners();
       }
-    }catch(e){}
+    }catch(e){
+      print(e);
+
+    }
       } else {
         ApiChecker.checkApi( apiResponse);
       }

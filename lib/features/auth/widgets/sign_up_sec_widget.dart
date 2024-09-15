@@ -4,7 +4,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -200,6 +199,11 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                             titleText: getTranslated('Commercial_registration_number', context),
                             inputType: TextInputType.name,
                             required: true,
+                            onChanged: (val){
+                              setState(() {
+
+                              });
+                            },
                             focusNode:
                                 authProvider.commercialRegistrationNoFocus,
                             nextFocus: authProvider.taxNumberFocus,
@@ -234,6 +238,9 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                           authProvider.pickImage(false,1, file);
 
                         },video: false, ),));
+                        setState(() {
+
+                        });
                         // authProvider.pickImage(false, 1);
                       },
                       child: Padding(
@@ -396,8 +403,8 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                             controller: authProvider.storeLink,
                             // prefixIcon: Images.email,
                             validator: (value) =>
-                                ValidateCheck.validateEmptyText(
-                                    value!, "Store_Link"))),
+                                ValidateCheck.validateUrl(
+                                    value!, "Enter_the_link_to_the_valid_store"))),
                     const SizedBox(
                       height: 5,
                     ),
@@ -548,7 +555,7 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                         ),
                       ),
                     ),
-                     MinGoogleMap(),
+                     const MinGoogleMap(),
 
 
 
@@ -638,6 +645,11 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                           isLoading: authProvider.isLoading,
                           onTap: authProvider.consent
                               ? () {
+                         if(authProvider.commercialRegistrationNo.text.isNotEmpty){
+                           showCustomSnackBar(getTranslated('Commercial_Registration_Number_Self_Employment_Document', context), context);
+                         }else if( authProvider.governorate.text.isNotEmpty){
+                           showCustomSnackBar(getTranslated('Enter_the_link_to_the_valid_store', context), context);
+                         }else   if(authProvider.commercialRegisterImage!=null){
                                   if (signUpFormKey.currentState?.validate() ??
                                       false) {
                                     RegisterModel model = RegisterModel(
@@ -684,6 +696,10 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                                     authProvider.registration(register, route);
                                   }
                                 }
+                            else{
+showCustomSnackBar(getTranslated('Download_the_commercial_register', context), context);
+                            }
+                          }
                               : null,
                           buttonText: getTranslated('sign_up', context),
                         ),

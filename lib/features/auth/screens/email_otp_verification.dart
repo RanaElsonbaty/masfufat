@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
+import 'package:flutter_sixvalley_ecommerce/features/auth/screens/reset_password_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +13,8 @@ import '../../splash/controllers/splash_controller.dart';
 import '../controllers/auth_controller.dart';
 
 class EmailOtpVerification extends StatefulWidget {
-  const EmailOtpVerification({super.key});
+  const EmailOtpVerification({super.key, required this.email});
+  final String email;
 
   @override
   State<EmailOtpVerification> createState() => _EmailOtpVerificationState();
@@ -19,7 +22,7 @@ class EmailOtpVerification extends StatefulWidget {
 
 class _EmailOtpVerificationState extends State<EmailOtpVerification> {
   final GlobalKey<ScaffoldMessengerState> _key = GlobalKey();
-
+TextEditingController pinController=TextEditingController();
   @override
 
   Widget build(BuildContext context) {
@@ -46,7 +49,8 @@ class _EmailOtpVerificationState extends State<EmailOtpVerification> {
 
 
                       ]),
-                      AnimatedContainer(transform: Matrix4.translationValues(0, -20, 0),
+                      AnimatedContainer(
+                        transform: Matrix4.translationValues(0, -20, 0),
                         curve: Curves.fastOutSlowIn,
                         decoration: BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor,
                             borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.radiusExtraLarge))),
@@ -118,7 +122,7 @@ class _EmailOtpVerificationState extends State<EmailOtpVerification> {
                       ),
 const SizedBox(height: 5,),
                                 Pinput(
-
+controller: pinController,
                   validator: (s) {
                   return int.tryParse(s!).runtimeType==int ? null : 'Pin is incorrect';
                   },
@@ -132,21 +136,35 @@ const SizedBox(height: 5,),
 
 
 
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                        child: CustomButton(
-                          isLoading: authProvider.isLoading,
-                          buttonText:
-                          // splashProvider.configModel?.forgotPasswordVerification == "phone"
-                          //     ? getTranslated('send_otp', context)
-                          //     :
-                          getTranslated('Confirm_code', context),
-                          onTap: () {
+                      Consumer<AuthController>(
+                        builder:(context, auth, child) =>  Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                          child: CustomButton(
+                            isLoading: authProvider.isLoading,
+                            buttonText:
+                            // splashProvider.configModel?.forgotPasswordVerification == "phone"
+                            //     ? getTranslated('send_otp', context)
+                            //     :
+                            getTranslated('Confirm_code', context),
+                            onTap: () {
+                        auth.verifyOtpForResetPassword(widget.email,pinController.text).then((value) {
+                        if(value.response==null){
+showCustomSnackBar(getTranslated('verify_otp', context), context);
+                        }else if(value.response!.data=={ "message": "otp expired."}){
+                          showCustomSnackBar(getTranslated('verify_otp', context), context);
+
+                        }else{
+
+                          Navigator.push(context,MaterialPageRoute(builder: (context) => ResetPasswordScreen(email: widget.email, otp: pinController.text,),));
+
+                        }
+
+                        });
 
 
 
-
-                          },
+                            },
+                          ),
                         ),
                       ),
                       const SizedBox(height: 5,),

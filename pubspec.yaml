@@ -13,6 +13,8 @@ dependencies:
     sdk: flutter
   pull_down_button: ^0.10.1
   flutter_barcode_scanner: ^2.0.0
+  widget_zoom: ^0.0.4
+#  kommon: ^0.4.1
   photo_manager: ^3.3.0
   cupertino_icons: ^1.0.6
   get_it: ^7.6.6

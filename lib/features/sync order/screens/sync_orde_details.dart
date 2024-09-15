@@ -14,8 +14,6 @@ import '../../product_details/domain/models/product_details_model.dart';
 import '../../splash/controllers/splash_controller.dart';
 import '../domain/models/Sync_order_model.dart';
 import '../widgets/Order_Amount_Calculation.dart';
-import '../widgets/Order_Details_Status_Widget.dart';
-import '../widgets/Seller_Section_Widget.dart';
 import '../widgets/Shipping_And_Billing_Widget.dart';
 import '../widgets/order_info_section.dart';
 import 'order_checkout.dart';

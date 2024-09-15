@@ -103,7 +103,7 @@ for (var element in Provider.of<ShopController>(context,listen: false).sellerMod
                         isDelivery: widget.chatProvider.userTypeIndex == 1, phone: call, shopClose: vacationIsOn,)));
               // }
             },
-              child: Container(decoration: BoxDecoration(
+              child: Container(decoration: const BoxDecoration(
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical : Dimensions.paddingSizeDefault, horizontal: Dimensions.paddingSizeDefault),

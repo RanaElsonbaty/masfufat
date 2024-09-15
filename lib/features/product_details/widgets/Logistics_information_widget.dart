@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/domain/models/product_details_model.dart';
@@ -15,6 +14,12 @@ class LogisticsInformationWidget extends StatefulWidget {
 }
 
 class _LogisticsInformationWidgetState extends State<LogisticsInformationWidget> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
   @override
   Widget build(BuildContext context) {
     // print('asdasdasdasda${widget.productDetailsModel.color!.split('#').last}');
@@ -597,6 +602,7 @@ class _LogisticsInformationWidgetState extends State<LogisticsInformationWidget>
                           Clipboard.setData(ClipboardData(
                               text:
                               "${getTranslated('color', context)} - ${widget.productDetailsModel.color}"));
+                          print('asdasdasdasdasdasda---> ${widget.productDetailsModel.color }  // ${Color(int.parse('0xFF${widget.productDetailsModel.color!.split('#').last}'))}');
                         },
                         child: Row(
                           children: [
@@ -604,12 +610,7 @@ class _LogisticsInformationWidgetState extends State<LogisticsInformationWidget>
                               "- ${getTranslated('color', context)}",
                             ),
                             const Spacer(),
-                            // widget.productDetailsModel
-                            //                                 .color !=
-                            //                                 null
-                            //                                 ? widget.productDetailsModel.color
-                            //                                 .toString()
-                            //                                 : '0'
+
                             Container(
                               height: 25,
                               width: 25,
@@ -618,8 +619,10 @@ class _LogisticsInformationWidgetState extends State<LogisticsInformationWidget>
                                 border: Border.all(width: 0.5,color: Colors.grey),
                                 color:  widget.productDetailsModel
                                                                 .color !=
+
                                                                 null
-                                                                ?Color( 0xFF+int.parse(widget.productDetailsModel.color!.split('#').last)):null
+                                                                ?Color(int.parse('0xFF${widget.productDetailsModel.color!.split('#').last}')):null
+
                               ),
 
                             )

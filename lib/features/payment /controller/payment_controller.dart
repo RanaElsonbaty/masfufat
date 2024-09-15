@@ -411,11 +411,11 @@ class PaymentController extends ChangeNotifier {
           .compareTo('Card details are invalid or missing!') ==
           0) {
         showCustomSnackBar(
-            getTranslated('Card_details_are_invalid_or_missing', context),
-            context,
+            getTranslated('Card_details_are_invalid_or_missing', Get.context!),
+            Get.context!,
             isError: true);
       } else {
-        showCustomSnackBar(getTranslated(error.message, context), context,
+        showCustomSnackBar(getTranslated(error.message, Get.context!), Get.context!,
             isError: true);
         initiateSession();
       }

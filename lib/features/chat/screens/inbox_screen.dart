@@ -1,5 +1,4 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/chat/widgets/conversation_tabview.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
@@ -13,6 +12,8 @@ import 'package:flutter_sixvalley_ecommerce/features/chat/widgets/inbox_shimmer_
 import 'package:flutter_sixvalley_ecommerce/features/chat/widgets/search_inbox_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/dashboard/screens/dashboard_screen.dart';
 import 'package:provider/provider.dart';
+
+import '../../../main.dart';
 
 
 class InboxScreen extends StatefulWidget {
@@ -44,7 +45,7 @@ class _InboxScreenState extends State<InboxScreen> with SingleTickerProviderStat
 
   Future<void> load ()async {
     await Provider.of<ChatController>(context, listen: false).getChatList(1, reload: false,userType: 0);
-    await Provider.of<ChatController>(context, listen: false).getChatList(1, reload: false,userType: 1  );
+    await Provider.of<ChatController>(Get.context!, listen: false).getChatList(1, reload: false,userType: 1  );
     _tabController.addListener(() {
       Provider.of<ChatController>(context,listen: false).getChatType(_tabController.index);
     });

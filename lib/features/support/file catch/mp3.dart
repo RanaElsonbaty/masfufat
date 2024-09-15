@@ -5,11 +5,8 @@ import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_contr
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:open_document/my_files/init.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
-// import '../../../provider/auth_provider.dart';
-// import '../../../provider/support_ticket_provider.dart';
 import '../../../utill/app_constants.dart';
 
 class WaveBubble extends StatefulWidget {
@@ -140,7 +137,6 @@ class _WaveBubbleState extends State<WaveBubble> {
   }
 
   void _preparePlayer() async {
-    Directory appDirectory = await getApplicationDocumentsDirectory();
 
     try {
      await controller.preparePlayer(
@@ -292,7 +288,7 @@ class _WaveBubbleState extends State<WaveBubble> {
             ),):const SizedBox.shrink(),
             const SizedBox(width: 4,),
             AudioFileWaveforms(
-            size:  Size(100, 40),
+            size:  const Size(100, 40),
 
             playerController: controller,
             margin: const EdgeInsets.only(right: 10),

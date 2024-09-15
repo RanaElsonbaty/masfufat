@@ -10,6 +10,7 @@ import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 
@@ -112,6 +113,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                   overflow: TextOverflow.visible,
                                     maxLines: 1,
                                     textAlign: TextAlign.center,
+                                    style: GoogleFonts.tajawal(
+                                      color: Colors.black,
+
+                                    ),
                                   )),
                                 ],
                               ),

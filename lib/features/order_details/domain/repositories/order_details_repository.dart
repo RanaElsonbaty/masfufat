@@ -284,7 +284,7 @@ class OrderDetailsRepository implements OrderDetailsRepositoryInterface{
       if(files.isNotEmpty){
         for (var element in files) {
           attachmentFile.add(
-            await MultipartFile.fromFile(element!.path, filename: element.path),
+            await MultipartFile.fromFile(element.path, filename: element.path),
           );
         }
       }

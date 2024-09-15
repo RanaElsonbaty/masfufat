@@ -20,7 +20,7 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
   BuildContext diagloContext=Get.context!;
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    return  SizedBox(
 
       height: 250,
       width: MediaQuery.of(context).size.width,
@@ -68,7 +68,8 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
                   Expanded(
                     child: InkWell(
                       onTap: ()async{
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
+                        Navigator.pop(diagloContext);
 
                         Dialog('Products_are_being_deleted');
                         if(myShopProvider.selectIds.isNotEmpty){
@@ -82,9 +83,9 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
                           }
                           await myShopProvider.getList();
                           myShopProvider. initController();
+
                         }
 
-                        Navigator.pop(diagloContext);
 
                       },
                       child: Container(
@@ -165,7 +166,8 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
                   Expanded(
                     child: InkWell(
                   onTap: ()async{
-                    Navigator.pop(context);
+                    // Navigator.pop(context);
+                    Navigator.pop(diagloContext);
 
                     Dialog('Products_are_being_synced');
 
@@ -182,7 +184,6 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
 
                     });
                    });
-                    Navigator.pop(diagloContext);
 
 
                   },

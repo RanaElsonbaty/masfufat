@@ -34,7 +34,7 @@ class _RefundRequestScreenState extends State<RefundRequestScreen> {
       body: SingleChildScrollView(
         child: Column(children: [
           const SizedBox(height: 10,),
-          widget.orderDetailsModel.productDetails!=null?   RefuntProductWidget(product: widget.orderDetailsModel.productDetails!,qty: widget.orderDetailsModel.qty!,):SizedBox(),
+          widget.orderDetailsModel.productDetails!=null?   RefuntProductWidget(product: widget.orderDetailsModel.productDetails!,qty: widget.orderDetailsModel.qty!,):const SizedBox(),
 
           const SizedBox(height: 10,),
         
@@ -234,11 +234,11 @@ class _RefundRequestScreenState extends State<RefundRequestScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: CustomButton(
                 isLoading:  provider.isRefuntLoading,
-                buttonText: 'اضافه',onTap:(){
+                buttonText: getTranslated('addition', context),onTap:(){
                 if(noteController.text.isNotEmpty){
           provider.addOrderRefund(widget.orderDetailsModel.id.toString(), noteController.text, provider.pikeImage).then((value)async {
           await Provider.of<OrderDetailsController>(Get.context!, listen: false).getOrderDetails(widget.orderDetailsModel.orderId.toString());
-          Navigator.pop(context);
+          Navigator.pop(Get.context!);
 
           });
                 }
