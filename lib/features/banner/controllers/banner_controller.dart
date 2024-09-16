@@ -12,6 +12,7 @@ import 'package:flutter_sixvalley_ecommerce/features/product_details/screens/pro
 import 'package:flutter_sixvalley_ecommerce/features/shop/screens/shop_screen.dart';
 import 'package:provider/provider.dart';
 
+
 class BannerController extends ChangeNotifier {
   final BannerServiceInterface? bannerServiceInterface;
   BannerController({required this.bannerServiceInterface});
