@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 
 
 
+
 class BannerController extends ChangeNotifier {
   final BannerServiceInterface? bannerServiceInterface;
   BannerController({required this.bannerServiceInterface});
