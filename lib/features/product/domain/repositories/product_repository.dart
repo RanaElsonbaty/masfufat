@@ -43,11 +43,31 @@ class ProductRepository implements ProductRepositoryInterface{
 
 
   @override
-  Future<ApiResponse> getBrandOrCategoryProductList(bool isBrand, String id,int offset,bool reloud,String search,String syncFilter,String filter,String price) async {
+  Future<ApiResponse> getBrandOrCategoryProductList(bool isBrand,int brandId, String id,int offset,bool reloud,String search,String syncFilter,String filter,String price,bool onlyBrand) async {
     try {
       String uri;
+      print('object -${onlyBrand}');
       if(isBrand){
-        uri = '${AppConstants.categoryProductUri}?brand=$id&page=$offset${price!='&from_price=0.0&to_price=0.0'?price:''}${syncFilter.isNotEmpty?'&product_type=$syncFilter':''}${filter.isNotEmpty?'&order_by=$filter':""}${search.isNotEmpty?'&search=$search':''}';
+        if(syncFilter.isEmpty||filter.isEmpty||search.isEmpty) {
+          if(onlyBrand==true){
+            uri = '${AppConstants.brandProductUri}$id&page=$offset${price !=
+                '&from_price=0.0&to_price=0.0' ? price : ''}${syncFilter
+                .isNotEmpty ? '&product_type=$syncFilter' : ''}${filter.isNotEmpty
+                ? '&order_by=$filter'
+                : ""}${search.isNotEmpty ? '&search=$search' : ''}';
+
+          }else{
+            uri = '/api/v1/products_filter/$brandId/$id?page=$offset${price !=
+                '&from_price=0.0&to_price=0.0' ? price : ''}';
+          }
+
+        }else {
+          uri = '${AppConstants.brandProductUri}$id&page=$offset${price !=
+              '&from_price=0.0&to_price=0.0' ? price : ''}${syncFilter
+              .isNotEmpty ? '&product_type=$syncFilter' : ''}${filter.isNotEmpty
+              ? '&order_by=$filter'
+              : ""}${search.isNotEmpty ? '&search=$search' : ''}';
+        }
       }else {
         uri = '${AppConstants.categoryProductUri}?category=$id&page=$offset${price!='&from_price=0.0&to_price=0.0'?price:''}${syncFilter.isNotEmpty?'&product_type=$syncFilter':''}${filter.isNotEmpty?'&order_by=$filter':""}${search.isNotEmpty?'&search=$search':''}';
       }

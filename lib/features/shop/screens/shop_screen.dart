@@ -168,11 +168,11 @@ setState(() {
               controller: scrollController,
           slivers: [
             SliverAppBar(
-              expandedHeight: 320.0,
+              expandedHeight: 285.0,
               snap: false,
               pinned: true,
               floating: false,
-              title:scrollPixcel>=250? Row(
+              title: Row(
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
@@ -195,7 +195,7 @@ setState(() {
                   ),
                 ],
                 // child:
-              ).animate().fadeIn(duration: 300.ms):const SizedBox.shrink(),
+              ).animate().fadeIn(duration: 300.ms),
               // c
               leading: InkWell(
                   onTap: () {
@@ -214,7 +214,7 @@ setState(() {
                 background: Consumer<SplashController>(
                   builder:(context, splash, child) =>  Column(
                     children: [
-                      const SizedBox(height: 110,),
+                      const SizedBox(height: 115,),
                       ShopInfoWidget(
                           vacationIsOn: vacationIsOn,
                           sellerName: widget.name ?? "",
@@ -224,8 +224,6 @@ setState(() {
                           temporaryClose: widget.temporaryClose!),
                       Container(color: Theme.of(context).canvasColor,
                           child: Stack(children: [
-                            ClipRRect(borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                                child: SizedBox(height: 50 , width: MediaQuery.of(context).size.width)),
 
                             Padding(padding: const EdgeInsets.all(8.0),
                               child: Container(width : MediaQuery.of(context).size.width, height:  50 ,
@@ -318,48 +316,38 @@ setState(() {
                                         child:  Image.asset(Images.search, color: Colors.white),
                                       ),
                                     ),
-                                  )
+                                  ),
 
+                                  InkWell(onTap: () => showModalBottomSheet(context: context,
+                                      isScrollControlled: true, backgroundColor: Colors.transparent,
+                                      builder: (c) =>  SearchFilterBottomSheet( pagingController: pagingController,)).then((value) {
+                                    pagingController.refresh();
+                                    ref();
 
+                                    setState(() {});
+                                    fetchPage(1);
+                                  }),
+                                      child: Stack(children: [
+                                        Container(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall,
+                                            horizontal: Dimensions.paddingSizeExtraSmall),
+                                          height: 42,
+                                          width: 42,
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),
+                                              color: Theme.of(context).primaryColor,
+                                              border: Border.all(color: Theme.of(context).primaryColor)),
+                                          child: SizedBox(width: 30,height: 30,child: Image.asset(Images.filterIcon,
+                                              color: Colors.white
+                                          )),),
+                                        // if(searchProductController.isSortingApplied)
+                                        // CircleAvatar(radius: 5, backgroundColor: Theme.of(context).primaryColor,)
+                                      ],
+                                      )),
                                 ]),
                               ),
                             ),
                           ])),
                           // SearchWidget(hintText: '${getTranslated('search_hint', context)}', sellerId: widget.sellerId!, pagingController: pagingController,)),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 4),
-                        child: Row(
-                          children: [
-                            const SizedBox(width: 5,),
 
-                            InkWell(onTap: () => showModalBottomSheet(context: context,
-                                isScrollControlled: true, backgroundColor: Colors.transparent,
-                                builder: (c) =>  SearchFilterBottomSheet( pagingController: pagingController,)).then((value) {
-                                  pagingController.refresh();
-                                  ref();
-
-                            setState(() {});
-                            fetchPage(1);
-                                }),
-                                child: Stack(children: [
-                                  Container(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall,
-                                      horizontal: Dimensions.paddingSizeExtraSmall),
-                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
-                                        border: Border.all(color: Theme.of(context).hintColor.withOpacity(.25))),
-                                    child: SizedBox(width: 25,height: 24,child: Image.asset(Images.sort,
-                                        color: Provider.of<ThemeController>(context, listen: false).darkTheme?
-                                        Colors.white:Theme.of(context).primaryColor)),),
-                                  // if(searchProductController.isSortingApplied)
-                                    CircleAvatar(radius: 5, backgroundColor: Theme.of(context).primaryColor,)
-                                ],
-                                )),
-
-
-
-
-                          ],
-                        ),
-                      ),
 
 
                       // if(sellerProvider.shopMenuIndex == 1)

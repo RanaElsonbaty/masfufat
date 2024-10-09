@@ -1,4 +1,5 @@
 abstract class StoreSettingServiceInterface{
   Future<dynamic> getLinkedAccount() ;
-  Future<dynamic> unlinkLinkedAccount();
+  Future<dynamic> unlinkLinkedAccount(bool salla);
+  Future<dynamic> packages();
 }

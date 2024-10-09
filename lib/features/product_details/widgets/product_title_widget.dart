@@ -74,7 +74,7 @@ class ProductTitleWidget extends StatelessWidget {
                           style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault,))])),
 // if(details.wishCount!=null)
                     Text.rich(TextSpan(children: [
-                      TextSpan(text: '${details.productDetailsModel!.wishList!.length} ', style: GoogleFonts.tajawal(
+                      TextSpan(text: '${details.productDetailsModel!.wishList!=null?details.productDetailsModel!.wishList!.length:0} ', style: GoogleFonts.tajawal(
                           color: Provider.of<ThemeController>(context, listen: false).darkTheme?
                           Theme.of(context).hintColor : Theme.of(context).primaryColor,
                           fontSize: Dimensions.fontSizeDefault)),

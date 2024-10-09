@@ -19,10 +19,18 @@ class StoreSettingRepository implements StoreSettingInterface{
     }
   }
   @override
-  Future<ApiResponse> unlinkLinkedAccount() async {
+  Future<ApiResponse> unlinkLinkedAccount(bool salla) async {
     try {
-      final response = await dioClient!.post(AppConstants.linkedAccountUnlink,
+      final response = await dioClient!.post(salla?AppConstants.linkedAccountUnlink:AppConstants.linkedAccountUnlinkZid,
          );
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  }  @override
+  Future<ApiResponse> packages() async {
+    try {
+      final response = await dioClient!.get(AppConstants.packages,);
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));

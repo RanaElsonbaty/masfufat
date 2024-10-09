@@ -11,6 +11,9 @@ class SupportTicketShimmer extends StatelessWidget {
     return ListView.builder(
       padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
       itemCount: 10,
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+
       itemBuilder: (context, index) {
 
         return Container(

@@ -3,6 +3,7 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_wid
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/Store%20settings/controllers/store_setting_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
+import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/Store_Settings_shimmer.dart';
@@ -20,13 +21,13 @@ class _StoreSettingScreenState extends State<StoreSettingScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     Provider.of<StoreSettingController>(context,listen: false)
-        .getLinkedProduct(
-    )
+        .getLinkedProduct()
         .then((value) {
       Provider.of<StoreSettingController>(context,listen: false).getLen(
           Provider.of<StoreSettingController>(context,listen: false)
-              .linkedAccountsList.first.store!=null
+              .linkedAccountsList.first.storeDetails!=null
       );
     });
   }
@@ -41,7 +42,7 @@ class _StoreSettingScreenState extends State<StoreSettingScreen> {
               .then((value) {
             storeProvider.getLen(
                 storeProvider
-                    .linkedAccountsList.first.store!=null
+                    .linkedAccountsList.first.storeDetails!=null
             );
           });
         },
@@ -52,6 +53,7 @@ class _StoreSettingScreenState extends State<StoreSettingScreen> {
           ),
           body: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
+             clipBehavior: Clip.antiAliasWithSaveLayer,
             child: Consumer<StoreSettingController>(
               builder:(context, storeProvider, child) =>storeProvider.isLoading==false? storeProvider.linkedAccountsList.isNotEmpty?  Column(children: [
                         ListView.builder(

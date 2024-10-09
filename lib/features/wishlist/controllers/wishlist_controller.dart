@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
+import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wishlist/domain/models/wishlist_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wishlist/domain/services/wishlist_service_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
@@ -16,7 +17,24 @@ class WishListController extends ChangeNotifier {
   List<WishlistModel>? _wishList=[];
   List<WishlistModel>? get wishList => _wishList;
   List<int> addedIntoWish =[];
+void addOfflineWishList(Product productModel,bool add){
+  WishlistModel wishlistModel=WishlistModel(
+    product: productModel,
+    createdAt: DateTime.now().toString(),
+     customerId: 0,
+    id: 0,
+    productId: productModel.id,
+    updatedAt: DateTime.now().toString()
 
+  );
+  if(add){
+    _wishList!.add(wishlistModel);
+
+  }else{
+    _wishList!.removeWhere((element) => element.product!.id==productModel.id,);
+  }
+  notifyListeners();
+}
 
   void addWishList(int? productID) async {
     addedIntoWish.add(productID!);

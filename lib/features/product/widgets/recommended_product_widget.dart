@@ -36,7 +36,7 @@ class RecommendedProductWidget extends StatelessWidget {
                   Navigator.push(context, PageRouteBuilder(
                     transitionDuration: const Duration(milliseconds: 1000),
                     pageBuilder: (context, anim1, anim2) => ProductDetails(productId: recommended.recommendedProduct!.id,
-                      slug: recommended.recommendedProduct!.slug)));
+                      slug: recommended.recommendedProduct!.slug, product: recommended.recommendedProduct!,)));
                 },
                 child: Column(children: [
 
@@ -102,7 +102,7 @@ class RecommendedProductWidget extends StatelessWidget {
                                             fontSize: 15
                                           ),),
                                         ),
-                                         FavouriteButtonWidget(productId: recommended.recommendedProduct!.id!,)
+                                         FavouriteButtonWidget(productId: recommended.recommendedProduct!.id!, product: recommended.recommendedProduct!,)
                                       ],
                                     ),
                                   ),

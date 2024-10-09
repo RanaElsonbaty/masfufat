@@ -103,8 +103,8 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
               //   );
               // }
 
-              double? price = widget.product!.unitPrice;
-              int? stock = widget.product!.currentStock;
+              double? price = widget.product!.unitPrice??0.00;
+              int? stock = widget.product!.currentStock??0;
               variationType = variationType.replaceAll(' ', '');
               // for(Variation variation in widget.product!.variation!) {
               //   if(variation.type == variationType) {
@@ -126,7 +126,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
               digitalVariantPrice = variantKey != null ? price : null;
 
               double priceWithDiscount = PriceConverter.convertWithDiscount(context,
-                  price, widget.product!.discount, widget.product!.discountType)!;
+                  price??0.0, widget.product!.discount??0.0, widget.product!.discountType??'')!;
               double priceWithQuantity = priceWithDiscount * details.quantity!;
 
               double total = 0, avg = 0;
@@ -187,7 +187,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                                       child: CustomImageWidget(image: (widget.product!.colors != null && widget.product!.colors!.isNotEmpty &&
                                           widget.product!.images != null && widget.product!.images!.isNotEmpty) ?
                                       colorWiseSelectedImage:
-                                          widget.product!.images!.first))),
+                                      widget.product!.images!=null?widget.product!.images!.first:''))),
 
                               widget.product!.discount! > 0 ?
                               Container(width: 100,
@@ -429,7 +429,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                       style: GoogleFonts.tajawal(color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault)))]),
                 const SizedBox(height: Dimensions.paddingSizeSmall),
 
-                (stock! == 0 && widget.product!.productType == "physical") ?
+                (stock!=null&&stock! == 0 && widget.product!.productType == "physical") ?
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault, vertical: Dimensions.paddingSizeExtraSmall),
                 child: CustomButton(
@@ -469,9 +469,9 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                             buttonText: getTranslated(stock == 0 && widget.product!.productType == "physical"?
                         'out_of_stock' : 'add_to_cart', context),
                             onTap: () {
-                              if( stock < widget.product!.minimumOrderQty!  &&  widget.product!.productType == "physical" ){
+                              if( (stock!=null?stock!:0) < widget.product!.minimumOrderQty!  &&  widget.product!.productType == "physical" ){
                                 showCustomSnackBar(getTranslated('out_of_stock', context), context);
-                              } else if(stock >= widget.product!.minimumOrderQty!  || widget.product!.productType == "digital") {
+                              } else if((stock!=null?stock!:0) >= widget.product!.minimumOrderQty!  || widget.product!.productType == "digital") {
                                 Provider.of<CartController>(context, listen: false).addToCartAPI(
                                     cart, context, details.variationIndex);
                               }
@@ -562,7 +562,7 @@ class QuantityButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             border: Border.all(width: 1, color: Theme.of(context).primaryColor)),
         child: Icon(isIncrement ? Icons.add : Icons.remove,
-          color: isIncrement ? quantity! >= stock! && !digitalProduct? ColorResources.getLowGreen(context) : ColorResources.getPrimary(context)
+          color: isIncrement ? quantity! >= (stock!=null?stock!:0) && !digitalProduct? ColorResources.getLowGreen(context) : ColorResources.getPrimary(context)
               : quantity! > 1
               ? ColorResources.getPrimary(context)
               : ColorResources.getTextTitle(context),

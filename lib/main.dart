@@ -90,7 +90,7 @@ if(Firebase.apps.isEmpty){
       FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
 
   }catch(_) {
-    
+
   }
 
 

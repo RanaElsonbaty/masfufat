@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import '../../../support/domain/models/support_reply_model.dart';
+
 MessageModel messageModelFromJson(String str) => MessageModel.fromJson(json.decode(str));
 
 String messageModelToJson(MessageModel data) => json.encode(data.toJson());
@@ -43,7 +45,7 @@ class Message {
   final dynamic adminId;
   final dynamic deliveryManId;
   final String message;
-  final List<String> attachment;
+  final List<Attachment> attachment;
   final int sentByCustomer;
   final int sentBySeller;
   final dynamic sentByAdmin;
@@ -56,9 +58,10 @@ class Message {
   final DateTime createdAt;
   final DateTime updatedAt;
   final int shopId;
-  final SellerInfo sellerInfo;
+  final SellerInfo ? sellerInfo;
+  final bool? ofline;
 
-  Message({
+  Message( {
     required this.id,
     required this.userId,
     required this.sellerId,
@@ -76,6 +79,7 @@ class Message {
     required this.seenByDeliveryMan,
     required this.status,
     required this.createdAt,
+    this.ofline,
     required this.updatedAt,
     required this.shopId,
     required this.sellerInfo,
@@ -88,7 +92,7 @@ class Message {
     adminId: json["admin_id"],
     deliveryManId: json["delivery_man_id"],
     message: json["message"],
-    attachment: List<String>.from(json["attachment"].map((x) => x)),
+    attachment:json["attachment"]!=null? List<Attachment>.from(json["attachment"].map((x) => Attachment.fromJson(x))):[],
     sentByCustomer: json["sent_by_customer"],
     sentBySeller: json["sent_by_seller"],
     sentByAdmin: json["sent_by_admin"],
@@ -102,6 +106,7 @@ class Message {
     updatedAt: DateTime.parse(json["updated_at"]),
     shopId: json["shop_id"],
     sellerInfo: SellerInfo.fromJson(json["seller_info"]),
+    ofline: false
   );
 
   Map<String, dynamic> toJson() => {
@@ -124,7 +129,7 @@ class Message {
     "created_at": createdAt.toIso8601String(),
     "updated_at": updatedAt.toIso8601String(),
     "shop_id": shopId,
-    "seller_info": sellerInfo.toJson(),
+    "seller_info": sellerInfo!.toJson(),
   };
 }
 

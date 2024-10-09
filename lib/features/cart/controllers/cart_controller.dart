@@ -5,6 +5,7 @@ import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/domain/models/cart_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/shipping/controllers/shipping_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
+import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:provider/provider.dart';
@@ -62,7 +63,7 @@ class CartController extends ChangeNotifier {
 
 
 
-  Future<ApiResponse> updateCartProductQuantity(int? key, int quantity, BuildContext context, bool increment, int index) async{
+  Future<ApiResponse> updateCartProductQuantity(int? key, int quantity, BuildContext context, bool increment, int index,{bool product=false}) async{
     if(increment){
       cartList[index].increment = true;
     }else{
@@ -74,7 +75,9 @@ class CartController extends ChangeNotifier {
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       cartList[index].increment  = false;
       cartList[index].decrement = false;
-      String message = apiResponse.response!.data['message'].toString();
+      print(apiResponse.response!.data['message']);
+
+      String message =product?getTranslated('Added_successfully', Get.context!).toString(): apiResponse.response!.data['message'].toString();
       showCustomSnackBar(message, Get.context!, isError: false);
       await getCartData(Get.context!, reload: false);
 
@@ -102,7 +105,10 @@ class CartController extends ChangeNotifier {
       getCartData(Get.context!);
     } else {
       _addToCartLoading = false;
-      ApiChecker.checkApi(apiResponse);
+
+    showCustomSnackBar(getTranslated('The_product_was_not_added_to_the_cart_successfully', Get.context!), Get.context!, isError: true, isToaster: true);
+
+      // ApiChecker.checkApi(apiResponse);
     }
     notifyListeners();
     return apiResponse;

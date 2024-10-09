@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_textfield_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/domain/models/cart_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/widgets/cart_quantity_button_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
@@ -23,7 +25,7 @@ class CartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+TextEditingController controller =TextEditingController(text: cartModel!.quantity.toString());
     return Consumer<CartController>(
       builder: (context, cartProvider, _) {
         return Padding(padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeSmall,
@@ -58,7 +60,7 @@ class CartWidget extends StatelessWidget {
                       child: InkWell(onTap: (){
                         Navigator.push(context, PageRouteBuilder(
                             transitionDuration: const Duration(milliseconds: 1000),
-                            pageBuilder: (context, anim1, anim2) => ProductDetails(productId: cartModel?.productId, slug: cartModel?.slug)));
+                            pageBuilder: (context, anim1, anim2) => ProductDetails(productId: cartModel?.productId, slug: cartModel?.slug, product: cartModel!.product!,)));
                       },
                           child: Stack(children: [
                             Container(decoration: BoxDecoration(
@@ -195,23 +197,51 @@ class CartWidget extends StatelessWidget {
                             child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
 
                               cartModel!.increment!?
-                              Padding(padding: const EdgeInsets.all(8.0),
+                              const Padding(padding: EdgeInsets.all(8.0),
                                 child: SizedBox(width: 20, height: 20,child: CircularProgressIndicator(
-                                    color: Theme.of(context).primaryColor, strokeWidth: 2)),) :
+                                    color: Colors.white, strokeWidth: 2)),) :
 
                               CartQuantityButton(index: index, isIncrement: true,
                                   quantity: cartModel!.quantity,
+                                  
                                   maxQty: cartModel!.productInfo?.totalCurrentStock,
+                                  
                                   cartModel: cartModel, minimumOrderQuantity: cartModel!.productInfo!.minimumOrderQty,
                                   digitalProduct: cartModel!.productType == "digital"? true : false),
-                              Text(cartModel!.quantity.toString(), style: GoogleFonts.cairo(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,fontSize: 16
-                              )),
+                              // Text(cartModel!.quantity.toString(), style: GoogleFonts.cairo(
+                              //   color: Colors.white,
+                              //   fontWeight: FontWeight.w500,fontSize: 16
+                              // )),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 4.0),
+                                child: TextFormField(
+                                  controller: controller,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                  ],
+                                  textAlign: TextAlign.center,
+                                  textInputAction: TextInputAction.done,
+                                  decoration: const InputDecoration(
+                                    labelStyle: TextStyle(color: Colors.white),
+                                    border: InputBorder.none,
+                                  ),
+                                  cursorColor: Colors.black,
+                                  cursorHeight: 10,
+                                  cursorWidth: 1,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14
+                                  ),
+                                  onFieldSubmitted: (val){
+                                      cartProvider.updateCartProductQuantity(cartModel!.id, int.parse(val.toString()), context, true, index);
+                                  },
+                                ),
+                              ),
 
-                              cartModel!.decrement!?  Padding(padding: const EdgeInsets.all(8.0),
+                              cartModel!.decrement!?  const Padding(padding: EdgeInsets.all(8.0),
                                 child: SizedBox(width: 20, height: 20,child: CircularProgressIndicator(
-                                  color: Theme.of(context).primaryColor, strokeWidth: 2,)),) :
+                                  color: Colors.white, strokeWidth: 2,)),) :
                               CartQuantityButton(isIncrement: false, index: index,
                                   quantity: cartModel!.quantity,
                                   maxQty: cartModel!.productInfo!.totalCurrentStock,

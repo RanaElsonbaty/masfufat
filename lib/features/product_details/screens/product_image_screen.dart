@@ -21,7 +21,7 @@ class ProductImageScreenState extends State<ProductImageScreen> {
   @override
   void initState() {
     super.initState();
-    pageIndex = Provider.of<ProductDetailsController>(context, listen: false).imageSliderIndex;
+    pageIndex = Provider.of<ProductDetailsController>(context, listen: false).imageSliderIndex??0;
     _pageController = PageController(initialPage: pageIndex??0);
 
   }

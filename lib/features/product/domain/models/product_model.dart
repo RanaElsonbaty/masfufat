@@ -81,6 +81,7 @@ class Product {
   String? _videoUrl;
   int? _minimumOrderQty;
   int? wishList;
+  dynamic _synced;
   Brand? brand;
   ImageFullUrl? digitalFileReadyFullUrl;
   // List<DigitalVariation>? digitalVariation;
@@ -96,6 +97,7 @@ class Product {
         String? unit,
         int? minQty,
         int? refundable,
+        dynamic synced,
         String? digitalProductType,
         String? digitalFileReady,
         List<String>? images,
@@ -147,6 +149,7 @@ class Product {
       _digitalFileReady = digitalFileReady;
     }
     _images = images;
+     // _synced= synced;
     _imagesFullUrl = imagesFullUrl;
     _thumbnail = thumbnail;
     _thumbnailFullUrl = thumbnailFullUrl;
@@ -184,6 +187,7 @@ class Product {
   int? get userId => _userId;
   String? get name => _name;
   String? get slug =>_slug;
+  dynamic  synced ;
   String? get productType => _productType;
   List<CategoryIds>? get categoryIds => _categoryIds;
   String? get unit => _unit;
@@ -259,10 +263,10 @@ try{
 } catch(e){
 _images = json['images'] != null && json['images'] != null ? jsonDecode(json['images']).cast<String>() : [];
 
-// print('asdasdasdasdasda${jsonDecode(json['images'])['sa']}');
 
 }     }
     }
+    synced=json['synced'] ?? 0;
 
     if (json['image_url'] != null) {
       _imagesFullUrl =json['image_url'] ;

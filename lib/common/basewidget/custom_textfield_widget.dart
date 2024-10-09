@@ -150,13 +150,13 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
       
                 alignLabelWithHint: true,
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(widget.showBorder?8:0),
                     borderSide:widget.showBorder?const BorderSide(width: 0.1):BorderSide.none
                   ),
-                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
+                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(widget.showBorder?8:0),
                     borderSide:widget.showBorder?const BorderSide(width: 0.1):BorderSide.none              ),
       
-                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
+                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(widget.showBorder?8:0),
                     borderSide:widget.showBorder?const BorderSide(width: 0.1):BorderSide.none                  ),
       
                 fillColor: widget.backGroundColor ?? Theme.of(context).cardColor,

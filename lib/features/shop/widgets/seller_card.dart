@@ -27,7 +27,6 @@ class _SellerCardState extends State<SellerCard> {
   @override
   Widget build(BuildContext context) {
     var splashController = Provider.of<SplashController>(context, listen: false);
-    // print('asdasdadasdasd${splashController.baseUrls!.shopImageUrl}');
     if(widget.sellerModel!.vacationEndDate != null){
       DateTime vacationDate = DateTime.parse(widget.sellerModel!.vacationEndDate!);
       DateTime vacationStartDate = DateTime.parse(widget.sellerModel!.vacationStartDate!);
@@ -70,7 +69,7 @@ class _SellerCardState extends State<SellerCard> {
               spreadRadius: 1, blurRadius: 1, offset: const Offset(0,1))]),
           child: Stack(children: [
 
-            SizedBox(height: widget.isHomePage? 100 : 120,
+            SizedBox(height: widget.isHomePage? 130 : 120,
                 width: double.infinity,
                 child: ClipRRect(
                   borderRadius: const BorderRadius.only(topLeft: Radius.circular(Dimensions.paddingSizeSmall),
@@ -78,17 +77,19 @@ class _SellerCardState extends State<SellerCard> {
                   child: CustomImageWidget(
                       fit: BoxFit.fill,
                       image:
-                 '${splashController.baseUrls!=null?splashController.baseUrls!.shopImageUrl:''}/banner/${widget.sellerModel!.banner}'))),
+                      // ''
+                 '${splashController.baseUrls!=null?splashController.baseUrls!.shopImageUrl:''}/banner/${widget.sellerModel!.banner}'
+                  ))),
 
           Positioned(
-            top: 70,
-            left: 70,
-            right: 70,
-            child: ClipRRect(borderRadius: const BorderRadius.all(Radius.circular(Dimensions.paddingSizeOverLarge)),
+            top:widget.isHomePage==false?85: 100,
+            left:widget.isHomePage==false?MediaQuery.of(context).size.width/2.7: MediaQuery.of(context).size.width/5.3,
+            right:widget.isHomePage==false?MediaQuery.of(context).size.width/2.7:  MediaQuery.of(context).size.width/5.3,
+            child: ClipRRect(borderRadius:  BorderRadius.circular(200),
                               child: CustomImageWidget(
                               image:
                               '${splashController.baseUrls!=null?splashController.baseUrls!.shopImageUrl:''}/${widget.sellerModel!.image}',
-                                  width: 50,height: 50)),
+                                  width: widget.isHomePage==false?60:55,height:widget.isHomePage==false?60: 55  )),
 
           ),
             if((widget.sellerModel!.temporaryClose==1) || vacationIsOn)
@@ -108,7 +109,7 @@ class _SellerCardState extends State<SellerCard> {
             Positioned(
                 left: 5,
                 right: 5,
-                top: 125,
+                top: 160,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [

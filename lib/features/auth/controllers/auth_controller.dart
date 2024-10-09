@@ -473,6 +473,8 @@ void initPageIndex (bool first){
     }
     else {
       _isLoading = false;
+      showCustomSnackBar(getTranslated('Account_not_found', Get.context!), Get.context!, isError: true);
+
       ApiChecker.checkApi(apiResponse);
     }
     notifyListeners();

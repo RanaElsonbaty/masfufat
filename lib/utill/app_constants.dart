@@ -18,6 +18,7 @@ class AppConstants {
   static const String categoryProductUri = '/api/v1/products/products-lazy';
   static const String registrationUri = '/api/v1/auth/register';
   static const String loginUri = '/api/v1/auth/login';
+  static const String packages = '/api/v1/packages';
   static const String logOut = '/api/v1/auth/logout';
   static const String latestProductUri = '/api/v1/products/latest?guest_id=1&limit=10&&offset=';
   static const String newArrivalProductUri = '/api/v1/products/products-lazy?page=';
@@ -112,6 +113,7 @@ class AppConstants {
       '/api/v1/customer/order/place_bank_transfer';
   static const String getSelectedShippingTypeUri = '/api/v1/shipping-method/check-shipping-type';
   static const String dealOfTheDay = '/api/v1/dealsoftheday/deal-of-the-day';
+  static const String brandCategories = '/api/v1/brand_categories/';
   static const String walletTransactionUri = '/api/v1/customer/wallet/list?limit=10&offset=';
   static const String loyaltyPointUri = '/api/v1/customer/loyalty/list?limit=20&offset=';
   static const String loyaltyPointConvert = '/api/v1/customer/loyalty/loyalty-exchange-currency';
@@ -165,6 +167,7 @@ class AppConstants {
       '/api/v1/customer/order/place_bank_transfer';
   static const String linkedAccount = '/api/v1/customer/linked-accounts';
   static const String linkedAccountUnlink = '/api/v1/salla/unlink';
+  static const String linkedAccountUnlinkZid = '/api/v1/zid/unlink';
 
   static const String getCompareList = '/api/v1/customer/compare/list';
   static const String addToCompareList = '/api/v1/customer/compare/product-store';
@@ -199,7 +202,7 @@ class AppConstants {
   static const pi = 3.14;
   static const defaultSpread = 0.0872665;
   static const double minFilter = 0;
-  static const double maxFilter = 100000;
+  static const double maxFilter = 10000;
 
   // order status
   static const String pending = 'pending';

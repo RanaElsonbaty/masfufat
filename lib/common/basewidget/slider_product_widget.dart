@@ -25,7 +25,7 @@ class SliderProductWidget extends StatelessWidget {
 
     return InkWell(onTap: () {
       Navigator.push(context, PageRouteBuilder(transitionDuration: const Duration(milliseconds: 1000),
-          pageBuilder: (context, anim1, anim2) => ProductDetails(productId: product.id, slug: product.slug)));
+          pageBuilder: (context, anim1, anim2) => ProductDetails(productId: product.id, slug: product.slug,product: product,)));
     },
       child: AnimatedContainer(
         margin:  EdgeInsets.symmetric(vertical : isCurrentIndex ? Dimensions.paddingSizeExtraSmall : 45),
@@ -133,7 +133,7 @@ class SliderProductWidget extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall, vertical: Dimensions.paddingSizeSmall),
                               child: FavouriteButtonWidget(
 
-                                backgroundColor: ColorResources.getImageBg(context), productId: product.id,
+                                backgroundColor: ColorResources.getImageBg(context), productId: product.id, product: product,
                               ),
                             ),
                           )),

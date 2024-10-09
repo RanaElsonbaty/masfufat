@@ -14,9 +14,12 @@ class StoreSettingService implements StoreSettingServiceInterface{
   }
 
   @override
-  Future unlinkLinkedAccount() {
-    // TODO: implement unlinkLinkedAccount
-    throw UnimplementedError();
+  Future unlinkLinkedAccount(bool salla) async{
+    await storeSettingInterface.unlinkLinkedAccount(salla);
+
+  }  @override
+  Future packages() async{
+    await storeSettingInterface.packages();
   }
 
 

@@ -42,6 +42,7 @@ import 'package:provider/provider.dart';
 
 import '../../brand/screens/brands_screen.dart';
 import '../../brand/widgets/brand_list_widget.dart';
+import '../../cart/screens/cart_screen.dart';
 import '../../payment /controller/payment_controller.dart';
 import '../../product/widgets/latest_product_list_widget.dart';
 import '../../wishlist/screens/wishlist_screen.dart';
@@ -167,13 +168,6 @@ surfaceTintColor: Theme.of(context).highlightColor,
             ),
 
             actions: [
-              // const SizedBox(width: 10,),
-
-              // InkWell(
-              //     onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_) => const CartScreen(showBackButton: true,))),
-              //     child: Image.asset(Images.bag2, width: 30, height: 30,color: Theme.of(context).primaryColor)),
-              //
-              // const SizedBox(width: 15,),
 
               SizedBox(
                 height: 50,
@@ -182,7 +176,9 @@ surfaceTintColor: Theme.of(context).highlightColor,
                   alignment: AlignmentDirectional.centerEnd,
                   children: [
                     InkWell(
-                        onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_) => const WishListScreen())),
+                        onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_) =>
+                        const WishListScreen()
+                        )),
                         child:Image.asset(Images.wishlist,width: 25, height: 25,
                           color: Theme.of(context).primaryColor,)),
                     Positioned(
@@ -225,6 +221,38 @@ surfaceTintColor: Theme.of(context).highlightColor,
                         return provider.notificationModel.isNotEmpty? CircleAvatar(radius:provider.notificationModel.length<100? 8:10,backgroundColor: Colors.red,child:
                         Center(
                           child: Text(provider.notificationModel.isNotEmpty?provider.notificationModel.length.toString():'0',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 9,
+                                color: Colors.white
+                            ),
+
+                          ),
+                        ),):const SizedBox.square();
+                      }),
+                    ),
+                  ],
+                ),
+              ),  const SizedBox(width: 5,),
+              SizedBox(
+                height: 50,
+                width: 35,
+                // width: 69,
+
+                child: Stack(
+                  alignment: AlignmentDirectional.centerEnd,
+                  children: [
+                    InkWell(
+                        onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_) => const CartScreen(showBackButton: true,))),
+                        child:Image.asset(Images.cartIcon,width: 30, height: 30,
+                          color: Theme.of(context).primaryColor,)),
+                    Positioned(
+                      top: 5,
+                      left: 15  ,
+                      child: Consumer<CartController>(builder:(context, provider, child) {
+                        return provider.cartList.isNotEmpty? CircleAvatar(radius:provider.cartList.length<100? 8:10,backgroundColor: Colors.red,child:
+                        Center(
+                          child: Text(provider.cartList.isNotEmpty?provider.cartList.length.toString():'0',
                             style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 9,
@@ -359,7 +387,7 @@ surfaceTintColor: Theme.of(context).highlightColor,
                   builder: (context, topSellerProvider, child) {
                     return (topSellerProvider.sellerModel != null && (topSellerProvider.sellerModel!=null && topSellerProvider.sellerModel!.isNotEmpty))?
                     Padding(padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault),
-                        child: SizedBox(height: ResponsiveHelper.isTab(context)? 220 : 200, child: TopSellerView(isHomePage: true, scrollController: _scrollController,))):const SizedBox();}):const SizedBox(),
+                        child: SizedBox(height:  230, child: TopSellerView(isHomePage: true, scrollController: _scrollController,))):const SizedBox();}):const SizedBox(),
 
 
 

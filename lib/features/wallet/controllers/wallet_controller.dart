@@ -67,8 +67,8 @@ class WalletController extends ChangeNotifier {
     ApiResponse apiResponse = await walletServiceInterface.addFundToWallet(amount, paymentMethod);
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       _isConvert = false;
-      Navigator.pushReplacement(Get.context!, MaterialPageRoute(builder: (_) =>
-          AddFundToWalletScreen(url: apiResponse.response!.data['redirect_link'])));
+      // Navigator.pushReplacement(Get.context!, MaterialPageRoute(builder: (_) =>
+          // AddFundToWalletScreen(url: apiResponse.response!.data['redirect_link'])));
     }else if (apiResponse.response?.statusCode == 202){
       showCustomSnackBar("Minimum= ${PriceConverter.convertPrice(Get.context!, apiResponse.response?.data['minimum_amount'].toDouble())} and Maximum=${PriceConverter.convertPrice(Get.context!, apiResponse.response?.data['maximum_amount'].toDouble())}" , Get.context!);
     }else{

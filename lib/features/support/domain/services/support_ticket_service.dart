@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_sixvalley_ecommerce/features/support/domain/models/support_ticket_body.dart';
 import 'package:flutter_sixvalley_ecommerce/features/support/domain/repositories/support_ticket_repository_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/features/support/domain/services/support_ticket_service_interface.dart';
@@ -29,7 +30,7 @@ class SupportTicketService implements SupportTicketServiceInterface{
   }
 
   @override
-  Future sendReply(String ticketID, String message, List<XFile?> file) async{
+  Future sendReply(String ticketID, String message,   List<MultipartFile> file) async{
     return await supportTicketRepositoryInterface.sendReply(ticketID, message, file);
   }
 

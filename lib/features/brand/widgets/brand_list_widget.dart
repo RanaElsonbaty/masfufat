@@ -17,7 +17,10 @@ import '../domain/models/brand_model.dart';
 class BrandListWidget extends StatefulWidget {
   final bool isHomePage;
   final ScrollController scrollController;
-  const BrandListWidget({super.key, required this.isHomePage, required this.scrollController});
+  final Function? selectBrand;
+  final int? selectId;
+
+  const BrandListWidget({super.key, required this.isHomePage, required this.scrollController, this.selectBrand, this.selectId});
 
   @override
   State<BrandListWidget> createState() => _BrandListWidgetState();
@@ -28,7 +31,7 @@ class _BrandListWidgetState extends State<BrandListWidget> {
   static const _pageSize = 5;
   final PagingController<int,BrandModel> pagingController =
   PagingController(firstPageKey: 1);
-  int _page=2;
+  int _page=1;
   int get page =>_page;
   List<BrandModel> brandList=[];
   List<BrandModel> searchBrandList=[];
@@ -95,30 +98,42 @@ class _BrandListWidgetState extends State<BrandListWidget> {
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                    physics: const AlwaysScrollableScrollPhysics(),
-                  builderDelegate: PagedChildBuilderDelegate(itemBuilder: (context, item, index) {
-                    BrandModel brand =item;
+
+                  builderDelegate: PagedChildBuilderDelegate(
+                    newPageErrorIndicatorBuilder: (context) {
+                      return SizedBox();
+                    },
+                    firstPageErrorIndicatorBuilder:  (context) {
+                      return SizedBox();
+                    },
+                    itemBuilder: (context, item, index) {
+                    // BrandModel brand =item;
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: InkWell(splashColor: Colors.transparent, highlightColor: Colors.transparent,
-                                  onTap: () {
+                                  onTap:widget.selectBrand!=null?(){
+                        widget.selectBrand!(item);
+                                  }: () {
+                        
                                     Navigator.push(context, MaterialPageRoute(builder: (_) => BrandAndCategoryProductScreen(
                                         isBrand: true,
                                         index: index,
-                                        id:  brand.id.toString(),
-                                        name:brand.name,
-                                        image: brand.image)));
+                                        id:  item.id.toString(),
+                                        name:item.name,
+                                        image: item.image)));
                                   },
                                   child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
                                     Container(width: ResponsiveHelper.isTab(context)? 120 :60, height: ResponsiveHelper.isTab(context)? 120 :60,
                                       decoration: BoxDecoration(borderRadius:  BorderRadius.circular(100),
                                           color: Theme.of(context).highlightColor,
+                                          border: widget.selectBrand!=null&&widget.selectId!=null&&widget.selectId==item.id?Border.all(width: 2,color: Theme.of(context).primaryColor):Border.all(width: 0,color: Colors.transparent),
 
                                           boxShadow: Provider.of<ThemeController>(context, listen: false).darkTheme ?
                                           null :[BoxShadow(color: Colors.grey.withOpacity(0.12), spreadRadius: 1, blurRadius: 1, offset: const Offset(0, 1))]
                                         ),
                                       child: Consumer<SplashController>(
                                         builder:(context, splashProvider, child) =>  ClipRRect(borderRadius:  BorderRadius.circular(100),
-                                            child: CustomImageWidget(image: '${splashProvider.baseUrls?.brandImageUrl}/${brand.image}',fit: BoxFit.fill)),
+                                            child: CustomImageWidget(image: '${splashProvider.baseUrls?.brandImageUrl}/${item.image}',fit: BoxFit.fill)),
                                       ),
                                     ),
                                   ],

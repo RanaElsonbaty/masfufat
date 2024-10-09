@@ -158,6 +158,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       titleText: getTranslated('email', context),
                       showLabelText: false,
 
+
                       hintText: getTranslated('Enter_your_email_address', context),
                       inputAction: TextInputAction.done,
                       inputType: TextInputType.emailAddress,
@@ -186,12 +187,14 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
 
                           authProvider.forgetPassword(_controller.text).then((value) {
+
                             if(value.response?.statusCode == 200) {
                               FocusScopeNode currentFocus = FocusScope.of(context);
                               if (!currentFocus.hasPrimaryFocus) {
                                 currentFocus.unfocus();
                               }
-                              Navigator.push(context,MaterialPageRoute(builder: (context) =>  EmailOtpVerification(email: _controller.text,),));
+                              print('adasdasdasdasdasd${value.response!.data}');
+                              // Navigator.push(context,MaterialPageRoute(builder: (context) =>  EmailOtpVerification(email: _controller.text,),));
                               // _controller.clear();
 
                               // showAnimatedDialog(context, SuccessDialog(

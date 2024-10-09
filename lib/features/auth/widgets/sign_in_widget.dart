@@ -101,9 +101,9 @@ Provider.of<MyShopController>(Get.context!,listen: false).getList();
       String password = _passwordController!.text.trim();
       // email =;
       // password ='';
-      if(!Provider.of<AuthController>(context, listen: false).isGuestIdExist()){
-        Provider.of<AuthController>(context, listen: false).getGuestIdUrl();
-      }
+      // if(!Provider.of<AuthController>(context, listen: false).isGuestIdExist()){
+      //   Provider.of<AuthController>(context, listen: false).getGuestIdUrl();
+      // }
       if (Provider.of<AuthController>(context, listen: false).isRemember!) {
         Provider.of<AuthController>(context, listen: false).saveUserEmail(email, password);
       } else {
@@ -121,9 +121,7 @@ Provider.of<MyShopController>(Get.context!,listen: false).getList();
         showCustomSnackBar(getTranslated('minimum_password_length', context), context);
       }else{
         await Provider.of<AuthController>(context, listen: false).login(loginBody, route);
-        Provider.of<SplashController>(Get.context!, listen: false).initConfig(Get.context!).then((bool isSuccess) {
 
-        });
       }
 
     }

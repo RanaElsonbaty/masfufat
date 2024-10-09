@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/features/category/controllers/category_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/home_category_product_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/screens/brand_and_category_product_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/screens/product_details_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/product_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/title_row_widget.dart';
+import 'package:provider/provider.dart';
 
 class HomeCategoryProductItemWidget extends StatelessWidget {
   final HomeCategoryProduct homeCategoryProduct;
@@ -25,9 +27,12 @@ class HomeCategoryProductItemWidget extends StatelessWidget {
           TitleRowWidget(
             title: homeCategoryProduct.name,
             onTap: () {
+              final tIndex =  Provider.of<CategoryController>(context, listen: false).categoryList.indexWhere((element) => element.id == homeCategoryProduct.id);
+
+              // print('homeCategoryProduct --- ${homeCategoryProduct.}')
               Navigator.push(context, MaterialPageRoute(builder: (_) => BrandAndCategoryProductScreen(
                   isBrand: false,
-                  index:  index,
+                  index:  tIndex,
                   id: homeCategoryProduct.id.toString(),
                   name: homeCategoryProduct.name)));
             },
@@ -53,7 +58,7 @@ SingleChildScrollView(
           child: InkWell(onTap: () {
               Navigator.push(context, PageRouteBuilder(transitionDuration: const Duration(milliseconds: 1000),
                   pageBuilder: (context, anim1, anim2) => ProductDetails(productId: homeCategoryProduct.products![i].id,
-                      slug: homeCategoryProduct.products![i].slug)));
+                      slug: homeCategoryProduct.products![i].slug, product: homeCategoryProduct.products![i],)));
             },
                 child: ProductWidget(productModel: homeCategoryProduct.products![i])),
         );

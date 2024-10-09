@@ -107,13 +107,6 @@ PODS:
   - flutter_facebook_auth (4.4.1):
     - FBSDKLoginKit (= 14.1.0)
     - Flutter
-  - flutter_inappwebview (0.0.1):
-    - Flutter
-    - flutter_inappwebview/Core (= 0.0.1)
-    - OrderedSet (~> 5.0)
-  - flutter_inappwebview/Core (0.0.1):
-    - Flutter
-    - OrderedSet (~> 5.0)
   - flutter_keyboard_visibility (0.0.1):
     - Flutter
   - flutter_local_notifications (0.0.1):
@@ -202,13 +195,12 @@ PODS:
   - nanopb/encode (2.30910.0)
   - open_document (0.0.1):
     - Flutter
-  - open_file (0.0.1):
+  - open_file_ios (0.0.1):
     - Flutter
   - open_file_manager (0.0.1):
     - Flutter
   - open_file_plus (1.0.0):
     - Flutter
-  - OrderedSet (5.0.0)
   - package_info_plus (0.4.5):
     - Flutter
   - path_provider_foundation (0.0.1):
@@ -266,7 +258,6 @@ DEPENDENCIES:
   - flutter_barcode_scanner (from `.symlinks/plugins/flutter_barcode_scanner/ios`)
   - flutter_downloader (from `.symlinks/plugins/flutter_downloader/ios`)
   - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
-  - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_pdfview (from `.symlinks/plugins/flutter_pdfview/ios`)
@@ -280,7 +271,7 @@ DEPENDENCIES:
   - location (from `.symlinks/plugins/location/ios`)
   - myfatoorah_flutter (from `.symlinks/plugins/myfatoorah_flutter/ios`)
   - open_document (from `.symlinks/plugins/open_document/ios`)
-  - open_file (from `.symlinks/plugins/open_file/ios`)
+  - open_file_ios (from `.symlinks/plugins/open_file_ios/ios`)
   - open_file_manager (from `.symlinks/plugins/open_file_manager/ios`)
   - open_file_plus (from `.symlinks/plugins/open_file_plus/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
@@ -322,7 +313,6 @@ SPEC REPOS:
     - GTMSessionFetcher
     - MyFatoorah
     - nanopb
-    - OrderedSet
     - PromisesObjC
     - ReachabilitySwift
     - SDWebImage
@@ -358,8 +348,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_downloader/ios"
   flutter_facebook_auth:
     :path: ".symlinks/plugins/flutter_facebook_auth/ios"
-  flutter_inappwebview:
-    :path: ".symlinks/plugins/flutter_inappwebview/ios"
   flutter_keyboard_visibility:
     :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
   flutter_local_notifications:
@@ -386,8 +374,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/myfatoorah_flutter/ios"
   open_document:
     :path: ".symlinks/plugins/open_document/ios"
-  open_file:
-    :path: ".symlinks/plugins/open_file/ios"
+  open_file_ios:
+    :path: ".symlinks/plugins/open_file_ios/ios"
   open_file_manager:
     :path: ".symlinks/plugins/open_file_manager/ios"
   open_file_plus:
@@ -449,7 +437,6 @@ SPEC CHECKSUMS:
   flutter_barcode_scanner: 7a1144744c28dc0c57a8de7218ffe5ec59a9e4bf
   flutter_downloader: b7301ae057deadd4b1650dc7c05375f10ff12c39
   flutter_facebook_auth: 361ac7a57263ebf327f26089507ead0d66558ee8
-  flutter_inappwebview: 3d32228f1304635e7c028b0d4252937730bbc6cf
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
   flutter_local_notifications: 4cde75091f6327eb8517fa068a0a5950212d2086
   flutter_pdfview: 25f53dd6097661e6395b17de506e6060585946bd
@@ -472,10 +459,9 @@ SPEC CHECKSUMS:
   myfatoorah_flutter: f134d8bc309420053e048c1895388a88737880f0
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
   open_document: 63eea128860263e68b67ef3b31f74a5ae22e4c71
-  open_file: 02eb5cb6b21264bd3a696876f5afbfb7ca4f4b7d
+  open_file_ios: 461db5853723763573e140de3193656f91990d9e
   open_file_manager: cdc5849f062aa70cad3da24a0dde74955d78c1ec
   open_file_plus: 05737718530c14cf02868e3b7754d7fe4df76d8b
-  OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
   pdfx: 7b876b09de8b7a0bf444a4f82b439ffcff4ee1ec
@@ -496,6 +482,6 @@ SPEC CHECKSUMS:
   wakelock_plus: 78ec7c5b202cab7761af8e2b2b3d0671be6c4ae1
   webview_flutter_wkwebview: 2a23822e9039b7b1bc52e5add778e5d89ad488d1
 
-PODFILE CHECKSUM: 4188a2aa53465c4d659dec94927f38d7dfe3b302
+PODFILE CHECKSUM: 751773ebc2a156e052ca31faa5e5ae70ee627bc7
 
 COCOAPODS: 1.15.2

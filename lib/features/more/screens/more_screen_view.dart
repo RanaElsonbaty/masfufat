@@ -27,6 +27,7 @@ import 'package:provider/provider.dart';
 
 import '../../../common/basewidget/webView.dart';
 import '../../../localization/controllers/localization_controller.dart';
+import '../../Store settings/controllers/store_setting_controller.dart';
 import '../../Store settings/screen/store_setting_screen.dart';
 import '../../payment /controller/payment_controller.dart';
 import '../../setting/widgets/select_currency_bottom_sheet_widget.dart';
@@ -53,11 +54,14 @@ class _MoreScreenState extends State<MoreScreen> {
       Provider.of<SplashController>(context, listen: false).initConfig(context);
       Provider.of<ProfileController>(context, listen: false)
           .getUserInfo(context);
+      Provider.of<StoreSettingController>(context,listen: false)
+          .getPackages();
       Provider.of<PaymentController>(context,listen: false).getPaymentMethod(context,'wallet');
 
       Provider.of<PaymentController>(context,listen: false).getType('wallet_charge');
       Provider.of<PaymentController>(context,listen: false).getAmount(0);
       if (Provider.of<SplashController>(context, listen: false)
+          .configModel!=null&&Provider.of<SplashController>(context, listen: false)
               .configModel!
               .walletStatus ==
           1) {
@@ -65,6 +69,7 @@ class _MoreScreenState extends State<MoreScreen> {
             .getTransactionList(context, 1, 'all');
       }
       if (Provider.of<SplashController>(context, listen: false)
+          .configModel!=null&&Provider.of<SplashController>(context, listen: false)
               .configModel!
               .loyaltyPointStatus ==
           1) {
@@ -249,19 +254,23 @@ class _MoreScreenState extends State<MoreScreen> {
                                                   TitleButton(
                           image: Images.currencyIcon,
                           title:
-                              '${getTranslated('currency', context)} (${Provider.of<SplashController>(context).myCurrency!.name})',
+                              '${getTranslated('currency', context)} (${Provider.of<SplashController>(context).myCurrency!=null?Provider.of<SplashController>(context).myCurrency!.name:''})',
                           onTap: () => showModalBottomSheet(
                               backgroundColor: Colors.transparent,
                               isScrollControlled: true,
                               context: context,
                               builder: (_) =>
                                   const SelectCurrencyBottomSheetWidget())),
-                                                  MenuButtonWidget(
-                          image: Images.myStoreIcons,
-                          title: getTranslated(
-                              'Settings_for_linking_my_online_store',
-                              context),
-                          navigateTo: const StoreSettingScreen()),
+
+
+                                                  Consumer<StoreSettingController>(
+                                                    builder:(context, storeSetting, child) =>storeSetting.showStoreSetting==true?  MenuButtonWidget(
+                                                                              image: Images.myStoreIcons,
+                                                                              title: getTranslated(
+                                                                                  'Settings_for_linking_my_online_store',
+                                                                                  context),
+                                                                              navigateTo: const StoreSettingScreen()):const SizedBox.shrink(),
+                                                  ),
                                                 ])),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30),

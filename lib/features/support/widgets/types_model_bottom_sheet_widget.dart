@@ -32,8 +32,9 @@ class _TypeModelBottomSheetWidgetState extends State<TypeModelBottomSheetWidget>
                   padding: EdgeInsets.zero,
                   itemBuilder: (context, index){
                     return InkWell(onTap: (){
-                      Navigator.of(context).pop();
                       supportTicketProvider.setSelectedType(index);
+
+                      Navigator.of(context).pop();
                     },
                       child: Container(decoration: BoxDecoration(
                           color: supportTicketProvider.selectedTypeIndex == index? Theme.of(context).primaryColor.withOpacity(.1):

@@ -1,5 +1,6 @@
 
 import 'package:audio_waveforms/audio_waveforms.dart';
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_sixvalley_ecommerce/features/support/domain/models/support_reply_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/support/domain/models/support_ticket_body.dart';
@@ -27,6 +28,8 @@ class SupportTicketController extends ChangeNotifier {
   List<SupportReplyModel>? get supportReplyList => _supportReplyList != null ? _supportReplyList!.reversed.toList() : _supportReplyList;
   bool get isLoading => _isLoading;
 
+  List<MultipartFile> _attachmentFile = [];
+  List<MultipartFile> get attachmentFile =>_attachmentFile;
 
 
   Future<ApiResponse> createSupportTicket(SupportTicketBody supportTicketBody) async {
@@ -67,6 +70,7 @@ class SupportTicketController extends ChangeNotifier {
     _supportReplyList = null;
     ApiResponse apiResponse = await supportTicketServiceInterface.getSupportReplyList(ticketID.toString());
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+      _supportReplyList = null;
       _supportReplyList = [];
       apiResponse.response!.data.forEach((supportReply) => _supportReplyList!.add(SupportReplyModel.fromJson(supportReply)));
     } else {
@@ -79,13 +83,39 @@ class SupportTicketController extends ChangeNotifier {
 
   Future<ApiResponse> sendReply(int? ticketID, String message) async {
     _isLoading = true;
+    List<Attachment> fileList=[];
+    for (var element in pickedImageFileStored) {
+      fileList.add(Attachment(id: 0, ticketId: ticketID!, fileName: element.name, filePath: element.path, fileType: element.name, createdAt: DateTime.now(), updatedAt: DateTime.now(), ticketConvId: ticketID, fileUrl: element.path));
+    }
+
+    SupportReplyModel sendModel=SupportReplyModel(
+        id: 0, supportTicketId: ticketID!
+        ,adminId: 0,
+        customerMessage: message,
+        attachment: null,
+        adminMessage: null,
+        position: 0,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        ticketAttachments: [],
+        attachments: fileList, ofline: true);
+    if(_supportReplyList!=null){
+      _supportReplyList!.add(sendModel);
+
+    }else{
+      _supportReplyList!.add(sendModel);
+
+    }
     notifyListeners();
-    print('object');
-    ApiResponse response = await supportTicketServiceInterface.sendReply(ticketID.toString(), message, pickedImageFileStored);
-    print('object');
+    ApiResponse response = await supportTicketServiceInterface.sendReply(ticketID.toString(), message, attachmentFile);
+
+
 
     if (response.response!=null&&response.response!.statusCode == 200) {
-      getSupportTicketReplyList(Get.context!, ticketID);
+
+      _attachmentFile=[];
+
+      notifyListeners();
       _pickedImageFiles = [];
       pickedImageFileStored = [];
       _isLoading = false;
@@ -118,7 +148,7 @@ class SupportTicketController extends ChangeNotifier {
   String selectedType = getTranslated('website_problem', Get.context!)??'';
   void setSelectedType(int index, {bool reload = true}){
     selectedTypeIndex = index;
-    selectedType = getTranslated(type[selectedPriorityIndex], Get.context!)??'High';
+    selectedType = getTranslated(type[index], Get.context!)??'High';
     notifyListeners();
   }
   List<String> priority = ['urgent', 'high', 'medium', 'low'];
@@ -133,14 +163,25 @@ class SupportTicketController extends ChangeNotifier {
   List <XFile> _pickedImageFiles =[];
   List <XFile>? get pickedImageFile => _pickedImageFiles;
   List <XFile>  pickedImageFileStored = [];
-  void pickMultipleImage(bool isRemove,{int? index}) async {
+  void pickMultipleImage(bool isRemove,{int? index,}) async {
     if(isRemove) {
       if(index != null){
         pickedImageFileStored.removeAt(index);
+        _attachmentFile.removeAt(index);
       }
     }else {
-      _pickedImageFiles = await ImagePicker().pickMultiImage(imageQuality: 40);
-      pickedImageFileStored.addAll(_pickedImageFiles);
+
+      try{
+
+        _pickedImageFiles = await ImagePicker().pickMultiImage(imageQuality: 40);
+        pickedImageFileStored.addAll(_pickedImageFiles);
+        for (var element in _pickedImageFiles) {
+          _attachmentFile.add(await  MultipartFile.fromFile(element.path, filename: "${element.path}${DateTime.now().toString()}"));
+
+        }
+      }catch(E){
+
+      }
     }
     notifyListeners();
   }
@@ -150,29 +191,30 @@ class SupportTicketController extends ChangeNotifier {
        XFile? file = await ImagePicker().pickVideo( source:ImageSource.gallery  );
        _pickedImageFiles.add(file!);
        pickedImageFileStored.addAll(_pickedImageFiles);
+       // for (var element in _pickedImageFiles) {
+         _attachmentFile.add(await  MultipartFile.fromFile(file.path, filename: "${file.path}${DateTime.now().toString()}"));
+       //
+       // }
      }catch(e){
        print('object$e');
      }
     notifyListeners();
   }
+
   Future pickMultipleMedia(bool isRemove,{int? index}) async {
     // final pickedFile =
     if(isRemove) {
       if(index != null){
         pickedImageFileStored.removeAt(index);
+        _attachmentFile.removeAt(index);
       }
     }else {
-      // _pickedImageFiles = await ImagePicker().pickMultipleMedia(
-      //   requestFullMetadata: false,
-      //   imageQuality: 50,
-      //   maxHeight: 500,
-      //   maxWidth: 500,
-      // );
+
       FilePickerResult? result =
       await FilePicker.platform
           .pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['pdf','docx'],
+        allowedExtensions: ['pdf','docx','xlsx'],
       );
 
       if (result != null) {
@@ -183,8 +225,14 @@ class SupportTicketController extends ChangeNotifier {
         //     file, false, false);
         for (var element in file) {
           pickedImageFileStored.add(XFile(element.path));
+try{
+  _attachmentFile.add(await  MultipartFile.fromFile(element.path, filename: element.path));
 
+}catch(e){}
         }
+        // for (var element in _pickedImageFiles) {
+        //
+        // }
 
         // print(
         //     "No file file ${support.file}");
@@ -199,17 +247,22 @@ class SupportTicketController extends ChangeNotifier {
   }
   List<XFile> _pickImageOrVideoCam=[];
   List<XFile> get pickImageOrVideoCam=>_pickImageOrVideoCam;
-  void pickImageOrVideoCamera(XFile file){
+  void pickImageOrVideoCamera(XFile file)async{
     _pickImageOrVideoCam.add(file);
+    _attachmentFile.add(await  MultipartFile.fromFile(file.path, filename: "${file.path}${DateTime.now().toString()}"));
+
     notifyListeners();
   }
   void removePickImageOrVideoCamera(int index){
     _pickImageOrVideoCam.removeAt(index);
+    _attachmentFile.removeAt(index);
     notifyListeners();
   }
-void addPickCameraToList(){
+void addPickCameraToList()async{
    for (var element in _pickImageOrVideoCam) {
      pickedImageFileStored.add(element);
+     _attachmentFile.add(await  MultipartFile.fromFile(element.path, filename: "${element.name}"));
+
    }
    Timer(const Duration(seconds: 1), () {
 
@@ -270,6 +323,8 @@ void addPickCameraToList(){
           debugPrint(path);
           debugPrint("Recorded file size: ${File(path).lengthSync()}");
           pickedImageFileStored.add(XFile(path));
+          _attachmentFile.add(await  MultipartFile.fromFile(path, filename: "${path}"));
+
           notifyListeners();
         }
       //   2024-09-11 08:10:19.022797.m4a

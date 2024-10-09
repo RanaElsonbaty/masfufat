@@ -20,7 +20,6 @@ class SupportTicketRepository implements SupportTicketRepositoryInterface{
   @override
   Future<ApiResponse> createNewSupportTicket(SupportTicketBody supportTicketModel,) async {
     try {
-      print('asdasdasdasdasda-----> ${supportTicketModel.toJson()}');
       final response = await dioClient!.post(AppConstants.supportTicketUri,
           data: supportTicketModel.toJson()
       );
@@ -53,41 +52,14 @@ class SupportTicketRepository implements SupportTicketRepositoryInterface{
 
 
   @override
-  Future<ApiResponse> sendReply(String ticketID, String message, List<XFile?> file) async {
-    // http.MultipartRequest request = http.MultipartRequest('POST', Uri.parse('${AppConstants.baseUrl}${AppConstants.supportTicketReplyUri}$ticketID'));
-    // request.headers.addAll(<String,String>{'Authorization': 'Bearer ${Provider.of<AuthController>(Get.context!, listen: false).getUserToken()}'});
-    // for(int i=0; i<file.length;i++){
-    //   Uint8List list = await file[i]!.readAsBytes();
-    //   var part = http.MultipartFile('image[]', file[i]!.readAsBytes().asStream(),
-    //       list.length, filename: basename(file[i]!.path), contentType: MediaType('image', 'jpg'));
-    //   request.files.add(part);
-    // }
-    // Map<String, String> fields = {};
-    // request.fields.addAll(<String, String>{
-    //   'message': message,
-    // });
-    // request.fields.addAll(fields);
-    // http.StreamedResponse response = await request.send();
-    // return response;
+  Future<ApiResponse> sendReply(String ticketID, String message,   List<MultipartFile> file) async {
     try {
-      List<MultipartFile> attachmentFile=[];
-      if(file.isNotEmpty){
-      for (var element in file) {
-        attachmentFile.add(
-          await MultipartFile.fromFile(element!.path, filename: element.path),
-        );
-      }
-      }
-
-      for (var element in attachmentFile) {
-        print('sdasdasdasdasdasdasdasd${element.filename}');
-      }
       var data =
-      FormData.fromMap({'attachments[]': attachmentFile, 'message': message});
+      FormData.fromMap({'attachments[]': file, 'message': message});
+      print('object');
       final response = await dioClient!.post('${AppConstants.supportTicketReplyUri}$ticketID',data: data);
       return ApiResponse.withSuccess(response);
     } catch (e) {
-
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }

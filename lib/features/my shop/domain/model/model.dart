@@ -50,7 +50,7 @@ class Deleted {
   final dynamic gtin;
   final String addedBy;
   final int userId;
-  final Props props;
+  // final Props props;
   final dynamic mpn;
   final dynamic hsCode;
   final dynamic height;
@@ -117,7 +117,7 @@ class Deleted {
     required this.gtin,
     required this.addedBy,
     required this.userId,
-    required this.props,
+    // required this.props,
     required this.mpn,
     required this.hsCode,
     required this.height,
@@ -185,7 +185,7 @@ class Deleted {
     gtin: json["gtin"],
     addedBy:json["added_by"]??'',
     userId: json["user_id"],
-    props: Props.fromJson(json["props"]),
+    // props: Props.fromJson(json["props"]),
     mpn: json["mpn"],
     hsCode: json["hs_code"],
     height: json["height"],
@@ -253,7 +253,7 @@ class Deleted {
     "gtin": gtin,
     "added_by": addedBy,
     "user_id": userId,
-    "props": props.toJson(),
+    // "props": props.toJson(),
     "mpn": mpn,
     "hs_code": hsCode,
     "height": height,
@@ -522,7 +522,7 @@ class DeletedPricings {
   final double value;
   final String minQty;
   final String maxQty;
-  final Type discountType;
+  final String discountType;
   final double discountPrice;
   final double suggestedPrice;
   final DisplayFor displayFor;
@@ -545,7 +545,7 @@ class DeletedPricings {
     value: json["value"].toDouble(),
     minQty: json["min_qty"].toString(),
     maxQty: json["max_qty"].toString(),
-    discountType: typeValues.map[json["discount_type"]]!,
+    discountType: json["discount_type"].toString(),
     discountPrice: json["discount_price"].toDouble(),
     suggestedPrice: json["suggested_price"]?.toDouble(),
     displayFor: displayForValues.map[json["display_for"]]!,
@@ -907,7 +907,7 @@ class Linked {
     "gtin": gtin,
     "added_by": addedByValues.reverse[addedBy],
     "user_id": userId,
-    "props": props.toJson(),
+    // "props": props.toJson(),
     "mpn": mpn,
     "hs_code": hsCode,
     "height": height,

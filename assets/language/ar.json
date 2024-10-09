@@ -9,6 +9,22 @@
   "on_boarding_description_four": "نوفر جميع الأعمال اللوجستية عن التاجر، مما يعني أنك لن تحتاج لاستئجار مستودع أو توظيف موظفين لتجهيز الطلبات وتغليفها وشحنها. نحن نتولى كل هذه المهام نيابة عنك، مما يتيح لك التركيز على تنمية أعمالك وزيادة مبيعاتك بدون أي تعقيدات لوجستية.",
   "Start_your_experience_now": "ابدا الان",
 "sync": "مزامنة",
+  "You_cannot_link_two_stores_at_the_same_time": "لا يمكن ربط متجرين في نفس الوقت",
+
+  "Already_added": "مُضاف مسبقاً !",
+  "Out_of_stock": "نفذ من المخزون!",
+  "The_product_was_not_added_to_the_cart_successfully": "لم تتم اضافه المنتج للسله بنجاح",
+  "There_is_a_product_part_of_equal_to_zero_or_less": "هناك منتج جزء من تساوي صفر او اقل",
+  "Unable_to_connect_to_your_marketplacePlease_click_the_following_link_to_authenticate": "غير قادر على الاتصال بالسوق الخاص بك..الرجاء الضغط على الرابط التالي للمصادقة",
+  "Click_here": "انقر هنا",
+
+  "Sync_settings": "إعدادات المزامنة",
+  "Show_Cost_Price_Tax_Total_Cost_to_clearly_know_the_cost_of_the_product": "أظهر سعر التكلفة + الضريبة = التكلفة الإجمالية لمعرفة تكلفة المنتج بشكل واضح",
+  "Have_you_enabled_VAT_in_your_store_through_your_platform_settings": "هل قمت بتفعيل ضريبة القيمة المضافة في متجرك من خلال إعدادات المنصة الخاصة بك؟",
+"Note": "ملاحظة : عند تفعيل هذا الخيار , سيتم اضافة مبلغ او نسبة الربح على سعر التكلفة فقط بدون احتساب الضريبة , لأنه سيتم اضافتها في متجرك بشكل تلقائي",
+  "Allow_sync_if_profit_ratio_is_less_than": "السماح بالمزامنة إذا كانت نسبة الربح أقل من 0%",
+  "You_have_VAT_in_your_store": "لديك ضريبة القيمة المضافة في متجرك",
+
   "item_number": "رقم الصنف",
   "Return_Request_Information": "معلومات طلب الاسترجاع",
   "Logistics_information": "المعلومات اللوجستية",
@@ -39,7 +55,7 @@
   "Add_to_my_store": "أضف إلى متجري",
 
   "Added_to_my_store": "تمت الإضافة إلى متجري",
-  "Not_added_to_my_store": "لم تتم الإضافة إلى متجري",
+  "Not_added_to_my_store": "لم تتم اضافه المنتج لمتجري بنجاح",
   "Sync_order": "الطلبات المتزامنة",
   "my_direct_requests": "الطلبات المباشرة",
   "Date_and_time_of_order": "تاريخ ووقت الطلب",
@@ -270,6 +286,7 @@
 
   "app_info": "معلومات التطبيق",
   "sign_out": "خروج",
+  "Added_successfully": "اضيف بنجاح!",
 
   "home": "المنزل",
   "Home": "الرئيسية",
@@ -478,6 +495,12 @@
   "customer_reviews": "آراء العملاء",
   "out_of_5": "من 5",
   "total": "المجموع",
+  "Link_with": "ربط مع",
+  "You_must_log_in_to_the_web_arrays_before_starting_the_binding_process": "يجيب تسجيل دخول في مصفوفات علي الويب قبل بدء عملية الربط",
+
+
+  "synced": "متزامن",
+
   "more_from_the_shop": "المزيد من المتجر",
   "max": "الأعلى",
   "to": "ل",
@@ -705,6 +728,7 @@
   "Complete_payment": "إتمام الدفع",
 
   "Total_Payments": "الإجمالي",
+  "Account_not_found": "لم يتم العثور علي الحساب ",
 
   "Store_platform": "منصه المتجر",
   "price_value": "السعر",

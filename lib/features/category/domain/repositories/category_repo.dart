@@ -42,9 +42,13 @@ class CategoryRepository implements CategoryRepoInterface {
   }
 
   @override
-  Future get(String id) {
-    // TODO: implement get
-    throw UnimplementedError();
+  Future get(String id) async{
+    try {
+      final response = await dioClient!.get('${AppConstants.brandCategories}$id');
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
   }
 
 

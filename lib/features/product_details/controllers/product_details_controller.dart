@@ -106,8 +106,10 @@ class ProductDetailsController extends ChangeNotifier {
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       _sharableLink = apiResponse.response!.data;
     } else {
-      ApiChecker.checkApi(apiResponse);
+      _sharableLink=null;
+      // ApiChecker.checkApi(apiResponse);
     }
+    notifyListeners();
   }
 
 
@@ -173,7 +175,7 @@ class ProductDetailsController extends ChangeNotifier {
           ProductDetailsModel.fromJson(apiResponse.response!.data);
 
 
-      Navigator.push(Get.context!,MaterialPageRoute(builder: (context) => ProductDetails(productId: _productDetailsModel!.id!, slug: _productDetailsModel!.slug!)));
+      Navigator.push(Get.context!,MaterialPageRoute(builder: (context) => ProductDetails(productId: _productDetailsModel!.id!, slug: _productDetailsModel!.slug!, product: null,)));
 
 
       _isDetails = false;

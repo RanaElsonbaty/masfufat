@@ -6,10 +6,13 @@ import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/not_logged_in_bottom_sheet_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../product/domain/models/product_model.dart';
+
 class FavouriteButtonWidget extends StatelessWidget {
   final Color backgroundColor;
   final int? productId;
-  const FavouriteButtonWidget({super.key, this.backgroundColor = Colors.black, this.productId, });
+  final Product product;
+  const FavouriteButtonWidget({super.key, this.backgroundColor = Colors.black, this.productId, required this.product, });
   @override
   Widget build(BuildContext context) {
     bool isGuestMode = !Provider.of<AuthController>(context, listen: false).isLoggedIn();
@@ -27,6 +30,7 @@ class FavouriteButtonWidget extends StatelessWidget {
 
               wishProvider.removeWishList(productId,) :
               wishProvider.addWishList(productId);
+              wishProvider.addOfflineWishList(product,wishProvider.addedIntoWish.contains(productId));
 
             }
           },

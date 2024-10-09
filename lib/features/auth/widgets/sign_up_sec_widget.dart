@@ -200,14 +200,15 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                             inputType: TextInputType.name,
                             required: true,
                             onChanged: (val){
-                              setState(() {
-
-                              });
+                              // setState(() {
+                              //
+                              // });
                             },
                             focusNode:
                                 authProvider.commercialRegistrationNoFocus,
                             nextFocus: authProvider.taxNumberFocus,
                             // prefixIcon: Images.username,
+
                             capitalization: TextCapitalization.words,
                             controller: authProvider.commercialRegistrationNo,
                             validator: (value) => ValidateCheck.validateEmptyText(
@@ -645,9 +646,9 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                           isLoading: authProvider.isLoading,
                           onTap: authProvider.consent
                               ? () {
-                         if(authProvider.commercialRegistrationNo.text.isNotEmpty){
+                         if(authProvider.commercialRegistrationNo.text.isEmpty){
                            showCustomSnackBar(getTranslated('Commercial_Registration_Number_Self_Employment_Document', context), context);
-                         }else if( authProvider.governorate.text.isNotEmpty){
+                         }else if( authProvider.storeLink.text.isEmpty){
                            showCustomSnackBar(getTranslated('Enter_the_link_to_the_valid_store', context), context);
                          }else   if(authProvider.commercialRegisterImage!=null){
                                   if (signUpFormKey.currentState?.validate() ??

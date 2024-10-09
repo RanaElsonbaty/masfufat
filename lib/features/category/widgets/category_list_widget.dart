@@ -9,6 +9,7 @@ import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dar
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:provider/provider.dart';
 
+import '../../product/screens/all_category_and_brand.dart';
 import 'category_shimmer_widget.dart';
 
 class CategoryListWidget extends StatelessWidget {
@@ -28,7 +29,7 @@ class CategoryListWidget extends StatelessWidget {
 
               onTap: () {
                 if(categoryProvider.categoryList.isNotEmpty) {
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => const CategoryScreen()));
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const AllCategoryAndBrand()));
                 }
               },
             ),

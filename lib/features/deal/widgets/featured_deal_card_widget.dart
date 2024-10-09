@@ -27,7 +27,7 @@ class FeaturedDealWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(onTap: () => Navigator.push(context, PageRouteBuilder(transitionDuration: const Duration(milliseconds: 1000),
-          pageBuilder: (context, anim1, anim2) => ProductDetails(productId: product.id,slug: product.slug))),
+          pageBuilder: (context, anim1, anim2) => ProductDetails(productId: product.id,slug: product.slug, product: product,))),
 
       child: LayoutBuilder(
         builder: (context, constrains) {
@@ -71,7 +71,7 @@ class FeaturedDealWidget extends StatelessWidget {
                             Text(getTranslated('out_of_stock', context)??'',
                                 style: GoogleFonts.tajawal(color: const Color(0xFFF31B1B),fontSize: 12,fontWeight: FontWeight.w500)),
                             FavouriteButtonWidget(
-                                backgroundColor: ColorResources.getImageBg(context), productId: product.id),
+                                backgroundColor: ColorResources.getImageBg(context), productId: product.id, product: product,),
                           ],
                         ),
 

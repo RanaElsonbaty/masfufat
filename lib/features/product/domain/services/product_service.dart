@@ -9,8 +9,8 @@ class ProductService implements ProductServiceInterface{
   ProductService({required this.productRepositoryInterface});
 
   @override
-  Future getBrandOrCategoryProductList(bool isBrand, String id,int offset,bool reloud,String search,String syncFilter,String filter,String price) async{
-    return await productRepositoryInterface.getBrandOrCategoryProductList(isBrand, id,offset, reloud,search,syncFilter,filter,price);
+  Future getBrandOrCategoryProductList(bool isBrand,int brandId,String id,int offset,bool reloud,String search,String syncFilter,String filter,String price,bool onlyBrand) async{
+    return await productRepositoryInterface.getBrandOrCategoryProductList(isBrand,brandId, id,offset, reloud,search,syncFilter,filter,price, onlyBrand);
   }
 
   @override

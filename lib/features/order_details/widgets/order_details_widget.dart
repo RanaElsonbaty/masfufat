@@ -79,7 +79,7 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
 
     return InkWell(
       onTap: (){
-        Navigator.push(context,MaterialPageRoute(builder: (context) => ProductDetails(productId: widget.orderDetailsModel.productDetails!.id, slug: widget.orderDetailsModel.productDetails!.slug),));
+        Navigator.push(context,MaterialPageRoute(builder: (context) => ProductDetails(productId: widget.orderDetailsModel.productDetails!.id, slug: widget.orderDetailsModel.productDetails!.slug, ),));
 
       },
       child: Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),

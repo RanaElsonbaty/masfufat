@@ -161,27 +161,29 @@ FocusNode focusNode =FocusNode();
 
 
                   Container(
-                    color:  chatProvider.isLoading == false && ((chatProvider.pickedImageFileStored!=null && chatProvider.pickedImageFileStored!.isNotEmpty) || (chatProvider.objFile != null && chatProvider.objFile!.isNotEmpty)) ?
+                    color:  chatProvider.isLoading == false && ((chatProvider.pickedImageFileStored!=null && chatProvider.pickedImageFileStored.isNotEmpty) || (chatProvider.objFile != null && chatProvider.objFile!.isNotEmpty)) ?
                     Theme.of(context).primaryColor.withOpacity(0.1) : null,
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      ((chatProvider.pickedImageFileStored!=null && chatProvider.pickedImageFileStored!.isNotEmpty)  || (chatProvider.objFile != null && chatProvider.objFile!.isNotEmpty)) ?
+                      ((chatProvider.pickedImageFileStored!=null && chatProvider.pickedImageFileStored.isNotEmpty)  || (chatProvider.objFile != null && chatProvider.objFile!.isNotEmpty)) ?
                           const SizedBox(height: Dimensions.paddingSizeSmall) : const SizedBox(),
 
                         // Bottom TextField
 
 
 
-                      chatProvider.pickedImageFileStored!=null &&chatProvider.pickedImageFileStored!.isNotEmpty
+                      chatProvider.isLoading == false&&  chatProvider.pickedImageFileStored!=null &&chatProvider.pickedImageFileStored.isNotEmpty
                           ? Container(
                           height: 90,
+
                           width: MediaQuery.of(context).size.width,
+                          decoration: const BoxDecoration(color: Colors.transparent),
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
                                 return SizedBox(
                                   height: 100,
-                                  width: 100,
+                                  // width: 200,
                                   child: Stack(children: [
                                     Padding(
                                         padding:
@@ -189,49 +191,54 @@ FocusNode focusNode =FocusNode();
                                         child: ClipRRect(
                                             borderRadius: BorderRadius.circular(10),
                                             child:chatProvider
-                                                .pickedImageFileStored![index].path
+                                                .pickedImageFileStored[index].path
                                                 .endsWith('pdf')
                                                 ?PdfWidget(file: File( chatProvider
-                                                .pickedImageFileStored![index].path),isSend: false,):
+                                                .pickedImageFileStored[index].path),isSend: false,):
                                             chatProvider
-                                                .pickedImageFileStored![index].path.endsWith('docx')?DocxAndXlsxFile(file: File(chatProvider
-                                                .pickedImageFileStored![index].path), fileName: chatProvider
-                                                .pickedImageFileStored![index].name,isSend: false,):
+                                                .pickedImageFileStored[index].path.endsWith('docx')?DocxAndXlsxFile(file: File(chatProvider
+                                                .pickedImageFileStored[index].path), fileName: chatProvider
+                                                .pickedImageFileStored[index].name,isSend: false,):
                                             chatProvider
-                                                .pickedImageFileStored![index].path
+                                                .pickedImageFileStored[index].path
                                                 .endsWith('mp3')||chatProvider
-                                                .pickedImageFileStored![index].path
+                                                .pickedImageFileStored[index].path
                                                 .endsWith('m4a')?WaveBubble(
-                                              appDirectory: Directory(chatProvider
-                                                  .pickedImageFileStored![index]
-                                                  .path),
-                                              width: 80,
-                                              index: index,
-                                              isSender: false,
-                                              ofline: false,
-                                              path: chatProvider
-                                                  .pickedImageFileStored![index]
-                                                  .path,
-                                            ):
-                                            chatProvider
-                                                .pickedImageFileStored![index].path
-                                                .endsWith('temp')? Mp4Widget(file:File( chatProvider.pickedImageFileStored![index].path),
-                                              isSend: true, min: true, height: 80, width: 80,
-
-
-                                            ):chatProvider
-                                                .pickedImageFileStored![index].path
-                                                .endsWith('m4a')
-                                                ? WaveBubble(
-                                              appDirectory: Directory(chatProvider
-                                                  .pickedImageFileStored![index]
+                                              appDirectory:
+                                              Directory(chatProvider
+                                                  .pickedImageFileStored[
+                                              index]
                                                   .path),
                                               width: 80,
                                               index: index,
                                               isSender: true,
                                               ofline: true,
                                               path: chatProvider
-                                                  .pickedImageFileStored![index]
+                                                  .pickedImageFileStored[
+                                              index]
+                                                  .path,
+                                            ):
+                                            chatProvider
+                                                .pickedImageFileStored[index].path
+                                                .endsWith('temp')? Mp4Widget(file:File( chatProvider.pickedImageFileStored[index].path),
+                                              isSend: true, min: true, height: 80, width: 80,
+
+
+                                            ):chatProvider
+                                                .pickedImageFileStored[index].path
+                                                .endsWith('m4a')||chatProvider
+                                                .pickedImageFileStored[index].path
+                                                .endsWith('mp3')
+                                                ? WaveBubble(
+                                              appDirectory: Directory(chatProvider
+                                                  .pickedImageFileStored[index]
+                                                  .path),
+                                              width: 100,
+                                              index: index,
+                                              isSender: false,
+                                              ofline: false,
+                                              path: chatProvider
+                                                  .pickedImageFileStored[index]
                                                   .path,
                                             )
                                                 : SizedBox(
@@ -239,9 +246,9 @@ FocusNode focusNode =FocusNode();
                                                 width: 80,
                                                 child: Image.file(
                                                     File(chatProvider
-                                                        .pickedImageFileStored![index]
+                                                        .pickedImageFileStored[index]
                                                         .path),
-                                                    fit: BoxFit.cover)))),
+                                                    fit: BoxFit.fill)))),
                                     Positioned(
                                         right: 5,
                                         child: InkWell(
@@ -252,7 +259,7 @@ FocusNode focusNode =FocusNode();
                                   ]),
                                 );
                               },
-                              itemCount: chatProvider.pickedImageFileStored!.length))
+                              itemCount: chatProvider.pickedImageFileStored.length))
                           : const SizedBox(),
                       Container(
                         height: 70,
@@ -330,6 +337,7 @@ FocusNode focusNode =FocusNode();
 
                                     onLongPress: ()async{
                                       print('onLongPress');
+
                                       bool permission =
                                       await _askingPermission(false);
                                       if (permission == true) {
@@ -340,20 +348,13 @@ FocusNode focusNode =FocusNode();
                                       chatProvider.startTimer();
 
                                     },
-
+// onlongpress,
                                     onLongPressEnd: (vak)async{
                                       print('onLongPressEnd');
+                                       chatProvider.startOrStopRecording();
+
                                       chatProvider.  getMicOn(false);
                                       chatProvider.stopTimer();
-                                      _controller.text = ' ';
-                                     await chatProvider.startOrStopRecording().then((value) {
-                                        MessageBody messageBody = MessageBody(id : widget.id!,  message: _controller.text,file: chatProvider.pickedImageFileStored!);
-                                        chatProvider.sendMessage(messageBody, userType: widget.userType);
-                                        _controller.clear();
-                                        // chatProvider.sendReply(widget.supportTicketModel.id,
-                                        //     _controller.text);
-                                        _controller.text = '';
-                                      });
 
 
 
@@ -373,7 +374,6 @@ FocusNode focusNode =FocusNode();
                                   ),
                                   const SizedBox(width: 8,),
 
-                                  // Image.asset(Images.chatMic,width: 50,),
                                   InkWell(
                                       onTap: ()async{
                                         bool permission =
@@ -451,7 +451,7 @@ FocusNode focusNode =FocusNode();
                                       onTap: (){
                                         if (_controller.text.isEmpty ) {
                                         } else {
-                                          MessageBody messageBody = MessageBody(id : widget.id!,  message: _controller.text,file: chatProvider.pickedImageFileStored!);
+                                          MessageBody messageBody = MessageBody(id : widget.id!,  message: _controller.text,file: chatProvider.pickedImageFileStored);
                                                                   chatProvider.sendMessage(messageBody, userType: widget.userType);
                                                         _controller.clear();
                                           // chatProvider.s(widget.supportTicketModel.id,

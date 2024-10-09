@@ -23,7 +23,9 @@ class CategoryController extends ChangeNotifier {
       ApiResponse apiResponse = await categoryServiceInterface!.getList();
       if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
         _categoryList.clear();
+        brandCategoryList.clear();
         apiResponse.response!.data.forEach((category) => _categoryList.add(CategoryModel.fromJson(category)));
+        apiResponse.response!.data.forEach((category) => brandCategoryList.add(CategoryModel.fromJson(category)));
         _categorySelectedIndex = 0;
       } else {
         ApiChecker.checkApi( apiResponse);
@@ -41,7 +43,9 @@ class CategoryController extends ChangeNotifier {
       ApiResponse apiResponse = await categoryServiceInterface!.getSellerWiseCategoryList(sellerId);
       if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
         _categoryList.clear();
+        _brandCategoryList.clear();
         apiResponse.response!.data.forEach((category) => _categoryList.add(CategoryModel.fromJson(category)));
+        apiResponse.response!.data.forEach((category) => _brandCategoryList.add(CategoryModel.fromJson(category)));
         _categorySelectedIndex = 0;
       } else {
         ApiChecker.checkApi( apiResponse);
@@ -103,5 +107,23 @@ class CategoryController extends ChangeNotifier {
     _searchCategoryList=[];
     _searchCategoryList.addAll(categoryList);
   }
+  List<CategoryModel> _brandCategoryList = [];
+  // int? _categorySelectedIndex;
+
+  List<CategoryModel> get brandCategoryList => _brandCategoryList;
+  Future<void> getBrandCategoryList(int id) async {
+    // if (_categoryList.isEmpty) {
+      ApiResponse apiResponse = await categoryServiceInterface!.get(id.toInt());
+      if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+        _brandCategoryList.clear();
+        apiResponse.response!.data.forEach((category) => _brandCategoryList.add(CategoryModel.fromJson(category)));
+        _categorySelectedIndex = 0;
+      } else {
+        ApiChecker.checkApi( apiResponse);
+      }
+      notifyListeners();
+    // }
+  }
+
 
 }

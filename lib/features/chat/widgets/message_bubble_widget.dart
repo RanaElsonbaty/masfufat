@@ -20,6 +20,8 @@ import '../../support/file catch/mp3.dart';
 import '../../support/file catch/mp4.dart';
 import '../../support/file catch/pdf.dart';
 import '../../support/widgets/file_diaglog_widget.dart';
+import '../../support/widgets/file_view.dart';
+import '../../support/widgets/ofline_file_view.dart';
 
 class MessageBubbleWidget extends StatelessWidget {
   final Message message;
@@ -95,6 +97,7 @@ class MessageBubbleWidget extends StatelessWidget {
                     message.id.toString());
                   },
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Container(
                         margin: isMe && isLTR ?  const EdgeInsets.fromLTRB(70, 2, 10, 2) : EdgeInsets.fromLTRB(10, 2, isLTR ? 70 : 10, 2),
@@ -126,7 +129,7 @@ class MessageBubbleWidget extends StatelessWidget {
                             ) : const SizedBox.shrink(),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0,left: 5,right: 5),
+                        padding: const EdgeInsets.only(bottom: 8.0,left: 10,right: 10),
                         child: Text(dateTime,
                             style: GoogleFonts.tajawal(
                               fontSize: Dimensions.fontSizeSmall, )),
@@ -155,7 +158,6 @@ class MessageBubbleWidget extends StatelessWidget {
                   ),
                 ),
 
-
           if(message.attachment.isNotEmpty)
             Padding(
             padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
@@ -172,76 +174,37 @@ class MessageBubbleWidget extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: message.attachment.length,
                   itemBuilder: (BuildContext context, index) {
-                    return  Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: const Radius.circular(16),
-                            bottomLeft: isMe ? const Radius.circular(16) : const Radius.circular(0),
-                            bottomRight: isMe ? const Radius.circular(0) : const Radius.circular(16),
-                            topRight: const Radius.circular(16)),
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      child: Column(
-                        children: [
-                          InkWell(onTap: () {
-                            // if(images.length == 1){
-                            //   showDialog(context: context, builder: (ctx)  =>  ImageDialog(
-                            //       imageUrl: '${images[index].path}'));
-                            // }else{
-                            //   showDialog(context: context, builder: (ctx)  =>  ChattingMultiImageSlider(
-                            //       images: images));
-                            // }
-                          },
-                            child:InkWell(onTap: () {
-                              if( message.attachment[index].endsWith('m4a')||message.attachment[index].endsWith('mp3')){
+                    return  Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topLeft: const Radius.circular(16),
+                              bottomLeft: isMe ? const Radius.circular(16) : const Radius.circular(0),
+                              bottomRight: isMe ? const Radius.circular(0) : const Radius.circular(16),
+                              topRight: const Radius.circular(16)),
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        child: Column(
+                          children: [
 
-                              }else{
-                              showDialog(context: context, builder: (ctx)  =>  FileDialog(
-                                imageUrl: message.attachment[index]));}
-                            },
-                              child: ClipRRect(borderRadius: BorderRadius.circular(5),
-                                  child:message.attachment[index].endsWith('png')||message.attachment[index].endsWith('jpg')?
-                                  CustomImageWidget(height: 150, width:  MediaQuery.of(context).size.width/2, fit: BoxFit.fill,
-                                      image: message.attachment[index]):
-                                  message.attachment[index].endsWith('temp')||message.attachment[index].endsWith('mp4')?
-                                  Mp4Widget(
-                                    file:  File(message.attachment[index]),
-                                    min: false,
-                                    isSend: true,
-                                    height: 150,
-                                    width:  MediaQuery.of(context).size.width/2,)
-                                      : message.attachment[index].endsWith('m4a')||message.attachment[index].endsWith('mp3')?
-                                  WaveBubble(
-                                    appDirectory: Directory(message.attachment[index]),
-                                    width:  MediaQuery.of(context).size.width/2,
-                                    index: index,
-                                    isSender: true,
-                                    ofline: false,
-                                    path: message.attachment[index],
+                            message.attachment.isNotEmpty? message.ofline==true?OflineFileView(replyModel: message.attachment, index: index):
+                            FileView(replyModel: message.attachment, index: index,):const SizedBox.shrink(),
 
-                                  ): message.attachment[index].endsWith('pdf')?
-                                  PdfWidget(file: File( message.attachment[index]),isSend: true,):
-                                  message.attachment[index].endsWith(
-                                      'docx')
-                                      ? DocxAndXlsxFile(
-                                    file: File(message.attachment[index]),
-                                    fileName: message.attachment[index],
-                                    isSend: false,
-                                  )
-                                      : const SizedBox.shrink()),)),
-                          const SizedBox(height: 5,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 8.0,left: 5,right: 5),
-                                child: Text(dateTime,
-                                    style: GoogleFonts.tajawal(
-                                      fontSize: Dimensions.fontSizeSmall, color: Colors.white,)),
-                              ),
-                            ],
-                          ),
-                        ],
+                            const SizedBox(height: 5,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 8.0,left: 5,right: 5),
+                                  child: Text(dateTime,
+                                      style: GoogleFonts.tajawal(
+                                        fontSize: Dimensions.fontSizeSmall, color: Colors.white,)),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     );
 
@@ -259,118 +222,7 @@ class MessageBubbleWidget extends StatelessWidget {
 
 
 
-          if(files.isNotEmpty)Column(
-            crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-            children: [
 
-              files.isNotEmpty ?
-              Directionality(
-                textDirection: isMe  && isLTR?
-                TextDirection.rtl : !isLTR && !isMe?
-                TextDirection.rtl : TextDirection.ltr,
-
-                child: Padding(
-                  padding: EdgeInsets.only(left: isMe && isLTR ? 30 : 0, right: !isMe && isLTR ? 30 : 0),
-                  child: GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: files.length,
-                      padding: files.isNotEmpty ? const EdgeInsets.only(top: Dimensions.paddingSizeSmall) : EdgeInsets.zero,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          mainAxisExtent: 60,
-                          crossAxisCount: 2,
-                          mainAxisSpacing: Dimensions.paddingSizeExtraSmall,
-                          crossAxisSpacing: Dimensions.paddingSizeExtraSmall
-                      ),
-                      itemBuilder: (context, index){
-
-                        return InkWell(
-                          onTap: ()async{
-                            final status = await Permission.notification.request();
-                            if (kDebugMode) {
-                              print("Status is $status");
-                            }
-                            if(status.isGranted){
-                              Directory? directory = Directory('/storage/emulated/0/Download');
-                              if (!await directory.exists()){
-                                directory = Platform.isAndroid
-                                    ? await getExternalStorageDirectory() //FOR ANDROID
-                                    : await getApplicationSupportDirectory();
-                              }
-                              chatProvider.downloadFile(
-                                  files[index].path!, directory!.path,
-                                  "${directory.path}/${files[index].key}", ""
-                                  "${files[index].key}"
-                              );
-                            }else if(status.isDenied){
-                              await openAppSettings();
-                            }
-                          },
-                          onLongPress: () {
-                            // conversationController.toggleOnClickImageAndFile(
-                            //     onImageOrFileTimeShowID : widget.conversationData.id!);
-                          },
-                          child: Container(width: 180, height: 60,
-                              decoration: BoxDecoration(color: Theme.of(context).hintColor.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(Dimensions.radiusDefault),),
-                              child: Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                                  child: Directionality(
-                                    textDirection: TextDirection.ltr,
-                                    child: Row(children: [
-                                      const Image(image: AssetImage(Images.fileIcon),
-                                        height: 30,
-                                        width: 30,
-                                      ),
-                                      const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-
-
-                                      Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.start, children: [
-
-
-                                            Text(files[index].key.toString(),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: textBold.copyWith(fontSize: Dimensions.fontSizeDefault),
-                                            ),
-
-
-                                            Text("${files[index].size}", style: textRegular.copyWith(
-                                                fontSize: Dimensions.fontSizeDefault,
-                                                color: Theme.of(context).hintColor)
-                                            ),
-                                          ]),
-                                      )],
-
-                                    ),
-                                  )
-                              )
-                          ),
-                        );
-                      }
-                  ),
-                ),
-              )
-                  : const SizedBox(),
-
-              // AnimatedContainer(
-              //   curve: Curves.fastOutSlowIn,
-              //   duration: const Duration(milliseconds: 500),
-              //   height: conversationController.onImageOrFileTimeShowID == widget.conversationData.id ? 25.0 : 0.0,
-              //   child: Padding(
-              //     padding: EdgeInsets.only(
-              //       top: conversationController.onImageOrFileTimeShowID == widget.conversationData.id ?
-              //       Dimensions.paddingSizeExtraSmall : 0.0,
-              //     ),
-              //     child: Text(conversationController.getOnPressChatTime(widget.conversationData) ?? "", style: ubuntuRegular.copyWith(
-              //         fontSize: Dimensions.fontSizeSmall
-              //     ),),
-              //   ),
-              // ),
-
-            ],
-          ),
-          const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
         ]);
       }

@@ -21,6 +21,8 @@ import 'dart:async';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../../support/domain/models/support_reply_model.dart';
+
 enum SenderType {
   customer,
   seller,
@@ -260,17 +262,30 @@ bool get loading =>_loading;
 
   Future<ApiResponse> sendMessage(MessageBody messageBody,{int? userType}) async {
     _isLoading = true;
+
+    notifyListeners();
+    List<Attachment> fileList=[];
+    for (var element in pickedImageFileStored) {
+      fileList.add(Attachment(id: 0, ticketId: 0, fileName: element.name, filePath: element.path, fileType: element.name, createdAt: DateTime.now(), updatedAt: DateTime.now(), ticketConvId: 0, fileUrl: element.path));
+    }
+    Message massege =Message(id: 0,
+        userId: messageBody.id!, ofline:true,sellerId: messageBody.id!, adminId: messageBody.id!, deliveryManId: messageBody.id!, message: messageBody.message!, attachment: fileList, sentByCustomer: 1, sentBySeller: 0, sentByAdmin: 0, sentByDeliveryMan: 0, seenByCustomer: 1, seenBySeller: 0, seenByAdmin: 0, seenByDeliveryMan: 0, status: 1, createdAt: DateTime.now(), updatedAt: DateTime.now(), shopId: 0, sellerInfo: null, );
+    messageModel!.message.add(massege);
+    allMessageList.add(massege);
+    dateList.add(DateConverter.dateStringMonthYear(DateTime.now()));
+    messageList.add([]);
+    messageList.last.add(massege);
     notifyListeners();
     ApiResponse response = await chatServiceInterface!.sendMessage(messageBody, userType != null ? userType == 0 ? 'delivery-man' : 'seller' : _userTypeIndex == 0? 'delivery-man' : 'seller', pickedImageFileStored ?? [], objFile ?? []);
 
-    // if (response.response!.statusCode == 200) {
-      getMessageList(Get.context!, messageBody.id, 1, reload: false, userType: userType);
+    if (response.response!.statusCode == 200) {
+    //   getMessageList(Get.context!, messageBody.id, 1, reload: false, userType: userType);
       _pickedImageFiles = [];
       pickedImageFileStored = [];
       _isLoading = false;
-    // } else {
-    //   _isLoading = false;
-    // }
+    } else {
+      _isLoading = false;
+    }
     _pickedImageFiles = [];
     pickedImageFileStored = [];
     objFile = [];
@@ -326,7 +341,7 @@ bool get loading =>_loading;
 
   List <XFile> _pickedImageFiles =[];
   List <XFile>? get pickedImageFile => _pickedImageFiles;
-  List <XFile>?  pickedImageFileStored = [];
+  List <XFile>  pickedImageFileStored = [];
   void pickMultipleImage(bool isRemove,{int? index}) async {
     _pickedFIleCrossMaxLimit = false;
     _pickedFIleCrossMaxLength = false;
@@ -605,8 +620,8 @@ try{
     _musicFile = '';
     _appDirectory = await getApplicationDocumentsDirectory();
     if(Platform.isIOS){
-      _path = "${_appDirectory.path}/recording.m4a";}else{
-      _path = "${_appDirectory.path}/recording.mp3";
+      _path = "${_appDirectory.path}/${DateTime.now()}.m4a";}else{
+      _path = "${_appDirectory.path}/${DateTime.now()}.mp3";
 
     }
     // notifyListeners();
@@ -635,13 +650,12 @@ try{
         _recorderController.reset();
 
         final path = await _recorderController.stop(true);
-
+print('object');
         if (path != null) {
           _isRecordingCompleted = true;
           debugPrint(path);
           debugPrint("Recorded file size: ${File(path).lengthSync()}");
-          pickedImageFileStored!.add(XFile(path));
-          // addPhoto([file], false, false);
+          pickedImageFileStored.add(XFile(path));
 
           notifyListeners();
         }

@@ -284,13 +284,14 @@ class AuthRepository implements AuthRepoInterface{
         'Content-Type': 'application/json',
       };
       var data = json.encode({
-        "identity": "helaltarek1234@gmail.com"
+        "identity": identity
       });
       Response response = await dioClient!.post(AppConstants.baseUrl+AppConstants.forgetPasswordUri, data: data,options: Options(
         headers: headers
       ));
       return ApiResponse.withSuccess(response);
     } catch (e) {
+
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }

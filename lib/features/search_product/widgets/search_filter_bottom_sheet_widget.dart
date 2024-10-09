@@ -117,7 +117,7 @@ class SearchFilterBottomSheetState extends State<SearchFilterBottomSheet> {
                         CustomDirectionalityWidget(
                           child: Text(
                               PriceConverter.convertPrice(
-                                  context, currentRangeValues.end),
+                                  context, double.parse(currentRangeValues.end.toStringAsFixed(2))),
                               style: textBold.copyWith(
                                   fontSize: Dimensions.fontSizeDefault)),
                         ),
@@ -134,7 +134,7 @@ class SearchFilterBottomSheetState extends State<SearchFilterBottomSheet> {
                         child: RangeSlider(
                           values: currentRangeValues,
                           max: AppConstants.maxFilter,
-                          divisions: 1000,
+                          divisions: 500,
                           labels: RangeLabels(
                               currentRangeValues.start.round().toString(),
                               currentRangeValues.end.round().toString()),

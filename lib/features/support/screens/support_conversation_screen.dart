@@ -18,6 +18,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_down_button/pull_down_button.dart';
 
+import '../../../common/pick_photo_Screen.dart';
 import '../../../main.dart';
 import '../../../utill/images.dart';
 import '../../camera/screen/camera_screen.dart';
@@ -40,6 +41,7 @@ class SupportConversationScreen extends StatefulWidget {
 class _SupportConversationScreenState extends State<SupportConversationScreen> {
   final TextEditingController _controller = TextEditingController();
   FocusNode focusNode = FocusNode();
+  Timer? _updateTimer;
 
   @override
   void initState() {
@@ -47,18 +49,23 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
         .initialiseControllers();
     Provider.of<SupportTicketController>(context, listen: false).getDir();
     if (Provider.of<AuthController>(context, listen: false).isLoggedIn()) {
-      Provider.of<SupportTicketController>(context, listen: false)
-          .getSupportTicketReplyList(context, widget.supportTicketModel.id);
+      _updateTimer = Timer.periodic(const Duration(seconds: 20), (_) {
+        Provider.of<SupportTicketController>(context, listen: false)
+            .getSupportTicketReplyList(context, widget.supportTicketModel.id);
+      });
+
     }
     super.initState();
+  }
+  @override
+  void dispose() {
+    _updateTimer?.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    Timer(const Duration(seconds: 5), () {
-      Provider.of<SupportTicketController>(context, listen: false)
-          .getSupportTicketReplyList(context, widget.supportTicketModel.id);
-    });
+
     return Scaffold(
       appBar: CustomAppBar(
         title: widget.supportTicketModel.subject,
@@ -95,7 +102,7 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
             height: 10,
           ),
 
-          support.pickedImageFileStored.isNotEmpty
+          support.isLoading==false&&  support.pickedImageFileStored.isNotEmpty
               ? Container(
                   height: 90,
                   width: MediaQuery.of(context).size.width,
@@ -164,7 +171,8 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
                                                         width: 80,
                                                       )
                                                     : support.pickedImageFileStored[index].path
-                                                            .endsWith('m4a')
+                                                            .endsWith('m4a')|| support.pickedImageFileStored[index].path
+                                        .endsWith('mp3')
                                                         ? WaveBubble(
                                                             appDirectory:
                                                                 Directory(support
@@ -279,7 +287,7 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
                            support.refreshWave();
                            support.startOrStopRecording();
                          }
-                       support.  getMicOn(true);
+                       support.getMicOn(true);
                        support.startTimer();
 
                        },
@@ -289,17 +297,14 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
                           try{
 
                             // _controller.text = '';
-                        await  support.startOrStopRecording().then((value) {
-                          // support.sendReply(widget.supportTicketModel.id,
-                          //     _controller.text);
-                        });
+                        await  support.startOrStopRecording();
                         support.  getMicOn(false);
                         support.stopTimer();
 
 
 
                           }catch(e){
-                            print('asdasdasdasjdasdsadsaD---$e');
+                            print('onLongPressEnd error --- $e');
                           }
 
 
@@ -338,34 +343,19 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
                                                     }
                           },
                           child: Image.asset(Images.chatCamera,width: 25 ,)),
-                      // const SizedBox(width: 5,),
-                      // InkWell(
-                      //     onTap: (){
-                      //       // PopupMenuButton<String>(
-                      //       //   onSelected: (String value) {
-                      //       //     // Handle your action on selection here
-                      //       //     print('Selected: $value');
-                      //       //   },
-                      //       //   itemBuilder: (BuildContext context) {
-                      //       //     return {'Option 1', 'Option 2', 'Option 3'}.map((String choice) {
-                      //       //       return PopupMenuItem<String>(
-                      //       //         value: choice,
-                      //       //         child: Text(choice),
-                      //       //       );
-                      //       //     }).toList();
-                      //       //   },
-                      //       // );
-                      //       support.pickMultipleImage(false);
-                      //     },
-                      //     child: Image.asset(Images.chatFile,width: 25,)),
-                      // const SizedBox(width: 5,),
+
             PullDownButton(
 
             itemBuilder: (context) => [
             PullDownMenuItem(
             title: getTranslated('photo', context)!,
             onTap: () {
-                    support.pickMultipleImage(false);
+              // Navigator.push(context,MaterialPageRoute(builder: (context) => GridGallery(index: 0, onTap: (File file){
+              //   print('object -------> ${file.path}');
+              //   support.pickMultipleImage(false,);
+              //
+              // }, video: false,),));
+              support.pickMultipleImage(false,);
 
             },
             ),
@@ -391,19 +381,24 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
             ),
 
 
-                    support.isLoading==false?  InkWell(
+                    // support.isLoading==false?
+                    InkWell(
                           onTap: ()async{
                             if (_controller.text.isEmpty &&_controller.text=='') {
                                               } else {
-                                           await     support.sendReply(widget.supportTicketModel.id,
+                                                support.sendReply(widget.supportTicketModel.id,
                                                     _controller.text);
-                                                _controller.text = '';
+                                         setState(() {
+                                           _controller.text = '';
                                            _controller.clear();
+                                         });
                                               }
+
                           },
-                          child: Image.asset(Images.chatSend,width: 25,)): CircularProgressIndicator(
-                      color: Theme.of(context).primaryColor,
-                    ),
+                          child: Image.asset(Images.chatSend,width: 25,)),
+                        // : CircularProgressIndicator(
+                      // color: Theme.of(context).primaryColor,
+                    // ),
                       const SizedBox(width: 10,),
 
                     ],
@@ -412,221 +407,6 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
               ],
             ),
           )
-          // SizedBox(
-          //   height: 70,
-          //   child: Card(
-          //     color: Theme.of(context).highlightColor,
-          //     shadowColor: Colors.grey[200],
-          //     elevation: 2,
-          //     margin: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-          //     shape: RoundedRectangleBorder(
-          //         borderRadius: BorderRadius.circular(50)),
-          //     child: Padding(
-          //       padding: const EdgeInsets.symmetric(
-          //           horizontal: Dimensions.paddingSizeSmall),
-          //       child: Row(children: [
-          //         support.isRecording == false
-          //             ? Expanded(
-          //                 child: TextField(
-          //                     controller: _controller,
-          //                     focusNode: focusNode,
-          //                     style: textRegular.copyWith(
-          //                         fontSize: Dimensions.fontSizeDefault),
-          //                     keyboardType: TextInputType.multiline,
-          //                     minLines: 1,
-          //
-          //                     maxLines: 1,
-          //                     decoration: InputDecoration(
-          //                         alignLabelWithHint: true,
-          //                         hintText: 'Type here...',
-          //
-          //                         hintStyle: titilliumRegular.copyWith(
-          //                             color: ColorResources.hintTextColor),
-          //                         border: InputBorder.none,
-          //                         // suffixIcon:
-          //                     )
-          //                 ))
-          //             : Expanded(
-          //               child: AudioWaveforms(
-          //                   enableGesture: true,
-          //                   size:
-          //                       Size(MediaQuery.of(context).size.width / 1.9, 45),
-          //                   // backgroundColor: Theme.of(context).primaryColor,
-          //                   recorderController: support.recorderController,
-          //                   waveStyle: const WaveStyle(
-          //                     waveColor: Colors.white,
-          //                     extendWaveform: true,
-          //                     showMiddleLine: false,
-          //                   ),
-          //                   decoration: BoxDecoration(
-          //                     borderRadius: BorderRadius.circular(30.0),
-          //                     color: Theme.of(context).primaryColor,
-          //                   ),
-          //                   padding: const EdgeInsets.only(left: 18),
-          //                   margin: const EdgeInsets.symmetric(horizontal: 15),
-          //                 ),
-          //             ),
-          //         if (focusNode.hasFocus) InkWell(
-          //                 onTap: () {
-          //                   if (_controller.text.isEmpty &&
-          //                       support.pickedImageFileStored.isEmpty) {
-          //                   } else {
-          //                     support.sendReply(widget.supportTicketModel.id,
-          //                         _controller.text);
-          //                     _controller.text = '';
-          //                   }
-          //                 },
-          //                 child: support.isLoading
-          //                     ? const CircularProgressIndicator()
-          //                     : Icon(Icons.send,
-          //                         color: Theme.of(context).primaryColor,
-          //                         size: Dimensions.iconSizeDefault),
-          //               ) else
-          //                 Row(
-          //                 children: [
-          //                   InkWell(
-          //                       onTap: () =>
-          //                           support.pickMultipleImage(false),
-          //                       child: Image.asset(
-          //                         Images.attachment,
-          //                         color:
-          //                         Colors.grey,
-          //                         width: 30,
-          //                       )),
-          //                   InkWell(
-          //                       onTap: () =>
-          //                           support.pickMultipleMedia(false),
-          //                       child: const Padding(
-          //                           padding: EdgeInsets.all(8.0),
-          //                           child: Icon(
-          //                             Icons.file_copy_outlined,
-          //                             size: 30,
-          //                             color:
-          //                             Colors.grey,
-          //
-          //                           ))),
-          //                   InkWell(
-          //                       onTap: () async {
-          //                         bool permission =
-          //                             await _askingPermission(true);
-          //                         if (permission==true) {
-          //                           final cameras = await availableCameras();
-          //                           final firstCamera = cameras.first;
-          //                           Navigator.push(Get.context!,
-          //                               MaterialPageRoute(
-          //                             builder: (context) {
-          //                               return CameraScreen(
-          //                                 camera: firstCamera,
-          //                               );
-          //                             },
-          //                           ));
-          //                         } else {
-          //
-          //                         }
-          //                       },
-          //                       child: const Icon(
-          //                         Icons.camera_alt_outlined,
-          //                         color: Colors.grey,
-          //                         size: 25,
-          //                       )),
-          //                   const SizedBox(
-          //                     width: 5,
-          //                   ),
-          //                   GestureDetector(
-          //                       onLongPress: () async {
-          //                         bool permission =
-          //                             await _askingPermission(false);
-          //                         if (permission == true) {
-          //                           support.refreshWave();
-          //                           support.startOrStopRecording();
-          //                         }
-          //                       },
-          //                       onLongPressEnd: (_) async {
-          //                         support.startOrStopRecording();
-          //                       },
-          //                       child: Icon(
-          //                         support.isRecording ? Icons.stop : Icons.mic,
-          //                         color: Colors.grey,
-          //                         size: 25,
-          //                       )),
-          //                 ],
-          //               ),
-          //       ]),
-          //     ),
-          //   ),
-          // ),
-          // focusNode.hasFocus? Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          //   child: Row(mainAxisAlignment: MainAxisAlignment.start,
-          //     children: [
-          //       InkWell(
-          //           onTap: () =>
-          //               support.pickMultipleImage(false),
-          //           child: Image.asset(
-          //             Images.attachment,
-          //             color:
-          //             Colors.grey,
-          //             width: 30,
-          //           )),
-          //       InkWell(
-          //           onTap: () =>
-          //               support.pickMultipleMedia(false),
-          //           child: const Padding(
-          //               padding: EdgeInsets.all(8.0),
-          //               child: Icon(
-          //                 Icons.file_copy_outlined,
-          //                 size: 30,
-          //                 color:
-          //                 Colors.grey,
-          //
-          //               ))),
-          //       InkWell(
-          //           onTap: () async {
-          //             bool permission =
-          //             await _askingPermission(true);
-          //             if (permission==true) {
-          //               final cameras = await availableCameras();
-          //               final firstCamera = cameras.first;
-          //               Navigator.push(Get.context!,
-          //                   MaterialPageRoute(
-          //                     builder: (context) {
-          //                       return CameraScreen(
-          //                         camera: firstCamera,
-          //                       );
-          //                     },
-          //                   ));
-          //             } else {
-          //
-          //             }
-          //           },
-          //           child: const Icon(
-          //             Icons.camera_alt_outlined,
-          //             color: Colors.grey,
-          //             size: 25,
-          //           )),
-          //       const SizedBox(
-          //         width: 5,
-          //       ),
-          //       GestureDetector(
-          //           onLongPress: () async {
-          //             bool permission =
-          //             await _askingPermission(false);
-          //             if (permission == true) {
-          //               support.refreshWave();
-          //               support.startOrStopRecording();
-          //             }
-          //           },
-          //           onLongPressEnd: (_) async {
-          //             support.startOrStopRecording();
-          //           },
-          //           child: Icon(
-          //             support.isRecording ? Icons.stop : Icons.mic,
-          //             color: Colors.grey,
-          //             size: 25,
-          //           )),
-          //     ],
-          //   ),
-          // ):const SizedBox(),
         ]);
       }),
     );

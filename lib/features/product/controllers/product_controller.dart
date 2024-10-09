@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
 import 'package:flutter_sixvalley_ecommerce/features/category/domain/models/find_what_you_need.dart';
+import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/home_category_product_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/most_demanded_product_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
@@ -9,6 +12,8 @@ import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/enums/product_type.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
+import 'package:open_document/my_files/init.dart';
+import 'package:provider/provider.dart';
 
 class ProductController extends ChangeNotifier {
   final ProductServiceInterface? productServiceInterface;
@@ -199,14 +204,18 @@ int selectedProductTypeIndex = 0;
 
    List<Product> _brandOrCategoryProductList = [];
   bool? _hasData;
-
+  int _productCount=0;
+  int get productCount=>_productCount;
   List<Product> get brandOrCategoryProductList => _brandOrCategoryProductList;
   bool? get hasData => _hasData;
-  Future<List<Product>> initBrandOrCategoryProductList(bool isBrand, String id, BuildContext context,int offset,bool reloud,String search,String syncFilter,String filter,String price) async {
+  Future<List<Product>> initBrandOrCategoryProductList(bool isBrand,int brandId, String id, BuildContext context,int offset,bool reloud,String search,String syncFilter,String filter,String price,bool onlyBrand) async {
       _brandOrCategoryProductList =[];
-
-    ApiResponse apiResponse = await productServiceInterface!.getBrandOrCategoryProductList(isBrand, id,offset,reloud,search,syncFilter,filter,price);
+      // _productCount=0;
+    ApiResponse apiResponse = await productServiceInterface!.getBrandOrCategoryProductList(isBrand,brandId, id,offset,reloud,search,syncFilter,filter,price, onlyBrand);
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+     try{
+       _productCount =apiResponse.response!.data['count'];
+     }catch(E){}
       apiResponse.response!.data['products']['data'].forEach((product) => _brandOrCategoryProductList.add(Product.fromJson(product)));
       return _brandOrCategoryProductList;
     } else {
@@ -434,8 +443,49 @@ try{
 
   }
 
+List<int> productSelect=[];
+ Future selectProduct(int ids,bool remove)async{
+     if(productSelect.contains(ids)){
+       if(remove){
+         productSelect.remove(ids);
+       }
+     }else{
+       productSelect.add(ids);
+     }
+   notifyListeners();
+ }
+ Future clearSelectProduct()async{
+   productSelect=[];
+   notifyListeners();
+ }
+  double value=0;
 
+  double calculatePercentage(int index,int len) {
+    double percentage =(index / len);
 
+    return double.parse(percentage.toStringAsFixed(2));
+  }
+Future addProductToSync()async{
+  MyShopController myShop=Provider.of<MyShopController>(Get.context!,listen: false);
+  for (int i=0;i<productSelect.length;i++) {
+    await myShop.addProduct(productSelect[i]).then((val) {
+      print('sdklfglsadfhaskdfgasjdfasjhdfjhgdgfjhsdjfgakjshdf----$val');
+      if(i!=0){
+        value= calculatePercentage(i,productSelect.length);
+        notifyListeners();
+
+      }
+    });
+
+  }
+}
+void clear()async{
+await Provider.of<MyShopController>(Get.context!,listen: false).getList();
+  value=0;
+productSelect=[];
+
+  notifyListeners();
+}
 
 }
 

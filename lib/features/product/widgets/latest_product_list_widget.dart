@@ -9,6 +9,8 @@ import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/title_row_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../screens/brand_and_category_product_screen.dart';
+
 
 
 class LatestProductListWidget extends StatelessWidget {
@@ -25,7 +27,7 @@ class LatestProductListWidget extends StatelessWidget {
         return (prodProvider.latestProductList?.isNotEmpty ?? false)  ? Column( children: [
           TitleRowWidget(
             title: getTranslated('latest_products', context),
-            onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_) => AllProductScreen(productType: ProductType.latestProduct))),
+            onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_) => BrandAndCategoryProductScreen(isBrand: false, id: '0', name: getTranslated('latest_products', context), index: 0,))),
           ),
 
           const SizedBox(height: Dimensions.paddingSizeSmall),

@@ -77,7 +77,7 @@ class _WepViewState extends State<WepView> {
         'Access-token': md5Convert,
       }).catchError((error) {
         print('catch error web view ---> $error ');
-      }).then((value) {});
+      });
     // profileProvider!.getInitWebView(false,true);
 
     print('user info after convert ---> $md5Convert');

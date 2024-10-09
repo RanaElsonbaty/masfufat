@@ -153,7 +153,7 @@ class _SupportTicketScreenState extends State<SupportTicketScreen> {
                       shrinkWrap: true,
                       padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                       itemCount: support.searchSupportTicket!.length,
-                      itemBuilder: (context, index) => SupportTicketWidget(supportTicketModel: support.searchSupportTicket![index]))
+                      itemBuilder: (context, index) => SupportTicketWidget(supportTicketModel: support.searchSupportTicket!.reversed.toList()[index]))
                         : const NoInternetOrDataScreenWidget(isNoInternet: false, icon: Images.noTicket,
                       message: 'no_ticket_created',) : const SupportTicketShimmer(),
                   ],

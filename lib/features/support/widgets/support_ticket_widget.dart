@@ -10,6 +10,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../../common/commo.dart';
+
 class SupportTicketWidget extends StatefulWidget {
   final SupportTicketModel supportTicketModel;
    const SupportTicketWidget({super.key, required this.supportTicketModel});
@@ -55,8 +57,11 @@ class _SupportTicketWidgetState extends State<SupportTicketWidget> {
               foregroundColor: Theme.of(context).colorScheme.error.withOpacity(.75),
               icon: CupertinoIcons.clear,
               label: getTranslated('close', context))]),
-        child: InkWell(onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => SupportConversationScreen(
-            supportTicketModel: widget.supportTicketModel,))),
+        child: InkWell(onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) =>
+            SupportConversationScreen(
+            supportTicketModel: widget.supportTicketModel,)
+        // TestChat(supportTicketModel: widget.supportTicketModel,)
+        )),
           child: Container(padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: Theme.of(context).primaryColor.withOpacity(.25), width: .5)),

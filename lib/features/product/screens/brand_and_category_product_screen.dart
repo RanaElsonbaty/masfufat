@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/controllers/product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
@@ -20,6 +21,7 @@ import '../../category/controllers/category_controller.dart';
 import '../../category/domain/models/category_model.dart';
 import '../../search_product/controllers/search_product_controller.dart';
 import '../../search_product/widgets/search_filter_bottom_sheet_widget.dart';
+import '../widgets/bottom_Navigation_Bar_select_product.dart';
 
 class BrandAndCategoryProductScreen extends StatefulWidget {
   final bool isBrand;
@@ -36,17 +38,19 @@ class BrandAndCategoryProductScreen extends StatefulWidget {
 class _BrandAndCategoryProductScreenState extends State<BrandAndCategoryProductScreen> {
   ScrollController scrollController =ScrollController();
   static const _pageSize = 25;
-  final PagingController pagingController =
-  PagingController(firstPageKey: 1);
+  final PagingController<int,Product> pagingController =
+  PagingController<int,Product>(firstPageKey: 1);
   int _page=1;
   int get page =>_page;
   Future<void> fetchPage(int pageKey,bool isBrand ,String id,BuildContext context,bool reloud) async {
     try {
+      print('asdasasda${widget.id}');
       final List<Product>  newItems = await Provider.of<ProductController>(context, listen: false).initBrandOrCategoryProductList(
-          isBrand,id,context,pageKey,true
+          isBrand,int.parse(id),isBrand?'1':id,context,pageKey,true
       ,searchController.text,Provider.of<SearchProductController>(context, listen: false).syncSortText,
           Provider.of<SearchProductController>(context, listen: false).sortText,
           '&from_price=${ Provider.of<SearchProductController>(context, listen: false).minFilterValue.toString()}&to_price=${Provider.of<SearchProductController>(context, listen: false).maxFilterValue.toString()}'
+          , true
       //       sort: Provider.of<SearchProductController>(context, listen: false).sortText,
         //         syncFilter:Provider.of<SearchProductController>(context, listen: false).syncSortText
       );
@@ -131,63 +135,69 @@ setState(() {
                   child: SizedBox(
                     height: 55,
 
-                    child: Hero(
-                      tag: 'search',
-                      child: Material(child: TextFormField(
-                        controller: searchController,
-                        // focusNode: searchProvider.searchFocusNode,
-                        textInputAction: TextInputAction.search,
-                        onChanged: (val){
-                          // if(val.isNotEmpty){
-pagingController.refresh();
-_page=1;
-                          // }
-                        },
-                        onFieldSubmitted: (value) {
-                        },
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 11,
+                          child: Material(child: TextFormField(
+                            controller: searchController,
+                            // focusNode: searchProvider.searchFocusNode,
+                            textInputAction: TextInputAction.search,
+                            onChanged: (val){
+                              // if(val.isNotEmpty){
+                                                  pagingController.refresh();
+                                                  _page=1;
+                              // }
+                            },
+                            onFieldSubmitted: (value) {
+                            },
 
-                        style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
-                        decoration: InputDecoration(
-                            isDense: true,
-                            contentPadding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                                borderSide: BorderSide(color: Colors.grey[300]!)),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                                borderSide: BorderSide(color: Colors.grey[300]!)),
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                                borderSide: BorderSide(color: Colors.grey[300]!)),
-                            hintText: getTranslated('search_product', context),
-                            suffixIcon: SizedBox(width:   focusNode.hasFocus?50: 110,
-                              child: focusNode.hasFocus?const SizedBox.shrink():  Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    InkWell(onTap: () {
-                                      showModalBottomSheet(context: context,
-                                        isScrollControlled: true, backgroundColor: Colors.transparent,
-                                        builder: (c) =>  SearchFilterBottomSheet( pagingController: pagingController,));
-                                      _page=1;
+                            style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
+                            decoration: InputDecoration(
+                                isDense: false,
+                                contentPadding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
+                                    borderSide: BorderSide(color: Colors.grey[300]!)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
+                                    borderSide: BorderSide(color: Colors.grey[300]!)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
+                                    borderSide: BorderSide(color: Colors.grey[300]!)),
+                                hintText: getTranslated('search_product', context),
+                                // suffixIcon:
+                            ),
+                          ),
 
-                                    },
-                                        child: Stack(children: [
-                                          Container(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall,
-                                              horizontal: Dimensions.paddingSizeExtraSmall),
-
-                                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
-                                                color: Theme.of(context).primaryColor,
-                                                border: Border.all(color: Theme.of(context).hintColor.withOpacity(.25))),
-                                            child:  SizedBox(width: 25,height: 24,child: Image.asset(Images.filterIcon)),),])),
-                                  ],
-                                ),
-                              ),
-                            )
+                          ),
                         ),
-                      ),
-                      ),
+                        SizedBox(width:    60,
+                          child: focusNode.hasFocus?const SizedBox.shrink():  Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                InkWell(onTap: () {
+                                  showModalBottomSheet(context: context,
+                                      isScrollControlled: true, backgroundColor: Colors.transparent,
+                                      builder: (c) =>  SearchFilterBottomSheet( pagingController: pagingController,));
+                                  _page=1;
+
+                                },
+                                    child: Stack(children: [
+                                      Container(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall,
+                                          horizontal: Dimensions.paddingSizeExtraSmall),
+
+                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
+                                            color: Theme.of(context).primaryColor,
+                                            border: Border.all(color: Theme.of(context).hintColor.withOpacity(.25))),
+                                        child:  SizedBox(width: 28,height: 28,child: Image.asset(Images.filterIcon)),),])),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),
@@ -281,10 +291,10 @@ _page=1;
                                   },
                                 ),
                     ),
-                  ):const SizedBox( ),
+                  ):const SizedBox.square(),
            ):const SizedBox.shrink(),
                 Expanded(
-                  child: PagedGridView(
+                  child: PagedGridView<int,Product>(
                     shrinkWrap: true,
                     padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                                 physics: const BouncingScrollPhysics(),
@@ -316,7 +326,7 @@ _page=1;
                           message: 'no_product_found',);
                       },
                       itemBuilder: (context, item, index) {
-                   return ProductWidget(productModel: item as Product);
+                   return ProductWidget(productModel: item,selectActive: true,);
                   
                     },),
                   
@@ -327,6 +337,11 @@ _page=1;
           );
         },
       ),
+        bottomNavigationBar:pagingController.itemList!=null?Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 3),
+          child: SelectProductWidget(products: pagingController.itemList! ,),
+        ):const SizedBox.shrink()
+
     );
   }
 }

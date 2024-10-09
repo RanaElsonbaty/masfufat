@@ -120,7 +120,7 @@ class BannerController extends ChangeNotifier {
     }else if(type == 'product'){
       if(product != null) {
         Navigator.push(context, MaterialPageRoute(builder: (_) => ProductDetails(
-          productId: product.id,slug: product.slug)));
+          productId: product.id,slug: product.slug, product: product,)));
       }
 
     }else if(type == 'brand'){

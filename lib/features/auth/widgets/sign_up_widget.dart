@@ -56,7 +56,11 @@ class SignUpWidgetState extends State<SignUpWidget> {
                         inputType: TextInputType.name,
                         required: true,
                         showLabelText: false,
+                          onChanged: (val){
+                            setState(() {
 
+                            });
+                          },
                         focusNode: authProvider.fNameFocus,
                         nextFocus: authProvider.lNameFocus,
                         titleText: getTranslated('Company_Institution_Name', context),
@@ -75,6 +79,11 @@ class SignUpWidgetState extends State<SignUpWidget> {
                         nextFocus: authProvider.emailFocus,
                         showLabelText: false,
                         required: true,
+                        onChanged: (val){
+                          setState(() {
+
+                          });
+                        },
                         capitalization: TextCapitalization.words,
                         controller: authProvider.licenseHolderName,
                         validator: (value)  => ValidateCheck.validateEmptyText(value,'Enter_the_owner_full_name' ))),
@@ -116,6 +125,7 @@ titleText: getTranslated('email', context),
                           nextFocus: authProvider.passwordFocus,
                           required: true,
                             lTf: true,
+
 
                           showCodePicker: true,
 
@@ -195,13 +205,18 @@ titleText: getTranslated('email', context),
                         isLoading: authProvider.isLoading,
 
                         onTap:
-                        authProvider.companyName.text!=''&&authProvider.licenseHolderName.text!=''&&
+                        authProvider.companyName.text!=''
+                            // &&authProvider.licenseHolderName.text!=''
+                            &&
                             authProvider.emailController.text!=''&&authProvider.phoneController.text!=''
                             &&authProvider.passwordController.text!='' &&authProvider.passwordController.text.length>=8&&authProvider.passwordController.text.trim()==authProvider.confirmPasswordController.text.trim()
                        && ValidateCheck.validateEmail(authProvider.emailController.text) == null&&ValidateCheck.validateConfirmPassword(authProvider.confirmPasswordController.text, authProvider.passwordController.text.trim())==null&&ValidateCheck.validatePhoneNumber(authProvider.phoneController.text, "phone_must_be_required")==null?  (){
                           if(
 
-                          authProvider.companyName.text!=''&&authProvider.licenseHolderName.text!=''&&
+                          authProvider.companyName.text!=''
+
+                              // &&authProvider.licenseHolderName.text!=''
+                              &&
                               authProvider.emailController.text!=''&&authProvider.phoneController.text!=''
                              &&authProvider.passwordController.text!='' &&authProvider.passwordController.text.length>=8&&authProvider.passwordController.text.trim()==authProvider.confirmPasswordController.text.trim()){
                             if(ValidateCheck.validateEmail(authProvider.emailController.text) == null&&ValidateCheck.validateConfirmPassword(authProvider.confirmPasswordController.text, authProvider.passwordController.text.trim())==null&&ValidateCheck.validatePhoneNumber(authProvider.phoneController.text, "phone_must_be_required")==null){

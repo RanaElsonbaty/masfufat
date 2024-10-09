@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -43,11 +45,11 @@ class _WaveBubbleState extends State<WaveBubble> {
   final playerWaveStyle = const PlayerWaveStyle(
     fixedWaveColor: Colors.white54,
     liveWaveColor: Colors.white,
-    spacing: 6,
+    spacing: 5,
+
   );
   Future<String?> downloadFile(
       {String? filePath, String? url, String? token}) async {
-    // CancelToken cancelToken = CancelToken();
     String countryCode = '';
     Dio dio = Dio();
     dio
@@ -83,7 +85,6 @@ class _WaveBubbleState extends State<WaveBubble> {
   Future getDownloadFile() async {
     String url = widget.path!;
     final name = await OpenDocument.getNameFile(url: url);
-
     final path = await OpenDocument.getPathDocument();
 
     setState(() {
@@ -104,7 +105,6 @@ class _WaveBubbleState extends State<WaveBubble> {
   String formattedDuration='';
   @override
   void initState() {
-    // print('file appDirectory --------> ${widget.appDirectory.path.split('/').last.split('/').last.split('/')}');
     super.initState();
     controller.addListener(()async {
      await controller.onCompletion.first.then((value) async{
@@ -114,7 +114,6 @@ class _WaveBubbleState extends State<WaveBubble> {
      });
     });
     if (widget.isSender == true) {
-      // print('asdasdasdasd${widget.isSender}');
       getDownloadFile().then((value) {
         _preparePlayer();
 
@@ -177,10 +176,9 @@ class _WaveBubbleState extends State<WaveBubble> {
 
   @override
   Widget build(BuildContext context) {
-
-    return Container(
-      // width: 200,
-      height: 50,
+print(widget.path);
+    return
+      Container(
       margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(0),
@@ -293,6 +291,7 @@ class _WaveBubbleState extends State<WaveBubble> {
             playerController: controller,
             margin: const EdgeInsets.only(right: 10),
             waveformType: WaveformType.fitWidth,
+
 
             backgroundColor: Colors.black,
             // decoration: BoxDecoration(

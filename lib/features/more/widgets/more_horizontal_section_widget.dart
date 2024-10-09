@@ -39,7 +39,7 @@ class MoreHorizontalSection extends StatelessWidget {
                      //  SquareButtonWidget(image: Images.offerIcon, title: getTranslated('offers', context),
                      //    navigateTo: const OfferProductListScreen(),count: 0,hasCount: false,),
 
-                      if(!isGuestMode && Provider.of<SplashController>(context,listen: false).configModel!.walletStatus == 1)
+                      if(!isGuestMode && Provider.of<SplashController>(context,listen: false).configModel!=null&&Provider.of<SplashController>(context,listen: false).configModel!.walletStatus == 1)
                         // SquareButtonWidget(image: Images.walletIcon, title: getTranslated('wallet', context),
                         //     navigateTo: const WalletScreen(),count: 1,hasCount: false,
                         //     subTitle: getTranslated('wallet', context), isWallet: true, balance: profileProvider.balance),
@@ -63,7 +63,7 @@ class MoreHorizontalSection extends StatelessWidget {
                               ));}),
 
 
-                    if(!isGuestMode && Provider.of<SplashController>(context,listen: false).configModel!.loyaltyPointStatus == 1)
+                    if(!isGuestMode && Provider.of<SplashController>(context,listen: false).configModel!=null&& Provider.of<SplashController>(context,listen: false).configModel!.loyaltyPointStatus == 1)
                         SquareButtonWidget(image: Images.loyaltyPoint, title: getTranslated('loyalty_point', context),
                           navigateTo: const LoyaltyPointScreen(),count: 1,hasCount: false,isWallet: true,subTitle: 'point',
                           balance: profileProvider.loyaltyPoint, isLoyalty: true),

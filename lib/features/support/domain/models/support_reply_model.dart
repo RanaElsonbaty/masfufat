@@ -20,8 +20,9 @@ class SupportReplyModel {
   final DateTime updatedAt;
   final List<Attachment> ticketAttachments;
   final List<Attachment> attachments;
+  final bool ofline;
 
-  SupportReplyModel({
+  SupportReplyModel( {
     required this.id,
     required this.supportTicketId,
     required this.adminId,
@@ -33,6 +34,7 @@ class SupportReplyModel {
     required this.updatedAt,
     required this.ticketAttachments,
     required this.attachments,
+     this.ofline=false,
   });
 
   factory SupportReplyModel.fromJson(Map<String, dynamic> json) => SupportReplyModel(
@@ -47,6 +49,7 @@ class SupportReplyModel {
     updatedAt: DateTime.parse(json["updated_at"]),
     ticketAttachments: List<Attachment>.from(json["ticket_attachments"].map((x) => Attachment.fromJson(x))),
     attachments: List<Attachment>.from(json["attachments"].map((x) => Attachment.fromJson(x))),
+    ofline:  false,
   );
 
   Map<String, dynamic> toJson() => {
@@ -88,15 +91,15 @@ class Attachment {
   });
 
   factory Attachment.fromJson(Map<String, dynamic> json) => Attachment(
-    id: json["id"],
+    id: json["id"]??0,
     ticketId: json["ticket_id"]??0,
     fileName: json["file_name"],
-    filePath: json["file_path"],
-    fileType: json["file_type"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
+    filePath: json["file_path"]??'',
+    fileType: json["file_type"]??'',
+    createdAt:json["created_at"]!=null? DateTime.parse(json["created_at"]):DateTime.now(),
+    updatedAt:json["updated_at"]!=null? DateTime.parse(json["updated_at"]):DateTime.now(),
     ticketConvId: json["ticket_conv_id"]??0,
-    fileUrl: json["file_url"],
+    fileUrl: json["file_url"]??'',
   );
 
   Map<String, dynamic> toJson() => {

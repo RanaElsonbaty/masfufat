@@ -67,7 +67,7 @@ class _ProductSyncOrderState extends State<ProductSyncOrder> {
               if (widget.products.isNotEmpty) {
                 return InkWell(
                 onTap: () {
-                  Navigator.push(context,MaterialPageRoute(builder: (context) => ProductDetails(productId: widget.products[index].id, slug: widget.products[index].slug),));
+                  Navigator.push(context,MaterialPageRoute(builder: (context) => ProductDetails(productId: widget.products[index].id, slug: widget.products[index].slug, ),));
 
                 },
                 child: Padding(

@@ -266,7 +266,7 @@ void getLoading(bool val){
       _billingAddressIndex = null;
       sameAsBilling = false;
       _isLoading = false;
-      Navigator.pushReplacement(Get.context!, MaterialPageRoute(builder: (_) => DigitalPaymentScreen(url: apiResponse.response?.data['redirect_link'])));
+      // Navigator.pushReplacement(Get.context!, MaterialPageRoute(builder: (_) => DigitalPaymentScreen(url: apiResponse.response?.data['redirect_link'])));
 
     } else if(apiResponse.error == 'Already registered '){
       _isLoading = false;

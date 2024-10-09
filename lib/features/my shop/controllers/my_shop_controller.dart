@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/domain/services/my_shop_service_interface.dart';
@@ -8,8 +9,32 @@ class MyShopController extends ChangeNotifier {
   final MyShopServiceInterface myShopServiceInterface;
   MyShopController({required this.myShopServiceInterface});
 
+  bool _switch1=false;
+  bool _switch2=false;
+  bool _switch3=false;
+  bool get switch1=>_switch1;
+  bool get switch2=>_switch2;
+  bool  get switch3=>_switch3;
+  TextEditingController taxController=TextEditingController(text: '20');
+  void getSwitchState(int index,bool val){
+    if(index==0){
+      _switch1=val;
+    }else if(index==1){
+      _switch2=val;
+
+    }else if(index==2){
+      _switch3=val;
+
+    }
+    notifyListeners();
+  }
+
+
+
+
   int _selectIndex=0;
   int get selectIndex=>_selectIndex;
+
   void selectType(int val)async{
     clearSearch();
     selectIds=[];
@@ -41,25 +66,34 @@ class MyShopController extends ChangeNotifier {
     _linkedList=[];
     _isLoading=true;
     ApiResponse response= await myShopServiceInterface.getList();
+    _pendingList=[];
+    _deleteList=[];
+    _linkedList=[];
+    _isLoading=true;
   if(response.response!=null&&response.response!.statusCode==200){
-    if( response.response!.data['pending']!=null) {
-      response.response!.data['pending'].forEach((pending) {
-        _pendingList.add(Deleted.fromJson(pending));
-      });
-    }
-    notifyListeners();
-    if( response.response!.data['linked']!=null) {
-      response.response!.data['linked'].forEach((linked) {
-        _linkedList.add(Linked.fromJson(linked));
-      });
-    }
-    notifyListeners();
+ // try{
+   if( response.response!.data['pending']!=null) {
+     response.response!.data['pending'].forEach((pending) {
+       _pendingList.add(Deleted.fromJson(pending));
+     });
+   }
+   notifyListeners();
+   if( response.response!.data['linked']!=null) {
+     response.response!.data['linked'].forEach((linked) {
+       _linkedList.add(Linked.fromJson(linked));
+     });
+   }
+   notifyListeners();
 
-    if( response.response!.data['deleted']!=null){
-    response.response!.data['deleted'].forEach((delete){
-      _deleteList.add(Linked.fromJson(delete));
-    });
-    }
+   if( response.response!.data['deleted']!=null){
+     response.response!.data['deleted'].forEach((delete){
+       _deleteList.add(Linked.fromJson(delete));
+     });
+   }
+   await initController();
+ // }catch(e){
+ //   print('getList shop list error ---> $e');
+ // }
     _isLoading=false;
 
     notifyListeners();
@@ -143,7 +177,7 @@ notifyListeners();
     }
   }
 
-  Future addProduct(int id)async{
+  Future<bool> addProduct(int id)async{
     ApiResponse response =await myShopServiceInterface.addProduct(id);
     if(response.response!=null&&response.response!.statusCode==200){
       if(response.response!.data.toString()!='1'){
@@ -202,22 +236,26 @@ notifyListeners();
     notifyListeners();
   }
 
-  void initController(){
+  Future initController() async {
+    _isLoading=true;
+     notifyListeners();
     controller=List.filled(_pendingList.length, TextEditingController());
     for (int i=0;i<_pendingList.length;i++) {
       controller[i]=TextEditingController(text: _pendingList[i].pricings.suggestedPrice.toString());
     }
+    _isLoading=false;
+    notifyListeners();
   }
 
   Future addProductPrice(int id,String price)async{
-    print("asdasdasdasdasdsadds---> $id ///// $price");
     ApiResponse response =await myShopServiceInterface.addPriceToProduct(id,price);
     if(response.response!=null&&response.response!.statusCode==200){
       return true;
     }else{
       return false;
     }
-  } Future syncProduct()async{
+  }
+  Future syncProduct()async{
     ApiResponse response =await myShopServiceInterface.syncProduct();
     if(response.response!=null&&response.response!.statusCode==200){
       print('sync product res ---> ${response.response!.data}');

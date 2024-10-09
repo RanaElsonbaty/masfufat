@@ -288,9 +288,11 @@ class _FashionThemeHomePageState extends State<FashionThemeHomePage> {
                 Consumer<ProductController>(
                     builder: (context, demandProvider, _) {
                       return demandProvider.mostDemandedProductModel != null?
-                      InkWell(onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=>
-                          ProductDetails(productId: demandProvider.mostDemandedProductModel?.productId,
-                              slug: demandProvider.mostDemandedProductModel?.slug))),
+                      InkWell(onTap: () {
+                        // Navigator.push(context, MaterialPageRoute(builder: (_)=>
+                        //   ProductDetails(productId: demandProvider.mostDemandedProductModel?.productId,
+                        //       slug: demandProvider.mostDemandedProductModel?.slug, product: null,)));
+                      },
                           child: Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                               child: Column(children: [
                                 Text(getTranslated('most_demanded_product', context)!,

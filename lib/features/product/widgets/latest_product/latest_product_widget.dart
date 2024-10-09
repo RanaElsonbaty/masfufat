@@ -23,7 +23,7 @@ class LatestProductWidget extends StatelessWidget {
     return InkWell(onTap: () {
       Navigator.push(context, PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 1000),
-        pageBuilder: (context, anim1, anim2) => ProductDetails(productId: productModel.id,slug: productModel.slug),
+        pageBuilder: (context, anim1, anim2) => ProductDetails(productId: productModel.id,slug: productModel.slug, product: productModel,),
       ));},
       child: Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
         child: Container(clipBehavior: Clip.none,
@@ -117,7 +117,7 @@ class LatestProductWidget extends StatelessWidget {
             Positioned(top: 10, right: 10, child: FavouriteButtonWidget(
 
               backgroundColor: ColorResources.getImageBg(context),
-              productId: productModel.id)),
+              productId: productModel.id, product: productModel,)),
 
           ]),
         ),

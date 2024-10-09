@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 
 import '../../my shop/screen/my_shop_screen.dart';
 import '../../order/screens/order_page_builder.dart';
+import '../../product/screens/all_category_and_brand.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({super.key});
@@ -62,9 +63,10 @@ class DashBoardScreenState extends State<DashBoardScreen> {
           screen:
     const HomePage()
         ),
+        NavigationModel(name: 'CATEGORY', icon: Images.category, screen: const AllCategoryAndBrand(backButtom: false,)),
 
         NavigationModel(name: 'my_store', icon: Images.myStoreIcon, screen: const MyShopScreen()),
-        NavigationModel(name: 'cart', icon: Images.cartIcon, screen: const CartScreen(showBackButton: false), showCartIcon: true),
+        // NavigationModel(name: 'cart', icon: Images.cartIcon, screen: const CartScreen(showBackButton: false), showCartIcon: true),
         NavigationModel(name: 'orders', icon: Images.orderIcon, screen:  const OrderPageBuilder(isBacButtonExist: false)),
         NavigationModel(name: 'more', icon: Images.moreIcon, screen:  const MoreScreen()),
 
@@ -120,7 +122,10 @@ class DashBoardScreenState extends State<DashBoardScreen> {
             boxShadow: [BoxShadow(offset: const Offset(1,1), blurRadius: 2, spreadRadius: 1,
                 color: Theme.of(context).primaryColor.withOpacity(.125))],),
           child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: _getBottomWidget(singleVendor)))));
+            children: _getBottomWidget(singleVendor)))
+
+      ));
+
   }
 
 

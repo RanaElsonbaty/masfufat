@@ -14,5 +14,10 @@ class CategoryService implements CategoryServiceInterface{
   Future getSellerWiseCategoryList(int sellerId) async{
     return await categoryRepoInterface.getSellerWiseCategoryList(sellerId);
   }
+  Future<dynamic> get(int id)async{
+    return await categoryRepoInterface.get(id.toString());
+
+  }
+
 
 }

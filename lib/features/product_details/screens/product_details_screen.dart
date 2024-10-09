@@ -23,6 +23,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../../common/basewidget/custom_image_widget.dart';
 import '../../../utill/color_resources.dart';
 import '../../my shop/controllers/my_shop_controller.dart';
+import '../../product/domain/models/product_model.dart';
 import '../widgets/Logistics_information_widget.dart';
 import '../widgets/favourite_button_widget.dart';
 import '../widgets/reviewComSection.dart';
@@ -31,7 +32,9 @@ class ProductDetails extends StatefulWidget {
   final int? productId;
   final String? slug;
   final bool isFromWishList;
-  const ProductDetails({super.key, required this.productId, required this.slug, this.isFromWishList = false});
+  final Product? product;
+
+  const ProductDetails({super.key, required this.productId, required this.slug, this.isFromWishList = false,  this.product});
 
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
@@ -72,6 +75,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Consumer<ProductDetailsController>(
             builder:(context, productController, child) =>  Row(children: [
+              if(productController.sharableLink != null)
               InkWell(onTap: () {
                 if(productController.sharableLink != null) {
                   Share.share(productController.sharableLink!,
@@ -86,8 +90,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                           child: Image.asset(Images.share, color: Theme.of(context).primaryColor))))
 ,
               const SizedBox(width: 5,),
-              FavouriteButtonWidget(backgroundColor: ColorResources.getImageBg(context),
-                  productId:widget.productId),
+              widget.product!=null?   FavouriteButtonWidget(backgroundColor: ColorResources.getImageBg(context),
+                  productId:widget.productId,product: widget.product!,):SizedBox.square(),
             ],),
           ),
         ),
@@ -124,7 +128,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             shrinkWrap: true,
                             addAutomaticKeepAlives: false,
                             addRepaintBoundaries: false,
-                            itemCount: details.productDetailsModel!.images!.length>4?4:details.productDetailsModel!.images!.length,
+                            itemCount: details.productDetailsModel!.images!=null?details.productDetailsModel!.images!.length>4?4:details.productDetailsModel!.images!.length:0,
                             itemBuilder: (context, index) {
                               if(index!=3) {
                                 return

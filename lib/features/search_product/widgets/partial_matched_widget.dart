@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_sixvalley_ecommerce/features/search_product/widgets/search_filter_bottom_sheet_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/features/search_product/controllers/search_product_controller.dart';
@@ -21,7 +22,8 @@ class SearchSuggestion extends StatefulWidget{
   @override
   State<SearchSuggestion> createState() => _SearchSuggestionState();
 }
-
+//    searchProvider.searchController = controller;
+//                 searchProvider.searchFocusNode = focusNode;
 class _SearchSuggestionState extends State<SearchSuggestion> {
   @override
   void initState() {
@@ -43,144 +45,84 @@ class _SearchSuggestionState extends State<SearchSuggestion> {
       child: Consumer<SearchProductController>(
         builder: (context, searchProvider, _) {
           return SizedBox(height: 56,
-            child: Padding(padding: const EdgeInsets.only(bottom: 8.0),
-              child: Autocomplete(
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              children: [
+                Expanded(
 
-                optionsBuilder: (TextEditingValue textEditingValue) {
-                  if (textEditingValue.text.isEmpty || searchProvider.suggestionModel == null) {
-                    return const Iterable<String>.empty();
-                  } else {
-                    return searchProvider.nameList.where((word) => word.toLowerCase().contains(textEditingValue.text.toLowerCase()));
-                  }
-                },
-                optionsViewOpenDirection: OptionsViewOpenDirection.down,
+                  child: TextFormField(
 
-                optionsViewBuilder: (context, Function(String) onSelected, options) {
-                  return Material(elevation: 0,
-                    child: ListView.separated(
-                      padding: EdgeInsets.zero,
-                      itemBuilder: (context, index) {
-                        final option = options.elementAt(index);
-                        return InkWell(onTap: (){
-                            if(widget.fromCompare){
-                              // searchProvider.setSelectedProductId(index, widget.id);
-                              // Navigator.of(context).pop();
-                            }else{
+                    controller: searchProvider.searchController,
+                    focusNode: searchProvider.searchFocusNode,
+                    textInputAction: TextInputAction.search,
+                    onChanged: (val){
+                      if(val.isNotEmpty){
 
-                              // searchProvider.searchProduct(query : option.toString(), offset: 1);
-                              // onSelected(option.toString());
-                            }
-                          },
-                          child: Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
-                            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                 Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
-                                   child: Icon(Icons.history, color: Theme.of(context).hintColor,size: 25)),
-                                Expanded(child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-                                  child: SubstringHighlight(
-                                      text: option.toString(),
+                      }
+                    },
+                    onFieldSubmitted: (value) {
+                      if(searchProvider.searchController.text.trim().isNotEmpty) {
+                        try{
+                          widget.pagingController!.refresh();
 
-                                      textStyle: textRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5), fontSize: Dimensions.fontSizeLarge),
-                                      term: searchProvider.searchController.text,
-                                      textStyleHighlight:  textMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color, fontSize: Dimensions.fontSizeLarge),
-                                  ))),
+                        } catch(e){}
+                      }else{
+                        showCustomSnackBar(getTranslated('enter_somethings', context), context);
+                      }
+                    },
 
-                              Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
-                                  child: Icon(CupertinoIcons.arrow_up_left, color: Theme.of(context).hintColor,size: 25))])));
-                      },
-                      separatorBuilder: (context, index) => const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                      itemCount: options.length));
-                },
-                onSelected: (selectedString) {
-                  if (kDebugMode) {
-                    print(selectedString);
-                  }
-                },
-                fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
-                  searchProvider.searchController = controller;
-                  searchProvider.searchFocusNode = focusNode;
+                    style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
+                    decoration: InputDecoration(
+                      isDense: false,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
+                          borderSide: BorderSide(color: Colors.grey[300]!)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
+                          borderSide: BorderSide(color: Colors.grey[300]!)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
+                          borderSide: BorderSide(color: Colors.grey[300]!)),
+                      hintText: getTranslated('search_product', context),
+                      // suffixIcon:
+                    ),
+                  ),
+                ),
+                SizedBox(width: searchProvider.searchController.text.isNotEmpty? 70 : 50,
+                  child: Row(children: [
+                    if(searchProvider.searchController.text.isNotEmpty)
+                      InkWell(onTap: (){
+                        setState(() {
+                          searchProvider.searchController.clear();
+                          try{
+                            widget.pagingController!.refresh();
 
-                  return Hero(
-                    tag: 'search',
-                    child: Material(child: TextFormField(
-                        controller: controller,
-                        focusNode: searchProvider.searchFocusNode,
-                        textInputAction: TextInputAction.search,
-                        onChanged: (val){
-                          if(val.isNotEmpty){
-
-                              // searchProvider.searchProduct(query: val, categoryIds: '',brandIds: '',priceMax: '',priceMin: '',sort: '',offset: 1);
-
-                            // searchProvider.getSuggestionProductName(searchProvider.searchController.text.trim());
-                          }
-                        },
-                        onFieldSubmitted: (value) {
-                          if(controller.text.trim().isNotEmpty) {
-                            // searchProvider.searchProduct(query: value, categoryIds: '',brandIds: '',priceMax: '',priceMin: '',sort: '',offset: 1);
-                            try{
-                              widget.pagingController!.refresh();
-
-                            } catch(e){}
-                            //   searchProvider.saveSearchAddress( controller.text.toString());
-                          //   searchProvider.searchProduct(query : controller.text.toString(), offset: 1);
-                          }else{
-                            showCustomSnackBar(getTranslated('enter_somethings', context), context);
-                          }
-                        },
-
-                        style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
-                        decoration: InputDecoration(
-                          isDense: true,
-                          contentPadding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                            borderSide: BorderSide(color: Colors.grey[300]!)),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                            borderSide: BorderSide(color: Colors.grey[300]!)),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                            borderSide: BorderSide(color: Colors.grey[300]!)),
-                          hintText: getTranslated('search_product', context),
-                         suffixIcon: SizedBox(width: controller.text.isNotEmpty? 70 : 50,
-                           child: Row(children: [
-                               if(controller.text.isNotEmpty)
-                               InkWell(onTap: (){
-                                 setState(() {
-                                   controller.clear();
-                                   try{
-                                     widget.pagingController!.refresh();
-
-                                   } catch(e){}
-                                   searchProvider.cleanSearchProduct(notify: true);
-                                 });
-                               }, child: const Icon(Icons.clear, size: 20,)),
+                          } catch(e){}
+                          searchProvider.cleanSearchProduct(notify: true);
+                        });
+                      }, child: const Icon(Icons.clear, size: 20,)),
 
 
-                               InkWell(onTap: (){
-                                 showModalBottomSheet(context: context,
-                                     isScrollControlled: true, backgroundColor: Colors.transparent,
-                                     builder: (c) =>   SearchFilterBottomSheet(pagingController: widget.pagingController! ,));
+                    InkWell(onTap: (){
+                      showModalBottomSheet(context: context,
+                          isScrollControlled: true, backgroundColor: Colors.transparent,
+                          builder: (c) =>   SearchFilterBottomSheet(pagingController: widget.pagingController! ,));
 
-                               },
-                                 child: Padding(padding: const EdgeInsets.all(5),
-                                   child: Container(width: 40, height: 50,decoration: BoxDecoration(color: Theme.of(context).primaryColor,
-                                       borderRadius: const BorderRadius.all( Radius.circular(Dimensions.paddingSizeSmall))),
-                                       child: SizedBox(width : 18,height: 18, child: Padding(
-                                         padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                                         child: Image.asset(Images.filterIcon, color: Colors.white),
-                                       ))),
-                                 ),
-                               ),
-                             ],
-                           ),
-                         )
-                        ),
+                    },
+                      child: Padding(padding: const EdgeInsets.all(5),
+                        child: Container(width: 40, height: 50,decoration: BoxDecoration(color: Theme.of(context).primaryColor,
+                            borderRadius: const BorderRadius.all( Radius.circular(Dimensions.paddingSizeSmall))),
+                            child: SizedBox(width : 18,height: 18, child: Padding(
+                              padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                              child: Image.asset(Images.filterIcon, color: Colors.white),
+                            ))),
                       ),
                     ),
-                  );
-                },
-              ),
+                  ],
+                  ),
+                )
+              ],
             ),
           );
         }

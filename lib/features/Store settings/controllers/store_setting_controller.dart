@@ -2,30 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
 import 'package:flutter_sixvalley_ecommerce/features/Store%20settings/domain/model/store_setting_model.dart';
 
+import '../domain/model/packages.dart';
 import '../domain/repositories/store_setting_repository_interface.dart';
 
 class StoreSettingController extends ChangeNotifier {
   final StoreSettingInterface storeSettingInterface;
   StoreSettingController({required this.storeSettingInterface});
-  final List<StoreSettingModel> _linkedAccountsList = [];
+   List<StoreSettingModel> _linkedAccountsList = [];
   List<StoreSettingModel> get linkedAccountsList => _linkedAccountsList;
   bool isLoading = false;
   Future getLinkedProduct() async {
     isLoading = true;
     _linkedAccountsList.clear();
-
+    _linkedAccountsList=[];
+    notifyListeners();
     ApiResponse apiResponse =
     await storeSettingInterface.getLinkedAccount(
 
     );
+    _linkedAccountsList=[];
     if (apiResponse.response != null &&
         apiResponse.response!.statusCode == 200) {
+      _linkedAccountsList=[];
       isLoading = false;
       notifyListeners();
-      // print('asdasdasdas${apiResponse.response!.data}');
       apiResponse.response!.data.forEach((elm) {
         _linkedAccountsList.add(StoreSettingModel.fromJson(elm));
       });
+      for (var element in _linkedAccountsList) {
+        print(element.storeDetails);
+      }
       isLoading = false;
       notifyListeners();
     } else {
@@ -38,13 +44,13 @@ class StoreSettingController extends ChangeNotifier {
   }
   bool ?_isSucsses=false;
   bool ?get isSucsses=>_isSucsses;
-  Future unlinkLinkedAccount() async {
+  Future unlinkLinkedAccount(bool salla) async {
     isLoading = true;
     _linkedAccountsList.clear();
 
     ApiResponse apiResponse =
     await storeSettingInterface.unlinkLinkedAccount(
-
+        salla
     );
     if (apiResponse.response != null &&
         apiResponse.response!.statusCode == 200) {
@@ -80,4 +86,42 @@ class StoreSettingController extends ChangeNotifier {
     _activeSwitch[index] = value;
     notifyListeners();
   }
+  List<Packages> _packages=[];
+  List<Packages> get packages=>_packages;
+  bool _showStoreSetting=false;
+  bool get showStoreSetting=>_showStoreSetting;
+  Future getPackages() async {
+
+    ApiResponse apiResponse =
+    await storeSettingInterface.packages(
+
+    );
+    if (apiResponse.response != null &&
+        apiResponse.response!.statusCode == 200) {
+
+      apiResponse.response!.data.forEach((elm) {
+        _packages.add(Packages.fromJson(elm));
+      });
+      for (var element in _packages) {
+        if(element.currentPack==true){
+          if(element.name=="الباقة المجانية (للشراء فقط)"){
+            _showStoreSetting=false;
+          }else{
+            print(element.name);
+            _showStoreSetting=true;
+          }
+        }else {
+
+        }
+        notifyListeners();
+      }
+      notifyListeners();
+
+    } else {
+
+      if (apiResponse.error is String) {
+      } else {}
+    }
+  }
+
 }

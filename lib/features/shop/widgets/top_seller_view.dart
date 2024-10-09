@@ -30,7 +30,7 @@ class _TopSellerViewState extends State<TopSellerView> {
               scrollDirection: widget.isHomePage? Axis.horizontal : Axis.vertical,
               physics: const AlwaysScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
-                return topSellerProvider.sellerModel?[index].seller!.showSellersSection==1?SizedBox(width: 200,
+                return topSellerProvider.sellerModel?[index].seller!.showSellersSection==1?SizedBox(width: 260,
                   child: SellerCard(sellerModel: topSellerProvider.sellerModel?[index], isHomePage: widget.isHomePage,
                       index: index,length: topSellerProvider.sellerModel?.length ?? 0)):const SizedBox();
               },
@@ -42,22 +42,19 @@ class _TopSellerViewState extends State<TopSellerView> {
         return topSellerProvider.sellerModel != null? (topSellerProvider.sellerModel != null && topSellerProvider.sellerModel!.isNotEmpty) ?
         SingleChildScrollView(
           controller: widget.scrollController,
-          child: PaginatedListView(
-            scrollController: widget.scrollController,
-            onPaginate: (int? offset) async => await topSellerProvider.getTopSellerList(false, offset?? 1, type : topSellerProvider.sellerType),
-            totalSize: 30,
-            offset: 1,
-            itemView: ListView.builder(
-              itemCount: topSellerProvider.sellerModel?.length,
-              shrinkWrap: true,
-              padding: EdgeInsets.zero,
-              scrollDirection: widget.isHomePage? Axis.horizontal : Axis.vertical,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-                return topSellerProvider.sellerModel?[index].seller!.showSellersSection==1 ?SellerCard(sellerModel: topSellerProvider.sellerModel?[index], isHomePage: widget.isHomePage,
-                    index: index,length: topSellerProvider.sellerModel?.length??0):const SizedBox();
-              },
-            ),
+          child:  ListView.builder(
+            itemCount: topSellerProvider.sellerModel?.length,
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            scrollDirection: widget.isHomePage? Axis.horizontal : Axis.vertical,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (BuildContext context, int index) {
+              return topSellerProvider.sellerModel?[index].seller!.showSellersSection==1 ?SizedBox(
+                height: 250,
+                child: SellerCard(sellerModel: topSellerProvider.sellerModel?[index], isHomePage: widget.isHomePage,
+                    index: index,length: topSellerProvider.sellerModel?.length??0),
+              ):const SizedBox();
+            },
           ),
         ) : const SizedBox():const SellerShimmer();
 
