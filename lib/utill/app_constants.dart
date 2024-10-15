@@ -26,7 +26,7 @@ class AppConstants {
   static const String bestSellingProductUri = '/api/v1/products/products-lazy?page=';
   static const String discountedProductUri = '/api/v1/products/products-lazy?page=';
   static const String featuredProductUri = '/api/v1/products/featured?limit=10&&offset=';
-  static const String homeCategoryProductUri = '/api/v1/products/home-categories?guest_id=1';
+  static const String homeCategoryProductUri = '/api/v1/products/home-categories';
   static const String productDetailsUri = '/api/v1/products/details-by-id/';
   static const String productReviewUri = '/api/v1/products/reviews/';
   static const String searchUri = '/api/v1/products/products-lazy?';
@@ -73,7 +73,7 @@ class AppConstants {
   static const String sendMessageUri = '/api/v1/customer/chat/send-message/seller';
   static const String seenMessageUri = '/api/v1/customer/chat/send-message/';
   static const String tokenUri = '/api/v1/customer/cm-firebase-token';
-  static const String notificationUri = '/api/v1/notifications';
+  static const String notificationUri = '/api/v1/notifications?page=';
   static const String linkedProduct = '/api/v1/products/linked-products';
   static const String deletePendingProducts =
       '/api/v1/products/delete-pending-products';

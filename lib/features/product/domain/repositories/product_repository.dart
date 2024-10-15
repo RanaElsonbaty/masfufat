@@ -46,11 +46,11 @@ class ProductRepository implements ProductRepositoryInterface{
   Future<ApiResponse> getBrandOrCategoryProductList(bool isBrand,int brandId, String id,int offset,bool reloud,String search,String syncFilter,String filter,String price,bool onlyBrand) async {
     try {
       String uri;
-      print('object -${onlyBrand}');
+      print('object - $onlyBrand');
       if(isBrand){
         if(syncFilter.isEmpty||filter.isEmpty||search.isEmpty) {
           if(onlyBrand==true){
-            uri = '${AppConstants.brandProductUri}$id&page=$offset${price !=
+            uri = '${AppConstants.brandProductUri}$brandId&page=$offset${price !=
                 '&from_price=0.0&to_price=0.0' ? price : ''}${syncFilter
                 .isNotEmpty ? '&product_type=$syncFilter' : ''}${filter.isNotEmpty
                 ? '&order_by=$filter'

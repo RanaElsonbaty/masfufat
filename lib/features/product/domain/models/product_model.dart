@@ -255,7 +255,12 @@ String? get imagesFullUrl => _imagesFullUrl;
 
     if(json['images'] != null){
       try{
-        _images = json['images'] != null ? json['images'].cast<String>() : [];
+        if(json['images'].runtimeType is List<dynamic>){
+          _images=[];
+        }else{
+          _images = json['images']  != null  ? json['images'].cast<String>() : [];
+
+        }
       }catch(e){
 try{
 
@@ -264,7 +269,8 @@ try{
 _images = json['images'] != null && json['images'] != null ? jsonDecode(json['images']).cast<String>() : [];
 
 
-}     }
+}
+      }
     }
     synced=json['synced'] ?? 0;
 
@@ -297,15 +303,15 @@ _images = json['images'] != null && json['images'] != null ? jsonDecode(json['im
     }
     if (json['choice_options'] != null) {
       _choiceOptions = [];
-      try{
-        json['choice_options'].forEach((v) {
-          _choiceOptions!.add(ChoiceOptions.fromJson(v));
-        });
-      }catch(e){
-        jsonDecode(json['choice_options']).forEach((v) {
-          _choiceOptions!.add(ChoiceOptions.fromJson(v));
-        });
-      }
+      // try{
+      //   json['choice_options'].forEach((v) {
+      //     _choiceOptions!.add(ChoiceOptions.fromJson(v));
+      //   });
+      // }catch(e){
+      //   jsonDecode(json['choice_options']).forEach((v) {
+      //     _choiceOptions!.add(ChoiceOptions.fromJson(v));
+      //   });
+      // }
     }
     if (json['variation'] != null) {
       _variation = [];
@@ -319,10 +325,11 @@ _images = json['images'] != null && json['images'] != null ? jsonDecode(json['im
         });
       }
     }
-    if(json['pricings']['value'] != null&& json['pricings'] != null){
+    if(json['pricings'] != null&&json['pricings']['value'] != null){
       _unitPrice = json['pricings']['value'].toDouble();
     }else{
-      _unitPrice=0.00;
+      _unitPrice = 0.00;
+
     }
     if(json['purchase_price']!=null){
       _purchasePrice = json['purchase_price'].toDouble();
@@ -339,8 +346,8 @@ _images = json['images'] != null && json['images'] != null ? jsonDecode(json['im
     }
 
     _taxType = json['tax_type'];
-    if(json['discount'] != null ){
-      _discount = json['discount'].toDouble();
+    if(json['my_discount_price'] != null ){
+      _discount = json['my_discount_price'].toDouble();
     }else{
       _discount=0.00;
     }

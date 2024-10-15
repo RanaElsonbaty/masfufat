@@ -80,220 +80,85 @@ class CartScreenState extends State<CartScreen> {
                 return Consumer<CartController>(builder: (context, cart, child) {
                   double amount = 0.0;
                   bool onlyDigital= true;
-                  List<CartModel> cartList = [];
-                  cartList.addAll(cart.cartList);
-
-                  for(CartModel cart in cartList) {
-                    if(cart.productType == "physical" ){
-                      onlyDigital = false;
-                    }
-                  }
-
                   List<String?> orderTypeShipping = [];
                   List<String?> sellerList = [];
                   List<List<String>> productType = [];
                   List<CartModel> sellerGroupList = [];
                   List<List<CartModel>> cartProductList = [];
                   List<List<int>> cartProductIndexList = [];
-                  for(CartModel cart in cartList) {
-                    // if() {
-                    // }
-                    if(!sellerList.contains(cart.cartGroupId)) {
-                      sellerList.add(cart.cartGroupId);
-                      cart.isGroupChecked = false;
-                      sellerGroupList.add(cart);
-                    }
-                  }
+                  List<CartModel> cartList = [];
+                 try{
+
+                   cartList.addAll(cart.cartList);
+
+                   for(CartModel cart in cartList) {
+                     if(cart.productType == "physical" ){
+                       onlyDigital = false;
+                     }
+                   }
+
+
+                   for(CartModel cart in cartList) {
+                     // if() {
+                     // }
+                     if(!sellerList.contains(cart.cartGroupId)) {
+                       sellerList.add(cart.cartGroupId);
+                       cart.isGroupChecked = false;
+                       sellerGroupList.add(cart);
+                     }
+                   }
 
 
 
-                  for(CartModel? seller in sellerGroupList) {
-                    List<CartModel> cartLists = [];
-                    List<int> indexList = [];
-                    List<String> productTypeList = [];
-                    bool isSellerChecked = true;
-                    for(CartModel cart in cartList) {
-                      if(seller?.cartGroupId == cart.cartGroupId) {
-                        cartLists.add(cart);
-                        indexList.add(cartList.indexOf(cart));
-                        productTypeList.add(cart.productType!);
-                        // if(!cart.isChecked!){
-                        isSellerChecked = false;
-                      } else if (cart.isChecked!) {
-                        seller?.isGroupItemChecked = true;
-                        // }
-                      }
-                    }
+                   for(CartModel? seller in sellerGroupList) {
+                     List<CartModel> cartLists = [];
+                     List<int> indexList = [];
+                     List<String> productTypeList = [];
+                     bool isSellerChecked = true;
+                     for(CartModel cart in cartList) {
+                       if(seller?.cartGroupId == cart.cartGroupId) {
+                         cartLists.add(cart);
+                         indexList.add(cartList.indexOf(cart));
+                         productTypeList.add(cart.productType!);
+                         // if(!cart.isChecked!){
+                         isSellerChecked = false;
+                       } else if (cart.isChecked!) {
+                         seller?.isGroupItemChecked = true;
+                         // }
+                       }
+                     }
 
-                    cartProductList.add(cartLists);
-                    productType.add(productTypeList);
-                    cartProductIndexList.add(indexList);
-                    if(isSellerChecked){
-                      seller?.isGroupChecked = true;
-                    }
-                  }
+                     cartProductList.add(cartLists);
+                     productType.add(productTypeList);
+                     cartProductIndexList.add(indexList);
+                     if(isSellerChecked){
+                       seller?.isGroupChecked = true;
+                     }
+                   }
 
-                  for (var seller in sellerGroupList) {
-                    if(seller.freeDeliveryOrderAmount?.status == 1 && seller.isGroupItemChecked!){
-                    }
-                    if(seller.shippingType == 'order_wise'){
-                      orderTypeShipping.add(seller.shippingType);
-                    }
-                  }
+                   for (var seller in sellerGroupList) {
+                     if(seller.freeDeliveryOrderAmount?.status == 1 && seller.isGroupItemChecked!){
+                     }
+                     if(seller.shippingType == 'order_wise'){
+                       orderTypeShipping.add(seller.shippingType);
+                     }
+                   }
 
 
 
-                  for(int i=0;i<cart.cartList.length;i++){
-                    // if(cart.cartList[i].isChecked!){
-                    amount += (cart.cartList[i].price! - cart.cartList[i].discount!) * cart.cartList[i].quantity!;
-                    if (kDebugMode) {
-                      print('====TaxModel == ${cart.cartList[i].taxModel}');
-                    }
-                    if(cart.cartList[i].taxModel == "exclude"){
-                    }
-                    // }
-                  }
-                  for(int i=0;i<shippingController.chosenShippingList.length;i++){
-                    if(shippingController.chosenShippingList[i].isCheckItemExist == 1 && !onlyDigital) {
-                    }
-                  }
+                   for(int i=0;i<cart.cartList.length;i++){
+                     amount += (cart.cartList[i].price! - cart.cartList[i].discount!) * cart.cartList[i].quantity!;
 
-                  for(int j = 0; j< cartList.length; j++){
-                    // if(cartList[j].isChecked!) {
-                    // }
-                  }
+                   }
 
+
+
+                 }catch(e){
+
+                 }
                   return Scaffold(
 
-                    // bottomNavigationBar: (!cart.cartLoading && cartList.isNotEmpty) ?
-                    // Consumer<SplashController>(
-                    //     builder: (context, configProvider,_) {
-                    //
-                    //
-                    //       return Container(height: cartList.isNotEmpty? 110 : 0, padding: const EdgeInsets.symmetric(
-                    //           horizontal: Dimensions.paddingSizeDefault,
-                    //           vertical: Dimensions.paddingSizeSmall
-                    //       ),
-                    //
-                    //           decoration: BoxDecoration(color: Theme.of(context).cardColor,
-                    //               borderRadius: const BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10))),
-                    //           child: cartList.isNotEmpty ?
-                    //           Column( children: [
-                    //
-                    //             Padding(padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
-                    //                 child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                    //
-                    //                   Row(children: [
-                    //                     Text('${getTranslated('total_price', context)} ', style: titilliumSemiBold.copyWith(
-                    //                         fontSize: Dimensions.fontSizeLarge,
-                    //                         color: Provider.of<ThemeController>(context, listen: false).darkTheme? Theme.of(context).hintColor : Theme.of(context).primaryColor)),
-                    //                     Text('${getTranslated('inc_vat_tax', context)}', style: titilliumSemiBold.copyWith(
-                    //                         fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor))]),
-                    //
-                    //                   Text(PriceConverter.convertPrice(context, amount+tax+shippingAmount-freeDeliveryAmountDiscount), style: titilliumSemiBold.copyWith(
-                    //                       color: Provider.of<ThemeController>(context, listen: false).darkTheme? Theme.of(context).hintColor : Theme.of(context).primaryColor,
-                    //                       fontSize: Dimensions.fontSizeLarge))])),
-                    //
-                    //
-                    //
-                    //
-                    //             InkWell(onTap: () {
-                    //               bool hasNull = false;
-                    //               bool stockOutProduct = false;
-                    //
-                    //
-                    //               //  if(configProvider.configModel!.shippingMethod =='sellerwise_shipping'){
-                    //               //   for(int index = 0; index < cartProductList.length; index++) {
-                    //               //     for(CartModel cart in cartProductList[index]) {
-                    //               //       if(cart.productType == 'physical' && sellerGroupList[index].shippingType == 'order_wise'  &&
-                    //               //           Provider.of<ShippingController>(context, listen: false).shippingList![index].shippingIndex == -1) {
-                    //               //         hasNull = true;
-                    //               //         break;
-                    //               //       }
-                    //               //     }
-                    //               //   }
-                    //               // }
-                    //
-                    //               if (configProvider.configModel!.shippingMethod =='sellerwise_shipping') {
-                    //                 for (int index = 0; index < sellerGroupList.length; index++) {
-                    //                   bool hasPhysical = false;
-                    //                   for(CartModel cart in cartProductList[index]) {
-                    //                     if(cart.productType == 'physical') {
-                    //                       hasPhysical = true;
-                    //                       break;
-                    //                     }
-                    //                   }
-                    //
-                    //                   if(hasPhysical && sellerGroupList[index].isGroupItemChecked! && sellerGroupList[index].shippingType == 'order_wise'  &&
-                    //                       Provider.of<ShippingController>(context, listen: false).shippingList![index].shippingIndex == -1 && sellerGroupList[index].isGroupItemChecked!){
-                    //                     hasNull = true;
-                    //                     break;
-                    //                   }
-                    //                 }
-                    //               }
-                    //
-                    //
-                    //               for(int index = 0; index < sellerGroupList.length; index++) {
-                    //                 if(sellerGroupList[index].quantity! > sellerGroupList[index].productInfo!.totalCurrentStock! && sellerGroupList[index].productType =="physical") {
-                    //                   stockOutProduct = true;
-                    //                   break;
-                    //                 }
-                    //               }
-                    //
-                    //
-                    //
-                    //               if( !Provider.of<AuthController>(context, listen: false).isLoggedIn()){
-                    //                 showModalBottomSheet(backgroundColor: Colors.transparent,context:context, builder: (_)=> const NotLoggedInBottomSheetWidget());
-                    //               }
-                    //               else if (cart.cartList.isEmpty) {
-                    //                 showCustomSnackBar(getTranslated('select_at_least_one_product', context), context);
-                    //               } else if (stockOutProduct) {
-                    //                 showCustomSnackBar(getTranslated('stock_out_product_in_your_cart', context), context);
-                    //               }
-                    //               else if(hasNull && configProvider.configModel!.shippingMethod =='sellerwise_shipping' && !onlyDigital){
-                    //                 changeColor();
-                    //                 showCustomSnackBar(getTranslated('select_all_shipping_method', context), context);
-                    //               }
-                    //
-                    //               else if(shippingController.chosenShippingList.isEmpty &&
-                    //                   configProvider.configModel!.shippingMethod !='sellerwise_shipping' &&
-                    //                   configProvider.configModel!.inhouseSelectedShippingType =='order_wise' && !onlyDigital){
-                    //
-                    //                 showCustomSnackBar(getTranslated('select_all_shipping_method', context), context);
-                    //               }
-                    //               else if (!isItemChecked){
-                    //                 showCustomSnackBar(getTranslated('please_select_items', context), context);
-                    //               }
-                    //               else {
-                    //
-                    //                 int sellerGroupLenght = 0;
-                    //
-                    //                 for(CartModel seller in sellerGroupList) {
-                    //                   if(seller.isGroupItemChecked!) {
-                    //                     sellerGroupLenght += 1;
-                    //                   }
-                    //                 }
-                    //
-                    //                 Navigator.push(context, MaterialPageRoute(builder: (_) => CheckoutScreen(quantity: totalQuantity,
-                    //                     cartList: cartList,totalOrderAmount: amount, shippingFee: shippingAmount-freeDeliveryAmountDiscount, discount: discount,
-                    //                     tax: tax, onlyDigital: sellerGroupLenght != totalPhysical, hasPhysical: totalPhysical > 0)));
-                    //               }
-                    //             },
-                    //               child: Container(decoration: BoxDecoration(color: Theme.of(context).primaryColor,
-                    //                   borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall)),
-                    //
-                    //                 child: Center(child: Padding(padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall,
-                    //                     vertical: Dimensions.fontSizeSmall),
-                    //                   child: Text(getTranslated('checkout', context)!,
-                    //                       style: titilliumSemiBold.copyWith(fontSize: Dimensions.fontSizeDefault, color: Colors.white)),
-                    //                 ),
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //           ]):const SizedBox());
-                    //     }
-                    // ) : null,
-                    //
+
 
                     appBar: CustomAppBar(title: getTranslated('my_cart', context), isBackButtonExist: widget.showBackButton),
                     body: RefreshIndicator(
@@ -309,19 +174,23 @@ class CartScreenState extends State<CartScreen> {
                           ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: sellerList.length,
+                            itemCount: sellerList.length??0,
                             padding: const EdgeInsets.all(0),
                             itemBuilder: (context, index) {
                               bool hasPhysical = false;
                               // for(var cart in cartProductList[index]) {
                               // }
 
-                              for(CartModel cart in cartProductList[index]) {
-                                if(cart.productType == 'physical' && cart.isChecked!) {
-                                  hasPhysical = true;
-                                  break;
-                                }
-                              }
+                             try{
+                               for(CartModel cart in cartProductList[index]) {
+                                 if(cart.productType == 'physical' && cart.isChecked!) {
+                                   hasPhysical = true;
+                                   break;
+                                 }
+                               }
+                             }catch(e){
+
+                             }
 
 
 
@@ -344,7 +213,7 @@ class CartScreenState extends State<CartScreen> {
                                                 child: Row(children: [
 
                                                   Expanded(
-                                                    child: Text('${sellerGroupList[index].shopInfo!} (${cartProductList[index].length})', maxLines: 1, overflow: TextOverflow.ellipsis,
+                                                    child: Text('${sellerGroupList[index].shopInfo!??''} (${cartProductList[index].length??''})', maxLines: 1, overflow: TextOverflow.ellipsis,
                                                       textAlign: TextAlign.start, style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeLarge,
                                                           fontWeight: FontWeight.w500,
                                                           // color: Provider.of<ThemeController>(context, listen: false).darkTheme?
@@ -373,7 +242,7 @@ class CartScreenState extends State<CartScreen> {
 
                                                 ]))),
 
-                                        configProvider.configModel!.shippingMethod =='sellerwise_shipping' &&
+                                        configProvider.configModel!=null&&   configProvider.configModel!.shippingMethod =='sellerwise_shipping' &&
                                             sellerGroupList[index].shippingType == 'order_wise' && hasPhysical ?SizedBox(width: 200, child: configProvider.configModel!.shippingMethod =='sellerwise_shipping' &&
                                             sellerGroupList[index].shippingType == 'order_wise' && hasPhysical ?
 
@@ -381,8 +250,8 @@ class CartScreenState extends State<CartScreen> {
                                           child: InkWell(onTap: () {
                                             showModalBottomSheet(
                                               context: context, isScrollControlled: true, backgroundColor: Colors.transparent,
-                                              builder: (context) => ShippingMethodBottomSheetWidget(groupId: sellerGroupList[index].cartGroupId,
-                                                  sellerIndex: index, sellerId: sellerGroupList[index].id),
+                                              builder: (context) => ShippingMethodBottomSheetWidget(groupId: sellerGroupList[index].cartGroupId??'',
+                                                  sellerIndex: index, sellerId: sellerGroupList[index].id??0),
                                             );
                                           },
                                             child: Container(decoration: BoxDecoration(
@@ -422,7 +291,7 @@ class CartScreenState extends State<CartScreen> {
                                     //       '${PriceConverter.convertPrice(context, sellerGroupList[index].minimumOrderAmountInfo)}',
                                     //     style: textRegular.copyWith(color: Theme.of(context).colorScheme.error),),),
 
-                                    if(configProvider.configModel!.shippingMethod == 'sellerwise_shipping' && sellerGroupList[index].shippingType == 'order_wise' && hasPhysical)
+                                    if(configProvider.configModel!=null&&configProvider.configModel!.shippingMethod == 'sellerwise_shipping' && sellerGroupList[index].shippingType == 'order_wise' && hasPhysical)
                                       Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                                         child: (shippingController.shippingList == null ||
                                             shippingController.shippingList![index].shippingMethodList == null ||
@@ -473,11 +342,11 @@ class CartScreenState extends State<CartScreen> {
                                       ListView.builder(physics: const NeverScrollableScrollPhysics(),
                                         shrinkWrap: true,
                                         padding: const EdgeInsets.all(0),
-                                        itemCount: cartProductList[index].length,
+                                        itemCount: cartProductList[index].length??0,
                                         itemBuilder: (context, i) {
                                           return CartWidget(cartModel: cartProductList[index][i],
                                             index: cartProductIndexList[index][i],
-                                            fromCheckout: widget.fromCheckout,
+                                            fromCheckout: widget.fromCheckout??false,
                                           );
                                         },
                                       ),
@@ -485,7 +354,7 @@ class CartScreenState extends State<CartScreen> {
                                     ],
                                     ),
 
-                                    if(sellerGroupList[index].freeDeliveryOrderAmount?.status == 1 && hasPhysical && sellerGroupList[index].isGroupItemChecked!)
+                                    if(sellerGroupList.isNotEmpty&&sellerGroupList[index].freeDeliveryOrderAmount?.status == 1 && hasPhysical && sellerGroupList[index].isGroupItemChecked!)
                                       Padding(padding: const EdgeInsets.only(bottom : Dimensions.paddingSizeSmall,left: Dimensions.paddingSizeDefault,
                                           right: Dimensions.paddingSizeDefault, top: Dimensions.paddingSizeSmall),
                                         child: Row(children: [
@@ -503,7 +372,7 @@ class CartScreenState extends State<CartScreen> {
                                           )
                                         ],),
                                       ),
-                                    if(sellerGroupList[index].freeDeliveryOrderAmount?.status == 1 && hasPhysical && sellerGroupList[index].isGroupItemChecked!)
+                                    if(sellerGroupList.isNotEmpty&&sellerGroupList[index].freeDeliveryOrderAmount?.status == 1 && hasPhysical && sellerGroupList[index].isGroupItemChecked!)
                                       Padding(padding: const EdgeInsets.fromLTRB( Dimensions.paddingSizeDefault,0,Dimensions.paddingSizeDefault,Dimensions.paddingSizeDefault),
                                         child: LinearPercentIndicator(
                                           padding: EdgeInsets.zero,
@@ -530,7 +399,7 @@ class CartScreenState extends State<CartScreen> {
                           Padding(padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
                               child: CouponApplyWidget(couponController: _controller, orderAmount: amount)),
                           const SizedBox(height: 10,),
-                          ( !onlyDigital && configProvider.configModel!.shippingMethod != 'sellerwise_shipping' && configProvider.configModel!.inhouseSelectedShippingType =='order_wise')?
+                          ( !onlyDigital && configProvider.configModel!=null&&configProvider.configModel!.shippingMethod != 'sellerwise_shipping' && configProvider.configModel!.inhouseSelectedShippingType =='order_wise')?
                           InkWell(onTap: () {showModalBottomSheet(
                               context: context, isScrollControlled: true, backgroundColor: Colors.transparent,
                               builder: (context) => const ShippingMethodBottomSheetWidget(groupId: 'all_cart_group',sellerIndex: 0, sellerId: 1));},
@@ -568,8 +437,8 @@ class CartScreenState extends State<CartScreen> {
 
 
                         ],
-                        ) : const Expanded(child: NoInternetOrDataScreenWidget(icon: Images.emptyCart, icCart: true,
-                          isNoInternet: false, message: 'no_product_in_cart',)),
+                        ) : NoInternetOrDataScreenWidget(icon: Images.emptyCart, icCart: true,
+                          isNoInternet: false, message: 'no_product_in_cart',),
                       ),
                     ),
                   );

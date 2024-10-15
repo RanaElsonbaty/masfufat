@@ -43,18 +43,23 @@ class CarouselSliderWidget extends StatelessWidget {
                         // bottomLeft: Radius.circular(10),
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10)),
-                    child: CachedNetworkImage(
+                    child:CachedNetworkImage(
                       placeholder: (context, url) => Image.asset(
                         Images.placeholder,
                         fit: BoxFit.cover,
                         width: MediaQuery.of(context).size.width,
                       ),
-                      errorWidget: (c, o, s) => Image.asset(Images.placeholder,
-                          height: 140, fit: BoxFit.cover),
-                      imageUrl: productModel!.images != null
-                          ? productModel!.images![index].compareTo(url) == 1
-                              ? productModel!.images!.isNotEmpty ? productModel!.images![index] : ''
-                              : "$url${productModel!.images![index]}"
+                      errorWidget: (c, o, s) => Image.asset(
+                        Images.placeholder,
+                        height: 140,
+                        fit: BoxFit.cover,
+                      ),
+                      imageUrl: productModel!.images != null &&
+                          productModel!.images![index] != '' &&
+                          productModel!.images![index] != []
+                          ? productModel!.images![index].toString().compareTo(url) == 1
+                          ? productModel!.images!.isNotEmpty ? productModel!.images![index].toString() : ''
+                          : "$url${productModel!.images![index]}"
                           : Images.placeholder,
                       width: double.infinity,
                       // height: 140,

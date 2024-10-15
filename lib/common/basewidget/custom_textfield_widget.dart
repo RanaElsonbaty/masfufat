@@ -7,6 +7,8 @@ import 'package:flutter_sixvalley_ecommerce/features/auth/widgets/code_picker_wi
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../localization/controllers/localization_controller.dart';
+
 
 class CustomTextFieldWidget extends StatefulWidget {
   final String? hintText;
@@ -189,13 +191,13 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
                       color: widget.prefixColor ?? Theme.of(context).primaryColor.withOpacity(.6)))),
                 ) :
                 widget.showCodePicker ? Container(
+                  margin:  EdgeInsets.only(left:Provider.of<LocalizationController>(context,listen: false).isLtr? 0:5,right:Provider.of<LocalizationController>(context,listen: false).isLtr? 5:0),
                   decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.circular(12)
+                    borderRadius: BorderRadius.circular(8)
                   ),
                   child: CodePickerWidget(
       
-                    // padding: const EdgeInsets.only(left: Dimensions.paddingSizeSmall),
                       flagWidth: 30,
                       onChanged: widget.onCountryChanged,
                       initialSelection: widget.countryDialCode,
@@ -206,6 +208,7 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
                       showFlagDialog: true,
                       hideMainText: false,
                       showFlagMain: true,
+
       
                       dialogBackgroundColor: Theme.of(context).cardColor,
                       barrierColor: Provider.of<ThemeController>(context).darkTheme ? Colors.black.withOpacity(0.4) : null,

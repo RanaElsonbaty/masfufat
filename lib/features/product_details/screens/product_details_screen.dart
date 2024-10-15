@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/controllers/seller_product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/controllers/product_details_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/screens/product_image_screen.dart';
@@ -128,7 +129,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             shrinkWrap: true,
                             addAutomaticKeepAlives: false,
                             addRepaintBoundaries: false,
-                            itemCount: details.productDetailsModel!.images!=null?details.productDetailsModel!.images!.length>4?4:details.productDetailsModel!.images!.length:0,
+                            itemCount:details.productDetailsModel!=null&& details.productDetailsModel!.images!=null?details.productDetailsModel!.images!.length>4?4:details.productDetailsModel!.images!.length:0,
                             itemBuilder: (context, index) {
                               if(index!=3) {
                                 return
@@ -261,7 +262,7 @@ const SizedBox(height: 10,),
                           productSpecification: details.productDetailsModel!.details ?? '',
                         ),
                       ],
-                    ) : const SizedBox(),
+                    ) :const NoInternetOrDataScreenWidget(isNoInternet: false),
 
                     // (details.productDetailsModel?.videoUrl != null && details.isValidYouTubeUrl(details.productDetailsModel!.videoUrl.toString()))?
                     // YoutubeVideoWidget(url: details.productDetailsModel!.videoUrl.toString()):const SizedBox(),

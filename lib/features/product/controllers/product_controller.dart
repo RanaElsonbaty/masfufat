@@ -326,24 +326,19 @@ int selectedProductTypeIndex = 0;
   List<HomeCategoryProduct> get homeCategoryProductList => _homeCategoryProductList;
 
   Future<void> getHomeCategoryProductList(bool reload) async {
-try{
-  if (_homeCategoryProductList.isEmpty || reload) {
+  // if (_homeCategoryProductList.isEmpty || reload) {
     ApiResponse apiResponse = await productServiceInterface!.getHomeCategoryProductList();
     if (apiResponse.response != null  && apiResponse.response!.statusCode == 200) {
-      // print('home category respnse ---> ${apiResponse.response!.data}');
       if(apiResponse.response!.data.toString() != '{}'){
         _homeCategoryProductList.clear();
         apiResponse.response!.data['data'].forEach((homeCategoryProduct) =>
             _homeCategoryProductList.add(HomeCategoryProduct.fromJson(homeCategoryProduct)));
-      }
+      // }
     } else {
       ApiChecker.checkApi( apiResponse);
     }
     notifyListeners();
   }
-}catch(e){
-  print(e.toString());
-}
   }
 
   MostDemandedProductModel? mostDemandedProductModel;

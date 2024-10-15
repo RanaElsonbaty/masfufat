@@ -7,6 +7,7 @@ import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
+import 'package:http/http.dart';
 
 class CouponController extends ChangeNotifier {
   final CouponServiceInterface? couponRepo;
@@ -38,14 +39,18 @@ class CouponController extends ChangeNotifier {
       _isLoading = false;
       _couponCode = coupon;
       Map map = apiResponse.response!.data;
+      print('asdasdasdasdasdasdas${map}');
       String dis = map['coupon_discount'].toString();
       if(map['coupon_discount'] !=null){
         _discount = double.parse(dis);
+        showCustomSnackBar('${getTranslated('you_got', Get.context!)} '
+            '${PriceConverter.convertPrice(Get.context!, _discount)} '
+            '${getTranslated('discount', Get.context!)}', Get.context!, isError: false, isToaster: true);
+      }else{
+        showCustomSnackBar(getTranslated('Check_the_coupon_and_try_again', Get.context!), Get.context!);
       }
 
-      showCustomSnackBar('${getTranslated('you_got', Get.context!)} '
-          '${PriceConverter.convertPrice(Get.context!, _discount)} '
-          '${getTranslated('discount', Get.context!)}', Get.context!, isError: false, isToaster: true);
+
     } else {
       showCustomSnackBar(apiResponse.response?.data, Get.context!, isToaster: true);
     }

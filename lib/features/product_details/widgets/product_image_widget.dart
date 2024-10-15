@@ -41,16 +41,19 @@ class ProductImageWidget extends StatelessWidget {
                     itemCount: productModel!.images!.length,
                     itemBuilder: (context, index) {
 
-                      return WidgetZoom(
-                        heroAnimationTag: 'null',
-                         closeFullScreenImageOnDispose: false,
-
-                        zoomWidget: CustomImageWidget(
+                      return
+                        // WidgetZoom(
+                        // heroAnimationTag: 'null',
+                        //  maxScaleFullscreen: MediaQuery.of(context).size.width,
+                        //  closeFullScreenImageOnDispose: false,
+                        //
+                      //  zoomWidget:
+                      CustomImageWidget(
                             height: 100,
                             fit: BoxFit.fill,
                             width: MediaQuery.of(context).size.width,
-                            image: productModel!.images![index]),
-                      );
+                            image: productModel!.images![index]);
+                      // );
                     },
                     onPageChanged: (index) => productController.setImageSliderSelectedIndex(index),
                   ):const SizedBox()),

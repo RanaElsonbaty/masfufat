@@ -19,21 +19,44 @@ import '../../features/cart/domain/models/cart_model.dart';
 import '../../features/product/widgets/carousel_slider.dart';
 
 
-class ProductWidget extends StatelessWidget {
+class ProductWidget extends StatefulWidget {
   final Product productModel;
   final int productNameLine;
   final bool? selectActive;
   const ProductWidget({super.key, required this.productModel, this.productNameLine = 2, this.selectActive=false});
 
   @override
-  Widget build(BuildContext context) {
+  State<ProductWidget> createState() => _ProductWidgetState();
+}
 
-    double ratting = (productModel.rating?.isNotEmpty ?? false) ?  double.parse('${productModel.rating?[0].average}') : 0;
+class _ProductWidgetState extends State<ProductWidget> {
+double tax =0.00;
+
+double total =0.00;
+
+  void getTaxAndPrice(){
+    if(widget.productModel.tax!=null){
+    if(widget.productModel.taxType==null){
+      tax =(widget.productModel.tax!/100)*widget.productModel.unitPrice!;
+    }else if(widget.productModel.taxType=='percent'){
+      tax =(widget.productModel.tax!/100)*widget.productModel.unitPrice!;
+
+    }else{
+      tax=widget.productModel.tax!;
+    }}
+    // double tax =(productModel.taxType!=null&&productModel.taxType=='percent'?(productModel.tax!/100)*productModel.unitPrice!:productModel.tax!);
+  // double total = productModel.unitPrice!+(productModel.taxType==null||productModel.taxType=='percent'?(productModel.tax!/100)*productModel.unitPrice!:productModel.tax!);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    getTaxAndPrice();
+    double ratting = (widget.productModel.rating?.isNotEmpty ?? false) ?  double.parse('${widget.productModel.rating?[0].average}') : 0;
 
     return InkWell(onTap: () {Navigator.push(context, PageRouteBuilder(transitionDuration: const Duration(milliseconds: 1000),
-          pageBuilder: (context, anim1, anim2) => ProductDetails(productId: productModel.id,
-              product: productModel,
-              slug: productModel.slug)));},
+          pageBuilder: (context, anim1, anim2) => ProductDetails(productId: widget.productModel.id,
+              product: widget.productModel,
+              slug: widget.productModel.slug)));},
       child: Container(
         margin: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
@@ -55,10 +78,10 @@ class ProductWidget extends StatelessWidget {
                 children: [
                   CarouselSliderWidget(
                     isCategory: false,
-                    productModel: productModel,
+                    productModel: widget.productModel,
                   ),
 
-                  if(productModel.currentStock! == 0 && productModel.productType == 'physical')...[
+                  if(widget.productModel.currentStock! == 0 && widget.productModel.productType == 'physical')...[
 
                     Positioned.fill(child: Align(
                       alignment: Alignment.bottomCenter,
@@ -101,7 +124,7 @@ class ProductWidget extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(productModel.name ?? '',
+                          Text(widget.productModel.name ?? '',
                               textAlign: TextAlign.center, style: GoogleFonts.tajawal(
                           fontSize:14,
                             fontWeight: FontWeight.w500
@@ -121,7 +144,7 @@ class ProductWidget extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 2.0),
                     child: Text(ratting.toStringAsFixed(1), style: GoogleFonts.cairo(fontSize: Dimensions.fontSizeDefault)),
                   ),
-                  Text('(${productModel.reviewCount!=null?productModel.reviewCount.toString():0})',
+                  Text('(${widget.productModel.reviewCount!=null?widget.productModel.reviewCount.toString():0})',
                       style: GoogleFonts.cairo(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor))]),
                  const SizedBox(height: 3,),
                  Padding(
@@ -139,12 +162,12 @@ class ProductWidget extends StatelessWidget {
                              fontWeight: FontWeight.w400,
                              // color: Colors.grey,
                                color: Theme.of(context).iconTheme.color
-                                          
+
                            ),
                            children: [
-                                          
+
                              TextSpan(
-                               text: PriceConverter.convertPrice(context,productModel.tax??0.0),
+                               text: PriceConverter.convertPrice(context,tax??0.0),
 
                                style:  GoogleFonts.tajawal(
                                  fontWeight: FontWeight.w400,
@@ -184,7 +207,7 @@ class ProductWidget extends StatelessWidget {
                          children: [
 
                            TextSpan(
-                             text: productModel.currentStock.toString()??'0',
+                             text: widget.productModel.currentStock.toString()??'0',
 
                              style:  GoogleFonts.tajawal(
                                  fontWeight: FontWeight.w400,
@@ -196,7 +219,7 @@ class ProductWidget extends StatelessWidget {
                          ],
                        ),
                      ),
-                   
+
                    ]),
                  ),
 
@@ -215,16 +238,16 @@ class ProductWidget extends StatelessWidget {
                          Expanded(
                            flex: 2,
                            child: Text("${getTranslated('Total_Payments', context)} ${PriceConverter.convertPrice(context,
-                               productModel.unitPrice, discountType: productModel.discountType,
-                               discount: productModel.discount ?? 0.00)}ٍ",
+                               widget.productModel.unitPrice!+tax, discountType: widget.productModel.discountType,
+                               discount: widget.productModel.discount ?? 0.00)}ٍ",
                                maxLines: 1,
                                overflow: TextOverflow.ellipsis,
                                style: GoogleFonts.tajawal(color: Theme.of(context).primaryColor,fontWeight: FontWeight.w500,fontSize: 12)),
                          ),
-                         if(productModel.discount!= null && productModel.discount! > 0 )
+                         if(widget.productModel.discount!= null && widget.productModel.discount! > 0 )
 
                          Expanded(
-                           child: Text(PriceConverter.convertPrice(context, productModel.unitPrice),
+                           child: Text(PriceConverter.convertPrice(context, widget.productModel.unitPrice),
                                maxLines: 1,
                                overflow: TextOverflow.ellipsis,
 
@@ -240,7 +263,7 @@ class ProductWidget extends StatelessWidget {
                   builder:(context, cartProvider, child) {
                     bool inCart=false;
                     for (var element in cartProvider.cartList) {
-                      if(element.product!.id==productModel.id){
+                      if(element.product!.id==widget.productModel.id){
                         inCart=true;
                       }
                     }
@@ -249,15 +272,15 @@ class ProductWidget extends StatelessWidget {
                       bool  sync=false;
                       bool linked=false;
                       for (var element in myShopController.pendingList) {
-                        if(element.id==productModel.id){
+                        if(element.id==widget.productModel.id){
                           sync=true;
                         }
                       } for (var element in myShopController.deleteList) {
-                        if(element.id==productModel.id){
+                        if(element.id==widget.productModel.id){
                           sync=true;
                         }
                       } for (var element in myShopController.linkedList) {
-                        if(element.id==productModel.id){
+                        if(element.id==widget.productModel.id){
                           linked=true;
                         }
                       }
@@ -278,10 +301,10 @@ class ProductWidget extends StatelessWidget {
                              CartModel? cartItem;
                              int index= 0;
                              for (int i=0;i<cartProvider.cartList.length;i++) {
-                               if(cartProvider.cartList[i].product!.id == productModel.id){
+                               if(cartProvider.cartList[i].product!.id == widget.productModel.id){
                                  index =i;
                                  cartItem=cartProvider.cartList[i];
-                                 if(productModel.currentStock!=cartItem.quantity){
+                                 if(widget.productModel.currentStock!=cartItem.quantity){
 
                                    cartProvider.updateCartProductQuantity(cartItem.id, cartItem.quantity!+1, context, true, index,product: true);
                                  }else{
@@ -296,11 +319,11 @@ class ProductWidget extends StatelessWidget {
 
                              // showCustomSnackBar(getTranslated('Already_added', context), context);
                            }else
-                           if(productModel.currentStock==0){
+                           if(widget.productModel.currentStock==0){
                              showCustomSnackBar(getTranslated('Out_of_stock', context), context);
                            }else{
                              CartModelBody cart = CartModelBody(
-                               productId: productModel.id,
+                               productId: widget.productModel.id,
                                quantity: 1,
                              );
                              Provider.of<CartController>(context, listen: false).addToCartAPI(
@@ -314,7 +337,7 @@ class ProductWidget extends StatelessWidget {
                                 height: 30,
 
                                 decoration: BoxDecoration(
-                                    color:productModel.currentStock==0?Colors.grey: Theme.of(context).primaryColor.withOpacity(0.20),
+                                    color:widget.productModel.currentStock==0?Colors.grey: Theme.of(context).primaryColor.withOpacity(0.20),
                                     borderRadius: BorderRadius.circular(4)
                                 ),
                                 child: Padding(
@@ -322,7 +345,7 @@ class ProductWidget extends StatelessWidget {
                                   child: Center(child: Text(getTranslated('buy', context)!,style: GoogleFonts.tajawal(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
-                                      color:productModel.currentStock==0?Colors.white: Theme.of(context).iconTheme.color
+                                      color:widget.productModel.currentStock==0?Colors.white: Theme.of(context).iconTheme.color
                                   ),)),
                                 ),
                               ),
@@ -334,11 +357,11 @@ class ProductWidget extends StatelessWidget {
                               onTap: (){
 try{
 
-  if(productModel.currentStock==0){
+  if(widget.productModel.currentStock==0){
     showCustomSnackBar(getTranslated('Out_of_stock', context), context);
 
   }else if(!sync&&!linked){
-    myShopController.addProduct(productModel.id!).then((value) {
+    myShopController.addProduct(widget.productModel.id!).then((value) {
       if(value==true){
         myShopController.getList();
         showCustomSnackBar(getTranslated('Added_to_my_store', context), context,isError: false);
@@ -358,7 +381,7 @@ try{
                               child: Container(
                                 height: 30,
                                 decoration: BoxDecoration(
-                                    color:linked==true?Colors.green:sync||productModel.currentStock==0?Colors.grey: Theme.of(context).primaryColor,
+                                    color:linked==true?Colors.green:sync||widget.productModel.currentStock==0?Colors.grey: Theme.of(context).primaryColor,
                                     borderRadius: BorderRadius.circular(4)
                                 ),
                                 child: Padding(
@@ -387,7 +410,7 @@ try{
 
           // Off
 
-          productModel.discount! > 0 ?
+          widget.productModel.discount! > 0 ?
           Positioned(top: 10, left: 0, child: Container(
             transform: Matrix4.translationValues(-1, 0, 0),
               padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: 3),
@@ -397,8 +420,8 @@ try{
 
               child: Center(
                 child: Directionality(textDirection: TextDirection.ltr,
-                  child: Text(PriceConverter.percentageCalculation(context, productModel.unitPrice,
-                        productModel.discount, productModel.discountType),
+                  child: Text(PriceConverter.percentageCalculation(context, widget.productModel.unitPrice,
+                        widget.productModel.discount, widget.productModel.discountType),
                     style: textBold.copyWith(color: Colors.white,
                         fontSize: Dimensions.fontSizeSmall), textAlign: TextAlign.center,),
                 ))))
@@ -407,40 +430,40 @@ try{
 
           Positioned(top: 0, left: 2,
             child: FavouriteButtonWidget(
-              product: productModel,
+              product: widget.productModel,
               // backgroundColor: ColorResources.getImageBg(context),
-              productId: productModel.id,
+              productId: widget.productModel.id,
             ),
           ),
-          selectActive!?  Positioned(top: 0, right: 2,
+          widget.selectActive!?  Positioned(top: 0, right: 2,
             child: Consumer<ProductController>(
               builder:(context, product, child) =>  Consumer<MyShopController>(
                 builder:(context, myShopController, child) =>  Checkbox(
-                    value: product.productSelect.contains(productModel.id),
+                    value: product.productSelect.contains(widget.productModel.id),
                     onChanged: (val){
                       // for (var element in widget.products) {
                         bool  sync=false;
                         for (var elm in myShopController.pendingList) {
-                          if(elm.id==productModel.id){
+                          if(elm.id==widget.productModel.id){
                             sync=true;
                           }
                         } for (var elm in myShopController.deleteList) {
-                          if(elm.id==productModel.id!){
+                          if(elm.id==widget.productModel.id!){
                             sync=true;
                           }
                         } for (var elm in myShopController.linkedList) {
-                          if(elm.id==productModel.id!){
+                          if(elm.id==widget.productModel.id!){
                             sync=true;
                           }
                         }
-                        if(productModel.currentStock==0){
+                        if(widget.productModel.currentStock==0){
                           showCustomSnackBar(getTranslated('Out_of_stock', context), context);
 
                         }else if(sync){
                           showCustomSnackBar(getTranslated('Already_added', context), context,isError: true );
 
                         }else{
-                          product.selectProduct(productModel.id!,true);
+                          product.selectProduct(widget.productModel.id!,true);
 
 
                         }

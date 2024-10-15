@@ -19,7 +19,6 @@ class CustomImageWidget extends StatefulWidget {
 class _CustomImageWidgetState extends State<CustomImageWidget> {
 
   Future<void> loadImage() async {
-    // print('custom image precache image start');
     try {
       await precacheImage(NetworkImage(widget.image), Get.context!);
     } catch (e) {
@@ -32,17 +31,40 @@ class _CustomImageWidgetState extends State<CustomImageWidget> {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     loadImage();
-
-  }
-  @override
-  Widget build(BuildContext context) {
-    return CachedNetworkImage(
+    images=CachedNetworkImage(
 
       placeholder: (context, url) => Image.asset(widget.placeholder?? Images.placeholder, height: widget.height, width: widget.width, fit: BoxFit.cover),
       imageUrl: widget.image, fit: widget.fit?? BoxFit.cover,
+      filterQuality: FilterQuality.medium,
+      useOldImageOnUrlChange:true ,
       height: widget.height,width: widget.width,
       errorWidget: (c, o, s) => Image.asset(widget.placeholder?? Images.placeholder, height: widget.height, width: widget.width, fit: BoxFit.cover),
 
     );
+    
+
+  }
+  Widget images=const SizedBox();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadImage();
+     images=CachedNetworkImage(
+
+      placeholder: (context, url) => Image.asset(widget.placeholder?? Images.placeholder, height: widget.height, width: widget.width, fit: BoxFit.cover),
+      imageUrl: widget.image, fit: widget.fit?? BoxFit.cover,
+      filterQuality: FilterQuality.medium,
+      useOldImageOnUrlChange:true ,
+      height: widget.height,width: widget.width,
+      errorWidget: (c, o, s) => Image.asset(widget.placeholder?? Images.placeholder, height: widget.height, width: widget.width, fit: BoxFit.cover),
+
+    );
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return images;
   }
 }

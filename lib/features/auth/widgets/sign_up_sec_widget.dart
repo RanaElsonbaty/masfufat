@@ -312,7 +312,7 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                             showLabelText: false,
                             focusNode: authProvider.taxNumberFocus,
                             // prefixIcon: Images.username,
-                            nextFocus: authProvider.storeLinkFocus,
+                            nextFocus: authProvider.addressFocus,
                             required: true,
                             capitalization: TextCapitalization.words,
                             controller: authProvider.taxNumber,
@@ -387,28 +387,28 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                       height: 5,
                     ),
 
-                    Container(
-                        margin: const EdgeInsets.only(
-                            left: Dimensions.marginSizeDefault,
-                            right: Dimensions.marginSizeDefault,
-                            top: Dimensions.marginSizeSmall),
-                        child: CustomTextFieldWidget(
-                            hintText: getTranslated('Attach_your_store_link', context),
-                            // labelText: getTranslated('Store_Link', context),
-                            titleText: getTranslated('Store_Link', context),
-                            showLabelText: false,
-                            focusNode: authProvider.storeLinkFocus,
-                            nextFocus: authProvider.governorateFocus,
-                            required: true,
-                            inputType: TextInputType.emailAddress,
-                            controller: authProvider.storeLink,
-                            // prefixIcon: Images.email,
-                            validator: (value) =>
-                                ValidateCheck.validateUrl(
-                                    value!, "Enter_the_link_to_the_valid_store"))),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    // Container(
+                    //     margin: const EdgeInsets.only(
+                    //         left: Dimensions.marginSizeDefault,
+                    //         right: Dimensions.marginSizeDefault,
+                    //         top: Dimensions.marginSizeSmall),
+                    //     child: CustomTextFieldWidget(
+                    //         hintText: getTranslated('Attach_your_store_link', context),
+                    //         // labelText: getTranslated('Store_Link', context),
+                    //         titleText: getTranslated('Store_Link', context),
+                    //         showLabelText: false,
+                    //         focusNode: authProvider.storeLinkFocus,
+                    //         nextFocus: authProvider.governorateFocus,
+                    //         required: true,
+                    //         inputType: TextInputType.emailAddress,
+                    //         controller: authProvider.storeLink,
+                    //         // prefixIcon: Images.email,
+                    //         validator: (value) =>
+                    //             ValidateCheck.validateUrl(
+                    //                 value!, "Enter_the_link_to_the_valid_store"))),
+                    // const SizedBox(
+                    //   height: 5,
+                    // ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
@@ -648,9 +648,11 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                               ? () {
                          if(authProvider.commercialRegistrationNo.text.isEmpty){
                            showCustomSnackBar(getTranslated('Commercial_Registration_Number_Self_Employment_Document', context), context);
-                         }else if( authProvider.storeLink.text.isEmpty){
-                           showCustomSnackBar(getTranslated('Enter_the_link_to_the_valid_store', context), context);
-                         }else   if(authProvider.commercialRegisterImage!=null){
+                         }
+                         // else if( authProvider.storeLink.text.isEmpty){
+                         //   showCustomSnackBar(getTranslated('Enter_the_link_to_the_valid_store', context), context);
+                         // }
+                         else   if(authProvider.commercialRegisterImage!=null){
                                   if (signUpFormKey.currentState?.validate() ??
                                       false) {
                                     RegisterModel model = RegisterModel(
@@ -687,7 +689,7 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                                       lon: authProvider.lan.text,
                                       password:
                                           authProvider.passwordController.text,
-                                      plan: '',
+                                      plan: '0',
                                       remember: '1',
                                       taxNo: authProvider.taxNumber.text,
                                       code: authProvider.walletCouponCode.text,

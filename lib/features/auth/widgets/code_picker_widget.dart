@@ -171,10 +171,12 @@ class CodePickerWidgetState extends State<CodePickerWidget> {
             children: <Widget>[
               const Icon(Icons.arrow_drop_down,size: 25,color: Colors.white,),
               // SizedBox(width: 25, child: Image.asset(widget.fromCountryList? Images.country : Images.iMark, color: Theme.of(context).primaryColor.withOpacity(.6),)),
-               SizedBox(width: widget.fromCountryList? Dimensions.paddingSizeDefault : Dimensions.paddingSizeExtraSmall),
-              if (widget.showFlagMain != null
-                  ? widget.showFlagMain!
-                  : widget.showFlag)
+              //  SizedBox(width: widget.fromCountryList? Dimensions.paddingSizeDefault : Dimensions.paddingSizeExtraSmall),
+              // if (widget.showFlagMain != null
+              //     ? widget.showFlagMain!
+              //     : widget.showFlag)
+              const SizedBox(width: 5,),
+
                 Flexible(
                   flex: widget.alignLeft ? 0 : 1,
                   fit: widget.alignLeft ? FlexFit.tight : FlexFit.loose,
@@ -184,8 +186,8 @@ class CodePickerWidgetState extends State<CodePickerWidget> {
                         : Clip.hardEdge,
                     decoration: widget.flagDecoration,
                     margin: widget.alignLeft
-                        ? const EdgeInsets.only(right: 16.0, left: 8.0)
-                        : const EdgeInsets.only(right: 10.0),
+                        ? const EdgeInsets.only(right: 0.0, left: 0.0)
+                        : const EdgeInsets.only(right: 0.0),
                     child: Image.asset(
                       selectedItem!.flagUri!,
                       package: 'country_code_picker',
@@ -193,16 +195,21 @@ class CodePickerWidgetState extends State<CodePickerWidget> {
                     ),
                   ),
                 ),
+              const SizedBox(width: 5,),
               if (!widget.hideMainText)
+
                 Flexible(
                   fit: widget.alignLeft ? FlexFit.tight : FlexFit.loose,
-                  child: Text(
-                    widget.showOnlyCountryWhenClosed
-                        ? selectedItem!.toCountryStringOnly()
-                        : selectedItem.toString(),
-                    style: widget.textStyle ??
-                        Theme.of(context).textTheme.labelLarge,
-                    overflow: widget.textOverflow,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 3.0),
+                    child: Text(
+                      widget.showOnlyCountryWhenClosed
+                          ? selectedItem!.toCountryStringOnly()
+                          : selectedItem.toString(),
+                      style: widget.textStyle ??
+                          Theme.of(context).textTheme.labelLarge,
+                      overflow: widget.textOverflow,
+                    ),
                   ),
                 ),
 
