@@ -85,10 +85,6 @@ class _AddressListScreenState extends State<AddressListScreen> {
                                 style: GoogleFonts.tajawal (fontSize: Dimensions.fontSizeLarge,fontWeight: FontWeight.w500),),),
               
                             InkWell(onTap: ()=> Navigator.of(context).push(MaterialPageRoute(builder: (_)=>
-                                // AddNewAddressScreen(
-                              // isBilling:  locationProvider.addressList?[index].isBilling==1,
-                              // placemarks: [],
-                              // address: locationProvider.addressList?[index], isEnableUpdate: true
                        SelectLocationScreen(edit: true,
                         address: locationProvider.addressList![index],
               

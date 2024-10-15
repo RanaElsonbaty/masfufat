@@ -104,6 +104,7 @@ void initData()async{
               cityId=element.id.toString();
             });
               }else{
+              showCustomSnackBar(getTranslated('selected_city_is_found', context), context);
               _cityController.text='not found';
             }
           });
@@ -231,6 +232,8 @@ void initData()async{
                               prefixIcon: Images.user,
                               labelText: getTranslated('enter_contact_person_name', context),
                               hintText: getTranslated('enter_contact_person_name', context),
+                              showLabelText: false,
+                              titleText: getTranslated('enter_contact_person_name', context) ,
                               inputType: TextInputType.name,
                               controller: _contactPersonNameController,
                               focusNode: _nameNode,
@@ -247,6 +250,8 @@ void initData()async{
                                   required: true,
                                   labelText: getTranslated('phone', context),
                                   hintText: getTranslated('enter_mobile_number', context),
+                                  showLabelText: false,
+                                  titleText: getTranslated('enter_mobile_number', context),
                                   controller: _contactPersonNumberController,
                                   focusNode: _numberNode,
                                   nextFocus: _emailNode,
@@ -257,7 +262,7 @@ void initData()async{
                                     authProvider.setCountryCode(countryCode.dialCode!);
                                   },
                                   isAmount: true,
-                                  validator: (value)=> ValidateCheck.validateEmptyText(value, "phone_must_be_required"),
+                                  validator: (value)=> ValidateCheck.validatePhoneNumber(value, "phone_must_be_required"),
                                   inputAction: TextInputAction.next,
                                   inputType: TextInputType.phone,
                                 );
@@ -271,6 +276,9 @@ void initData()async{
                             prefixIcon: Images.email,
                             labelText: getTranslated('email', context),
                             hintText: getTranslated('enter_contact_person_email', context),
+                            titleText: getTranslated('enter_contact_person_email', context),
+                            showLabelText: false,
+
                             inputType: TextInputType.name,
                             controller: _contactPersonEmailController,
                             focusNode: _emailNode,
@@ -334,7 +342,11 @@ void initData()async{
                             //           Text(getTranslated('billing_address', context)??'', style: textRegular.copyWith(fontSize: Dimensions.fontSizeLarge))])]))),
                             const SizedBox(height: Dimensions.paddingSizeDefaultAddress,),
 
-                            CustomTextFieldWidget(labelText: getTranslated('delivery_address', context),
+                            CustomTextFieldWidget(
+                              labelText: getTranslated('delivery_address', context),
+                              titleText: getTranslated('delivery_address', context),
+                              showLabelText: false,
+
                               hintText: getTranslated('usa', context),
                               inputType: TextInputType.streetAddress,
                               inputAction: TextInputAction.next,
@@ -398,6 +410,9 @@ void initData()async{
                                       child: CustomTextFieldWidget(
                                         labelText: getTranslated('country', context),
                                         hintText: getTranslated('country', context),
+                                        titleText: getTranslated('country', context),
+                                        showLabelText: false,
+
                                         inputType: TextInputType.streetAddress,
                                         inputAction: TextInputAction.next,
                                         focusNode: _cityNode,
@@ -456,6 +471,8 @@ void initData()async{
                               child: CustomTextFieldWidget(
                                 labelText: getTranslated('city', context),
                                 hintText: getTranslated('city', context),
+                                titleText: getTranslated('city', context),
+                                showLabelText: false,
                                 inputType: TextInputType.streetAddress,
                                 inputAction: TextInputAction.next,
                                 focusNode: _cityNode,
@@ -474,6 +491,9 @@ void initData()async{
                           CustomTextFieldWidget(
                             labelText: getTranslated('zip', context),
                             hintText: getTranslated('zip', context),
+                            titleText: getTranslated('zip', context),
+                            showLabelText: false,
+
                             inputAction: TextInputAction.done,
                             focusNode: _zipNode,
                             required: true,
@@ -523,11 +543,11 @@ void initData()async{
 
                                 if(_addressFormKey.currentState?.validate() ?? false) {
                                   AddressModel addressModel = AddressModel(
-                                      addressType: addressController.addressTypeList[addressController.selectAddressIndex].title,
+                                      addressType: getTranslated(addressController.addressTypeList[addressController.selectAddressIndex].title, context),
                                       contactPersonName: _contactPersonNameController.text,
                                       phone: '${Provider.of<AuthController>(context, listen: false).countryDialCode}${_contactPersonNumberController.text.trim()}',
                                       email: _contactPersonEmailController.text.trim(),
-                                      city: cityId.toString(),
+                                      city: _cityController.text.toString(),
                                       zip: _zipCodeController.text,
                                       title: '',
                                       customerId: 0,
@@ -546,6 +566,7 @@ void initData()async{
                                   if (widget.isEnableUpdate) {
                                     addressModel.id = widget.address!.id;
                                     addressController.updateAddress(context, addressModel: addressModel, addressId: addressModel.id);
+                                    Navigator.pop(context);
 
                                   }else if(_countryCodeController.text.trim().isEmpty){
                                     showCustomSnackBar('${getTranslated('country_is_required', context)}', context);
