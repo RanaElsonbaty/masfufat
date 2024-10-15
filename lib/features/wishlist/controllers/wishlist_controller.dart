@@ -12,7 +12,7 @@ class WishListController extends ChangeNotifier {
   final WishlistServiceInterface? wishlistServiceInterface;
   WishListController({required this.wishlistServiceInterface});
 
-  final bool _isLoading = false;
+   bool _isLoading = false;
   bool get isLoading => _isLoading;
   List<WishlistModel>? _wishList=[];
   List<WishlistModel>? get wishList => _wishList;
@@ -59,8 +59,10 @@ void addOfflineWishList(Product productModel,bool add){
     }
     notifyListeners();
   }
-
+// bool =false;
+// bool _isLoading=false;
   Future<void> getWishList() async {
+    _isLoading=true;
     ApiResponse apiResponse = await wishlistServiceInterface!.getList();
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       _wishList = [];
@@ -70,11 +72,15 @@ void addOfflineWishList(Product productModel,bool add){
         for(int i=0; i< _wishList!.length; i++){
           addedIntoWish.add(_wishList![i].productId!);
         }
-
+        _isLoading=false;
+        notifyListeners();
       }
     } else {
       ApiChecker.checkApi( apiResponse);
+      _isLoading=false;
+      notifyListeners();
     }
+    _isLoading=false;
     notifyListeners();
   }
 

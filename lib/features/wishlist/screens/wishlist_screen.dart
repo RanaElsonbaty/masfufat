@@ -35,7 +35,7 @@ class _WishListScreenState extends State<WishListScreen> {
           Expanded(child: !Provider.of<AuthController>(context, listen: false).isLoggedIn() ?
           const NotLoggedInWidget() :
           Consumer<WishListController>(builder: (context, wishListProvider, child) {
-            return wishListProvider.wishList != null ? wishListProvider.wishList!.isNotEmpty ? RefreshIndicator(
+            return wishListProvider.isLoading==false? wishListProvider.wishList != null && wishListProvider.wishList!.isNotEmpty ? RefreshIndicator(
               onRefresh: () async => await  wishListProvider.getWishList(),
               child: ListView.builder(padding: const EdgeInsets.all(0),
                   itemCount: wishListProvider.wishList!.length, itemBuilder: (context, index) {
