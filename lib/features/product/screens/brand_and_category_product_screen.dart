@@ -44,7 +44,7 @@ class _BrandAndCategoryProductScreenState extends State<BrandAndCategoryProductS
   int get page =>_page;
   Future<void> fetchPage(int pageKey,bool isBrand ,String id,BuildContext context,bool reloud) async {
     try {
-      print('asdasasda${widget.id}');
+
       final List<Product>  newItems = await Provider.of<ProductController>(context, listen: false).initBrandOrCategoryProductList(
           isBrand,int.parse(id),isBrand?'1':id,context,pageKey,true
       ,searchController.text,Provider.of<SearchProductController>(context, listen: false).syncSortText,

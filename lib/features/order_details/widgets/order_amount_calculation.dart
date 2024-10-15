@@ -58,6 +58,10 @@ class OrderAmountCalculation extends StatelessWidget {
 
           AmountWidget(title: getTranslated('tax', context),
               amount: PriceConverter.convertPrice(context, tax)),
+          Divider(color: Colors.grey.shade300,height: 10,),
+          const SizedBox(height: 5,),
+   AmountWidget(title: getTranslated('Shipping_tax', context),
+              amount: PriceConverter.convertPrice(context, (shippingCost*0.15))),
 
           const SizedBox(height: 5,),
 
@@ -72,7 +76,7 @@ const SizedBox(height: 5,),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: AmountWidget(title: getTranslated('total_payable', context),
-                amount: PriceConverter.convertPrice(context, (itemTotalAmount + shippingCost - eeDiscount! - orderProvider.orders!.discountAmount - discount  + tax)),),
+                amount: PriceConverter.convertPrice(context, (itemTotalAmount + shippingCost - eeDiscount! - orderProvider.orders!.discountAmount - discount  + tax+(shippingCost*0.15))),),
             ),
           ),]));
   }

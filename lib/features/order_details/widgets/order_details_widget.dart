@@ -93,7 +93,7 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
 
                       ClipRRect(borderRadius: BorderRadius.circular(12),
                         child: CustomImageWidget(image: '${widget.orderDetailsModel.productDetails?.imagesFullUrl}', width: 80  , height: 80)),
-                      // const SizedBox(width: Dimensions.marginSizeDefault),
+                      const SizedBox(width: Dimensions.marginSizeDefault),
 
                       Expanded(flex: 3,
                         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

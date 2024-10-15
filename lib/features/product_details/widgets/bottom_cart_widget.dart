@@ -166,6 +166,8 @@ bool sync =false;
           Expanded(child: Consumer<MyShopController>(
             builder:(context, myShopController, child) {
               bool  sync=false;
+
+              if(widget.product!=null){
               for (var element in myShopController.pendingList) {
                 if(element.id==widget.product!.id){
                   sync=true;
@@ -178,6 +180,7 @@ bool sync =false;
                 if(element.id==widget.product!.id){
                   sync=true;
                 }
+              }
               }
               return InkWell(onTap: () {
 

@@ -134,7 +134,9 @@ class SearchFilterBottomSheetState extends State<SearchFilterBottomSheet> {
                         child: RangeSlider(
                           values: currentRangeValues,
                           max: AppConstants.maxFilter,
-                          divisions: 500,
+                          divisions: 10000,
+
+
                           labels: RangeLabels(
                               currentRangeValues.start.round().toString(),
                               currentRangeValues.end.round().toString()),

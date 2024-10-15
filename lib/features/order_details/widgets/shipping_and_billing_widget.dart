@@ -26,78 +26,78 @@ class ShippingAndBillingWidget extends StatelessWidget {
               //   text: getTranslated('address_info', context)!,
               //   textColor: Theme.of(context).primaryColor),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(getTranslated('Address_details', context)!,style: GoogleFonts.tajawal(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16
-              ),),
-            ),
-            orderProvider.onlyDigital?
-              Card(
-                color: Theme.of(context).cardColor,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 8),
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                     const SizedBox(height: Dimensions.marginSizeSmall),
-
-
-
-                    Row(
-                      children: [
-                        Expanded(
-                          child: IconWithTextRowWidget(
-                            icon: Icons.person_2_outlined,
-                            text:
-                            orderProvider.orders!.shippingAddressData.contactPersonName,),
-                        ),
-
-
-                      ],
-                    ),
-                    const SizedBox(height: Dimensions.marginSizeSmall),
-
-                    Row(
-                      children: [
-                        Expanded(
-                          child: IconWithTextRowWidget(
-                            icon: Icons.call_outlined,
-                            text:
-                            orderProvider.orders!.shippingAddressData.phone ,),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: Dimensions.marginSizeSmall),
-
-                    Row(mainAxisAlignment:MainAxisAlignment.start, crossAxisAlignment:CrossAxisAlignment.start,
-                        children: [
-                          Icon(Icons.location_on_outlined, color: Theme.of(context).iconTheme.color),
-                          const SizedBox(width: Dimensions.marginSizeSmall),
-
-                          Expanded(child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 1),
-                            child: Text(
-                            orderProvider.orders!.shippingAddressData.address,
-                                maxLines: 3, overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault,fontWeight: FontWeight.w400))))]),
-
-                    // const SizedBox(height: Dimensions.paddingSizeSmall),
-                    // Row(children: [
-                    //     Expanded(child: IconWithTextRowWidget(
-                    //       imageIcon: Images.country,
-                    //         icon: Icons.location_city,
-                    //         text: '${ orderProvider.orders!.shippingAddressData?.country != null ?
-                    //         orderProvider.orders!.shippingAddressData!.country : ''}')),
-                    //
-                    //     Expanded(child: IconWithTextRowWidget(
-                    //       imageIcon: Images.city,
-                    //         icon: Icons.location_city,
-                    //         text: '${orderProvider.orders!.shippingAddressData != null ?
-                    //         orderProvider.orders!.shippingAddressData!.zip : ''}',))]),
-                    ],
-                  ),
-                ),
-              ):const SizedBox(),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            //   child: Text(getTranslated('Address_details', context)!,style: GoogleFonts.tajawal(
+            //       fontWeight: FontWeight.w500,
+            //       fontSize: 16
+            //   ),),
+            // ),
+            // orderProvider.onlyDigital?
+            //   Card(
+            //     color: Theme.of(context).cardColor,
+            //     child: Padding(
+            //       padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 8),
+            //       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            //                          const SizedBox(height: Dimensions.marginSizeSmall),
+            //
+            //
+            //
+            //         Row(
+            //           children: [
+            //             Expanded(
+            //               child: IconWithTextRowWidget(
+            //                 icon: Icons.person_2_outlined,
+            //                 text:
+            //                 orderProvider.orders!.shippingAddressData.contactPersonName,),
+            //             ),
+            //
+            //
+            //           ],
+            //         ),
+            //         const SizedBox(height: Dimensions.marginSizeSmall),
+            //
+            //         Row(
+            //           children: [
+            //             Expanded(
+            //               child: IconWithTextRowWidget(
+            //                 icon: Icons.call_outlined,
+            //                 text:
+            //                 orderProvider.orders!.shippingAddressData.phone ,),
+            //             ),
+            //           ],
+            //         ),
+            //         const SizedBox(height: Dimensions.marginSizeSmall),
+            //
+            //         Row(mainAxisAlignment:MainAxisAlignment.start, crossAxisAlignment:CrossAxisAlignment.start,
+            //             children: [
+            //               Icon(Icons.location_on_outlined, color: Theme.of(context).iconTheme.color),
+            //               const SizedBox(width: Dimensions.marginSizeSmall),
+            //
+            //               Expanded(child: Padding(
+            //                 padding: const EdgeInsets.symmetric(vertical: 1),
+            //                 child: Text(
+            //                 orderProvider.orders!.shippingAddressData.address,
+            //                     maxLines: 3, overflow: TextOverflow.ellipsis,
+            //                     style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault,fontWeight: FontWeight.w400))))]),
+            //
+            //         // const SizedBox(height: Dimensions.paddingSizeSmall),
+            //         // Row(children: [
+            //         //     Expanded(child: IconWithTextRowWidget(
+            //         //       imageIcon: Images.country,
+            //         //         icon: Icons.location_city,
+            //         //         text: '${ orderProvider.orders!.shippingAddressData?.country != null ?
+            //         //         orderProvider.orders!.shippingAddressData!.country : ''}')),
+            //         //
+            //         //     Expanded(child: IconWithTextRowWidget(
+            //         //       imageIcon: Images.city,
+            //         //         icon: Icons.location_city,
+            //         //         text: '${orderProvider.orders!.shippingAddressData != null ?
+            //         //         orderProvider.orders!.shippingAddressData!.zip : ''}',))]),
+            //         ],
+            //       ),
+            //     ),
+            //   ):const SizedBox(),
               // Divider(thickness: .25, color: Theme.of(context).primaryColor.withOpacity(0.50),),
 
 

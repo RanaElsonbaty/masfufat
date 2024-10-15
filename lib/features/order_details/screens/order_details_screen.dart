@@ -88,6 +88,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 double shippingCost = 0;
 
                 if (orderProvider.orderDetails != null && orderProvider.orderDetails!.isNotEmpty) {
+                  print('adasdadaldajdhakjsd----${orderProvider.orderDetails![0]?.deliveryStatus}');
                   if( orderProvider.orderDetails?[0].order?.isShippingFree == 1){
                     shippingCost = 0;
                   }else{
@@ -124,40 +125,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
 
 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20  ),
-                    child: Row(mainAxisAlignment:  orderProvider.orders!.orderType != 'POS' ? MainAxisAlignment.spaceBetween : MainAxisAlignment.end, children: [
-                        Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
-                            child: Center(child:
-                            Text.rich(TextSpan(children: [
-                              TextSpan(text: '${getTranslated('order_verification_code', context)} : ',
-                                  style: GoogleFonts.tajawal(fontSize: 16,fontWeight: FontWeight.w500)),
-                              TextSpan(text: orderProvider.orders?.verificationCode??'',
-                                  style: GoogleFonts.tajawal(color: Theme.of(context).primaryColor,fontSize: 16,fontWeight: FontWeight.w500)),]))
-                            )
-                        ),
-
-                      ],
-                    ),
-                  ) ,
-
-                  ShippingAndBillingWidget(orderProvider: orderProvider),
-
-
-                  // orderProvider.orders != null && orderProvider.orders!.orderNote != null?
-                  // Padding(padding : const EdgeInsets.all(Dimensions.marginSizeSmall),
-                  //     child: Text.rich(TextSpan(children: [
-                  //       TextSpan(text: '${getTranslated('order_note', context)} : ',
-                  //           style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge,
-                  //               color: ColorResources.getReviewRattingColor(context))),
-                  //
-                  //       TextSpan(text:  orderProvider.orders!.orderNote != null? orderProvider.orders!.orderNote ?? '': "",
-                  //           style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
-                  //               color: Theme.of(context).textTheme.bodyLarge?.color)),
-                  //     ]))):const SizedBox(),
-                  // const SizedBox(height: Dimensions.paddingSizeSmall),
-
-
+                  ShippingInfoWidget(order: orderProvider),
 
                   // SellerSectionWidget(order: orderProvider),
                   const SizedBox(height: Dimensions.paddingSizeSmall),
@@ -177,7 +145,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     OrderProductListWidget(orderType: orderProvider.orders!.orderType,
                       fromTrack: widget.fromTrack,isGuest:0,orderId: orderProvider.orders!.id.toString(), orderModel: orderProvider.orders!,),
 
-                  ShippingInfoWidget(order: orderProvider),
                   // PaymentInfoWidget(order: orderProvider),
 
                   const SizedBox(height: Dimensions.marginSizeDefault),

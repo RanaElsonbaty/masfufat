@@ -96,7 +96,10 @@ class _OrderScreenState extends State<OrderScreen> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: orderController.selectTypeOrders.length,
                   padding: const EdgeInsets.all(0),
-                  itemBuilder: (context, index) => OrderWidget(orderModel: orderController.selectTypeOrders[index]),
+                  itemBuilder: (context, index) {
+                    print(orderController.selectTypeOrders[index].orderStatus);
+                    return OrderWidget(orderModel: orderController.selectTypeOrders[index]);
+                  },
                 ),
 
               ) : const NoInternetOrDataScreenWidget(isNoInternet: false, icon: Images.noOrder, message: 'no_order_found',) ,
