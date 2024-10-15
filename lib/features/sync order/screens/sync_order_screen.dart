@@ -22,7 +22,7 @@ class _SyncOrderScreenState extends State<SyncOrderScreen> {
   ScrollController scrollController = ScrollController();
   static const _pageSize = 5;
 
-  final PagingController _pagingController = PagingController(firstPageKey: 1);
+  final PagingController<int ,SyncOrderModel> _pagingController = PagingController(firstPageKey: 1);
 
   Future<void> _fetchPage(int pageKey) async {
     try {
@@ -36,7 +36,7 @@ class _SyncOrderScreenState extends State<SyncOrderScreen> {
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
       } else {
-        final nextPageKey = _pagingController.nextPageKey + 1;
+        final nextPageKey = _pagingController.nextPageKey! + 1;
         _pagingController.appendPage(newItems, nextPageKey);
       }
     } catch (error) {
@@ -97,7 +97,7 @@ class _SyncOrderScreenState extends State<SyncOrderScreen> {
             ),
           ),
           Expanded(
-            child: PagedListView(
+            child: PagedListView<int ,SyncOrderModel>(
                 addAutomaticKeepAlives: true,
                 padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
                 shrinkWrap: true,
@@ -150,8 +150,9 @@ class _SyncOrderScreenState extends State<SyncOrderScreen> {
                       return const SizedBox.shrink();
                     },
                     itemBuilder: (context, item, index) {
+                      print(item.orderStatus);
                       return SyncOrderWidget(
-                        orderModel: item as SyncOrderModel,
+                        orderModel: item ,
                       );
                     })),
           ),

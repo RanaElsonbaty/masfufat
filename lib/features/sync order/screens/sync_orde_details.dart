@@ -166,7 +166,7 @@ class _OrderSyncDetailsScreenState extends State<OrderSyncDetailsScreen> {
 
 
 
-                     products.isNotEmpty&& widget.syncOrder!.paymentStatus == 'unpaid'&&orderProvider.syncOrderDetails!.orderStatus!='canceled'
+                      widget.syncOrder!.paymentStatus == 'unpaid'&&orderProvider.syncOrderDetails!.orderStatus!='canceled'
                           ? Consumer<SyncOrderController>(
                         builder:(context,order,child) =>InkWell(
                           onTap: () {
