@@ -52,7 +52,7 @@ class _WalletScreenState extends State<WalletScreen> {
     Provider.of<PaymentController>(context,listen: false).initiate(context);
     if(Provider.of<AuthController>(context, listen: false).isLoggedIn()) {
       Provider.of<ProfileController>(context, listen: false).getUserInfo(context);
-      Provider.of<WalletController>(context, listen: false).getWalletBonusBannerList();
+      // Provider.of<WalletController>(context, listen: false).getWalletBonusBannerList();
       Provider.of<WalletController>(context, listen: false).setSelectedFilterType('All Transaction', 0, reload: false);
 
     }

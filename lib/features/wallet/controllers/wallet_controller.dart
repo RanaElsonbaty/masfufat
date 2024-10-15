@@ -35,6 +35,7 @@ class WalletController extends ChangeNotifier {
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
 
       if(offset == 1) {
+        print(apiResponse.response!.data);
         _walletTransactionModel = TransactionModel.fromJson(apiResponse.response!.data);
 
       }else {
@@ -98,8 +99,8 @@ class WalletController extends ChangeNotifier {
   }
 
 
-  List<String> types = ['all','order_place','loyalty_point', 'add_fund', 'add_fund_by_admin', 'order_refund','subscription_fees'];
-  List<String> filterTypes = ["All_Transaction", "Order_Transactions", "Converted_from_Loyalty_Point", 'Added_via_Payment_Method', 'Add_Fund_by_Admin', 'Order_refund',"Subscription_fees"];
+  List<String> types = ['all','order_transactions','order_refund', 'converted_from_loyalty_point', 'added_via_payment_method',  'add_fund_by_admin','subscription_fees'];
+  List<String> filterTypes = ["All_operations", "Purchase_orders", "Retrieve_orders", 'Loyalty_points_transferred_to_wallet_balance', 'Charging_wallet_balance_by_payment_methods', 'Adding_credit_by_platform_management',"Subscription_fees"];
 
   String selectedFilterType = 'all_transaction';
   int selectedIndexForFilter = 0;
