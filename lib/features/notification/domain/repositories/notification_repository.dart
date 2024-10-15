@@ -12,8 +12,8 @@ class NotificationRepository implements NotificationRepositoryInterface{
   @override
   Future<ApiResponse>  getList({int? offset}) async {
     try {
-      Response response = await dioClient!.get('${AppConstants.notificationUri}?page=$offset');
-      return ApiResponse.withSuccess(response);
+      Response response = await dioClient!.get('${AppConstants.notificationUri}$offset');
+;      return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
