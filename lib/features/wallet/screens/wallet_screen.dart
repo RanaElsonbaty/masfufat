@@ -34,7 +34,7 @@ class WalletScreen extends StatefulWidget {
 
 class _WalletScreenState extends State<WalletScreen> {
   final tooltipController = JustTheController();
-  final TextEditingController inputAmountController = TextEditingController();
+  final TextEditingController inputAmountController = TextEditingController(text: '1');
   final FocusNode focusNode = FocusNode();
 
 

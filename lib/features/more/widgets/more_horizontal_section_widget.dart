@@ -22,7 +22,7 @@ class MoreHorizontalSection extends StatefulWidget {
 class _MoreHorizontalSectionState extends State<MoreHorizontalSection> {
   JustTheController tooltipController = JustTheController();
 
-   TextEditingController inputAmountController = TextEditingController();
+   TextEditingController inputAmountController = TextEditingController(text: '1');
 
    FocusNode focusNode = FocusNode();
 
