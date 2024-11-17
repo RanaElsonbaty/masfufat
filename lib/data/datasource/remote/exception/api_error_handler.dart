@@ -2,6 +2,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/error_response.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:provider/provider.dart';
 
@@ -51,7 +52,7 @@ class ApiErrorHandler {
                     errorDescription = error.response!.data['message'];
                    }
                 case 500:
-                  errorDescription = 'Internal server error';
+                  errorDescription = getTranslated('There_is_an_unknown_problem_Please_try_again_later', Get.context!);
                 case 503:
                 case 429:
                   errorDescription = error.response!.statusMessage;
@@ -65,10 +66,10 @@ class ApiErrorHandler {
               }
               break;
             case DioExceptionType.badCertificate:
-              // TODO: Handle this case.
+
               break;
             case DioExceptionType.connectionError:
-              // TODO: Handle this case.
+
               break;
             case DioExceptionType.unknown:
               errorDescription = "Request to API call limit excited ";
