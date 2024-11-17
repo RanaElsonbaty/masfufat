@@ -65,7 +65,7 @@ class AsterThemeHomeScreen extends StatefulWidget {
     await Provider.of<BannerController>(Get.context!, listen: false).getBannerList(reload,'main_banner');
     // await Provider.of<BannerController>(Get.context!, listen: false).getBannerList(reload,'');
     await Provider.of<CategoryController>(Get.context!, listen: false).getCategoryList(reload);
-    await Provider.of<ProductController>(Get.context!, listen: false).getHomeCategoryProductList(reload);
+    await Provider.of<ProductController>(Get.context!, listen: false).getHomeCategoryProductList(reload,1);
     await Provider.of<ShopController>(Get.context!, listen: false).getTopSellerList(reload, 1,type: "top");
     await Provider.of<BrandController>(Get.context!, listen: false).getBrandList(reload,1);
     await Provider.of<ProductController>(Get.context!, listen: false).getLatestProductList(1, reload: reload);
@@ -336,7 +336,7 @@ class _AsterThemeHomeScreenState extends State<AsterThemeHomeScreen> {
 
 
 
-                const HomeCategoryProductWidget(isHomePage: true),
+                 HomeCategoryProductWidget(isHomePage: true, scrollController: _scrollController,),
                 const SizedBox(height: Dimensions.paddingSizeDefault),
 
 

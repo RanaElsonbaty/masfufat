@@ -36,6 +36,7 @@ class AuthRepository implements AuthRepoInterface{
   Future<ApiResponse> registration(Map<String, dynamic> register) async {
     try {
       Response response = await dioClient!.post(AppConstants.registrationUri, data: register);
+
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));

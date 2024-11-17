@@ -169,6 +169,7 @@ void initPageIndex (bool first){
   Future registration(RegisterModel register, Function callback) async {
     _isLoading = true;
     notifyListeners();
+    print(register.toJson());
     ApiResponse apiResponse = await authServiceInterface.registration(register.toJson());
     _isLoading = false;
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
@@ -184,12 +185,18 @@ void initPageIndex (bool first){
         temporaryToken = null;
       }
       if(token != null && token.isNotEmpty){
-        authServiceInterface.saveUserToken(token);
+        print('token ------> $token');
+       await authServiceInterface.saveUserToken(token);
         await authServiceInterface.updateDeviceToken();
+       notifyListeners();
+        callback(true, token, temporaryToken, message);
+
       }
-      callback(true, token, temporaryToken, message);
       notifyListeners();
     }else{
+      Map map = apiResponse.response!.data;
+
+      callback(false, '', '', '${map['errors'][0]['code']} ${map['errors'][0]['message']}');
       ApiChecker.checkApi(apiResponse);
     }
     notifyListeners();
@@ -475,7 +482,7 @@ void initPageIndex (bool first){
       _isLoading = false;
       showCustomSnackBar(getTranslated('Account_not_found', Get.context!), Get.context!, isError: true);
 
-      ApiChecker.checkApi(apiResponse);
+      // ApiChecker.checkApi(apiResponse);
     }
     notifyListeners();
     return apiResponse;
@@ -484,13 +491,13 @@ void initPageIndex (bool first){
 
 
   Future<void> getGuestIdUrl() async {
-    ApiResponse apiResponse = await authServiceInterface.getGuestId();
-    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-      authServiceInterface.saveGuestId(apiResponse.response!.data['guest_id'].toString());
-    } else {
-      ApiChecker.checkApi( apiResponse);
-    }
-    notifyListeners();
+    // ApiResponse apiResponse = await authServiceInterface.getGuestId();
+    // if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+    //   authServiceInterface.saveGuestId(apiResponse.response!.data['guest_id'].toString());
+    // } else {
+    //   ApiChecker.checkApi( apiResponse);
+    // }
+    // notifyListeners();
   }
 
   void toggleTermsCheck() {
