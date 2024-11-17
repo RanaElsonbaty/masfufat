@@ -111,17 +111,21 @@ class CategoryController extends ChangeNotifier {
   // int? _categorySelectedIndex;
 
   List<CategoryModel> get brandCategoryList => _brandCategoryList;
-  Future<void> getBrandCategoryList(int id) async {
+  Future<bool> getBrandCategoryList(int id) async {
     // if (_categoryList.isEmpty) {
       ApiResponse apiResponse = await categoryServiceInterface!.get(id.toInt());
       if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
         _brandCategoryList.clear();
         apiResponse.response!.data.forEach((category) => _brandCategoryList.add(CategoryModel.fromJson(category)));
         _categorySelectedIndex = 0;
+        notifyListeners();
+
+        return true;
       } else {
         ApiChecker.checkApi( apiResponse);
+        return false;
+
       }
-      notifyListeners();
     // }
   }
 

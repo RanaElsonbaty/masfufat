@@ -50,7 +50,7 @@ class TransactionWidget extends StatelessWidget {
               const SizedBox(height: Dimensions.paddingSizeExtraSmall,),
 
 
-              Text( transactionModel!.credit! > 0 ? 'Credit': 'Debit',
+              Text( transactionModel!.credit! > 0 ?getTranslated('Credit', context)!:getTranslated('Debit', context)!,
                 style: textRegular.copyWith(color: transactionModel!.credit! > 0 ? Colors.green: Colors.red),
               ),
             ],),
@@ -85,8 +85,8 @@ class TransactionWidget extends StatelessWidget {
 
 
 
-            transactionModel?.paymentMethod != null?
-            Text('${getTranslated(transactionModel?.transactionType, context)} ${getTranslated('via', context)} ${(transactionModel?.paymentMethod??'').replaceAll('_', ' ')}', style: textRegular.copyWith(color: ColorResources.getHint(context)),):
+            // transactionModel?.paymentMethod != null?
+            // Text('${getTranslated(transactionModel?.transactionType, context)} ${getTranslated('via', context)} ${(transactionModel?.paymentMethod??'').replaceAll('_', ' ')}', style: textRegular.copyWith(color: ColorResources.getHint(context)),):
             Text('${getTranslated(transactionModel?.transactionType, context)}', style: textRegular.copyWith(color: ColorResources.getHint(context)),),
 
 
@@ -97,7 +97,7 @@ class TransactionWidget extends StatelessWidget {
             const SizedBox(height: Dimensions.paddingSizeExtraSmall,),
 
 
-            Text( transactionModel!.credit! > 0 ? 'Credit': 'Debit',
+            Text( transactionModel!.credit! > 0 ?getTranslated('Credit', context)!:getTranslated('Debit', context)!,
               style: textRegular.copyWith(color: transactionModel!.credit! > 0 ? Colors.green: Colors.red),
             ),
           ],),

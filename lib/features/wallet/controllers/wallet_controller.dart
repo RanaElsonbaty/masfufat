@@ -35,7 +35,7 @@ class WalletController extends ChangeNotifier {
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
 
       if(offset == 1) {
-        print(apiResponse.response!.data);
+        // print(apiResponse.response!.data);
         _walletTransactionModel = TransactionModel.fromJson(apiResponse.response!.data);
 
       }else {
@@ -99,29 +99,41 @@ class WalletController extends ChangeNotifier {
   }
 
 
-  List<String> types = ['all','order_transactions','order_refund', 'converted_from_loyalty_point', 'added_via_payment_method',  'add_fund_by_admin','subscription_fees'];
-  List<String> filterTypes = ["All_operations", "Purchase_orders", "Retrieve_orders", 'Loyalty_points_transferred_to_wallet_balance', 'Charging_wallet_balance_by_payment_methods', 'Adding_credit_by_platform_management',"Subscription_fees"];
+  List<String> types = ['all_Transaction','order_transactions','order_refund', 'converted_from_loyalty_point', 'added_via_payment_method',  'add_fund_by_admin','subscription_fees'];
+  List<String> filterTypes = ["all_Transaction", "Purchase_orders", "Retrieve_orders", 'Loyalty_points_transferred_to_wallet_balance', 'Charging_wallet_balance_by_payment_methods', 'Adding_credit_by_platform_management',"subscription_fees"];
+void clearFilter(){
+   selectedFilterType = 'all_Transaction';
+   selectedIndexForFilter = 0;
 
-  String selectedFilterType = 'all_transaction';
+}
+  String selectedFilterType = 'all_Transaction';
   int selectedIndexForFilter = 0;
   void setSelectedFilterType(String type, int index, {bool reload = true}){
     selectedIndexForFilter = index;
+    String apiType='';
     if(type == filterTypes[0]){
-      selectedFilterType = types[0];
+      selectedFilterType = filterTypes[0];
+      apiType = types[0];
     }else if(type == filterTypes[1]){
-      selectedFilterType = types[1];
+      selectedFilterType = filterTypes[1];
+      apiType = types[1];
     }else if(type == filterTypes[2]){
-      selectedFilterType = types[2];
+      selectedFilterType = filterTypes[2];
+      apiType = types[2];
     }else if(type == filterTypes[3]){
-      selectedFilterType = types[3];
+      selectedFilterType = filterTypes[3];
+      apiType = types[3];
     }else if(type == filterTypes[4]){
-      selectedFilterType = types[4];
+      selectedFilterType = filterTypes[4];
+      apiType = types[4];
     }else if(type == filterTypes[5]){
-      selectedFilterType = types[5];
+      apiType = types[5];
+      selectedFilterType = filterTypes[5];
     }else if(type == filterTypes[6]){
-      selectedFilterType = types[6];
+      selectedFilterType = filterTypes[6];
+      apiType = types[6];
     }
-    getTransactionList(Get.context!, 1, selectedFilterType);
+    getTransactionList(Get.context!, 1, apiType, reload: true);
 
     if(reload){
       notifyListeners();

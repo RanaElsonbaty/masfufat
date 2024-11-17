@@ -44,16 +44,19 @@ class _WalletScreenState extends State<WalletScreen> {
 
   @override
   void initState() {
-    Provider.of<PaymentController>(context,listen: false).getPaymentMethod(context,'wallet');
+    Provider.of<PaymentController>(context,listen: false).getPaymentMethod(context,'wallet_charge',notify: false);
 
     Provider.of<PaymentController>(context,listen: false).getType('wallet_charge');
-    Provider.of<PaymentController>(context,listen: false).getAmount(0);
-
+    Provider.of<PaymentController>(context,listen: false).getAmount(0,notify: false);
+    Provider.of<PaymentController>(Get.context!,listen: false).getApiKey(Get.context!);
+    Provider.of<PaymentController>(Get.context!,listen: false).initiate(Get.context!);
+    Provider.of<PaymentController>(Get.context!,listen: false).cardViewStyle();
+    Provider.of<PaymentController>(Get.context!,listen: false).getPaymentMethod(context, 'wallet_charge');
     Provider.of<PaymentController>(context,listen: false).initiate(context);
     if(Provider.of<AuthController>(context, listen: false).isLoggedIn()) {
       Provider.of<ProfileController>(context, listen: false).getUserInfo(context);
       // Provider.of<WalletController>(context, listen: false).getWalletBonusBannerList();
-      Provider.of<WalletController>(context, listen: false).setSelectedFilterType('All Transaction', 0, reload: false);
+      Provider.of<WalletController>(context, listen: false).setSelectedFilterType('all_Transaction', 0, reload: false);
 
     }
 
