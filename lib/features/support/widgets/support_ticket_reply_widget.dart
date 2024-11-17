@@ -26,9 +26,9 @@ class SupportTicketReplyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: isMe ? CrossAxisAlignment.end:CrossAxisAlignment.start, children: [
-      Column(
+      message!=null&&message!=''? Column(
         children: [
-          Container(margin: isMe ?  const EdgeInsets.fromLTRB(5, 5, 10, 5) : const EdgeInsets.fromLTRB(10, 5, 5, 5),
+            Container(margin: isMe ?  const EdgeInsets.fromLTRB(5, 5, 10, 5) : const EdgeInsets.fromLTRB(10, 5, 5, 5),
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(10),
@@ -39,14 +39,14 @@ class SupportTicketReplyWidget extends StatelessWidget {
               child: message != null ?
               Padding(
                 padding: const EdgeInsets.all(6.0),
-                child: Text(message??'', style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault)),
+                child: Text(message!=null?message.toString():'', style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault)),
               ) :
               const SizedBox.shrink()),
           Text(dateTime, style: GoogleFonts.tajawal(
             fontSize: Dimensions.fontSizeSmall, )),
 
         ],
-      ),
+      ):const SizedBox.shrink(),
 
 
       if(replyModel.attachments.isNotEmpty)

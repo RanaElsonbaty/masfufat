@@ -56,7 +56,8 @@ class SupportTicketRepository implements SupportTicketRepositoryInterface{
     try {
       var data =
       FormData.fromMap({'attachments[]': file, 'message': message});
-      print('object');
+      // print('dfkjsfhskjfhksdjhfksdhfkshfksdhfksj$message');
+
       final response = await dioClient!.post('${AppConstants.supportTicketReplyUri}$ticketID',data: data);
       return ApiResponse.withSuccess(response);
     } catch (e) {

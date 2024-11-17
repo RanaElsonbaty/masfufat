@@ -44,18 +44,21 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
   Timer? _updateTimer;
 
   @override
+  // payment_delayed
   void initState() {
+    Provider.of<SupportTicketController>(context, listen: false)
+        .getSupportTicketReplyList(context, widget.supportTicketModel.id);
     Provider.of<SupportTicketController>(context, listen: false)
         .initialiseControllers();
     Provider.of<SupportTicketController>(context, listen: false).getDir();
-    if (Provider.of<AuthController>(context, listen: false).isLoggedIn()) {
       _updateTimer = Timer.periodic(const Duration(seconds: 20), (_) {
         Provider.of<SupportTicketController>(context, listen: false)
             .getSupportTicketReplyList(context, widget.supportTicketModel.id);
       });
 
-    }
     super.initState();
+     _askingPermission(false);
+
   }
   @override
   void dispose() {
@@ -281,31 +284,28 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
 
                        onLongPress: ()async{
                          print('onLongPress');
-                         bool permission =
-                             await _askingPermission(false);
-                         if (permission == true) {
+
+                         // bool permission =
+                         // print(permission);
+                         // if (permission == true) {
+                           print('object');
+                           support.  getMicOn(true);
+                           support.startTimer();
                            support.refreshWave();
                            support.startOrStopRecording();
-                         }
-                       support.getMicOn(true);
-                       support.startTimer();
+
+
+                         // }
 
                        },
 
                         onLongPressEnd: (vak)async{
                           print('onLongPressEnd');
-                          try{
+                          support.startOrStopRecording();
 
-                            // _controller.text = '';
-                        await  support.startOrStopRecording();
-                        support.  getMicOn(false);
-                        support.stopTimer();
+                          support.  getMicOn(false);
+                          support.stopTimer();
 
-
-
-                          }catch(e){
-                            print('onLongPressEnd error --- $e');
-                          }
 
 
 
@@ -386,7 +386,7 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
                           onTap: ()async{
                             if (_controller.text.isEmpty &&_controller.text=='') {
                                               } else {
-                                                support.sendReply(widget.supportTicketModel.id,
+                                               await support.sendReply(widget.supportTicketModel.id,
                                                     _controller.text);
                                          setState(() {
                                            _controller.text = '';

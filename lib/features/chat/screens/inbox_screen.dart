@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/chat/widgets/conversation_tabview.dart';
+import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/features/chat/controllers/chat_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
@@ -36,7 +37,7 @@ class _InboxScreenState extends State<InboxScreen> with SingleTickerProviderStat
     // isGuestMode = !Provider.of<AuthController>(context, listen: false).isLoggedIn();
     //   if(!isGuestMode) {
         load();
-        _tabController = TabController(vsync: this, length: 2);
+        _tabController = TabController(vsync: this, length:Provider.of<SplashController>(context,listen: false).configModel!.chatWithSellerStatus? 2:1);
       // }
 
     super.initState();
@@ -87,42 +88,23 @@ class _InboxScreenState extends State<InboxScreen> with SingleTickerProviderStat
 
               Expanded(child:
 
-                RefreshIndicator(
-                  onRefresh: () async {
-                    searchController.clear();
-                    await chat.getChatList(1, userType: _tabController.index);
-                  },
-                child: Consumer<ChatController>(
+                Consumer<ChatController>(
                   builder: (context, chatProvider, child) {
-                    // ChatModel? catModel;
 
-                    // if(_tabController.index == 0){
-                    //   if(chatProvider.isSearchComplete){
-                    //     catModel = chatProvider.searchDeliverymanChatModel;
-                    //   } else {
-                    //     catModel = chatProvider.deliverymanChatModel;
-                    //   }
-                    // } else{
-                    //   if(chatProvider.isSearchComplete){
-                    //     catModel = chatProvider.searchChatModel;
-                    //   } else {
-                    //     catModel = chatProvider.chatModel;
-                    //   }
-                    // }
 
                     return chatProvider.loading==false? (chatProvider.catModel!=null&&chatProvider.catModel!.chat != null && chatProvider.catModel!.chat!.isNotEmpty)?
                       ListView.builder(
-                        itemCount: chatProvider.catModel!.chat?.length,
+                        itemCount:chatProvider.search?chatProvider.searchChatModel!.chat!.length: chatProvider.catModel!.chat?.length,
                         padding: const EdgeInsets.symmetric(
                             horizontal: 15,),
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4.0),
-                            child: ChatItemWidget(chat: chatProvider.catModel?.chat![index], chatProvider: chat),
+                            child: ChatItemWidget(chat:chatProvider.search?chatProvider.searchChatModel!.chat![index]: chatProvider.catModel?.chat![index], chatProvider: chat),
                           );
                         },
                       ) : const NoInternetOrDataScreenWidget(isNoInternet: false, message: 'no_conversion', icon: Images.noInbox) : const InboxShimmerWidget();
-                  }))
+                  })
               ),
             ]);
           }

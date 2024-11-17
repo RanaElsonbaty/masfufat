@@ -113,14 +113,14 @@ class _SupportTicketScreenState extends State<SupportTicketScreen> {
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
                                   borderSide: BorderSide(color: Colors.grey[300]!)),
-                              hintText: getTranslated('search_product', context),
+                              hintText: getTranslated('search', context),
                               suffixIcon: SizedBox(width: controller.text.isNotEmpty? 70 : 50,
                                 child: Row(children: [
                                   if(controller.text.isNotEmpty)
                                     InkWell(onTap: (){
                                       setState(() {
                                         support.getSearch("",support.isFilter,support.filterType);
-
+/*5jy3MyLDhfKQSKutrmAWrJIzrdraNQknBfMCEdTYYcEuiDlU7CY3cIVJDdiOOVsNmAYjYAYeYs2*/
                                         controller.clear();
                                       });
                                     }, child: const Icon(Icons.clear, size: 20,)),

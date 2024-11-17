@@ -73,9 +73,9 @@ class _SupportTicketWidgetState extends State<SupportTicketWidget> {
                 // supportTicketModel.type == 'Complaint'? Images.complaint : supportTicketModel.type == 'Partner request'?
                 // Images.partnerRequest : Images.infoQuery)),
             Container(
-              height: 25,
-              width: 25,
-              padding: const EdgeInsets.only(top: 3),
+              // height: 25,
+              // width: 25,
+              padding: const EdgeInsets.only(top: 3,left: 3,right: 3),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
                 color: const Color(0xFFFAF2F2)

@@ -32,7 +32,7 @@ class DeliveryChatItemWidgetState extends State<DeliveryChatItemWidget> {
     Provider.of<SplashController>(context, listen: false).baseUrls!.deliveryManImageUrl;
 
     image = widget.chatProvider.userTypeIndex == 0 ?
-    widget.chat!.sellerInfo != null? widget.chat!.sellerInfo?.shops![0].imageFullUrl?.path :'' : widget.chat!.deliveryMan?.imageFullUrl?.path ??'';
+    widget.chat!.sellerInfo != null? widget.chat!.sellerInfo?.shops![0].image :'' : widget.chat!.deliveryMan?.imageFullUrl?.path ??'';
 
     call = widget.chatProvider.userTypeIndex == 0 ?
     '' : '${widget.chat!.deliveryMan?.code}${widget.chat!.deliveryMan?.phone}';
@@ -54,7 +54,7 @@ class DeliveryChatItemWidgetState extends State<DeliveryChatItemWidget> {
         final difference = vacationDate.difference(today).inDays;
         final startDate = vacationStartDate.difference(today).inDays;
 
-        if ((difference >= 0 && widget.chat!.sellerInfo!.shops![0].vacationStatus! && startDate <= 0)|| widget.chat!.sellerInfo!.shops![0].temporaryClose!) {
+        if ((difference >= 0 && widget.chat!.sellerInfo!.shops![0].vacationStatus==1 && startDate <= 0)|| widget.chat!.sellerInfo!.shops![0].temporaryClose==1) {
           vacationIsOn = true;
         } else {
           vacationIsOn = false;

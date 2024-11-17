@@ -3,6 +3,7 @@ import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart' as ListSearch;
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/chat/domain/models/message_body.dart';
@@ -20,7 +21,9 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 
+import '../../shop/controllers/shop_controller.dart';
 import '../../support/domain/models/support_reply_model.dart';
 
 enum SenderType {
@@ -71,7 +74,7 @@ notifyListeners();
   ChatModel? chatModel;
   ChatModel? deliverymanChatModel;
 
-  ChatModel? searchChatModel;
+  // ChatModel? searchChatModel;
   ChatModel? searchDeliverymanChatModel;
 
   bool sellerChatCall= false;
@@ -156,39 +159,76 @@ bool get loading =>_loading;
     // }
   }
 
-  Future<void> searchChat(BuildContext context, String search, int userIndex) async {
-    _isLoading = true;
-    searchChatModel = null;
-    _isSearchComplete = false;
-    notifyListeners();
-    ApiResponse apiResponse = await chatServiceInterface!.searchChat(userIndex == 0? 'seller' : 'delivery-man', search);
-    if (apiResponse.response != null && apiResponse.response?.statusCode == 200 && apiResponse.response is !List) {
-      if(userIndex == 0) {
-        searchChatModel = null;
-        searchChatModel = ChatModel(totalSize: 1, limit: '10', offset: '1', chat: []);
+  // Future<void> searchChat(BuildContext context, String search, int userIndex) async {
+  //   _isLoading = true;
+  //   searchChatModel = null;
+  //   _isSearchComplete = false;
+  //   notifyListeners();
+  //   ApiResponse apiResponse = await chatServiceInterface!.searchChat(userIndex == 0? 'seller' : 'delivery-man', search);
+  //   if (apiResponse.response != null && apiResponse.response?.statusCode == 200 && apiResponse.response is !List) {
+  //     if(userIndex == 0) {
+  //       searchChatModel = null;
+  //       searchChatModel = ChatModel(totalSize: 1, limit: '10', offset: '1', chat: []);
+  //
+  //       apiResponse.response!.data.forEach((chat) => searchChatModel!.chat!.add(Chat.fromJson(chat)));
+  //       searchChatModel?.chat = searchChatModel!.chat;
+  //     } else {
+  //       searchDeliverymanChatModel = null;
+  //       searchDeliverymanChatModel = ChatModel(totalSize: 1, limit: '10', offset: '1', chat: []);
+  //
+  //       apiResponse.response!.data.forEach((chat) => searchDeliverymanChatModel!.chat!.add(Chat.fromJson(chat)));
+  //       searchDeliverymanChatModel?.chat = searchDeliverymanChatModel!.chat;
+  //     }
+  //   } else {
+  //     _isLoading = false;
+  //     ApiChecker.checkApi( apiResponse);
+  //   }
+  //
+  //   // if(tabController?.index == 0 && searchDeliverymanChatModel!.chat!.isEmpty && searchChatModel!.chat!.isNotEmpty){
+  //   //   tabController?.index = 1;
+  //   // } else if(tabController?.index == 1 && searchChatModel!.chat!.isEmpty && searchDeliverymanChatModel!.chat!.isNotEmpty){
+  //   //   tabController?.index = 0;
+  //   // }
+  //
+  //   _isLoading = false;
+  //   _isSearchComplete = true;
+  //   notifyListeners();
+  // }
+  bool _search=false;
+  bool get search=>_search;
+  ChatModel? _searchChatModel;
+  ChatModel? get searchChatModel=>_searchChatModel;
 
-        apiResponse.response!.data.forEach((chat) => searchChatModel!.chat!.add(Chat.fromJson(chat)));
-        searchChatModel?.chat = searchChatModel!.chat;
-      } else {
-        searchDeliverymanChatModel = null;
-        searchDeliverymanChatModel = ChatModel(totalSize: 1, limit: '10', offset: '1', chat: []);
-
-        apiResponse.response!.data.forEach((chat) => searchDeliverymanChatModel!.chat!.add(Chat.fromJson(chat)));
-        searchDeliverymanChatModel?.chat = searchDeliverymanChatModel!.chat;
-      }
-    } else {
-      _isLoading = false;
-      ApiChecker.checkApi( apiResponse);
+  void sortChat(String val) {
+    if(val.isEmpty){
+      _search=false;
+    }else{
+      _search=true;
     }
+    notifyListeners();
+    List<Chat> chat=[];
+    List<Chat> notChat=[];
 
-    // if(tabController?.index == 0 && searchDeliverymanChatModel!.chat!.isEmpty && searchChatModel!.chat!.isNotEmpty){
-    //   tabController?.index = 1;
-    // } else if(tabController?.index == 1 && searchChatModel!.chat!.isEmpty && searchDeliverymanChatModel!.chat!.isNotEmpty){
-    //   tabController?.index = 0;
-    // }
-
-    _isLoading = false;
-    _isSearchComplete = true;
+    catModel?.chat?.forEach((element) {
+      if(element.sellerInfo!=null&&element.sellerInfo!.shops!=null){
+        if(element.sellerInfo!.shops!.first.name!.compareTo(val)==1){
+          print('object');
+          chat.add(element);
+          // _searchChatModel.chat.a
+        }else{
+          notChat.add(element);
+        }
+      }
+    });
+    _searchChatModel=ChatModel(offset: '1',limit: '300',totalSize: 1,chat:chat+notChat );
+    notifyListeners();
+    //
+    // catModel!.chat!.sort((a, b) {
+    //   return ListSearch.compareNatural(
+    //   '${a.sellerInfo?.shops?.first!.name.toString()}',
+    //   '${b.sellerInfo?.shops?.first!.name.toString()}'
+    // );
+    // });
     notifyListeners();
   }
 
@@ -257,9 +297,28 @@ bool get loading =>_loading;
     _isLoading = false;
     notifyListeners();
   }
+  void removePickImageOrVideoCamera(int index){
+    _pickImageOrVideoCam.removeAt(index);
+    notifyListeners();
+  }
+  void addPickCameraToList()async{
+    for (var element in _pickImageOrVideoCam) {
+      pickedImageFileStored.add(element);
+    }
+    Timer(const Duration(seconds: 1), () {
 
+      _pickImageOrVideoCam=[];
+    });
+    notifyListeners();
+  }
+  List<XFile> _pickImageOrVideoCam=[];
+  List<XFile> get pickImageOrVideoCam=>_pickImageOrVideoCam;
+  void pickImageOrVideoCamera(XFile file)async{
+    _pickImageOrVideoCam.add(file);
+    // _a.add(await  MultipartFile.fromFile(file.path, filename: "${file.path}${DateTime.now().toString()}"));
 
-
+    notifyListeners();
+  }
   Future<ApiResponse> sendMessage(MessageBody messageBody,{int? userType}) async {
     _isLoading = true;
 

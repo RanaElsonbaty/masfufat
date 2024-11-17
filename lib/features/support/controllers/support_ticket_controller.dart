@@ -83,9 +83,13 @@ class SupportTicketController extends ChangeNotifier {
 
   Future<ApiResponse> sendReply(int? ticketID, String message) async {
     _isLoading = true;
+  try{
     List<Attachment> fileList=[];
+    notifyListeners();
+    if(pickedImageFileStored.isNotEmpty){
     for (var element in pickedImageFileStored) {
       fileList.add(Attachment(id: 0, ticketId: ticketID!, fileName: element.name, filePath: element.path, fileType: element.name, createdAt: DateTime.now(), updatedAt: DateTime.now(), ticketConvId: ticketID, fileUrl: element.path));
+    }
     }
 
     SupportReplyModel sendModel=SupportReplyModel(
@@ -93,7 +97,7 @@ class SupportTicketController extends ChangeNotifier {
         ,adminId: 0,
         customerMessage: message,
         attachment: null,
-        adminMessage: null,
+        adminMessage: message,
         position: 0,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
@@ -103,14 +107,20 @@ class SupportTicketController extends ChangeNotifier {
       _supportReplyList!.add(sendModel);
 
     }else{
-      _supportReplyList!.add(sendModel);
+      _supportReplyList=[sendModel];
 
     }
+  }catch(e){
+
+  }
+
     notifyListeners();
     ApiResponse response = await supportTicketServiceInterface.sendReply(ticketID.toString(), message, attachmentFile);
 
 
-
+    pickedImageFileStored.clear();
+    _pickedImageFiles.clear();
+notifyListeners();
     if (response.response!=null&&response.response!.statusCode == 200) {
 
       _attachmentFile=[];
@@ -124,6 +134,7 @@ class SupportTicketController extends ChangeNotifier {
     }
     _pickedImageFiles = [];
     pickedImageFileStored = [];
+
     _isLoading = false;
     notifyListeners();
     return response;
@@ -143,7 +154,7 @@ class SupportTicketController extends ChangeNotifier {
 
 
 
-  List<String> type = ['website_problem', 'partner_request', 'complaint', 'info_inquiry'];
+  List<String> type = ['website_problem', 'partner_request', 'complaint', 'info_inquiry','problem_with_request'];
   int selectedTypeIndex = -1;
   String selectedType = getTranslated('website_problem', Get.context!)??'';
   void setSelectedType(int index, {bool reload = true}){
@@ -166,9 +177,18 @@ class SupportTicketController extends ChangeNotifier {
   void pickMultipleImage(bool isRemove,{int? index,}) async {
     if(isRemove) {
       if(index != null){
+      try{
         pickedImageFileStored.removeAt(index);
-        _attachmentFile.removeAt(index);
+      }catch(e){
+
       }
+       try{
+         _attachmentFile.removeAt(index);
+       }catch(e){
+
+       }
+      }
+      notifyListeners();
     }else {
 
       try{
@@ -315,25 +335,27 @@ void addPickCameraToList()async{
   Future startOrStopRecording() async {
 
     try {
+      // _recorderController.
       if (isRecording) {
+
         _recorderController.reset();
+
         final path = await _recorderController.stop(true);
+        print('object');
         if (path != null) {
           _isRecordingCompleted = true;
           debugPrint(path);
           debugPrint("Recorded file size: ${File(path).lengthSync()}");
           pickedImageFileStored.add(XFile(path));
-          _attachmentFile.add(await  MultipartFile.fromFile(path, filename: "${path}"));
 
           notifyListeners();
         }
-      //   2024-09-11 08:10:19.022797.m4a
-      //   2024-09-11-66e1280a0552d
-      //   2024-09-02-66d56710d74f9
-
       } else {
+        // print('asdasdasdad${path}');
         await _recorderController.record(path: path!);
       }
+
+      // _recorderController.
     } catch (e) {
       debugPrint(e.toString());
     } finally {
@@ -341,6 +363,7 @@ void addPickCameraToList()async{
     }
     notifyListeners();
   }
+
 
   void refreshWave() {
     if (isRecording) {

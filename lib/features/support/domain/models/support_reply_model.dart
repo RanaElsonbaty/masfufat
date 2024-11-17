@@ -41,9 +41,9 @@ class SupportReplyModel {
     id: json["id"],
     supportTicketId: json["support_ticket_id"],
     adminId:json["admin_id"] ?? 0,
-    customerMessage: json["customer_message"].toString(),
+    customerMessage: json["customer_message"]!=null? json["customer_message"]??'':'',
     attachment: json["attachment"],
-    adminMessage: json["admin_message"],
+    adminMessage: json["admin_message"]??'',
     position: json["position"],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
@@ -99,7 +99,7 @@ class Attachment {
     createdAt:json["created_at"]!=null? DateTime.parse(json["created_at"]):DateTime.now(),
     updatedAt:json["updated_at"]!=null? DateTime.parse(json["updated_at"]):DateTime.now(),
     ticketConvId: json["ticket_conv_id"]??0,
-    fileUrl: json["file_url"]??'',
+    fileUrl: json["url"]??'',
   );
 
   Map<String, dynamic> toJson() => {
