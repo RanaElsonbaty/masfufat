@@ -48,6 +48,7 @@ class _GuestTrackOrderScreenState extends State<GuestTrackOrderScreen> {
                   isAmount: true,
                   backGroundColor: const Color(0xffEFECF5),
                   inputType: TextInputType.phone,
+                  showLabelText: false,
                   hintText: getTranslated('order_id', context),
                   labelText: getTranslated('order_id', context),
                   required: true,
@@ -81,11 +82,13 @@ class _GuestTrackOrderScreenState extends State<GuestTrackOrderScreen> {
                     if(formKey.currentState?.validate() ?? false) {
                       await orderTrackingProvider.trackOrder(orderId: orderId.toString(),  isUpdate: true).then((value) {
                         if(value.response?.statusCode == 200){
+                          if(value.response?.data!=null){
                           Navigator.push(context, MaterialPageRoute(builder: (_)=> OrderDetailsScreen(
-                            fromTrack: true,
+                            fromTrack: false,
                             orderId: int.parse(orderIdController.text.trim()),
                             // phone: phone,
                           )));
+                          }
                         }
                       });
                     }

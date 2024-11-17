@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
  showCustomSnackBar(String? message, BuildContext context, {bool isError = true, bool isToaster = false,int time=1}) {
    Fluttertoast.showToast(
+
        msg: message??'',
        toastLength: Toast.LENGTH_SHORT,
        gravity: ToastGravity.BOTTOM,

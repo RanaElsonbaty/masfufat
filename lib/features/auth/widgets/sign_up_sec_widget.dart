@@ -61,27 +61,8 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
     var authController = Provider.of<AuthController>(context, listen: false);
     var profileController =
         Provider.of<ProfileController>(context, listen: false);
-    // String phone = authController.countryDialCode +_phoneController.text.trim();
     if (isRoute) {
-      // if(splashController.configModel!.emailVerification!){
-      //   authController.sendOtpToEmail(_emailController.text.toString(), tempToken!).then((value) async {
-      //     if (value.response?.statusCode == 200) {
-      //       authController.updateEmail(_emailController.text.toString());
-      //       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) =>
-      //           VerificationScreen(tempToken,'',_emailController.text.toString())), (route) => false);
-      //
-      //     }
-      //   });
-      // }else if(splashController.configModel!.phoneVerification!){
-      //   authController.sendOtpToPhone(phone,tempToken!).then((value) async {
-      //     if (value.isSuccess) {
-      //       authController.updatePhone(phone);
-      //       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) =>
-      //           VerificationScreen(tempToken,phone,'')), (route) => false);
-      //
-      //     }
-      //   });
-      // }else{c
+
       await profileController.getUserInfo(context);
       loadData(true);
       authController.companyName.clear();
@@ -105,7 +86,6 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
           Get.context!,
           MaterialPageRoute(builder: (_) => const DashBoardScreen()),
           (route) => false);
-      // }
     } else {
       showCustomSnackBar(errorMessage, context);
     }
@@ -132,7 +112,7 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
     Provider.of<BannerController>(Get.context!, listen: false)
         .getBannerList(reload, 'main_section_banner');
     Provider.of<ProductController>(Get.context!, listen: false)
-        .getHomeCategoryProductList(reload);
+        .getHomeCategoryProductList(reload,1);
     Provider.of<AddressController>(Get.context!, listen: false)
         .getAddressList();
     Provider.of<CartController>(Get.context!, listen: false)
@@ -149,24 +129,24 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
       await Provider.of<ProfileController>(Get.context!, listen: false)
           .getUserInfo(Get.context!);
     }
-    Provider.of<PaymentController>(Get.context!, listen: false)
-        .getIsLoading(true, false);
-    Provider.of<PaymentController>(Get.context!, listen: false).getAmount((0));
-    Provider.of<PaymentController>(Get.context!, listen: false)
-        .getApiKey(Get.context!);
-    Provider.of<PaymentController>(Get.context!, listen: false)
-        .initiate(Get.context!);
-    Provider.of<PaymentController>(Get.context!, listen: false)
-        .getPaymentMethod(Get.context!, 'cart');
-    Provider.of<PaymentController>(Get.context!, listen: false).cardViewStyle();
-    Provider.of<PaymentController>(Get.context!, listen: false)
-        .getIsLoading(false, true);
+    // Provider.of<PaymentController>(Get.context!, listen: false)
+    //     .getIsLoading(true, false);
+    // Provider.of<PaymentController>(Get.context!, listen: false).getAmount((0));
+    // Provider.of<PaymentController>(Get.context!, listen: false)
+    //     .getApiKey(Get.context!);
+    // Provider.of<PaymentController>(Get.context!, listen: false)
+    //     .initiate(Get.context!);
+    // Provider.of<PaymentController>(Get.context!, listen: false)
+    //     .getPaymentMethod(Get.context!, 'cart');
+    // Provider.of<PaymentController>(Get.context!, listen: false).cardViewStyle();
+    // Provider.of<PaymentController>(Get.context!, listen: false)
+    //     .getIsLoading(false, true);
   }
 
   @override
   void initState() {
     super.initState();
-    Provider.of<AddressController>(context, listen: false).getCityList('20');
+    Provider.of<AddressController>(context, listen: false).getCityList(address: true,'20');
   }
 
   @override
@@ -649,9 +629,7 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                          if(authProvider.commercialRegistrationNo.text.isEmpty){
                            showCustomSnackBar(getTranslated('Commercial_Registration_Number_Self_Employment_Document', context), context);
                          }
-                         // else if( authProvider.storeLink.text.isEmpty){
-                         //   showCustomSnackBar(getTranslated('Enter_the_link_to_the_valid_store', context), context);
-                         // }
+
                          else   if(authProvider.commercialRegisterImage!=null){
                                   if (signUpFormKey.currentState?.validate() ??
                                       false) {
@@ -694,9 +672,7 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                                       taxNo: authProvider.taxNumber.text,
                                       code: authProvider.walletCouponCode.text,
                                     );
-                                    authProvider.registration(model, () {});
-                                    authProvider.registration(register, route);
-                                    authProvider.registration(register, route);
+                                    authProvider.registration(model, route);
                                   }
                                 }
                             else{

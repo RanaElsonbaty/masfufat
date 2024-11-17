@@ -15,13 +15,14 @@ class NoInternetOrDataScreenWidget extends StatelessWidget {
   final String? message;
   final String? icon;
   final bool icCart;
-  const NoInternetOrDataScreenWidget({super.key, required this.isNoInternet, this.child, this.message, this.icon,  this.icCart = false});
+  final bool?viewImages;
+  const NoInternetOrDataScreenWidget({super.key, required this.isNoInternet, this.child, this.message, this.icon,  this.icCart = false, this.viewImages=true});
 
   @override
   Widget build(BuildContext context) {
     return Padding(padding: EdgeInsets.all(MediaQuery.of(context).size.height*0.025),
       child: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Image.asset(isNoInternet ? Images.noInternet :icon != null? icon! : Images.noData, width: 75),
+        viewImages==true?  Image.asset(isNoInternet ? Images.noInternet :icon != null? icon! : Images.noData, width: 75):const SizedBox(),
             if(isNoInternet)
             Text(getTranslated('OPPS', context)!, style: titilliumBold.copyWith(fontSize: 30,
               color: Colors.white)),

@@ -47,10 +47,8 @@ class SignInWidgetState extends State<SignInWidget> {
   void initState() {
     super.initState();
     _formKeyLogin = GlobalKey<FormState>();
-    _emailController = TextEditingController(text: '0dl9ztiuubkuazlm@email.partners');
+    _emailController = TextEditingController(text: 'pslcmgvmhultygbb@email.partners');
     _passwordController = TextEditingController(text: '12345678');
-    // _emailController!.text = (Provider.of<AuthController>(context, listen: false).getUserEmail());
-    // _passwordController!.text = (Provider.of<AuthController>(context, listen: false).getUserPassword());
   }
 
   @override
@@ -73,7 +71,7 @@ await Provider.of<SplashController>(Get.context!,listen: false).initConfig(Get.c
     Provider.of<ShopController>(Get.context!, listen: false).getTopSellerList(reload, 1, type: "top");
     Provider.of<ProductController>(Get.context!, listen: false).getRecommendedProduct();
     Provider.of<BannerController>(Get.context!, listen: false).getBannerList(reload,'main_section_banner');
-    Provider.of<ProductController>(Get.context!, listen: false).getHomeCategoryProductList(reload);
+    Provider.of<ProductController>(Get.context!, listen: false).getHomeCategoryProductList(reload,1);
     Provider.of<AddressController>(Get.context!, listen: false).getAddressList();
     Provider.of<CartController>(Get.context!, listen: false).getCartData(Get.context!);
     Provider.of<ProductController>(Get.context!, listen: false).getLatestProductList(1, reload: reload);
@@ -85,13 +83,13 @@ Provider.of<MyShopController>(Get.context!,listen: false).getList();
     if(Provider.of<AuthController>(Get.context!, listen: false).isLoggedIn()){
       await     Provider.of<ProfileController>(Get.context!, listen: false).getUserInfo(Get.context!);
     }
-    Provider.of<PaymentController>(Get.context!,listen: false).getIsLoading(true,false);
-    Provider.of<PaymentController>(Get.context!,listen: false).getAmount(( 0));
-    Provider.of<PaymentController>(Get.context!,listen: false).getApiKey(Get.context!);
-    Provider.of<PaymentController>(Get.context!,listen: false).initiate(Get.context!);
-    Provider.of<PaymentController>(Get.context!,listen: false).getPaymentMethod(Get.context!,'cart');
-    Provider.of<PaymentController>(Get.context!,listen: false).cardViewStyle();
-    Provider.of<PaymentController>(Get.context!,listen: false).getIsLoading(false,true);
+    // Provider.of<PaymentController>(Get.context!,listen: false).getIsLoading(true,false);
+    // Provider.of<PaymentController>(Get.context!,listen: false).getAmount(( 0));
+    // Provider.of<PaymentController>(Get.context!,listen: false).getApiKey(Get.context!);
+    // Provider.of<PaymentController>(Get.context!,listen: false).initiate(Get.context!);
+    // Provider.of<PaymentController>(Get.context!,listen: false).getPaymentMethod(Get.context!,'cart');
+    // Provider.of<PaymentController>(Get.context!,listen: false).cardViewStyle();
+    // Provider.of<PaymentController>(Get.context!,listen: false).getIsLoading(false,true);
   }
 
   void loginUser() async {

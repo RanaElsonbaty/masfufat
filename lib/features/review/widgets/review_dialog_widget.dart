@@ -267,7 +267,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
                   child: FadeInImage.assetNetwork(
                     placeholder: Images.placeholder, fit: BoxFit.scaleDown, width: 70, height: 70,
-                    image: '${widget.orderDetailsModel.productDetails?.thumbnailFullUrl?.path}',
+                    image: '${widget.orderDetailsModel.productDetails?.imagesFullUrl}',
                     imageErrorBuilder: (c, o, s) => Image.asset(Images.placeholder,
                         fit: BoxFit.scaleDown, width: 70, height: 70)))),
               const SizedBox(width: Dimensions.marginSizeDefault),
@@ -291,7 +291,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                       Text(PriceConverter.convertPrice(context, widget.orderDetailsModel.price),maxLines: 1,
                           style: titilliumSemiBold.copyWith(color: ColorResources.getPrimary(context), fontSize: 16),),
 
-                      Expanded(child: Text('(${getTranslated('tax', context)} ${widget.orderDetailsModel.productDetails!.taxModel} ${widget.orderDetailsModel.tax})',
+                      Expanded(child: Text('(${getTranslated('tax', context)} ${widget.orderDetailsModel.productDetails.taxType} ${widget.orderDetailsModel.tax})',
                         maxLines: 1,overflow: TextOverflow.ellipsis,
                           style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: 14)))]),
                     const SizedBox(height: Dimensions.marginSizeExtraSmall),
@@ -302,7 +302,7 @@ class _OrderDetailsState extends State<OrderDetails> {
 
 
 
-                    (widget.orderDetailsModel.variant != null && widget.orderDetailsModel.variant!.isNotEmpty) ?
+                    (widget.orderDetailsModel.variant.isNotEmpty) ?
                     Padding(padding: const EdgeInsets.only(
                         top: Dimensions.paddingSizeExtraSmall),
                       child: Row(children: [
@@ -310,14 +310,14 @@ class _OrderDetailsState extends State<OrderDetails> {
                             style: titilliumSemiBold.copyWith(fontSize: Dimensions.fontSizeSmall)),
 
 
-                        Flexible(child: Text(widget.orderDetailsModel.variant!,
+                        Flexible(child: Text(widget.orderDetailsModel.variant,
                             style: textRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
                               color: Theme.of(context).disabledColor,)))]),
                     ) : const SizedBox(),
                     const SizedBox(height: Dimensions.marginSizeExtraSmall)]))])),
 
         Positioned(top: 10,  left: 0,
-          child: widget.orderDetailsModel.discount! > 0?
+          child: widget.orderDetailsModel.discount > 0?
           Container(height: 20,
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
@@ -329,7 +329,7 @@ class _OrderDetailsState extends State<OrderDetails> {
 
 
             child: Text(PriceConverter.percentageCalculation(context,
-                (widget.orderDetailsModel.price! * widget.orderDetailsModel.qty!),
+                (widget.orderDetailsModel.price * widget.orderDetailsModel.qty),
                 widget.orderDetailsModel.discount, 'amount'),
               style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: ColorResources.white))):const SizedBox(),
         ),

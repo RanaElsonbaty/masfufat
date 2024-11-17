@@ -200,11 +200,11 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
                             placemarks = await geocoding.placemarkFromCoordinates(lat,  lon);
 
                             Navigator.of(Get.context!).push(MaterialPageRoute(builder: (_) =>
-                                AddNewAddressScreen(editLocation: locationEdit,placemarks: placemarks!,isEnableUpdate: widget.edit,fromCheckout: false,address: widget.address,isBilling: false,)));
+                                AddNewAddressScreen(editLocation: locationEdit,placemarks: placemarks??[],isEnableUpdate: widget.edit,fromCheckout: false,address: widget.address,isBilling: false,)));
                       //
                           }catch(e){
                             Navigator.of(Get.context!).push(MaterialPageRoute(builder: (_) =>
-                                AddNewAddressScreen(editLocation: locationEdit,placemarks: placemarks!,isEnableUpdate: widget.edit,fromCheckout: false,address: widget.address,isBilling: false,)));
+                                AddNewAddressScreen(editLocation: locationEdit,placemarks: placemarks??[],isEnableUpdate: widget.edit,fromCheckout: false,address: widget.address,isBilling: false,)));
                           }
                         },
                       ),

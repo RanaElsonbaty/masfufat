@@ -27,11 +27,13 @@ import 'package:provider/provider.dart';
 
 import '../../../common/basewidget/webView.dart';
 import '../../../localization/controllers/localization_controller.dart';
+import '../../../main.dart';
 import '../../Store settings/controllers/store_setting_controller.dart';
 import '../../Store settings/screen/store_setting_screen.dart';
 import '../../payment /controller/payment_controller.dart';
 import '../../setting/widgets/select_currency_bottom_sheet_widget.dart';
 import '../../setting/widgets/select_language_bottom_sheet_widget.dart';
+import '../widgets/komo.dart';
 import 'faq_screen_view.dart';
 
 class MoreScreen extends StatefulWidget {
@@ -56,10 +58,14 @@ class _MoreScreenState extends State<MoreScreen> {
           .getUserInfo(context);
       Provider.of<StoreSettingController>(context,listen: false)
           .getPackages();
-      Provider.of<PaymentController>(context,listen: false).getPaymentMethod(context,'wallet');
-
+      Provider.of<PaymentController>(context,listen: false).getPaymentMethod(context,'wallet',notify: false );
+      Provider.of<PaymentController>(Get.context!,listen: false).getApiKey(Get.context!);
+      Provider.of<PaymentController>(Get.context!,listen: false).initiate(Get.context!);
+      Provider.of<PaymentController>(Get.context!,listen: false).cardViewStyle();
+      // Provider.of<PaymentController>(Get.context!,listen: false).getIsLoading(false,true);
       Provider.of<PaymentController>(context,listen: false).getType('wallet_charge');
-      Provider.of<PaymentController>(context,listen: false).getAmount(0);
+      Provider.of<PaymentController>(context,listen: false).getAmount(0,notify: false);
+      Provider.of<PaymentController>(context,listen: false).getAmount(0,notify: false);
       if (Provider.of<SplashController>(context, listen: false)
           .configModel!=null&&Provider.of<SplashController>(context, listen: false)
               .configModel!
@@ -152,7 +158,10 @@ class _MoreScreenState extends State<MoreScreen> {
                           MenuButtonWidget(
                               image: Images.shoppingIcon,
                               title: getTranslated('TRACK_ORDER', context),
-                              navigateTo: const GuestTrackOrderScreen()),
+                              navigateTo: const
+                              JsDart()
+                              // GuestTrackOrderScreen()
+                          ),
 
                           MenuButtonWidget(
                               image: Images.saveAddress,

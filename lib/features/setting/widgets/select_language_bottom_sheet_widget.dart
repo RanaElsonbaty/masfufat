@@ -81,7 +81,7 @@ class _SelectLanguageBottomSheetWidgetState extends State<SelectLanguageBottomSh
                     AppConstants.languages[selectedIndex].languageCode!,
                     AppConstants.languages[selectedIndex].countryCode));
                   Provider.of<CategoryController>(context, listen: false).getCategoryList(true);
-                  Provider.of<ProductController>(context, listen: false).getHomeCategoryProductList(true);
+                  Provider.of<ProductController>(context, listen: false).getHomeCategoryProductList(true,1);
                   Provider.of<ShopController>(context, listen: false).getTopSellerList(true, 1, type: "top");
                   Provider.of<BrandController>(context, listen: false).getBrandList(true,1);
                   Provider.of<ProductController>(context, listen: false).getLatestProductList(1, reload: true);

@@ -13,14 +13,24 @@ import '../../Store settings/controllers/store_setting_controller.dart';
 import '../../Store settings/screen/store_setting_screen.dart';
 
 class ShowModalBottomSheetShop extends StatefulWidget {
-  const ShowModalBottomSheetShop({super.key, required this.delete});
+  const ShowModalBottomSheetShop({super.key, required this.delete, this.index=0});
   final bool delete;
+  final int? index;
 
   @override
   State<ShowModalBottomSheetShop> createState() => _ShowModalBottomSheetShopState();
 }
 
 class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(Provider.of<StoreSettingController>(context,listen: false).linkedAccountsList.isEmpty){
+      Provider.of<StoreSettingController>(context,listen: false).getLinkedProduct();
+    }
+
+  }
   BuildContext diagloContext=Get.context!;
   @override
   Widget build(BuildContext context) {
@@ -156,7 +166,10 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-            if (storeSetting.linkedAccountsList.isNotEmpty&&storeSetting.linkedAccountsList.first.storeDetails!=null||storeSetting.linkedAccountsList.last.storeDetails!=null) Text(getTranslated('Do_you_want_to_sync_all', Get.context!)!,
+            //5jy3MyLDhfKQSKutrmAWrJIzrdraNQknBfMCEdTYYcEuiDlU7CY3cIVJDdiOOVsNmAYjYAYeYs2
+              //   ZOHj3vaiM0nRwUpn1kdKwr3vkL9hadLH1s6kIXRkKPzxpaQoGBa3DK1bS7sWaoGFGFdL0xcI60q
+            if (storeSetting.linkedAccountsList.isNotEmpty&&storeSetting.linkedAccountsList.first.storeDetails!=null||storeSetting.linkedAccountsList.last.storeDetails!=null)
+              Text(getTranslated('Do_you_want_to_sync_all', Get.context!)!,
                 style: GoogleFonts.titilliumWeb(
                     fontSize: 30,
                     fontWeight: FontWeight.w700
@@ -166,24 +179,7 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Row(
                   children: [
-                    // Expanded(
-                    //   child: Text(getTranslated('Unable_to_connect_to_your_marketplacePlease_click_the_following_link_to_authenticate', Get.context!)!,
-                    //   style: GoogleFonts.titilliumWeb(
-                    //       fontSize: 16,
-                    //       fontWeight: FontWeight.w700
-                    //
-                    //   ),
-                    //
-                    //               ),
-                    //
-                    //     // Click_here
-                    // ),
-                  //    Text(getTranslated('Click_here', Get.context!)!,
-                    //     style: GoogleFonts.titilliumWeb(
-                    //     fontSize: 16,
-                    //     fontWeight: FontWeight.w700
-                    //
-                    //     ),)
+
                     Expanded(
                       child: InkWell(
                         onTap: (){
@@ -216,10 +212,9 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
                         child: InkWell(
                       onTap: ()async{
 
-                        // Navigator.pop(context);
                       if(storeSetting.linkedAccountsList.isNotEmpty&&storeSetting.linkedAccountsList.first.storeDetails==null&&storeSetting.linkedAccountsList.last.storeDetails==null){
                         Navigator.pop(diagloContext);
-                        showCustomSnackBar('${getTranslated('Products_sync_failed', Get.context!)}', Get.context!, isError: true);
+                        showCustomSnackBar('${getTranslated('Unable_to_connect_to_your_marketplace', Get.context!)}', Get.context!, isError: true);
 
                         return ;
                       }
@@ -228,10 +223,11 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
                         Dialog('Products_are_being_synced');
 
                      try{
+                       if(widget.index==0){
 
                        await addPrice(myShopController).then((value) async{
                          if(value==true){
-                           await myShopController.syncProduct().then((value)async {
+                           await myShopController.syncProduct(false).then((value)async {
                              if(value==true){
                                await myShopController.getList();
                                myShopController. initController();
@@ -239,20 +235,31 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
                                Navigator.pop(diagloContext);
 
                              }else{
-                               // Products_sync_failed
-                               showCustomSnackBar('${getTranslated('Products_sync_failed', Get.context!)}', Get.context!, isError: true);
+
                                Navigator.pop(diagloContext);
 
                              }
 
                            });
                          }else{
-                           showCustomSnackBar('${getTranslated('There_is_a_product_part_of_equal_to_zero_or_less', Get.context!)}', Get.context!, isError: true);
                            Navigator.pop(diagloContext);
 
                          }
 
-                       });
+                       });}else{
+                         await myShopController.syncProduct(true).then((value)async {
+                           if(value==true){
+                             await myShopController.getList();
+                             myShopController. initController();
+                             Navigator.pop(diagloContext);
+                           }else{
+                             Navigator.pop(diagloContext);
+
+                           }
+
+                         });
+
+                       }
                      }catch(e){
                        Navigator.pop(diagloContext);
 
@@ -397,10 +404,15 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
     for (int i=0;i<myShopController.pendingList.length;i++) {
       try{
         price= getProfit(double.parse(myShopController.controller[i].text),myShopController ,i);
-        if(myShopController.switch3&&price<0){
+
+        await myShopController. addProductPrice(myShopController.pendingList[i].id,myShopController.controller[i].text).then((value) {
+        if(value==true){
+          return true;
+        }else{
+          showCustomSnackBar('${getTranslated('Product_sync_failed', Get.context!)} sku : ${myShopController.pendingList[i].code}', Get.context!, isError: true);
           return false;
         }
-        await myShopController. addProductPrice(myShopController.pendingList[i].id,myShopController.controller[i].text);
+        });
         print(price);
         return true;
 

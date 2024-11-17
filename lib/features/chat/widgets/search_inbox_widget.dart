@@ -28,11 +28,18 @@ class _SearchInboxWidgetState extends State<SearchInboxWidget> {
                 maxLines: 1,
                 textAlignVertical: TextAlignVertical.center,
                 onFieldSubmitted: (val) {
-                  Provider.of<ChatController>(context, listen: false).searchChat(context, searchController.text.trim(), 0);
-                  Provider.of<ChatController>(context, listen: false).searchChat(context, searchController.text.trim(), 1);
+                chat.sortChat(val);
+                  // Provider.of<ChatController>(context, listen: false).searchChat(context, searchController.text.trim(), 0);
+                  // Provider.of<ChatController>(context, listen: false).sortChat( searchController.text.trim(), );
                 },
 
-                onChanged: (text) => chat.showSuffixIcon(context, text),
+                onChanged: (text) {
+                  chat.sortChat(text);
+
+                  // Provider.of<ChatController>(context, listen: false).sortChat( searchController.text.trim(), );
+
+                  // chat.showSuffixIcon(context, text);
+                },
                 decoration: InputDecoration(
                   hintText: widget.hintText,
                   isDense: true,
@@ -67,7 +74,9 @@ class _SearchInboxWidgetState extends State<SearchInboxWidget> {
                       // if(conversationController.searchController.text.trim().isNotEmpty) {
                       //   conversationController.clearSearchController();
                       // }
-                      chat.showSuffixIcon(context, '');
+                      chat.sortChat('');
+
+                      // chat.showSuffixIcon(context, '');
                       FocusScope.of(context).unfocus();
                     },
                     icon: Icon(Icons.cancel_outlined, size: 18, color: Theme.of(context).hintColor),

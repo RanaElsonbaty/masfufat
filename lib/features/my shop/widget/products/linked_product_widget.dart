@@ -21,11 +21,21 @@ final bool ?unSync;
 }
 
 class _LinkedProductWidgetState extends State<LinkedProductWidget> {
+  TextEditingController price =TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.unSync==false){
+    price.text=widget.linked.linkedProduct.price.toString();
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(8)
@@ -209,26 +219,85 @@ class _LinkedProductWidgetState extends State<LinkedProductWidget> {
                       Text('${getTranslated('Selling_price_in_my_store', context)!} :',style: GoogleFonts.tajawal(
                           fontSize: 16,fontWeight: FontWeight.w400
                       ),),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
+                     
+                      SizedBox(
+                        width: 150,
+                        height:50,
+                        child: ClipRRect(
+                            child: TextFormField(
+                              controller: price,
+                              decoration: InputDecoration(
+                                hintText:  '${price.text} ر.س',
+                                hintStyle: GoogleFonts.tajawal(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey
+                                ),
 
-                        child: Text(PriceConverter.convertPrice(context, widget.linked.pricings.suggestedPrice),style: GoogleFonts.tajawal(
-                            fontSize: 16,fontWeight: FontWeight.w400
-                        ),),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                                ),
+                              ),
+                              keyboardType: const TextInputType.numberWithOptions(decimal: false),
+
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')), // Only allow digits
+                              ],
+                              onChanged: (val){
+                                if(val!=''&&val.isNotEmpty){
+                                  // getProfit(double.parse(val));
+
+                                }else{
+                                  // getProfit(0);
+
+                                }
+
+                              },
+
+                              textAlign: TextAlign.center,
+
+                            ),
+                          
+
+                        ),
                       ),
-                      // SizedBox(
-                      //     width: 150,
-                      //
-                      //     child:  CustomTextFieldWidget(
-                      //       controller: widget.controller,
-                      //       maxLines: 1,
-                      //       hintText:'140 ر.س',
-                      //       isAmount: true,
-                      //     )
-                      // )
+                      const Spacer(),
+                     if(widget.unSync==false) Consumer<MyShopController>(
+                        builder:(context, myShop, child) =>  InkWell(
+                          onTap: ()async{
+print(widget.linked.id);
+                           await myShop.addProductPrice(widget.linked.id, price.text);
+                          await  myShop.resyncProduct(widget.linked.id);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8,),
+                            child: Image.asset(Images.sync,width: 25,),
+                          ),
+                        ),
+                      )
+
 
                     ],
                   ),
+                  const SizedBox(height: 5,),
+
+                widget.unSync==true?  Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('${getTranslated('سبب الحذف', context)!} :',style: GoogleFonts.tajawal(
+                          fontSize: 16,fontWeight: FontWeight.w400
+                      ),),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+
+                        child: Text(getTranslated(widget.linked.linkedProduct.deletionReason ?? 'null', context)??'',style: GoogleFonts.tajawal(
+                            fontSize: 16,fontWeight: FontWeight.w400
+                        ),),
+                      ),
+
+
+                    ],
+                  ):const SizedBox.shrink(),
                 ],),
               ),
             )

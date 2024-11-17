@@ -94,8 +94,8 @@ class SplashScreenState extends State<SplashScreen>
     _onConnectivityChanged.cancel();
   }
   static Future<void> loadData(bool reload) async {
-  await  Provider.of<SplashController>(Get.context!,listen: false).initConfig(Get.context!);
-
+  // await  Provider.of<SplashController>(Get.context!,listen: false).initConfig(Get.context!);
+    Provider.of<MyShopController>(Get.context!,listen: false).getList();
      Provider.of<BannerController>(Get.context!, listen: false).getBannerList(reload,'main_banner');
        Provider.of<CategoryController>(Get.context!, listen: false).getCategoryList(reload);
      Provider.of<FlashDealController>(Get.context!, listen: false).getFlashDealList(reload, false);
@@ -104,11 +104,10 @@ class SplashScreenState extends State<SplashScreen>
      Provider.of<ShopController>(Get.context!, listen: false).getTopSellerList(reload, 1, type: "top");
      Provider.of<ProductController>(Get.context!, listen: false).getRecommendedProduct();
     Provider.of<BannerController>(Get.context!, listen: false).getBannerList(reload,'main_section_banner');
-    Provider.of<ProductController>(Get.context!, listen: false).getHomeCategoryProductList(reload);
+    Provider.of<ProductController>(Get.context!, listen: false).getHomeCategoryProductList(reload,1);
     Provider.of<AddressController>(Get.context!, listen: false).getAddressList();
      Provider.of<CartController>(Get.context!, listen: false).getCartData(Get.context!);
      Provider.of<ProductController>(Get.context!, listen: false).getLatestProductList(1, reload: reload);
-    Provider.of<MyShopController>(Get.context!,listen: false).getList();
 
      Provider.of<WishListController>(Get.context!, listen: false).getWishList();
     // await Provider.of<ProductController>(Get.context!, listen: false).getLProductList('1', reload: reload);
@@ -116,13 +115,13 @@ class SplashScreenState extends State<SplashScreen>
     if(Provider.of<AuthController>(Get.context!, listen: false).isLoggedIn()){
    await     Provider.of<ProfileController>(Get.context!, listen: false).getUserInfo(Get.context!);
     }
-    Provider.of<PaymentController>(Get.context!,listen: false).getIsLoading(true,false);
-       Provider.of<PaymentController>(Get.context!,listen: false).getAmount(( 0));
-      Provider.of<PaymentController>(Get.context!,listen: false).getApiKey(Get.context!);
-     Provider.of<PaymentController>(Get.context!,listen: false).initiate(Get.context!);
-     Provider.of<PaymentController>(Get.context!,listen: false).getPaymentMethod(Get.context!,'cart');
-    Provider.of<PaymentController>(Get.context!,listen: false).cardViewStyle();
-    Provider.of<PaymentController>(Get.context!,listen: false).getIsLoading(false,true);
+    // Provider.of<PaymentController>(Get.context!,listen: false).getIsLoading(true,false);
+    //    Provider.of<PaymentController>(Get.context!,listen: false).getAmount(( 0));
+    //   Provider.of<PaymentController>(Get.context!,listen: false).getApiKey(Get.context!);
+    //  Provider.of<PaymentController>(Get.context!,listen: false).initiate(Get.context!);
+    //  Provider.of<PaymentController>(Get.context!,listen: false).getPaymentMethod(Get.context!,'cart');
+    // Provider.of<PaymentController>(Get.context!,listen: false).cardViewStyle();
+    // Provider.of<PaymentController>(Get.context!,listen: false).getIsLoading(false,true);
   }
 
   void _route() async{
@@ -155,24 +154,31 @@ class SplashScreenState extends State<SplashScreen>
           } else
 
             if(Provider.of<AuthController>(Get.context!, listen: false).isLoggedIn()){
-           await   Provider.of<SplashController>(Get.context!, listen: false).initConfig(context);
-            Provider.of<AuthController>(Get.context!, listen: false).updateToken(Get.context!);
-            if(widget.body != null){
-              if (widget.body!.type == 'order') {
-                Navigator.of(Get.context!).pushReplacement(MaterialPageRoute(builder: (BuildContext context) =>
-                    OrderDetailsScreen(orderId: widget.body!.orderId)));
-              }else if(widget.body!.type == 'notification'){
-                Navigator.of(Get.context!).pushReplacement(MaterialPageRoute(builder: (BuildContext context) =>
-                const NotificationScreen()));
-              }else {
-                Navigator.of(Get.context!).pushReplacement(MaterialPageRoute(builder: (BuildContext context) =>
-                const InboxScreen(isBackButtonExist: true,)));
-              }
-            }else{
-              loadData(true);
+           await   Provider.of<SplashController>(Get.context!, listen: false).initConfig(context).then((value) async{
+             if(value==true){
+               loadData(true);
 
-              Navigator.of(Get.context!).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => const DashBoardScreen()));
-            }
+             Provider.of<AuthController>(Get.context!, listen: false).updateToken(Get.context!);
+             if(widget.body != null){
+               if (widget.body!.type == 'order') {
+                 Navigator.of(Get.context!).pushReplacement(MaterialPageRoute(builder: (BuildContext context) =>
+                     OrderDetailsScreen(orderId: widget.body!.orderId)));
+               }else if(widget.body!.type == 'notification'){
+                 Navigator.of(Get.context!).pushReplacement(MaterialPageRoute(builder: (BuildContext context) =>
+                 const NotificationScreen()));
+               }else {
+                 Navigator.of(Get.context!).pushReplacement(MaterialPageRoute(builder: (BuildContext context) =>
+                 const InboxScreen(isBackButtonExist: true,)));
+               }
+             }else{
+               loadData(true);
+               Navigator.of(Get.context!).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => const DashBoardScreen()));
+             }}else{
+               await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => const AuthScreen()));
+
+             }
+           });
+
           }
 
           else if(Provider.of<SplashController>(Get.context!, listen: false).showIntro()!){
@@ -182,19 +188,7 @@ class SplashScreenState extends State<SplashScreen>
   await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => const AuthScreen()));
 
             }
-          // else{
-          //   // if(Provider.of<AuthController>(context, listen: false).getGuestToken() != null &&
-          //   //     Provider.of<AuthController>(context, listen: false).getGuestToken() != '1'){
-          //     loadData(true);
-          //     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => const DashBoardScreen()));
-          //   }
-          //   else{
-          //     Provider.of<AuthController>(context, listen: false).getGuestIdUrl();
-          //     loadData(true);
-          //
-          //     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const DashBoardScreen()), (route) => false);
-          //   }
-          // }
+
         });
       // }
     // });
@@ -232,26 +226,7 @@ class SplashScreenState extends State<SplashScreen>
             ),
             child: Center(child: Image.asset(Images.whiteLogoWithMame,width: 180,height: 100,)),
           )
-      // Stack( children: [
-      //   // Positioned(
-      //   //     top: 0,
-      //   //     left: 0,
-      //   //     child: Image.asset(Images.yellowCircle, width: 500, height: 500,)),
-      //   // Positioned(
-      //   //     bottom: 0,
-      //   //     left: 0,
-      //   //     child: Image.asset(Images.porpoleCircle,
-      //   //     width: 500,
-      //   //
-      //   //     height: 500,)),
-      //   // Center(child: Image.asset(Images.logoWithNameImage,width: MediaQuery.of(context).size.width/1.5,))
-      //   // BouncyWidget(
-      //   //     duration: const Duration(milliseconds: 2000), lift: 50, ratio: 0.5, pause: 0.25,
-      //   //     child: SizedBox(width: 150, child: Image.asset(Images.icon, width: 150.0))),
-      //   // Text(AppConstants.appName,style: textRegular.copyWith(fontSize: Dimensions.fontSizeOverLarge, color: Colors.white)),
-      //   // Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
-      //   //     child: Text(AppConstants.slogan,style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault, color: Colors.white)))
-      //       ])
+
           : const NoInternetOrDataScreenWidget(isNoInternet: true, child: SplashScreen()),
     );
   }
