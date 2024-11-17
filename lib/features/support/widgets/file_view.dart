@@ -24,37 +24,37 @@ class _FileViewState extends State<FileView> {
 
     return    InkWell(onTap: () {
       print( widget.replyModel[widget.index].fileType);
-
-      showDialog(context: context, builder: (ctx)  =>  FileDialog(
-        imageUrl: widget.replyModel[widget.index].fileUrl));
+if(widget.replyModel[widget.index].fileUrl.endsWith('mp3')||widget.replyModel[widget.index].fileUrl.endsWith('m4a')){}else {
+  showDialog(context: context, builder: (ctx) =>
+      FileDialog(
+          imageUrl: widget.replyModel[widget.index].fileUrl));
+}
     },
       child: ClipRRect(borderRadius: BorderRadius.circular(5),
-          child:widget.replyModel[widget.index].fileType=='png'||widget.replyModel[widget.index].fileType=='jpg'?
+          child:widget.replyModel[widget.index].fileUrl.endsWith('png')||widget.replyModel[widget.index].fileType.endsWith('jpg')?
           CustomImageWidget(height: 150, width: MediaQuery.of(context).size.width/2, fit: BoxFit.fill,
               image: widget.replyModel[widget.index].fileUrl):
-          widget.replyModel[widget.index].fileType=='temp'||widget.replyModel[widget.index].fileType=='mp4'?
+          widget.replyModel[widget.index].fileUrl.endsWith('temp')||widget.replyModel[widget.index].fileUrl.endsWith('mp4')?
           Mp4Widget(
             file:  File(widget.replyModel[widget.index].fileUrl),
             min: false,
             isSend: true,
             height: 150,
             width: MediaQuery.of(context).size.width/2,)
-              :  widget.replyModel[widget.index].fileType=='pdf'?
+              :  widget.replyModel[widget.index].fileUrl.endsWith('pdf')?
 
           PdfWidget(file: File( widget.replyModel[widget.index].fileUrl),isSend: true,):
           widget.replyModel[widget.index]
-              .fileType ==
-              'docx'|| widget.replyModel[widget.index]
-              .fileType ==
-              'xlsx'
+              .fileUrl.endsWith('docx')|| widget.replyModel[widget.index]
+              .fileUrl.endsWith('xlsx')
               ? DocxAndXlsxFile(
             file: File(widget.replyModel[widget.index].fileUrl),
             fileName: widget.replyModel[widget.index].fileName,
             isSend: false,
           )
-              : widget.replyModel[widget.index].fileType=='mp3'||widget.replyModel[widget.index].fileType=='m4a'?
+              : widget.replyModel[widget.index].fileUrl.endsWith('mp3')||widget.replyModel[widget.index].fileUrl.endsWith('m4a')?
           WaveBubble(
-            appDirectory: Directory(widget.replyModel[widget.index].filePath),
+            appDirectory: Directory(widget.replyModel[widget.index].fileUrl),
             width: MediaQuery.of(context).size.width/2,
             index: widget.index,
             isSender: true,
