@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/domain/services/my_shop_service_interface.dart';
+import 'package:flutter_sixvalley_ecommerce/main.dart';
 
 import '../domain/model/model.dart';
 
@@ -124,7 +126,7 @@ if(val!=''&&val.isNotEmpty){
         if (element.itemNumber.toString().contains(val) ||
             element.name.toString().contains(val) ||
             element.code.toString().contains(val)) {
-          _pendingListSearch.add(element);
+            _pendingListSearch.add(element);
         }
       }
     }else if(index==1&&val!=''){
@@ -176,17 +178,39 @@ notifyListeners();
       return false;
     }
   }
-
-  Future<bool> addProduct(int id)async{
-    ApiResponse response =await myShopServiceInterface.addProduct(id);
+  Future resyncProduct(int id)async{
+    ApiResponse response =await myShopServiceInterface.resyncProduct(id);
     if(response.response!=null&&response.response!.statusCode==200){
-      if(response.response!.data.toString()!='1'){
-       return false;
-      }
+getList();
+notifyListeners();
       return true;
     }else{
       return false;
     }
+  }
+
+  Future<bool> addProduct(int id)async{
+   try{
+     ApiResponse response =await myShopServiceInterface.addProduct(id);
+     if(response.response!=null&&response.response!.statusCode==200){
+       if(response.response!.data.toString()!='1'){
+         showCustomSnackBar(response.response!.data, Get.context!);
+
+         return false;
+       }else{
+       }
+       return true;
+     }else{
+       showCustomSnackBar(response.response!.data, Get.context!);
+
+       return false;
+     }
+   }catch(e){
+     showCustomSnackBar(e.toString(), Get.context!);
+
+     return false;
+
+   }
   }
 
 
@@ -241,7 +265,7 @@ notifyListeners();
      notifyListeners();
     controller=List.filled(_pendingList.length, TextEditingController());
     for (int i=0;i<_pendingList.length;i++) {
-      controller[i]=TextEditingController(text: _pendingList[i].pricings.suggestedPrice.toString());
+      controller[i]=TextEditingController(text: _pendingList[i].linkedProduct.price>0?_pendingList[i].linkedProduct.price.toString():_pendingList[i].pricings.suggestedPrice.toString());
     }
     _isLoading=false;
     notifyListeners();
@@ -255,26 +279,31 @@ notifyListeners();
       return false;
     }
   }
-  Future syncProduct()async{
-    ApiResponse response =await myShopServiceInterface.syncProduct();
+  Future syncProduct(bool sync)async{
+    ApiResponse response =await myShopServiceInterface.syncProduct(sync);
     if(response.response!=null&&response.response!.statusCode==200){
       print('sync product res ---> ${response.response!.data}');
-if(response.response!.data=='1'){
+
+if(response.response!.data.toString()=='1'){
   return true;
 
 }else{
+  String error ='${response.response!.data['error']['fields']['sku']} \n sku : ${response.response!.data['sku'].toString()}';
+  showCustomSnackBar(error, Get.context!,time: 3);
+
   return false;
 
 }
     }else{
+
       return false;
     }
   }
-//   A1952-GTR-2-BK
-int? _selectFilter;
+
+int? _selectFilter=0;
 int? get selectFilter=>_selectFilter;
   void getSelectFilter(int index){
-    print('object$index');
+
     if(_selectFilter==index){
       _selectFilter=null;
       _searchActive=false;
@@ -304,5 +333,25 @@ int? get selectFilter=>_selectFilter;
       }
     }
     notifyListeners();
+  }
+  bool _allListEmpty=false;
+  bool get allListEmpty=>_allListEmpty;
+  Future loadDataIfEmpty()async{
+    if(_pendingList.isEmpty){
+      _allListEmpty=true;
+    } if(_linkedList.isEmpty){
+      _allListEmpty=true;
+    } if(_deleteList.isEmpty){
+      _allListEmpty=true;
+    }if(_pendingList.isNotEmpty){
+      _allListEmpty=false;
+    } if(_linkedList.isNotEmpty){
+      _allListEmpty=false;
+    } if(_deleteList.isNotEmpty){
+      _allListEmpty=false;
+    }
+    if(_allListEmpty){
+     await getList();
+    }
   }
 }

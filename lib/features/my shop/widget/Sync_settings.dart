@@ -25,8 +25,11 @@ class _SyncSettingsState extends State<SyncSettings> {
     return Scaffold(
       appBar: CustomAppBar(title: getTranslated('Sync_settings', context),
       onBackPressed: () {
-Navigator.pop(context,);
 
+Navigator.pop(context,);
+setState(() {
+
+});
       },),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15  ,vertical: 30),
@@ -158,35 +161,35 @@ fillColor: Theme.of(context).cardColor,
             ),
             const SizedBox(height: 10,),
 
-            const Divider(color: Colors.grey,),
-            const SizedBox(height: 10,),
+            // const Divider(color: Colors.grey,),
+            // const SizedBox(height: 10,),
 
-            Row(
-              children: [
-                Expanded(
-                  child: Text(getTranslated('Allow_sync_if_profit_ratio_is_less_than', context)!,
-                    overflow: TextOverflow.visible ,
-                    style: GoogleFonts.tajawal(
-                    fontSize: 16,fontWeight: FontWeight.w400,
-                  ),),
-                ),
-                Switch(value: myShop.switch3, onChanged:(val){
-                  myShop.getSwitchState(2, val);
-
-                },
-                  activeTrackColor: Theme.of(context).primaryColor,
-                  inactiveTrackColor: Colors.white,
-                  splashRadius: 0,
-                  trackOutlineColor: MaterialStatePropertyAll(Theme.of(context).primaryColor),
-                  trackOutlineWidth: const MaterialStatePropertyAll(0),
-                  hoverColor: Colors.white,
-                  activeColor: Colors.white, // Optional, but recommended for a more contrasting look
-                  inactiveThumbColor: Theme.of(context).primaryColor,
-
-                )
-
-              ],
-            ),
+            // Row(
+            //   children: [
+            //     Expanded(
+            //       child: Text(getTranslated('Allow_sync_if_profit_ratio_is_less_than', context)!,
+            //         overflow: TextOverflow.visible ,
+            //         style: GoogleFonts.tajawal(
+            //         fontSize: 16,fontWeight: FontWeight.w400,
+            //       ),),
+            //     ),
+            //     Switch(value: myShop.switch3, onChanged:(val){
+            //       myShop.getSwitchState(2, val);
+            //
+            //     },
+            //       activeTrackColor: Theme.of(context).primaryColor,
+            //       inactiveTrackColor: Colors.white,
+            //       splashRadius: 0,
+            //       trackOutlineColor: MaterialStatePropertyAll(Theme.of(context).primaryColor),
+            //       trackOutlineWidth: const MaterialStatePropertyAll(0),
+            //       hoverColor: Colors.white,
+            //       activeColor: Colors.white, // Optional, but recommended for a more contrasting look
+            //       inactiveThumbColor: Theme.of(context).primaryColor,
+            //
+            //     )
+            //
+            //   ],
+            // ),
           ],),
         ),
       ),

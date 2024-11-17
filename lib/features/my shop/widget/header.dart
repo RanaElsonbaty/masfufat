@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/widget/show_Modal_Bottom_Sheet.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
@@ -20,16 +21,16 @@ class _HeaderSectionState extends State<HeaderSection> {
   Widget build(BuildContext context) {
     return Consumer<MyShopController>(
       builder:(context, myShopProvider, child) =>  SizedBox(
-        height: widget.index==0? 100:60,
+        height: widget.index==0||widget.index==2? 100:60,
         child: Column(
           children: [
             const SizedBox(height: 10,),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                widget.index==0?   InkWell(
+                widget.index==0||widget.index==2?   InkWell(
                   onTap: (){
-                    showModalBottomSheet(context: context, builder: (BuildContext context)=>const ShowModalBottomSheetShop(delete: false,));
+                    showModalBottomSheet(context: context, builder: (BuildContext context)=> ShowModalBottomSheetShop(delete: false,index: widget.index,));
 
                   },
                   child: Container(
@@ -104,60 +105,15 @@ class _HeaderSectionState extends State<HeaderSection> {
 
 
                const Spacer(),
-                // myShopProvider.selectIndex==2?InkWell(
-                //   onTap: (){
-                //     showModalBottomSheet(
-                //       context: context, isScrollControlled: true, backgroundColor: Colors.transparent,
-                //       builder: (c) =>   const StoreBottomSheet(),
-                //     );
-                //   },
-                //   child: Container(
-                //     height: 45,
-                //     width: 55,
-                //     decoration: BoxDecoration(
-                //       borderRadius: BorderRadius.circular(8),
-                //       color: Theme.of(context).cardColor,
-                //         boxShadow: [
-                //           BoxShadow(
-                //               color:
-                //               Colors.black.withOpacity(0.3),
-                //               spreadRadius: 1,
-                //               blurRadius: 2)
-                //         ]
-                //     ),
-                //     child: const Icon(Icons.filter_list),
-                //   ),
-                // ):const SizedBox.shrink(),
-                // const SizedBox(width: 10,),
-                // InkWell(
-                //   onTap:    () {
-                //     myShopProvider.getSearch();
-                //   },
-                //   child: Container(
-                //     height: 45,
-                //     width: 55,
-                //     decoration: BoxDecoration(
-                //         borderRadius: BorderRadius.circular(10),
-                //         color: Theme.of(context).cardColor,
-                //         boxShadow: [
-                //           BoxShadow(
-                //               color:
-                //               Colors.black.withOpacity(0.3),
-                //               spreadRadius: 1,
-                //               blurRadius: 2)
-                //         ]),
-                //     child: Padding(
-                //       padding: const EdgeInsets.all(4.0),
-                //       child: Image.asset(
-                //         Images.search,
-                //         color: Theme.of(context).iconTheme.color,
-                //       ),
-                //     ),
-                //   ),
-                // ),   const SizedBox(width: 10,),
                 InkWell(
                    onTap: () {
-                     showModalBottomSheet(context: context, builder: (BuildContext context)=> const ShowModalBottomSheetShop(delete: true));
+                     if(myShopProvider.selectIds.isNotEmpty) {
+                       showModalBottomSheet(context: context, builder: (
+                           BuildContext context) =>
+                       const ShowModalBottomSheetShop(delete: true));
+                     }else{
+                       showCustomSnackBar(getTranslated('Please_select_one_or_more_products_to_delete', context), context);
+                     }
                    },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

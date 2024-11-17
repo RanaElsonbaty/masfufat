@@ -1,6 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
+import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_textfield_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/widget/show_Modal_Bottom_Sheet.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
@@ -10,6 +14,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../common/basewidget/show_custom_snakbar_widget.dart';
 import '../../../../localization/language_constrants.dart';
+import '../../../splash/controllers/splash_controller.dart';
 import '../../domain/model/model.dart';
 
 class SyncProductWidget extends StatefulWidget {
@@ -32,61 +37,23 @@ class SyncProductWidget extends StatefulWidget {
 class _SyncProductWidgetState extends State<SyncProductWidget> {
   @override
   void initState() {
-    if(Provider.of<MyShopController>(context,listen: false).switch2){
-    double tax =(double.parse(Provider.of<MyShopController>(context,listen: true).taxController.text)/100)*widget.pending.pricings.suggestedPrice;
-    getProfit(double.parse(widget.controller.text)+tax??0.00);
-    }else{
+
       getProfit(double.parse(widget.controller.text)??0.00);
 
-    }
 
     super.initState();
   }
-  double profit =0.00;
-  double percentage =0.00;
-  void getProfit(double val) {
-    //
-    if(Provider.of<MyShopController>(context,listen: false).switch2){
-      double tax =(double.parse(Provider.of<MyShopController>(context,listen: false).taxController.text)/100)*widget.pending.pricings.suggestedPrice;
-      // getProfit(double.parse(widget.controller.text)+tax??0.00);
-      val= val +tax;
-    }else{
-      // getProfit(double.parse(widget.controller.text)??0.00);
-
-    }
-
-    double value =0.0;
-      value = widget.pending.pricings.value +
-          (widget.pending.taxType == 'percent' || widget.pending.taxType != null
-              ? ((widget.pending.tax / 100) * widget.pending.pricings.value)
-              : widget.pending.tax);
-
-
-setState(() {
-  profit = (val - value);
-  percentage = (profit / value) * 100;
-});
-    print('value: $value');
-
-    print("Profit: $profit");
-    print("Percentage: $percentage%");
+ @override
+  void didUpdateWidget(covariant SyncProductWidget oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+      getProfit(double.parse(widget.controller.text));
   }
+TextEditingController profit =TextEditingController(text: '0');
+TextEditingController percentage =TextEditingController(text: '0');
 
-  // @override
-  // void didUpdateWidget(covariant SyncProductWidget oldWidget) {
-  //   // TODO: implement didUpdateWidget
-  //   print('didUpdateWidget');
-  //
-  //   super.didUpdateWidget(oldWidget);
-  //
-  //   // if(Provider.of<MyShopController>(context,listen: false).switch2){
-  //   //   double tax =(double.parse(Provider.of<MyShopController>(context,listen: true).taxController.text)/100)*widget.pending.pricings.suggestedPrice;
-  //   //   getProfit(double.parse(widget.controller.text)+tax??0.00);
-  //   // }else{
-  //     getProfit(double.parse(widget.controller.text)??0.00);
-  //
-  //   // }
-  // }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -275,59 +242,87 @@ setState(() {
                           height: 5,
                         ),
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              '${getTranslated('cost', context)!} :${PriceConverter.convertPrice(
-                    context, widget.pending.pricings.value)}',
-                              style: GoogleFonts.tajawal(
-                                  fontSize:  myShopProvider.switch1?14:16, fontWeight: FontWeight.w400),
+                            Expanded(
+                              child: Text(
+                                '${getTranslated('cost', context)!} :${PriceConverter.convertPrice(
+                                                  context, widget.pending.pricings.value)}',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.tajawal(
+                                    fontSize:  myShopProvider.switch1?14:16, fontWeight: FontWeight.w400),
+                              ),
                             ),
 
-                            // Padding(
-                            //   padding: const EdgeInsets.only(top: 3.0),
-                            //   child: Text(
-                            //     ,
-                            //     style: GoogleFonts.tajawal(
-                            //         fontSize:   myShopProvider.switch1?14:16, fontWeight: FontWeight.w400),
-                            //   ),
-                            // ),
-                            const SizedBox(width: 5,),
-                            myShopProvider.switch1?    Row(
-                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  '${getTranslated('tax', context)!} :',
-                                  style: GoogleFonts.tajawal(
-                                      fontSize: 14, fontWeight: FontWeight.w400),
-                                ),
-                                Text(
-                                  PriceConverter.convertPrice(
-                                      context, double.parse(((widget.pending.taxType=='percent'||widget.pending.taxType!=null?((widget.pending.tax/100)*widget.pending.pricings.value):widget.pending.tax)).toStringAsFixed(3))),
-                                  style: GoogleFonts.tajawal(
-                                      color: Colors.red,
-                                      fontSize: 14, fontWeight: FontWeight.w400),
-                                ),
-                              ],
-                            ):const SizedBox.square(),
-                            const SizedBox(width: 5,),
 
-                            myShopProvider.switch1?  Row(
-                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  '${getTranslated('total', context)!} :',
-                                  style: GoogleFonts.tajawal(
-                                      fontSize: 14, fontWeight: FontWeight.w400),
+                            myShopProvider.switch1?    Expanded(
+                              flex: 1,
+                              child: Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: '${getTranslated('tax', context)!} :',
+                                      style: GoogleFonts.tajawal(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: PriceConverter.convertPrice(
+                                          context,
+                                         ((widget.pending.taxType == 'percent' ||
+                                              widget.pending.taxType != null)
+                                              ? ((widget.pending.tax / 100) * widget.pending.pricings.value)
+                                              : widget.pending.tax)
+                                              ),
+                                      style: GoogleFonts.tajawal(
+                                        color: Colors.red,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  PriceConverter.convertPrice(
-                                      context, double.parse((widget.pending.pricings.value+(widget.pending.taxType=='percent'||widget.pending.taxType!=null?((widget.pending.tax/100)*widget.pending.pricings.value):widget.pending.tax)).toStringAsFixed(2))),
-                                  style: GoogleFonts.tajawal(
-                                      color: Colors.green,
-                                      fontSize: 14, fontWeight: FontWeight.w400),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+
+                            ):const SizedBox.square(),
+
+                            myShopProvider.switch1?  Expanded(
+                              child: Text.rich(
+                                TextSpan(
+                                    children: [
+                                TextSpan(
+                                text: '${getTranslated('total', context)!} :',
+                                style: GoogleFonts.tajawal(
+                                  fontSize: 14, fontWeight: FontWeight.w400,
                                 ),
-                              ],
+                              ),
+                                      TextSpan(
+                                        text: PriceConverter.convertPrice(
+                                          context,
+                                       (widget.pending.pricings.value +
+                                              (widget.pending.taxType == 'percent' ||
+                                                  widget.pending.taxType != null
+                                                  ? ((widget.pending.tax / 100) *
+                                                  widget.pending.pricings.value)
+                                                  : widget.pending.tax)
+                                              ),),
+                                          style: GoogleFonts.tajawal(
+                                            fontSize: 14, fontWeight: FontWeight.w400,
+                                            color: Colors.green.shade500
+                                          ),
+                              
+                                        ),
+                                        ],
+
+                                      ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                    ),
                             ):const SizedBox.shrink(),
                           ],
                         ),
@@ -335,35 +330,87 @@ setState(() {
                         const SizedBox(
                           height: 5,
                         ),       Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              '${getTranslated('Amount_and_percentage_of_profit', context)!} :',
-                              style: GoogleFonts.tajawal(
-                                  fontSize: 16, fontWeight: FontWeight.w400),
-                            ),
-                            const SizedBox(width: 5,),
-                            Container(
-                              height: 35,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                                border: Border.all(width: 1,color:profit>0?Colors.green: Colors.red)
-                              ),
-                              child: Center(
-                                child: Text(PriceConverter.convertPrice(context,double.tryParse(profit.toStringAsFixed(2)))),
+                            SizedBox(
+                              width: 110  .w,
+                              child: Text(
+                                '${getTranslated('Amount_and_percentage_of_profit', context)!} :',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.tajawal(
+                                    fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                             ),
                             const SizedBox(width: 5,),
-                            Container(
-                              height: 35,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                                border: Border.all(width: 1,color: profit>0?Colors.green:Colors.red)
+                            Expanded(
+                              child: Container(
+                                height: 35,
+                                // width: 100,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4),
+                                  border: Border.all(width: 1,color:double.parse(profit.text)>0?Colors.green: Colors.red)
+                                ),
+                                child: TextField(
+                                  controller: profit,
+                                  textAlign: TextAlign.center,
+
+                                  onSubmitted: (val){
+                                    getPriceFromProfit(double.parse(val),widget.pending.linkedProduct.price>0.00?widget.pending.linkedProduct.price:widget.pending.pricings.suggestedPrice);
+                                  },
+                                  onChanged: (val){
+                                    getPriceFromProfit(double.parse(val),widget.pending.linkedProduct.price>0.00?widget.pending.linkedProduct.price:widget.pending.pricings.suggestedPrice);
+
+                                  },
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')), // Allow digits and decimal point
+                                  ],
+                                  decoration:  InputDecoration(
+
+                                      suffix: Padding(
+                                        padding: const EdgeInsets.only(left: 1.0,right: 1),
+                                        child: Text(Provider.of<SplashController>(context, listen: false).myCurrency!.symbol,style: TextStyle(color: Colors.black,height: .8),),
+                                      ),
+                                    border: InputBorder.none
+                                  ),
+                                )
+                                // Text(PriceConverter.convertPrice(context,double.tryParse(profit.toStringAsFixed(2)))),
                               ),
-                              child: Center(
-                                child: Text('${percentage.toStringAsFixed(2)} %'),
+                            ),
+                            const SizedBox(width: 5,),
+                            Expanded(
+                              child: Container(
+                                height: 35,
+                                // width: 100,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4),
+                                  border: Border.all(width: 1,color: double.parse(profit.text)>0?Colors.green:Colors.red)
+                                ),
+                                child: TextField(
+                                  controller:percentage,
+
+                                  textAlign: TextAlign.center,
+                                  onSubmitted: (val){
+                                    getProfitFromPercentage(double.parse(val),widget.pending.pricings.value);
+                                  },
+
+                                  onChanged: (val){
+                                    getProfitFromPercentage(double.parse(val),widget.pending.pricings.value);
+
+                                  }, inputFormatters: [
+                                  FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')), // Allow digits and decimal point
+                                ],
+                                  decoration: const InputDecoration(
+
+                                      suffix: Padding(
+                                        padding: EdgeInsets.only(left: 1.0,right: 1),
+                                        child: Text('%',style: TextStyle(color: Colors.black,height: .8),),
+                                      ),
+                                      border: InputBorder.none
+                                  ),
+                                )
+                                // Center(
+                                //   child: Text('${percentage.toStringAsFixed(2)} %'),
+                                // ),
                               ),
                             ),
                             // Padding(
@@ -434,11 +481,14 @@ setState(() {
                                     keyboardType: const TextInputType.numberWithOptions(decimal: false),
 
                                     inputFormatters: [
-                                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')), // Only allow digits
+                                      FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')), // Allow digits and decimal point
                                   ],
                                   onChanged: (val){
                                     if(val!=''&&val.isNotEmpty){
                                       getProfit(double.parse(val));
+
+                                    }else{
+                                      getProfit(0);
 
                                     }
 
@@ -521,5 +571,85 @@ setState(() {
         ),
       ),
     );
+  }
+  void getProfit(double val) {
+    MyShopController myShop=Provider.of<MyShopController>(context,listen: false);
+    
+    if(myShop.switch2){
+      // double tax =(double.parse(myShop.taxController.text)/100)*double.parse(widget.controller.text);
+      val= val ;
+    //   +tax
+    }
+
+
+      double value =0.0;
+    value = widget.pending.pricings.value
+        +
+        (widget.pending.taxType == 'percent' || widget.pending.taxType != null
+            ? ((widget.pending.tax / 100) * widget.pending.pricings.value)
+            : widget.pending.tax);
+print(val);
+    setState(() {
+      profit.text = (val - value).toStringAsFixed(2);
+      percentage.text = ((double.parse(profit .text)/ (value)) * 100).toStringAsFixed(2);
+    });
+
+  }
+  void getPriceFromProfit(double val,double price) {
+    MyShopController myShop=Provider.of<MyShopController>(context,listen: false);
+
+    if(myShop.switch2){
+      double tax =(double.parse(myShop.taxController.text)/100)*double.parse(widget.controller.text);
+      val= val;
+          // +tax;
+    }
+
+    double value =0.0;
+    // value = price;
+    value = price
+        +
+        (widget.pending.taxType == 'percent' || widget.pending.taxType != null
+            ? ((widget.pending.tax / 100) * price)
+            : widget.pending.tax);
+
+
+    setState(() {
+      // profit.text=(val.toStringAsFixed(2));
+    widget.controller.text=(value+val).toStringAsFixed(2);
+    percentage.text = ((double.parse(profit.text) / (value)) * 100).toStringAsFixed(2);
+    });
+
+
+  }
+
+
+
+
+
+  void getProfitFromPercentage(double val,double price) {
+    MyShopController myShop=Provider.of<MyShopController>(context,listen: false);
+
+    // if(myShop.switch2){
+    //   double tax =(double.parse(myShop.taxController.text)/100)*double.parse(widget.controller.text);
+    //   val= val;
+    //       +tax;
+    // }
+
+    double value =0.0;
+    value = price
+    // ;
+        +
+        (widget.pending.taxType == 'percent' || widget.pending.taxType != null
+            ? ((widget.pending.tax / 100) * widget.pending.pricings.value)
+            : widget.pending.tax);
+
+    setState(() {
+      // percentage.text=val.toString();
+
+      profit .text=((val*value)/100).toStringAsFixed(2);
+      widget.controller.text=(double.parse(profit.text) +value).toStringAsFixed(2);
+    });
+
+
   }
 }

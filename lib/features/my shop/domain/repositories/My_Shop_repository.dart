@@ -48,7 +48,9 @@ class MyShopRepository implements MyShopRepositoryInterface{
       Response response = await dioClient!.post('${AppConstants.addProductToStore}$id'
       ,
       );
+      print(response.data);
       return ApiResponse.withSuccess(response);
+
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
@@ -62,16 +64,20 @@ class MyShopRepository implements MyShopRepositoryInterface{
       Response response = await dioClient!.post(AppConstants.addLinkedProductToSyncing
       ,data: data
       );
+      print(response.data);
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }@override
-  Future<ApiResponse>  syncProduct() async {
+  Future<ApiResponse>  syncProduct(bool sync) async {
     try {
 
-      Response response = await dioClient!.post(AppConstants.syncLinkedProducts
-      ,
+      Response response = await dioClient!.post(AppConstants.syncLinkedProducts,
+
+          data: {
+            'resync_deleted':sync==true?1:0,
+          }
       );
       return ApiResponse.withSuccess(response);
     } catch (e) {
@@ -79,7 +85,22 @@ class MyShopRepository implements MyShopRepositoryInterface{
     }
   }
 
+  @override
+  Future resyncProduct(int id) async{
+    try {
 
+      Response response = await dioClient!.post(AppConstants.syncLinkedProducts,
+          data: {
+            'resync':0,
+            "product_id":id,
+          }
+      );
+      print(response.data);
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  }
 
   @override
   Future add(value) {
@@ -100,4 +121,6 @@ class MyShopRepository implements MyShopRepositoryInterface{
     // TODO: implement update
     throw UnimplementedError();
   }
+
+
 }
