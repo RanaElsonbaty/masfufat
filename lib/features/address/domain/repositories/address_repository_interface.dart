@@ -13,7 +13,7 @@ abstract class AddressRepoInterface<T> implements RepositoryInterface<AddressMod
 
   Future<dynamic> getDeliveryRestrictedZipBySearch(String zipcode);
   Future<dynamic> getCountryList();
-  Future<dynamic> getCityList(String id);
+  Future<dynamic> getCityList(String id,{bool address=false});
 
   Future<dynamic> getDeliveryRestrictedCountryBySearch(String country);
 

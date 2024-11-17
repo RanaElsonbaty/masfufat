@@ -61,7 +61,7 @@ class AddressRepository implements AddressRepoInterface<ApiResponse>{
   @override
   Future<ApiResponse> getList({int? offset,}) async {
     try {
-      final response = await dioClient!.get('${AppConstants.addressListUri}?guest_id=${Provider.of<AuthController>(Get.context!, listen: false).getGuestToken()}');
+      final response = await dioClient!.get(AppConstants.addressListUri);
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
@@ -72,7 +72,7 @@ class AddressRepository implements AddressRepoInterface<ApiResponse>{
   Future<ApiResponse> delete(int? id) async {
     try {
       final response = await dioClient!.post(
-        '${AppConstants.removeAddressUri}?address_id=$id&guest_id=${Provider.of<AuthController>(Get.context!, listen: false).getGuestToken()}',
+        '${AppConstants.removeAddressUri}?address_id=$id',
         data: {"_method" : 'delete'}
       );
       ApiResponse res = ApiResponse.withSuccess(response);
@@ -86,7 +86,22 @@ class AddressRepository implements AddressRepoInterface<ApiResponse>{
   @override
   Future<ApiResponse> add(AddressModel addressModel) async {
     try {
-      Response response = await dioClient!.post(AppConstants.addAddressUri, data: addressModel.toJson());
+      var data = FormData.fromMap({
+        'contact_person_name': addressModel.contactPersonName,
+        'address_type': addressModel.addressType,
+        'address': addressModel.address,
+        'city': addressModel.city,
+        'zip': addressModel.zip,
+        'title':addressModel.addressType,
+        'country': addressModel.country,
+        'phone': addressModel.phone,
+        'latitude': addressModel.latitude,
+        'longitude': addressModel.longitude,
+        'is_billing': '1'
+      });
+
+      print(data);
+      Response response = await dioClient!.post(AppConstants.addAddressUri, data:data);
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
@@ -114,9 +129,10 @@ class AddressRepository implements AddressRepoInterface<ApiResponse>{
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   } @override
-  Future<ApiResponse> getCityList(String id) async {
+  Future<ApiResponse> getCityList(String id,{bool address=false}) async {
     try {
-      Response response = await dioClient!.get('${AppConstants.provinces}$id', );
+      print(address);
+      Response response = await dioClient!.get(address?AppConstants.provincesAwb:'${AppConstants.provinces}$id', );
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));

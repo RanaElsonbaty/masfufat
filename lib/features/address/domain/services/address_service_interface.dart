@@ -17,7 +17,7 @@ abstract class AddressServiceInterface{
 
   Future<ApiResponse> getCountryList();
 
-  Future<ApiResponse> getCityList(String id);
+  Future<ApiResponse> getCityList(String id,{bool address=false});
 
   Future<dynamic> getDeliveryRestrictedCountryList();
 

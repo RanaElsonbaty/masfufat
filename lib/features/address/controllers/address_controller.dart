@@ -82,10 +82,10 @@ class AddressController with ChangeNotifier {
   }
   List<CountryModel> _cityList=[];
   List<CountryModel> get cityList=>_cityList;
-  Future<void> getCityList(String id) async {
+  Future<void> getCityList(String id,{bool address=false}) async {
     // print('asdasdasdasdasdasdadasdadasda');
     _cityList=[];
-    ApiResponse response = await addressServiceInterface.getCityList(id);
+    ApiResponse response = await addressServiceInterface.getCityList(id,address: address);
     if(response.response!.statusCode == 200) {
       // _restrictedZipList = [];
       response.response!.data.forEach((address) {

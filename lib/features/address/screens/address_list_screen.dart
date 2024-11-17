@@ -81,7 +81,7 @@ class _AddressListScreenState extends State<AddressListScreen> {
                         child: Column(children: [
               
                           Row(children: [
-                            Expanded(child: Text('${locationProvider.addressList?[index].address}',
+                            Expanded(child: Text('${locationProvider.addressList?[index].addressType}',
                                 style: GoogleFonts.tajawal (fontSize: Dimensions.fontSizeLarge,fontWeight: FontWeight.w500),),),
               
                             InkWell(onTap: ()=> Navigator.of(context).push(MaterialPageRoute(builder: (_)=>

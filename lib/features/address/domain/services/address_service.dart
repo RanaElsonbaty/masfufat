@@ -74,8 +74,8 @@ import 'package:flutter_sixvalley_ecommerce/features/address/domain/services/add
     ApiResponse response = await addressRepoInterface.getCountryList();
     return response;
   } @override
-  Future<ApiResponse> getCityList(String id) async {
-    ApiResponse response = await addressRepoInterface.getCityList(id);
+  Future<ApiResponse> getCityList(String id,{bool address=false}) async {
+    ApiResponse response = await addressRepoInterface.getCityList(id,address: address);
     return response;
   }
 

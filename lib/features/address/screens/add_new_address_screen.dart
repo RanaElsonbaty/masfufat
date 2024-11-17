@@ -47,11 +47,13 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
   String countryId='';
   String cityId='';
   final TextEditingController _contactPersonNameController = TextEditingController();
+  final TextEditingController _addressTypeController = TextEditingController();
   final TextEditingController _contactPersonEmailController = TextEditingController();
   final TextEditingController _contactPersonNumberController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _zipCodeController = TextEditingController();
   final TextEditingController _countryCodeController = TextEditingController();
+  final FocusNode _addressTypeNode = FocusNode();
   final FocusNode _addressNode = FocusNode();
   final FocusNode _nameNode = FocusNode();
   final FocusNode _emailNode = FocusNode();
@@ -82,6 +84,7 @@ void initData()async{
     await  Provider.of<AddressController>(context, listen: false).getCountyList();
   if (widget.isEnableUpdate && widget.address != null) {
     if(widget.editLocation!){
+      print('object');
 
     try{
       _contactPersonNameController.text = '${widget.address?.contactPersonName}';
@@ -96,19 +99,7 @@ void initData()async{
     Provider.of<AddressController>(Get.context!, listen: false).countyList.forEach((element) async{
 
       if(widget.placemarks.first.isoCountryCode==element.code){
-        await  Provider.of<AddressController>(context, listen: false).getCityList(element.id.toString()).then((value) {
-          Provider.of<AddressController>(context, listen: false).cityList.forEach((element) {
-            if(widget.placemarks.first.locality==element.name){
-            setState(() {
-              _cityController.text=element.name;
-              cityId=element.id.toString();
-            });
-              }else{
-              showCustomSnackBar(getTranslated('selected_city_is_found', context), context);
-              _cityController.text='not found';
-            }
-          });
-        });
+
 
         _countryCodeController.text=element.name;
         countryId=element.id.toString();
@@ -116,10 +107,32 @@ void initData()async{
 
       }
     });
+      await  Provider.of<AddressController>(context, listen: false).getCityList('20',
+        address: true,
+      ).then((value) {
+        Provider.of<AddressController>(context, listen: false).cityList.forEach((element) {
+          if(widget.placemarks.first.locality==element.name){
+            setState(() {
+              _cityController.text=element.name;
+              cityId=element.id.toString();
+            });
+          }else{
+            // _cityController.text='not found';
+          }
+        });
+      })
+          .then((value) {
+        if(_cityController.text.isEmpty){
+          showCustomSnackBar(getTranslated('selected_city_is_found', context), context);
+
+        }
+      });
     setState(() {
 
     });
 }else {
+      print('object1');
+
   _contactPersonNameController.text = '${widget.address?.contactPersonName}';
   Provider
       .of<AddressController>(Get.context!, listen: false)
@@ -135,19 +148,25 @@ void initData()async{
           .of<LocationController>(context, listen: false)
           .locationController
           .text = widget.address!.address!;
-      Provider.of<AddressController>(context, listen: false).getCityList(
-          element.id.toString()).then((value) {
-        if (widget.address?.city != null &&
-            element.id.toString() == widget.address?.city ||
-            element.name == widget.address?.city) {
-          _cityController.text = element.name;
-          cityId = element.id.toString();
-        } else {
-          _cityController.text = '';
-        }
-      });
+
     }
   });
+      Provider.of<AddressController>(context, listen: false).getCityList(
+          address: true,
+          countryId).then((value) {
+        Provider.of<AddressController>(context, listen: false).cityList.forEach((element) {
+          // print(element.name );
+          // print(widget.address?.city );
+          if (widget.address?.city != null &&
+              element.id.toString() == widget.address?.city ||
+              element.name == widget.address?.city.toString()) {
+            _cityController.text = element.name;
+            cityId = element.id.toString();
+          } else {
+          }
+        });
+
+      });
 
 
   _zipCodeController.text = '${widget.address?.zip}';
@@ -188,17 +207,27 @@ void initData()async{
       Provider.of<AddressController>(Get.context!, listen: false).countyList.forEach((element) async{
 
           if(widget.placemarks.first.isoCountryCode==element.code){
-        await  Provider.of<AddressController>(context, listen: false).getCityList(element.id.toString()).then((value) {
+        await  Provider.of<AddressController>(context, listen: false).getCityList(element.id.toString(),
+          address: true,
+        ).then((value)async {
             Provider.of<AddressController>(context, listen: false).cityList.forEach((element) {
               if(widget.placemarks.first.locality==element.name){
                 _cityController.text=element.name;
                 cityId=element.id.toString();
+              }else{
+                // showCustomSnackBar(getTranslated('selected_city_is_found', context), context);
+
               }
             });
+          }).then((value) {
+            if(_cityController.text.isEmpty){
+              showCustomSnackBar(getTranslated('selected_city_is_found', context), context);
+
+            }
           });
 
           _countryCodeController.text=element.name;
-          countryId=element.id.toString();
+          countryId=element.code.toString();
 
 
         }
@@ -224,12 +253,27 @@ void initData()async{
                       child: Form(
                         key: _addressFormKey,
                         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
+                          Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeLarge),
+                              child: CustomTextFieldWidget(
+                                required: true,
+                                // prefixIcon: Images.user,
+                                labelText: getTranslated('Address_naming', context),
+                                hintText: getTranslated('Address_naming', context),
+                                showLabelText: false,
+                                titleText: getTranslated('Address_naming', context) ,
+                                inputType: TextInputType.name,
+                                controller: _addressTypeController,
+                                focusNode: _addressTypeNode,
+                                nextFocus: _nameNode,
+                                inputAction: TextInputAction.next,
+                                capitalization: TextCapitalization.words,
+                                validator: (value)=> ValidateCheck.validateEmptyText(value, 'Title_label_required'),
+                              )),
 
                           Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeLarge),
                             child: CustomTextFieldWidget(
                               required: true,
-                              prefixIcon: Images.user,
+                              // prefixIcon: Images.user,
                               labelText: getTranslated('enter_contact_person_name', context),
                               hintText: getTranslated('enter_contact_person_name', context),
                               showLabelText: false,
@@ -273,7 +317,7 @@ void initData()async{
                           if(!Provider.of<AuthController>(context, listen: false).isLoggedIn())
                           CustomTextFieldWidget(
                             required: true,
-                            prefixIcon: Images.email,
+                            // prefixIcon: Images.email,
                             labelText: getTranslated('email', context),
                             hintText: getTranslated('enter_contact_person_email', context),
                             titleText: getTranslated('enter_contact_person_email', context),
@@ -298,26 +342,26 @@ void initData()async{
                               )),
                             ),
 
-                            SizedBox(height: 50,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                physics: const BouncingScrollPhysics(),
-                                itemCount: addressController.addressTypeList.length,
-                                itemBuilder: (context, index) => InkWell(
-                                  onTap: () => addressController.updateAddressIndex(index, true),
-                                  child: Container(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault, horizontal: Dimensions.paddingSizeLarge),
-                                    margin: const EdgeInsets.only(right: 17),
-                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                                        border: Border.all(color: addressController.selectAddressIndex == index ?
-                                        Theme.of(context).primaryColor : Theme.of(context).primaryColor.withOpacity(.125))),
-                                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                      SizedBox(width: 20, child: Image.asset(addressController.addressTypeList[index].icon,
-                                          color: addressController.selectAddressIndex == index ?
-                                      Theme.of(context).primaryColor : Theme.of(context).primaryColor.withOpacity(.35))),
-                                      const SizedBox(width: Dimensions.paddingSizeSmall,),
-                                      Text(getTranslated(addressController.addressTypeList[index].title, context)!,
-                                          style: textRegular.copyWith())]))))),
+                            // SizedBox(height: 50,
+                            //   child: ListView.builder(
+                            //     shrinkWrap: true,
+                            //     scrollDirection: Axis.horizontal,
+                            //     physics: const BouncingScrollPhysics(),
+                            //     itemCount: addressController.addressTypeList.length,
+                            //     itemBuilder: (context, index) => InkWell(
+                            //       onTap: () => addressController.updateAddressIndex(index, true),
+                            //       child: Container(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault, horizontal: Dimensions.paddingSizeLarge),
+                            //         margin: const EdgeInsets.only(right: 17),
+                            //         decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
+                            //             border: Border.all(color: addressController.selectAddressIndex == index ?
+                            //             Theme.of(context).primaryColor : Theme.of(context).primaryColor.withOpacity(.125))),
+                            //         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                            //           SizedBox(width: 20, child: Image.asset(addressController.addressTypeList[index].icon,
+                            //               color: addressController.selectAddressIndex == index ?
+                            //           Theme.of(context).primaryColor : Theme.of(context).primaryColor.withOpacity(.35))),
+                            //           const SizedBox(width: Dimensions.paddingSizeSmall,),
+                            //           Text(getTranslated(addressController.addressTypeList[index].title, context)!,
+                            //               style: textRegular.copyWith())]))))),
 
 
                             // Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
@@ -351,7 +395,7 @@ void initData()async{
                               inputType: TextInputType.streetAddress,
                               inputAction: TextInputAction.next,
                               focusNode: _addressNode,
-                              prefixIcon: Images.address,
+                              // prefixIcon: Images.address,
                               required: true,
                               nextFocus: _cityNode,
                               controller: locationController.locationController,
@@ -385,7 +429,7 @@ void initData()async{
                                             ),
                                             data: addressController.countyList
                                                 .map((e) => SelectedListItem(
-                                              value: e.id.toString(),
+                                              value: e.code.toString(),
                                               name: e.name,
                                             ))
                                                 .toList(),
@@ -419,7 +463,7 @@ void initData()async{
                                         required: true,
                                         isEnabled: false,
                                         nextFocus: _zipNode,
-                                        prefixIcon: Images.city,
+                                        // prefixIcon: Images.city,
                                         controller: _countryCodeController,
                                         validator: (value)=> ValidateCheck.validateEmptyText(value, 'country_is_required'),
                                       ),
@@ -479,7 +523,7 @@ void initData()async{
                                   required: true,
                                 isEnabled: false,
                                 nextFocus: _zipNode,
-                                prefixIcon: Images.city,
+                                // prefixIcon: Images.city,
                                 controller: _cityController,
                                 validator: (value)=> ValidateCheck.validateEmptyText(value, 'city_is_required'),
                               ),
@@ -497,7 +541,7 @@ void initData()async{
                             inputAction: TextInputAction.done,
                             focusNode: _zipNode,
                             required: true,
-                            prefixIcon: Images.city,
+                            // prefixIcon: Images.city,
                             controller: _zipCodeController,
                             validator: (value)=> ValidateCheck.validateEmptyText(value, 'zip_code_is_required'),
 
@@ -543,18 +587,18 @@ void initData()async{
 
                                 if(_addressFormKey.currentState?.validate() ?? false) {
                                   AddressModel addressModel = AddressModel(
-                                      addressType: getTranslated(addressController.addressTypeList[addressController.selectAddressIndex].title, context),
+                                      addressType: _addressTypeController.text,
                                       contactPersonName: _contactPersonNameController.text,
                                       phone: '${Provider.of<AuthController>(context, listen: false).countryDialCode}${_contactPersonNumberController.text.trim()}',
                                       email: _contactPersonEmailController.text.trim(),
                                       city: _cityController.text.toString(),
                                       zip: _zipCodeController.text,
-                                      title: '',
                                       customerId: 0,
-                                      areaId: '',
+                                      areaId: _cityController.text.toString(),
                                       createdAt: '',
                                       state: true,
                                       updatedAt: '',
+
                                       country:  countryId.toString(),
                                       // guestId: Provider.of<AuthController>(context, listen: false).getGuestToken(),
                                       isBilling: _address == Address.billing?1:0,
@@ -575,7 +619,7 @@ void initData()async{
                                       if (value.response?.statusCode == 200 ) {
                                         Navigator.pop(context);
                                         Navigator.pop(context);
-                                        Navigator.pop(context);
+                                        // Navigator.pop(context);
                                         if (widget.fromCheckout) {
                                           Provider.of<CheckoutController>(context, listen: false).setAddressIndex(0);
                                         }
