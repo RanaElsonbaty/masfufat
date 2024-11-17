@@ -135,8 +135,8 @@ class _OrderSyncDetailsScreenState extends State<OrderSyncDetailsScreen> {
                       const SizedBox(height: Dimensions.paddingSizeDefault),
                        OrderInfoSection(orderDetailsModel: orderProvider.syncOrderDetails!,),
                       const SizedBox(height: Dimensions.paddingSizeDefault),
-                      SyncShippingAndBillingWidget(orderProvider: orderProvider),
-                      const SizedBox(height: Dimensions.paddingSizeDefault),
+                      // SyncShippingAndBillingWidget(orderProvider: orderProvider),
+                      // const SizedBox(height: Dimensions.paddingSizeDefault),
 
 
                       // SyncSellerSectionWidget(order: orderProvider),
@@ -166,8 +166,8 @@ class _OrderSyncDetailsScreenState extends State<OrderSyncDetailsScreen> {
 
 
 
-                      widget.syncOrder!.paymentStatus == 'unpaid'&&orderProvider.syncOrderDetails!.orderStatus!='canceled'
-                          ? Consumer<SyncOrderController>(
+// if(widget.syncOrder!.paymentStatus == 'unpaid'&&orderProvider.syncOrderDetails!.orderStatus!='canceled')                      //     ?
+                      Consumer<SyncOrderController>(
                         builder:(context,order,child) =>InkWell(
                           onTap: () {
                           Navigator.push(context,MaterialPageRoute(builder: (context) =>  OrderCheckout(orderDetailsModel: orderProvider.syncOrderDetails!, products: products,),));
@@ -190,8 +190,8 @@ class _OrderSyncDetailsScreenState extends State<OrderSyncDetailsScreen> {
                             ),
                           ),
                         ),
-                      )
-                          : const SizedBox.shrink(),
+                      ),
+                          // : const SizedBox.shrink(),
 
                       const SizedBox(height: 20,),
                   ],

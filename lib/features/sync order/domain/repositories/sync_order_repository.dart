@@ -29,27 +29,48 @@ class SyncOrderRepository implements SyncOrderRepositoryInterface{
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
-  }@override
-  Future<ApiResponse> placeBankTransferOrder( String id,String paymentMethod) async{
-    try {
-      var data = FormData.fromMap({
-        "id": id,
-        "payment_method": paymentMethod,
-      });
-      final response = await dioClient!.post(AppConstants.placeBankTransferOrder,
-
-      data: data);
-      return ApiResponse.withSuccess(response);
-    } catch (e) {
-      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
-    }
   }
+  // @override
+  // Future<ApiResponse> placeBankTransferOrder( String id,String paymentMethod) async{
+  //   try {
+  //     var data = FormData.fromMap({
+  //       "id": id,
+  //       "payment_method": paymentMethod,
+  //     });
+  //     final response = await dioClient!.post(AppConstants.placeBankTransferOrder,
+  //
+  //     data: data);
+  //     return ApiResponse.withSuccess(response);
+  //   } catch (e) {
+  //     return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+  //   }
+  // }
   @override
   Future<ApiResponse> placeSyncWalletOrder(String id) async{
     var data = {"id": id};
 
     try {
       final response = await dioClient!.post(AppConstants.placeSyncWalletOrder,data: data);
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  }  @override
+  Future<ApiResponse> placeSyncOrderCashOnDelivery(String id,String couponCode,String couponDiscount,String orderNode,int addressId) async{
+
+    // if()
+    var data =FormData.fromMap({
+      'id': id,
+      'address_id': addressId,
+      'coupon_code': couponCode,
+      'coupon_discount': couponDiscount,
+      'order_note': '',
+      'payment_method': 'cash_on_delivery'
+    });
+    try {
+      final response = await dioClient!.post(AppConstants.placeSyncOrderCashOnDelivery,
+      data: data,
+      );
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
@@ -90,23 +111,54 @@ class SyncOrderRepository implements SyncOrderRepositoryInterface{
       String orderID,
       String paymentMethod,
       String bank,
-      XFile attachment,
+
       String holderName,
+      int addressId,
+  XFile? attachment,
+
   ) async {
-    var data = FormData.fromMap({
-      "id": orderID,
-      "payment_method": paymentMethod,
-      "bank": bank,
-      "attachment": [
-    await MultipartFile.fromFile(attachment.path, filename: attachment.path)
-    ],
-      "holder_name": holderName
+    var data =FormData.fromMap({
+      'attachment': [
+        await MultipartFile.fromFile(attachment!.path, filename: attachment.name)
+      ],
+      // "attachment":attachment!.path,
+      'id': orderID,
+      'address_id': addressId,
+      'coupon_code': '',
+      'coupon_discount': '0',
+      'order_note': '',
+      "holder_name":holderName,
+      'payment_method': 'bank_transfer'
     });
 
     try {
       final response = await dioClient!.post(
-          "${AppConstants.baseUrl}${AppConstants.placeBankTransferSyncOrder}",
-          data: data,
+       '${AppConstants.baseUrl}${AppConstants.placeBankTransferSyncOrder}' ,
+        data: data,
+      );
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  }
+
+  @override
+  Future<ApiResponse> placeSyncDelayedOrder(String id, String addressId, String couponCode, String couponDiscount, String orderNote)async {
+    // if()
+    var data =FormData.fromMap({
+      'id': id,
+      'address_id': addressId,
+      'coupon_code': couponCode,
+      'coupon_discount': couponDiscount,
+      'order_note': orderNote,
+      'payment_method': 'delayed'
+    });
+
+    try {
+      final response = await dioClient!.post(
+        "${AppConstants.baseUrl}${AppConstants.placeSyncDelayedOrder}",
+        data: data,
       );
       return ApiResponse.withSuccess(response);
     } catch (e) {

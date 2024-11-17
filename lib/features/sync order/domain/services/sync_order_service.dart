@@ -22,16 +22,27 @@ class SyncOrderService implements SyncOrderServiceInterface{
 
   }
 
-  @override
-  Future<ApiResponse> placeBankTransferOrder(String id, String paymentMethod)async {
+  // @override
+  // Future<ApiResponse> placeBankTransferOrder(String id, String paymentMethod,int addressId)async {
+  //
+  //   return await syncOrderRepositoryInterface.placeBankTransferOrder(id,paymentMethod,addressId);
+  //
+  // }
 
-    return await syncOrderRepositoryInterface.placeBankTransferOrder(id,paymentMethod);
+  @override
+  Future<ApiResponse> bankAndDelayedPayment(String orderID, String paymentMethod, String bank, String holderName,int addressId, XFile? attachment) async{
+      return await syncOrderRepositoryInterface.bankAndDelayedPayment(orderID,paymentMethod,bank,holderName,addressId, attachment!);
+
+
+  }@override
+  Future<ApiResponse> placeSyncOrderCashOnDelivery(String orderID,String couponCode,String couponDiscount,String orderNode ,int addressId) async{
+    return await syncOrderRepositoryInterface.placeSyncOrderCashOnDelivery(orderID,couponCode,couponDiscount,orderNode,addressId);
 
   }
 
   @override
-  Future<ApiResponse> bankAndDelayedPayment(String orderID, String paymentMethod, String bank, XFile attachment, String holderName) async{
-    return await syncOrderRepositoryInterface.bankAndDelayedPayment(orderID,paymentMethod,bank,attachment,holderName);
+  Future<ApiResponse> placeSyncDelayedOrder(String id, String addressId, String couponCode, String couponDiscount, String orderNote)async {
+    return await syncOrderRepositoryInterface.placeSyncDelayedOrder(id,addressId,couponCode,couponDiscount,orderNote);
 
   }
 

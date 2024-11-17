@@ -144,10 +144,25 @@ class SyncOrderController with ChangeNotifier {
 
 
     }
-  }Future<ApiResponse> placeBankTransferOrder(String id,) async {
+  }
+  // Future<ApiResponse> placeBankTransferOrder(String id,int addressId,String paymentMethod) async {
+  //   _isDetailsLoading=true;
+  //   _syncOrderDetails=null;
+  //   ApiResponse apiResponse = await syncOrderServiceInterface.placeBankTransferOrder(id,paymentMethod,addressId);
+  //   if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+  //
+  //     notifyListeners();
+  //     return ApiResponse.withSuccess(apiResponse.response!);
+  //   } else  {
+  //   return ApiResponse.withError(apiResponse.error);
+  //
+  //
+  //   }
+  // }
+  Future<ApiResponse> placeSyncOrderCashOnDelivery(String id,String couponCode,String couponDiscount,String orderNode , int addressId) async {
     _isDetailsLoading=true;
     _syncOrderDetails=null;
-    ApiResponse apiResponse = await syncOrderServiceInterface.placeBankTransferOrder(id,'delayed');
+    ApiResponse apiResponse = await syncOrderServiceInterface.placeSyncOrderCashOnDelivery(id,couponCode,couponDiscount,orderNode,addressId);
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
 
       notifyListeners();
@@ -168,23 +183,44 @@ class SyncOrderController with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<ApiResponse> bankAndDelayedPayment(
-      String orderID,
-      String paymentMethod,
-      String bank,
-      XFile attachment,
-      String holderName,
-      BuildContext context,
-      ) async {
-
+  Future<ApiResponse> bankAndDelayedPayment(String orderID, String paymentMethod, String bank, String holderName, int addressId, BuildContext context, XFile? attachment,) async {
     notifyListeners();
-    ApiResponse apiResponse = await syncOrderServiceInterface.bankAndDelayedPayment(
-      orderID,
-      paymentMethod,
-      bank,
-      attachment,
-      holderName,
-    );
+
+    ApiResponse apiResponse =
+
+      await syncOrderServiceInterface.bankAndDelayedPayment(
+        orderID,
+        paymentMethod,
+        bank,
+        holderName,
+        addressId,
+        attachment!,
+      );
+
+    if (apiResponse.response != null &&
+        apiResponse.response!.statusCode == 200) {
+      return ApiResponse.withSuccess(apiResponse.response!);
+    } else {
+      ApiChecker.checkApi( apiResponse);
+      notifyListeners();
+
+      return ApiResponse.withError(apiResponse.error);
+    }
+  }
+  Future<ApiResponse> placeSyncDelayedOrder(String id, String addressId, String couponCode, String couponDiscount, String orderNote) async {
+    notifyListeners();
+
+    ApiResponse apiResponse =
+
+      await syncOrderServiceInterface.placeSyncDelayedOrder(
+        id,
+        addressId,
+        couponCode,
+        couponDiscount,
+        orderNote,
+
+      );
+
     if (apiResponse.response != null &&
         apiResponse.response!.statusCode == 200) {
       return ApiResponse.withSuccess(apiResponse.response!);

@@ -21,6 +21,7 @@ class _SyncOrderTypeButtomWidgetState extends State<SyncOrderTypeButtomWidget> {
     return Consumer<SyncOrderController>(
       builder:(context, syncOrderController, child) =>  TextButton(
         onPressed: () {
+
           syncOrderController.setIndex(widget.index,widget.text,notify: true);
           widget.pagingController.refresh();
 
