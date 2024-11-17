@@ -23,13 +23,19 @@ class _CheckOutPaymentSectionState extends State<CheckOutPaymentSection> {
         builder:(context, checkoutProvider, child) {
           return  checkoutProvider.selectedDigitalPaymentMethodId!=null&&checkoutProvider.selectedDigitalPaymentMethodId==0?  Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Card(
-              child: Container(
-                padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeDefault),
-                    color: Colors.white),
-                child:Container(
-                    child: paymentProvider.build(context, false, false)),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Card(
+                    child: Container(
+                      padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeDefault),
+                          color: Colors.white),
+                      child:Container(
+                          child: paymentProvider.build(context, false, false)),
+                    ),
+                  ),
+                ],
               ),
             ),
           ):const SizedBox.shrink();

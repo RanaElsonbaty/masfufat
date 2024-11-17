@@ -95,7 +95,7 @@ void getOrderId(String id){
   initiate(BuildContext context) async {
   try{
     print('api key ----> $apiKey');
-    await MFSDK.init('apiKey', MFCountry.SAUDIARABIA, MFEnvironment.TEST);
+    await MFSDK.init(apiKey, MFCountry.SAUDIARABIA, MFEnvironment.TEST);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await initSession(context);
       await initiatePayment();
@@ -428,7 +428,7 @@ print('error initiate ===== $e');
          type,
          id,
          context).then((value) {
-       _callback(true,'نجح الدفع','',false);
+       _callback(true,'نجح الدفع','',type=='wallet_charge'?true:false);
 
          });
 
@@ -478,12 +478,12 @@ ApiResponse response= await paymentServiceInterface.checkPayment(paymentModel);
 
 if(response.response!=null&&response.response!.statusCode==201||response.response!.statusCode==200){
   print(response.response!.data);
-  _callback(true,'نجح الدفع','',false);
+  _callback(true,'نجح الدفع','',type=='wallet_charge'?true:false);
   return true;
 }else{
   print(response.error);
 
-  _callback(false,'فشل الدفع','',false);
+  _callback(false,'فشل الدفع','',type=='wallet_charge'?true:false);
   return false;
 
 
@@ -719,8 +719,8 @@ if(response.response!=null&&response.response!.statusCode==201||response.respons
       Navigator.of(Get.context!).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => const DashBoardScreen()), (route) => false);
       showAnimatedDialog(Get.context!, OrderPlaceDialogWidget(
         icon: Icons.check,
-        title: getTranslated(createAccount ? 'order_placed_Account_Created' : 'order_placed', Get.context!),
-        description: getTranslated('your_order_placed', Get.context!),
+        title: getTranslated(createAccount ? 'The_balance_has_been_added_successfully' : 'order_placed', Get.context!),
+        description:createAccount?'': getTranslated('your_order_placed', Get.context!),
         isFailed: false,
       ), dismissible: false, willFlip: true);
     }else {

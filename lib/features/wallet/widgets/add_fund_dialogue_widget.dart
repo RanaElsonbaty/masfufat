@@ -44,7 +44,7 @@ class _AddFundDialogueWidgetState extends State<AddFundDialogueWidget> {
             return Consumer<SplashController>(
               builder: (context, configProvider,_) {
                 return SingleChildScrollView(
-                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+                  child: Column(mainAxisSize: MainAxisSize.max, children: [
 
 
                     Container(decoration: BoxDecoration(
