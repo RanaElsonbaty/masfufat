@@ -123,7 +123,7 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
 
   runApp(DevicePreview(
-    enabled: false,
+    enabled: true,
     builder:(context) =>  MultiProvider(providers: [
         ChangeNotifierProvider(create: (context) => di.sl<CategoryController>()),
         ChangeNotifierProvider(create: (context) => di.sl<ShopController>()),
