@@ -233,7 +233,7 @@ class _StoreSectionState extends State<StoreSection> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       widget.store.storeDetails!=null?   Expanded(
-                        child: Text('${getTranslated('Link_status', context)!} : ${getTranslated('associatedـwith', context)!} ${widget.store.storeDetails!.name??widget.store.storeDetails!.user!.name}',
+                        child: Text('${getTranslated('Link_status', context)!} : ${getTranslated('associatedـwith', context)!} ${widget.store.storeDetails!=null?widget.store.storeDetails!.name??'':widget.store.storeDetails!.user!=null?widget.store.storeDetails!.user!.name??'':''}',
                           style: GoogleFonts.tajawal(
                               fontSize: 16,
                               color: widget.store.storeDetails!=null?Colors.white:null ,
@@ -283,7 +283,7 @@ class _StoreSectionState extends State<StoreSection> {
                 const SizedBox(
                   height: 10,
                 ),
-                Padding(
+                widget.store.appName=='salla'?   Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 15.0),
                   child: InkWell(
@@ -324,17 +324,15 @@ class _StoreSectionState extends State<StoreSection> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                              widget.store
-                                  .token!=null?  widget.store
-                                  .token
-                                  .toString():'no key',
+                              widget.store.appName=='salla'&&  widget.store.token!=null?
+                              widget.store.token.toString():'....',
                               textDirection: TextDirection.ltr,
                               style: const TextStyle(
                                 color: Colors.black ,
                               ),
                               overflow: TextOverflow.visible),
                         ),
-                        widget.store
+                         widget.store
                             .token!=null?   Positioned(
                                 bottom: 5,
                                 right: 5,
@@ -343,7 +341,7 @@ class _StoreSectionState extends State<StoreSection> {
                       ],)
                     ),
                   ),
-                ),
+                ):const SizedBox.shrink(),
                 const SizedBox(
                   height: 10,
                 ),

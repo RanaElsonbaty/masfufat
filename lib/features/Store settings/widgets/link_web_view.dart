@@ -32,16 +32,8 @@ class _LinkWebViewState extends State<LinkWebView> {
     initData();
   }
   String generateMd5(String input) {
-    // String password = '123';
-
-    // Hash password
     final String hashed = BCrypt.hashpw(input, BCrypt.gensalt());
-
-    print('Original Password: $input');
-    print('Hashed Password: $hashed');
     return hashed.toString();
-// return  stopwatch.elapsed;
-    // return md5.convert(utf8.encode(input)).toString();
   }
   String md5Convert = '';
   void initData() {
@@ -110,16 +102,17 @@ class _LinkWebViewState extends State<LinkWebView> {
       });
 
   }
-  void getLinkPage(String url){
+  void getLinkPage(String url)async{
 
     if (url == '${AppConstants.baseUrl}/user-account') {
       if(widget.storeName=='salla'){
         controller!.loadRequest(Uri.parse('${AppConstants.baseUrl}/salla/oauth/redirect'));
       }else
       {
-        controller!.loadRequest(Uri.parse('https://web.zid.sa/login'));
+        controller!.loadRequest(Uri.parse('${AppConstants.baseUrl}/zid/oauth/redirect'));
       }
     }else if(url.contains('https://accounts.salla.sa/callback/')){
+    await  Future.delayed(const Duration(seconds: 1));
       controller!.loadRequest(Uri.parse('https://s.salla.sa/apps'));
 
     }else if(url.contains('https://web.zid.sa/home')){
