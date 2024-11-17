@@ -13,8 +13,10 @@ import 'Display_Picture_Screen.dart';
 class CameraScreen extends StatefulWidget {
   const CameraScreen({super.key,
 
-    this.camera,
+    this.camera, this.chat=false,
   });
+  final bool? chat;
+
   final CameraDescription? camera;
   @override
   CameraScreenState createState() => CameraScreenState();
@@ -144,7 +146,7 @@ class CameraScreenState extends State<CameraScreen> {
                                 // value.takePhoto.delete();
                                 final image = await _controller!.takePicture();
                                 support.pickImageOrVideoCamera(image);
-
+                                chat.pickImageOrVideoCamera(image);
                                 // value.takePhoto = File(image.path);
                                 // if (widget.seller) {
                                 //   print('camera seller');
@@ -156,7 +158,7 @@ class CameraScreenState extends State<CameraScreen> {
                                 // }
                                 // if (!mounted) return;
                                 Navigator.push(Get.context!,MaterialPageRoute(builder: (context) {
-                                  return DisplayPictureScreen(image: [image],);
+                                  return DisplayPictureScreen(image: [image],chat: widget.chat,);
                                 },));
                                 // await Navigator.of(context).push(
                                 //   CustomPageRouteBuilder(

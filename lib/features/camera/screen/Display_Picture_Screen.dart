@@ -12,8 +12,9 @@ import '../../support/file catch/mp4.dart';
 class DisplayPictureScreen extends StatefulWidget {
   final String? imagePath;
   final List<XFile> image;
+  final bool? chat;
   const DisplayPictureScreen(
-      {super.key, this.imagePath, required this.image, });
+      {super.key, this.imagePath, required this.image, this.chat=false, });
 
   @override
   State<DisplayPictureScreen> createState() => _DisplayPictureScreenState();
@@ -30,18 +31,26 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
       body: Consumer<ChatController>(
         builder: (context, chat, child) => Consumer<SupportTicketController>(
           builder: (context, support, child) {
+            String image='';
+
+            if(widget.chat!){
+              image=chat.pickImageOrVideoCam[selectIndex].path;
+            }
+            else{
+              image=support.pickImageOrVideoCam[selectIndex].path;
+            }
             // print('asdasdaddsa${ support.pickImageOrVideoCam[selectIndex].path}');
             return Column(
             children: [
               SizedBox(
                   height: MediaQuery.of(context).size.height-120,
                   width: MediaQuery.of(context).size.width,
-                  child: support.pickImageOrVideoCam[selectIndex].path.endsWith('temp')?Mp4Widget(file:File( support.pickImageOrVideoCam[selectIndex].path),
+                  child:image.endsWith('temp')?Mp4Widget(file:File( image),
                     isSend: true, min: false,
                      height: MediaQuery.of(context).size.height-120, width: double.infinity,
 
                   ):Image.file(
-                        File(support.pickImageOrVideoCam[selectIndex].path),
+                        File(image),
                     fit: BoxFit.fill,
                   )),
               Container(
@@ -57,8 +66,16 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
-                        itemCount:support.pickImageOrVideoCam.length,
+                        itemCount:widget.chat!?chat.pickImageOrVideoCam.length:support.pickImageOrVideoCam.length,
                         itemBuilder: (context, index) {
+                          String images='';
+
+                          if(widget.chat!){
+                            images=chat.pickImageOrVideoCam[selectIndex].path;
+                          }
+                          else{
+                            images=support.pickImageOrVideoCam[selectIndex].path;
+                          }
                           return SizedBox(
                             height: 80,
                             width: 80,
@@ -71,7 +88,8 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                                     onTap: () {
                                       setState(() {
                                         selectIndex = index;
-                                        name = support.pickImageOrVideoCam[index].name
+                                        name = widget.chat!?chat.pickImageOrVideoCam[index].name
+                                            .toString():support.pickImageOrVideoCam[index].name
                                             .toString();
                                       });
                                     },
@@ -82,12 +100,12 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                                       child: ClipRRect(
                                         borderRadius:
                                         BorderRadius.circular(8),
-                                        child: support.pickImageOrVideoCam[index].path.endsWith('temp')?Mp4Widget(file:File( support.pickImageOrVideoCam[index].path),
+                                        child: images.endsWith('temp')?Mp4Widget(file:File( images),
                                            isSend: true, min: true,
                                            height: 80, width: 80,
 
                                         ):Image.file(
-                                          File(support.pickImageOrVideoCam[index].path),
+                                          File(images),
                                           height: 80,
                                           width: 80,
                                           fit: BoxFit.fill,
@@ -100,7 +118,13 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                                   padding: const EdgeInsets.only(bottom: 6.0),
                                   child: InkWell(
                                     onTap: () {
-                                      support.removePickImageOrVideoCamera(index);
+                                      if(widget.chat!){
+                                        chat.removePickImageOrVideoCamera(index);
+
+                                      }else{
+                                        support.removePickImageOrVideoCamera(index);
+
+                                      }
 
                                       setState(() {
                                         selectIndex = 0;
@@ -131,8 +155,14 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
 
                             Navigator.pop(context);
                             Navigator.pop(context);
+if(widget.chat!){
+  chat.addPickCameraToList();
 
-                            support.addPickCameraToList();
+
+}else{
+  support.addPickCameraToList();
+
+}
 
 
                           },
