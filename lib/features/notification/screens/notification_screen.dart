@@ -33,7 +33,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     try {
       firstTime=true;
 
-      final List<NotificationItemModel>  newItems = await Provider.of<NotificationController>(context, listen: false).getNotificationList(1);
+      final List<NotificationItemModel>  newItems = await Provider.of<NotificationController>(context, listen: false).getNotificationList(_page);
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         pagingController.appendLastPage(newItems);
