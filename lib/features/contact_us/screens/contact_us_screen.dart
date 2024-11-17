@@ -209,11 +209,36 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                    Image.asset(Images.whatsapp,width: 30,),
-                    Image.asset(Images.twitter,width: 30,),
-                    Image.asset(Images.threads,width: 30,),
-                    Image.asset(Images.instagram,width: 30,),
-                    Image.asset(Images.telegram,width: 30 ,),
+                    InkWell(
+                        onTap: (){
+                          _openUrl('https://api.whatsapp.com/send/?phone=920031391&text&type=phone_number&app_absent=0');
+                        },
+                        child: Image.asset(Images.whatsapp,width: 30,)),
+                    InkWell(
+                        onTap: (){
+                          _openUrl('https://x.com/masfufat_com?mx=2');
+
+
+                        },
+                        child: Image.asset(Images.twitter,width: 30,)),
+                    InkWell(
+                        onTap: (){
+                          _openUrl('https://www.threads.net/@masfufat_com');
+
+                        },
+                        child: Image.asset(Images.threads,width: 30,)),
+                    InkWell(
+                        onTap: (){
+                          _openUrl('https://www.instagram.com/masfufat_com/');
+
+                        },
+                        child: Image.asset(Images.instagram,width: 30,)),
+                    InkWell(
+                        onTap: (){
+                          _openUrl('https://t.me/+tu261Q8tZDU3MGJk');
+
+                        },
+                        child: Image.asset(Images.telegram,width: 30 ,)),
                     ],
                   ),
                 ),
@@ -278,7 +303,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                     isAmount: true,
                     inputAction: TextInputAction.next,
                     inputType: TextInputType.phone,
-                  validator: (value)=> ValidateCheck.validateEmptyText(value, 'phone_is_required'),
+                  validator: (value)=> ValidateCheck.validatePhoneNumber(value, 'phone_is_required'),
 
                 ),
                 const SizedBox(height: Dimensions.paddingSizeDefault),
