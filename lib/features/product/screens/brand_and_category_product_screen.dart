@@ -145,11 +145,12 @@ setState(() {
                             textInputAction: TextInputAction.search,
                             onChanged: (val){
                               // if(val.isNotEmpty){
+                              _page=1;
                                                   pagingController.refresh();
-                                                  _page=1;
                               // }
                             },
                             onFieldSubmitted: (value) {
+
                             },
 
                             style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
@@ -304,18 +305,21 @@ setState(() {
                      crossAxisCount: 2,
                    mainAxisSpacing: 5,crossAxisSpacing: 5,mainAxisExtent: 330
                    ),
+                    showNoMoreItemsIndicatorAsGridChild: false,
                     builderDelegate: PagedChildBuilderDelegate(
                          firstPageProgressIndicatorBuilder: (context) {
                            return const ProductShimmer(isHomePage: false,
                       isEnabled: true);
                          },
                       noMoreItemsIndicatorBuilder: (context) {
-                        return const NoInternetOrDataScreenWidget(isNoInternet: false, icon: Images.noProduct,
-                    message: 'no_product_found',);
+                        return const NoInternetOrDataScreenWidget(isNoInternet: false,
+                          viewImages: false,
+                          message: 'end_page',);
                       },
                       newPageErrorIndicatorBuilder: (context) {
-                        return const NoInternetOrDataScreenWidget(isNoInternet: false, icon: Images.noProduct,
-                          message: 'no_product_found',);
+                        return const NoInternetOrDataScreenWidget(isNoInternet: false,
+                          viewImages: false,
+                          message: 'end_page',);
                       },
                       // newPageProgressIndicatorBuilder: (context) {
                       //   return const ProductShimmer(isHomePage: false,

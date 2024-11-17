@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/features/Store%20settings/controllers/store_setting_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/controllers/cart_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/domain/models/product_details_model.dart';
@@ -83,10 +84,12 @@ bool sync =false;
     return Consumer<CartController>(
       builder:(context, cartProvider, child) {
         bool inCart=false;
+        if(widget.product!=null){
         for (var element in cartProvider.cartList) {
           if(element.product!.id==widget.product!.id){
             inCart=true;
           }
+        }
         }
         return Container(height: 80,
         padding: const EdgeInsets.all(Dimensions.paddingSizeDefault+3),
@@ -182,61 +185,68 @@ bool sync =false;
                 }
               }
               }
-              return InkWell(onTap: () {
+              return Consumer<StoreSettingController>(
+                builder:(context, storeSetting, child) =>  InkWell(onTap: () {
+                  if (storeSetting.linkedAccountsList.isNotEmpty&&storeSetting.linkedAccountsList.first.storeDetails!=null||storeSetting.linkedAccountsList.last.storeDetails!=null){
 
-              try{
-                if(widget.product!.currentStock==0){
-                  showCustomSnackBar(getTranslated('Out_of_stock', context), context);
+                try{
 
-                }else if(!sync){
-                  if(widget.product!.id==null){
-                    showCustomSnackBar(getTranslated('Not_added_to_my_store', context), context,isError: true );
-                    return ;
-                  }
-                  myShopController.addProduct(widget.product!.id!).then((value) {
-                    if(value==true){
-                      showCustomSnackBar(getTranslated('Added_to_my_store', context), context,isError: false);
-                      myShopController.getList();
-                    }else{
+                  if(widget.product!.currentStock==0){
+                    showCustomSnackBar(getTranslated('Out_of_stock', context), context);
+
+                  }else if(!sync){
+                    if(widget.product!.id==null){
                       showCustomSnackBar(getTranslated('Not_added_to_my_store', context), context,isError: true );
-
+                      return ;
                     }
-                  });}else{
-                  showCustomSnackBar(getTranslated('Already_added', context), context,isError: true );
-                }
-              }catch(e){
-                if(widget.product!.currentStock==0){
-                  showCustomSnackBar(getTranslated('Out_of_stock', context), context);
+                    myShopController.addProduct(widget.product!.id!).then((value) {
+                      if(value==true){
+                        showCustomSnackBar(getTranslated('Added_to_my_store', context), context,isError: false);
+                        myShopController.getList();
+                      }else{
+                        showCustomSnackBar(getTranslated('Not_added_to_my_store', context), context,isError: true );
 
-                }else if(!sync){
-                  if(widget.product!.id==null){
-                    showCustomSnackBar(getTranslated('Not_added_to_my_store', context), context,isError: true );
-                    return ;
+                      }
+                    });}else{
+                    showCustomSnackBar(getTranslated('Already_added', context), context,isError: true );
                   }
-                  myShopController.addProduct(widget.product!.id!).then((value) {
-                    if(value==true){
-                      showCustomSnackBar(getTranslated('Added_to_my_store', context), context,isError: false);
-                      myShopController.getList();
-                    }else{
+                }catch(e){
+                  if(widget.product!.currentStock==0){
+                    showCustomSnackBar(getTranslated('Out_of_stock', context), context);
+
+                  }else if(!sync){
+                    if(widget.product!.id==null){
                       showCustomSnackBar(getTranslated('Not_added_to_my_store', context), context,isError: true );
-
+                      return ;
                     }
-                  });}else{
-                  showCustomSnackBar(getTranslated('Not_added_to_my_store', context), context,isError: true );
-                }
-              }
-            },
-              child: Container(
+                    myShopController.addProduct(widget.product!.id!).then((value) {
+                      if(value==true){
+                        showCustomSnackBar(getTranslated('Added_to_my_store', context), context,isError: false);
+                        myShopController.getList();
+                      }else{
+                        showCustomSnackBar(getTranslated('Not_added_to_my_store', context), context,isError: true );
 
-                margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(4),
-                    color:sync?Colors.grey.shade500:  Theme.of(context).primaryColor),
-                child: Text(getTranslated('Add_to_my_store', context)!,
-                  style: titilliumSemiBold.copyWith(fontSize: Dimensions.fontSizeLarge,
-                      color: sync?Colors.white:Colors.white),),
-              ),
-            );
+                      }
+                    });}else{
+                    showCustomSnackBar(getTranslated('Not_added_to_my_store', context), context,isError: true );
+                  }
+                }}else{
+                    showCustomSnackBar(getTranslated('Unable_to_connect_to_your_marketplace', context), context,time: 3);
+
+                  }
+                            },
+                child: Container(
+
+                  margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(4),
+                      color:sync?Colors.grey.shade500:  Theme.of(context).primaryColor),
+                  child: Text(getTranslated('Add_to_my_store', context)!,
+                    style: titilliumSemiBold.copyWith(fontSize: Dimensions.fontSizeLarge,
+                        color: sync?Colors.white:Colors.white),),
+                ),
+                            ),
+              );
             },
           )),
 

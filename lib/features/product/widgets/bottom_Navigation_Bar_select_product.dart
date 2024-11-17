@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -41,8 +43,11 @@ class _SelectProductWidgetState extends State<SelectProductWidget> {
                       children: [
                         Consumer<MyShopController>(
                           builder:(context, myShopController, child) =>  InkWell(
-                            onTap: (){
+                            onTap: ()async{
+                              if(Provider.of<MyShopController>(context!,listen: false).pendingList.isEmpty||Provider.of<MyShopController>(context!,listen: false).linkedList.isEmpty){
+                              await  Provider.of<MyShopController>(context!,listen: false).getList();
 
+                              }
                               for (var element in widget.products) {
                                 bool  sync=false;
                                 for (var elm in myShopController.pendingList) {
@@ -78,7 +83,10 @@ class _SelectProductWidgetState extends State<SelectProductWidget> {
                                 child: Row(children: [
                                   const Icon(Icons.select_all,color: Colors.white,),
                                   const SizedBox(width: 5,),
-                                  Text('تحديد الكل',style: GoogleFonts.tajawal(
+                                  Text(getTranslated('Select_all', context)!,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: GoogleFonts.tajawal(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16,color: Colors.white
                                   ),)
@@ -106,7 +114,10 @@ class _SelectProductWidgetState extends State<SelectProductWidget> {
                                 const Icon(Icons.select_all,color: Colors.white,),
                                 const SizedBox(width: 5,),
 
-                                Text('الغاء التحديد',style: GoogleFonts.tajawal(
+                                Text(getTranslated('Deselect', context)!,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: GoogleFonts.tajawal(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16,color: Colors.white
                                 ),)
@@ -119,15 +130,19 @@ class _SelectProductWidgetState extends State<SelectProductWidget> {
                   ),
 
                   Expanded(
-                    child: Text('المنتجات المحددة : ${product.productSelect.length}',style: GoogleFonts.tajawal(
+                    child: Text('${getTranslated('Specific_Products', context)} ${product.productSelect.length}',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: GoogleFonts.tajawal(
                         fontSize: 14,fontWeight: FontWeight.bold
                     ),),
                   ),
 
-                  InkWell(
+                  product.addSyncLoading==false? InkWell(
                     onTap: ()async{
                       await product.addProductToSync().then((value) {
                         product.clear();
+                        showCustomSnackBar(getTranslated('Products_synced_successfully', context), context,isError: false);
                       });
                     },
                     child: Container(
@@ -147,14 +162,19 @@ class _SelectProductWidgetState extends State<SelectProductWidget> {
 
                           const SizedBox(height: 5,),
 
-                          Text('اضف لمتجري',style: GoogleFonts.tajawal(
+                          Text(getTranslated('Add_to_my_store', context)!
+
+                            ,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.tajawal(
                               fontWeight: FontWeight.w400,
-                              fontSize: 16,color: Colors.white
+                              fontSize: 14,color: Colors.white
                           ),)
                         ],),
                       ),
                     ),
-                  ),
+                  ):CircularProgressIndicator(color: Theme.of(context).primaryColor,),
                 ],),
             ),
           ],
