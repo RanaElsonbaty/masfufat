@@ -63,6 +63,7 @@ class _ChatItemWidgetState extends State<ChatItemWidget> {
     // }
 for (var element in Provider.of<ShopController>(context,listen: false).sellerModel!) {
   if(element.seller!.id==widget.chat!.sellerId!){
+    // widget.chat!.
    setState(() {
      name=element.name;
      image=element.image;
@@ -79,7 +80,7 @@ for (var element in Provider.of<ShopController>(context,listen: false).sellerMod
         final difference = vacationDate.difference(today).inDays;
         final startDate = vacationStartDate.difference(today).inDays;
 
-        if ((difference >= 0 && widget.chat!.sellerInfo!.shops![0].vacationStatus! && startDate <= 0)|| widget.chat!.sellerInfo!.shops![0].temporaryClose!) {
+        if ((difference >= 0 && widget.chat!.sellerInfo!.shops![0].vacationStatus==1 && startDate <= 0)|| widget.chat!.sellerInfo!.shops![0].temporaryClose==1!) {
           vacationIsOn = true;
         } else {
           vacationIsOn = false;

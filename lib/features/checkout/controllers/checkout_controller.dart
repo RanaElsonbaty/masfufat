@@ -101,7 +101,7 @@ void getLoading(bool val){
     notifyListeners();
   }
   void setBillingAddressIndex(int index) {
-    _billingAddressIndex = index;
+    _addressIndex = index;
     notifyListeners();
   }
 

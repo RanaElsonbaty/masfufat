@@ -60,6 +60,8 @@ FocusNode focusNode =FocusNode();
   @override
   void initState() {
     loadDaa();
+     _askingPermission(false);
+
     super.initState();
   }
 
@@ -338,14 +340,17 @@ FocusNode focusNode =FocusNode();
                                     onLongPress: ()async{
                                       print('onLongPress');
 
-                                      bool permission =
-                                      await _askingPermission(false);
-                                      if (permission == true) {
+                                      // bool permission =
+                                      // print(permission);
+                                      // if (permission == true) {
+                                        print('object');
+                                        chatProvider.  getMicOn(true);
+                                        chatProvider.startTimer();
                                         chatProvider.refreshWave();
                                         chatProvider.startOrStopRecording();
-                                      }
-                                      chatProvider.  getMicOn(true);
-                                      chatProvider.startTimer();
+
+
+                                      // }
 
                                     },
 // onlongpress,
@@ -385,6 +390,7 @@ FocusNode focusNode =FocusNode();
                                               MaterialPageRoute(
                                                 builder: (context) {
                                                   return CameraScreen(
+                                                    chat: true,
                                                     camera: firstCamera,
                                                   );
                                                 },
@@ -822,7 +828,8 @@ Future<bool> _askingPermission(bool camera) async {
     }
   } else {
     await Permission.microphone.request();
-    if (await Permission.microphone.isDenied) {
+    if (await Permission.microphone.isGranted) {
+      Permission.microphone.request();
       return false;
     } else {
       return true;

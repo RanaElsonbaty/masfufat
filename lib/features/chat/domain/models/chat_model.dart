@@ -86,20 +86,99 @@ class Chat {
 
 
 class SellerInfo {
-  List<Shops>? shops;
-
+  // List<Shops>? shops;
+   List<Shop>? shops;
   SellerInfo(
       {this.shops});
 
   SellerInfo.fromJson(Map<String, dynamic> json) {
     if (json['shops'] != null) {
-      shops = <Shops>[];
+      shops = <Shop>[];
       json['shops'].forEach((v) {
-        shops!.add(Shops.fromJson(v));
+        shops!.add(Shop.fromJson(v));
       });
     }
   }
 
+}
+class Shop {
+  final int id;
+  final int sellerId;
+  final String name;
+  final String address;
+  final String contact;
+  final String image;
+  final dynamic bottomBanner;
+  final dynamic offerBanner;
+  final dynamic vacationStartDate;
+  final dynamic vacationEndDate;
+  final dynamic vacationNote;
+  final int vacationStatus;
+  final int temporaryClose;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final String banner;
+  // final Seller seller;
+
+  Shop({
+    required this.id,
+    required this.sellerId,
+    required this.name,
+    required this.address,
+    required this.contact,
+    required this.image,
+    required this.bottomBanner,
+    required this.offerBanner,
+    required this.vacationStartDate,
+    required this.vacationEndDate,
+    required this.vacationNote,
+    required this.vacationStatus,
+    required this.temporaryClose,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.banner,
+    // required this.seller,
+  });
+
+  factory Shop.fromJson(Map<String, dynamic> json) => Shop(
+    id: json["id"],
+    sellerId: json["seller_id"],
+    name: json["name"]??'',
+    address: json["address"],
+    contact: json["contact"],
+    image: json["image"],
+    bottomBanner: json["bottom_banner"],
+    offerBanner: json["offer_banner"],
+    vacationStartDate: json["vacation_start_date"],
+    vacationEndDate: json["vacation_end_date"],
+    vacationNote: json["vacation_note"],
+    vacationStatus: json["vacation_status"],
+    temporaryClose: json["temporary_close"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+    banner: json["banner"],
+    // seller: Seller.fromJson(json["seller"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "seller_id": sellerId,
+    "name": name,
+    "address": address,
+    "contact": contact,
+    "image": image,
+    "bottom_banner": bottomBanner,
+    "offer_banner": offerBanner,
+    "vacation_start_date": vacationStartDate,
+    "vacation_end_date": vacationEndDate,
+    "vacation_note": vacationNote,
+    "vacation_status": vacationStatus,
+    "temporary_close": temporaryClose,
+    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt.toIso8601String(),
+    "banner": banner,
+    // "seller": seller.toJson(),
+  };
 }
 
 class Shops {

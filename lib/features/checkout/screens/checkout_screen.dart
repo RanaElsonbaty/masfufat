@@ -69,6 +69,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
   void initState() {
     super.initState();
     initPayment();
+    // Future.delayed(Duration(seconds: 5));
     Provider.of<AddressController>(context, listen: false).getAddressList();
     Provider.of<CouponController>(context, listen: false).removePrevCouponData();
     Provider.of<CartController>(context, listen: false).getCartData(context);
@@ -79,14 +80,15 @@ class CheckoutScreenState extends State<CheckoutScreen> {
     Provider.of<CheckoutController>(context, listen: false).clearData();
   }
   void initPayment()async{
+    print(widget.totalOrderAmount);
     Provider.of<PaymentController>(context,listen: false).getIsLoading(true,false);
   await   Provider.of<PaymentController>(context,listen: false).getAmount(( (widget.totalOrderAmount)));
   //  await  Provider.of<PaymentController>(Get.context!,listen: false).getApiKey(Get.context!);
     await Provider.of<PaymentController>(Get.context!,listen: false).initiate(Get.context!);
-    await Provider.of<PaymentController>(Get.context!,listen: false).getPaymentMethod(Get.context!,'cart');
+    await Provider.of<PaymentController>(Get.context!,listen: false).getPaymentMethod(Get.context!,'order');
   //   Provider.of<PaymentController>(Get.context!,listen: false).getType('cart');
   //   Provider.of<PaymentController>(Get.context!,listen: false).cardViewStyle();
-    Provider.of<PaymentController>(Get.context!,listen: false).getType('cart');
+    Provider.of<PaymentController>(Get.context!,listen: false).getType('order');
 
     Provider.of<PaymentController>(Get.context!,listen: false).getIsLoading(false,true);
   }
@@ -118,15 +120,16 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                             Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                               child: Consumer<PaymentController>(
                                 builder:(context, paymentProvider, child) =>  CustomButton(onTap: () async {
-                                    if(orderProvider.addressIndex == null && widget.hasPhysical) {
+                                    if(orderProvider.addressIndex == null ) {
                                       Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => const SavedAddressListScreen()));
                                       showCustomSnackBar(getTranslated('select_a_shipping_address', context), context, isToaster: true);
 
-                                    }else if((orderProvider.billingAddressIndex == null && !widget.hasPhysical && !orderProvider.sameAsBilling) || (orderProvider.billingAddressIndex == null && _billingAddress && !orderProvider.sameAsBilling)){
-                                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => const SavedBillingAddressListScreen()));
-                                      showCustomSnackBar(getTranslated('select_a_billing_address', context), context, isToaster: true);
-
                                     }
+                                    // else if((orderProvider.addressIndex == null && !widget.hasPhysical ) || (orderProvider.addressIndex == null && _billingAddress && !orderProvider.sameAsBilling)){
+                                    //   Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => const SavedBillingAddressListScreen()));
+                                    //   showCustomSnackBar(getTranslated('select_a_billing_address', context), context, isToaster: true);
+                                    //
+                                    // }
 
 
                                     else {
@@ -140,9 +143,9 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                                         String addressId =  orderProvider.addressIndex != null ?
                                         locationProvider.addressList![orderProvider.addressIndex!].id.toString() : '';
 
-                                        String billingAddressId = (_billingAddress)?
-                                        !orderProvider.sameAsBilling ?
-                                        locationProvider.addressList![orderProvider.billingAddressIndex!].id.toString() : locationProvider.addressList![orderProvider.addressIndex!].id.toString() : '';
+                                        // String billingAddressId = (_billingAddress)?
+                                        // !orderProvider.sameAsBilling ?
+                                        // locationProvider.addressList![orderProvider.addressIndex!].id.toString() : locationProvider.addressList![orderProvider.addressIndex!].id.toString() : '';
 
 
                                         //  if(orderProvider.selectedDigitalPaymentMethodId ==){
@@ -162,14 +165,15 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                                               addressID : addressId,
                                               couponCode : couponCode,
                                               couponAmount : couponCodeAmount,
-                                              billingAddressId : billingAddressId,
+                                              billingAddressId : addressId,
                                               orderNote : orderNote,);
                                         }else if(orderProvider.selectedDigitalPaymentMethodId==5){
+                                          // print(addressId);
                                           orderProvider.placeOrder(callback: _callback,
                                               addressID : addressId,
                                               couponCode : couponCode,
                                               couponAmount : couponCodeAmount,
-                                              billingAddressId : billingAddressId,
+                                              billingAddressId : addressId,
                                               orderNote : orderNote,delayed: true,  );
 
                                         }
@@ -178,20 +182,7 @@ else if(orderProvider.selectedDigitalPaymentMethodId==0){
   print('object');
   orderProvider.getLoading(true);
                                      try{
-                                       await   paymentProvider.pay(context).then((value) {
-                                         if(value==true){
-                                           showCustomSnackBar(
-                                               'نجح الدفع',
-                                               context,
-                                               isError: false);
-                                           _callback(true,'نجح الدفع','',false);
-                                         }else{
-                                           showCustomSnackBar(
-                                               'فشل الدفع',
-                                               context,
-                                               isError: true);
-                                         }
-                                       });
+                                       await   paymentProvider.pay(context);
                                      }catch(e){
 
                                      }
@@ -213,7 +204,7 @@ else if(orderProvider.selectedDigitalPaymentMethodId==0){
                                                     addressID : addressId,
                                                     couponCode : couponCode,
                                                     couponAmount : couponCodeAmount,
-                                                    billingAddressId : billingAddressId,
+                                                    billingAddressId : addressId,
                                                     orderNote : orderNote);
 
                                               }}), dismissible: false, willFlip: true);
