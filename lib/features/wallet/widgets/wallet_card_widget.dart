@@ -8,6 +8,7 @@ import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
 import '../../checkout/controllers/checkout_controller.dart';
 import '../../payment /controller/payment_controller.dart';
 
@@ -56,6 +57,8 @@ class WalletCardWidget extends StatelessWidget {
           // if(Provider.of<SplashController>(context, listen: false).configModel?.addFundsToWallet == 1)
           Expanded(child: Consumer<PaymentController>(builder:(context, value, child) =>  Consumer<CheckoutController>(builder:   (context, value, child) =>
              InkWell(onTap: () {
+               Provider.of<PaymentController>(Get.context!,listen: false).getPaymentMethod(context, 'wallet_charge');
+
                   showDialog(context: context, builder: (BuildContext context) {
                     return AddFundDialogueWidget(focusNode: focusNode, inputAmountController: inputAmountController);
                   });
