@@ -68,8 +68,10 @@ class _CartBillState extends State<CartBill> {
          subTotal+=(element.price!*element.quantity!);
          shipping+=element.shippingCost!;
          dic +=(element.discount!*element.quantity!);
-         if(element.taxModel == "exclude"){
+         if(element.taxType == "exclude"){
            tax += element.tax! * element.quantity!;
+         }else{
+           tax += (PriceConverter.calculationTaxDouble(context, element.product!.unitPrice!, element.product!.tax!, element.product!.taxType) * element.quantity!);
          }
        }
      }catch(e){}
@@ -382,7 +384,7 @@ class _CartBillState extends State<CartBill> {
                                     else if (widget.cartList.isEmpty) {
                                       showCustomSnackBar(getTranslated('select_at_least_one_product', context), context);
                                     } else if (stockOutProduct) {
-                                      showCustomSnackBar(getTranslated('stock_out_product_in_your_cart', context), context);
+                                      showCustomSnackBar(getTranslated('Out_of_stock', context), context);
                                     }
                                     else if(hasNull && configProvider.configModel!.shippingMethod =='sellerwise_shipping' && !onlyDigital){
                                       // changeColor();
