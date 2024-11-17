@@ -1,24 +1,48 @@
-// build.gradle (allprojects)
+buildscript {
+    ext.kotlin_version = '1.8.22'
 
-// Set up repositories for dependencies
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.2.0'
+        classpath 'com.google.gms:google-services:4.3.10'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+
+}
+
 allprojects {
     repositories {
         google()
-        mavenCentral()
+        jcenter()
     }
 
-    // Set the build directory
-    rootProject.buildDir = '../build'
-
-    // Configure subprojects
-    subprojects {
-        project.buildDir = "${rootProject.buildDir}/${project.name}"
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << '-Xlint:-options'
     }
+}
 
-    // Ensure evaluation depends on the app module
-    subprojects {
-        project.evaluationDependsOn(':app')
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(':app')
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
+subprojects {
+    project.configurations.all {
+        resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'com.android.support'
+                    && !details.requested.name.contains('multidex') ) {
+                details.useVersion "27.1.1"
+            }
+        }
     }
-
-
 }

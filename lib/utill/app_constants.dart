@@ -1,6 +1,6 @@
 import 'package:flutter_sixvalley_ecommerce/localization/models/language_model.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
-
+// Account_has_been_suspended
 class AppConstants {
   static const String appName = 'مصفوفات';
   static const String slogan = 'E-Commerce Marketplace';
@@ -12,6 +12,7 @@ class AppConstants {
   static const String brandUri = '/api/v1/brands';
   static const String countries = '/api/v1/getList/countries';
   static const String provinces = '/api/v1/getChildren/provinces/';
+  static const String provincesAwb = '/api/v1/provinces-awb';
   static const String barcodeURI = '/api/v1/products/details_by_barcode/';
 
   static const String brandProductUri = '/api/v1/products/products-lazy?brand_id=';
@@ -110,7 +111,7 @@ class AppConstants {
   static const String placeBankTransfer =
       '/api/v1/customer/order/place_bank_transfer';
   static const String placeBankTransferSyncOrder =
-      '/api/v1/customer/order/place_bank_transfer';
+      '/api/v1/customer/order/place_sync';
   static const String getSelectedShippingTypeUri = '/api/v1/shipping-method/check-shipping-type';
   static const String dealOfTheDay = '/api/v1/dealsoftheday/deal-of-the-day';
   static const String brandCategories = '/api/v1/brand_categories/';
@@ -127,7 +128,7 @@ class AppConstants {
   static const String sellerWiseCouponListApi = '/api/v1/coupons/';
   static const String sellerWiseBestSellingProduct = '/api/v1/seller/';
   static const String digitalPayment = '/api/v1/digital-payment';
-  static const String delayedPayment = '/api/v1/customer/order/place-by-offline-payment';
+  static const String delayedPayment = '/api/v1/customer/order/place_delayed';
   static const String checkoutBankTransfer = '/api/v1/customer/order/place_bank_transfer';
   static const String offlinePaymentList = '/api/v1/customer/order/offline-payment-method-list';
   static const String sellerWiseCategoryList = '/api/v1/categories?seller_id=';
@@ -161,8 +162,9 @@ class AppConstants {
   static const String getOrderRefund = '/api/v1/customer/order/refund-details';
   static const String selectCartItemsUri = '/api/v1/cart/select-cart-items';
   static const String generateInvoice = '/api/v1/customer/order/generate-invoice?order_id=';
-  static const String placeSyncWalletOrder =
-      '/api/v1/customer/order/place_sync_wallet';
+  static const String placeSyncWalletOrder = '/api/v1/customer/order/place_sync_wallet';
+  static const String placeSyncDelayedOrder = '/api/v1/customer/order/place_sync';
+  static const String placeSyncOrderCashOnDelivery = '/api/v1/customer/order/place_sync';
   static const String placeBankTransferOrder =
       '/api/v1/customer/order/place_bank_transfer';
   static const String linkedAccount = '/api/v1/customer/linked-accounts';
