@@ -57,62 +57,10 @@ class OrderController with ChangeNotifier {
     _orderTypeIndex = index;
     if(_orderTypeIndex == 0){
       selectTypeOrders.addAll(orderModel!.reversed);
-      // selectedType = 'ongoing';
-      // getOrderList(1, 'ongoing');
     }else if(_orderTypeIndex == 1){
       selectTypeOrders=[];
       if(orderModel!=null){
-        //  if(index==0){
-        //       _type ='all';
-        //     }
-        //     else if(index==1){
-        //       _type ='pending';
-        //
-        //     }
-        //     else if(index==2){
-        //       _type ='pending_payment';
-        //
-        //     }
-        //     else if(index==3){
-        //       _type ='financial_review';
-        //
-        //     }
-        //     else if(index==4){
-        //       _type ='new';
-        //
-        //     }
-        //     else if(index==5){
-        //       _type ='processing';
-        //
-        //     }
-        //     else if(index==6){
-        //       _type ='confirmed';
-        //
-        //     }
-        //     else if(index==7){
-        //       _type ='out_for_delivery';
-        //
-        //     }
-        //     else if(index==8){
-        //       _type ='delivered';
-        //
-        //     }
-        //     else if(index==9){
-        //       _type ='failed';
-        //
-        //     }
-        //     else if(index==10){
-        //       _type ='returning';
-        //
-        //     }
-        //     else if(index==11){
-        //       _type ='returned';
-        //
-        //     }
-        //     else if(index==12){
-        //       _type ='canceled';
-        //
-        //     }
+
         for (var element in orderModel!.reversed) {
 if(element.orderStatus=='pending'){
   selectTypeOrders.add(element);
@@ -126,8 +74,6 @@ if(element.orderStatus=='pending'){
             selectTypeOrders.add(element);
           }
         }}
-      // selectedType = 'canceled';
-      // getOrderList(1, 'canceled');
     }else if(_orderTypeIndex == 3){
       selectTypeOrders=[];
       if(orderModel!=null){
@@ -136,8 +82,6 @@ if(element.orderStatus=='pending'){
             selectTypeOrders.add(element);
           }
         }}
-      // selectedType = 'canceled';
-      // getOrderList(1, 'canceled');
     }else if(_orderTypeIndex == 4){
       selectTypeOrders=[];
       if(orderModel!=null){
@@ -146,8 +90,6 @@ if(element.orderStatus=='pending'){
             selectTypeOrders.add(element);
           }
         }}
-      // selectedType = 'canceled';
-      // getOrderList(1, 'canceled');
     }else if(_orderTypeIndex == 5){
       selectTypeOrders=[];
       if(orderModel!=null){
@@ -156,8 +98,6 @@ if(element.orderStatus=='pending'){
             selectTypeOrders.add(element);
           }
         }}
-      // selectedType = 'canceled';
-      // getOrderList(1, 'canceled');
     }else if(_orderTypeIndex == 6){
       selectTypeOrders=[];
       if(orderModel!=null){
@@ -166,8 +106,7 @@ if(element.orderStatus=='pending'){
             selectTypeOrders.add(element);
           }
         }}
-      // selectedType = 'canceled';
-      // getOrderList(1, 'canceled');
+
     }else if(_orderTypeIndex == 7){
       selectTypeOrders=[];
       if(orderModel!=null){
@@ -176,8 +115,6 @@ if(element.orderStatus=='pending'){
             selectTypeOrders.add(element);
           }
         }}
-      // selectedType = 'canceled';
-      // getOrderList(1, 'canceled');
     }else if(_orderTypeIndex == 8){
       selectTypeOrders=[];
       if(orderModel!=null){

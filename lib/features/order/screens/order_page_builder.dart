@@ -21,9 +21,12 @@ class _OrderPageBuilderState extends State<OrderPageBuilder> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Provider.of<OrderController>(context, listen: false).getOrderList(1,'ongoing').then((value) {
-      Provider.of<OrderController>(context, listen: false).setIndex(0,context, notify: false);
 
+    Provider.of<OrderController>(context, listen: false).getOrderList(1,'ongoing').then((value) {
+      if(mounted) {
+        Provider.of<OrderController>(context, listen: false).setIndex(
+            0, context, notify: false);
+      }
     });
   }
   @override

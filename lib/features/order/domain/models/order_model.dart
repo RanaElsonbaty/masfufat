@@ -313,7 +313,7 @@ class BillingAddressData {
     addressType: json["address_type"],
     // address: addressValues.map[json["address"]],
     city: json["city"].toString(),
-    zip: json["zip"],
+    zip: json["zip"]??'',
     phone: json["phone"].toString(),
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
@@ -520,7 +520,7 @@ final sellerIsValues = EnumValues({
 class ShippingAddressData {
   final int id;
   final int customerId;
-  final int isGuest;
+  // final int isGuest;
   final String contactPersonName;
   final dynamic email;
   final String addressType;
@@ -544,7 +544,7 @@ class ShippingAddressData {
   ShippingAddressData({
     required this.id,
     required this.customerId,
-    required this.isGuest,
+    // required this.isGuest,
     required this.contactPersonName,
     required this.email,
     required this.addressType,
@@ -569,13 +569,13 @@ class ShippingAddressData {
   factory ShippingAddressData.fromJson(Map<String, dynamic> json) => ShippingAddressData(
     id: json["id"]??0,
     customerId:int.tryParse( json["customer_id"].toString())??0,
-    isGuest: int.parse(json["is_guest"].toString()),
+    // isGuest: int.parse(json["is_guest"].toString()),
     contactPersonName: json["contact_person_name"],
     email: json["email"],
     addressType: json["address_type"],
     address: json["address"],
     city: json["city"],
-    zip: json["zip"],
+    zip: json["zip"]??'',
     phone: json["phone"],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
@@ -592,7 +592,7 @@ class ShippingAddressData {
   Map<String, dynamic> toJson() => {
     "id": id,
     "customer_id": customerId,
-    "is_guest": isGuest,
+    // "is_guest": isGuest,
     "contact_person_name": contactPersonName,
     "email": email,
     "address_type": addressType,

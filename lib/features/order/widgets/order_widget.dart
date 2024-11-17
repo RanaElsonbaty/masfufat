@@ -16,45 +16,6 @@ class OrderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    double orderAmount = 0;
-
-    if(orderModel?.orderType == 'POS') {
-      // if (orderModel != null) {
-        // for (var orderDetails in orderModel!) {
-
-      //
-      //   }
-        if(orderModel!.orderType == 'POS'){
-          if(orderModel!.extraDiscountType == 'percent'){
-          }else{
-          }
-        }
-      // }
-      // double subTotal = itemsPrice +tax - discount;
-
-      orderAmount = orderModel!.orderAmount;
-
-
-
-
-      // double ? _extraDiscountAnount = 0;
-      // if(orderModel.extraDiscount != null){
-      //   _extraDiscountAnount = PriceConverter.convertWithDiscount(context, orderModel.totalProductPrice, orderModel.extraDiscount, orderModel.extraDiscountType == 'percent' ? 'percent' : 'amount' );
-      //   if(_extraDiscountAnount != null) {
-      //     double percentAmount = _extraDiscountAnount!;
-      //     _extraDiscountAnount = orderModel.totalProductPrice! - percentAmount;
-      //   }
-      // }
-      //
-      // double totalDiscount = (_extraDiscountAnount! + orderModel.totalProductDiscount!);
-      // double totalOrderAmount = (orderModel.totalProductPrice! + orderModel.totalTaxAmount!);
-      //
-      // orderAmount = totalOrderAmount - totalDiscount;
-      //
-      // orderAmount = orderModel.orderAmount! - orderModel.totalTaxAmount!;
-
-
-    }
 
 
 
@@ -100,7 +61,7 @@ class OrderWidget extends StatelessWidget {
                         style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor, fontWeight: FontWeight.w500)),
                     const SizedBox(height: Dimensions.paddingSizeSmall),
 
-                    Text('${getTranslated('Total_Amount', context)}${PriceConverter.convertPrice(context, orderModel!.orderType == 'POS' ? orderAmount : orderModel!.orderAmount)}',
+                    Text('${getTranslated('Total_Amount', context)}${PriceConverter.convertPrice(context, orderModel!.orderAmount)}',
                       style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault, color: ColorResources.getPrimary(context)),),])),
 
 

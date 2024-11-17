@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
+import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order/controllers/order_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/controllers/order_details_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/widgets/cancel_and_support_center_widget.dart';
@@ -69,16 +70,10 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       },
       child: Scaffold(
           appBar: CustomAppBar(title: '${getTranslated('order', context)} ${ widget.orderId.toString()}#'),
-        // AppBar(elevation: 1, backgroundColor: Theme.of(context).cardColor,
-        //     toolbarHeight: 120, leadingWidth: 0, automaticallyImplyLeading: false,
-        //     title: Consumer<OrderDetailsController>(
-        //       builder: (context, orderProvider, _) {
-        //         return (orderProvider.orderDetails != null && orderProvider.orders != null) ?
-        //         const OrderDetailsStatusWidget():const SizedBox();})),
 
         body: Consumer<SplashController>(
           builder: (context, config, _) {
-            return config.configModel != null?
+            return  config.configModel != null?
             Consumer<OrderDetailsController>(
               builder: (context, orderProvider, child) {
                 double itemTotalAmount = 0;
@@ -87,16 +82,16 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 double tax = 0;
                 double shippingCost = 0;
 
+                // orderProvider.orders.
                 if (orderProvider.orderDetails != null && orderProvider.orderDetails!.isNotEmpty) {
-                  print('adasdadaldajdhakjsd----${orderProvider.orderDetails![0]?.deliveryStatus}');
-                  if( orderProvider.orderDetails?[0].order?.isShippingFree == 1){
+                  if( orderProvider.orderDetails?[0].order.isShippingFree == 1){
                     shippingCost = 0;
                   }else{
                     shippingCost = orderProvider.orders?.shippingCost??0;
                   }
 
                   for (var orderDetails in orderProvider.orderDetails!) {
-                    if(orderDetails.productDetails?.productType != null && orderDetails.productDetails!.productType != "physical" ){
+                    if(orderDetails.productDetails.productType != null && orderDetails.productDetails.productType != "physical" ){
                       orderProvider.digitalOnly(false, isUpdate: false);
                     }
                   }
@@ -104,9 +99,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
 
                   for (var orderDetails in orderProvider.orderDetails!) {
-                    itemTotalAmount = itemTotalAmount + (orderDetails.price! * orderDetails.qty!);
-                    discount = discount + orderDetails.discount!;
-                    tax = tax + orderDetails.tax!;
+                    itemTotalAmount = itemTotalAmount + (orderDetails.price * orderDetails.qty);
+                    discount = discount + orderDetails.discount;
+                    tax = tax + orderDetails.tax;
                   }
 
 
@@ -117,10 +112,12 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                       eeDiscount = orderProvider.orders!.extraDiscount;
                     }
                   }
+                  print(orderProvider.orderDetails);
                 }
 
 
-                return (orderProvider.orderDetails != null && orderProvider.orders != null) ?
+                return
+                  orderProvider.orders!=null&&orderProvider.orderDetails != null ?orderProvider.orderDetails!.isNotEmpty  ?
                 ListView(padding: const EdgeInsets.all(0), children: [
 
 
@@ -164,7 +161,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   const SizedBox(height: Dimensions.paddingSizeSmall),
                   CancelAndSupportWidget(orderModel: orderProvider.orders,orderDetailsModel: orderProvider.orderDetails!,),
                 ],
-                ) : const OrderDetailsShimmer();
+                ) : const NoInternetOrDataScreenWidget(isNoInternet: false, ):const OrderDetailsShimmer();
               },
             ):const OrderDetailsShimmer();
           }

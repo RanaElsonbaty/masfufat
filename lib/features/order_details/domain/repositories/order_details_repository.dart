@@ -31,7 +31,8 @@ class OrderDetailsRepository implements OrderDetailsRepositoryInterface{
   @override
   Future<ApiResponse> getOrderFromOrderId(String orderID) async {
     try {
-      final response = await dioClient!.get('${AppConstants.getOrderFromOrderId}$orderID&guest_id=${Provider.of<AuthController>(Get.context!, listen: false).getGuestToken()}');
+      final response = await dioClient!.get('${AppConstants.getOrderFromOrderId}$orderID');
+      // print(response.data);
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));

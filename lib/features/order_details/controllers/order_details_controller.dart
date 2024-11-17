@@ -216,8 +216,8 @@ rethrow;
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       searching = false;
       _orderDetails = [];
-      // _orderDetails!=OrderDetailsModel.fromJson(apiResponse.response!.data);
     } else {
+
       searching = false;
       ApiChecker.checkApi( apiResponse);
     }
@@ -374,9 +374,9 @@ rethrow;
     if(_orderDetails != null){
       for(int i = 0; i< _orderDetails!.length;  i++){
         if(i == index){
-          _orderDetails![i].isExpanded = status;
+          // _orderDetails![i].isExpanded = status;
         } else{
-          _orderDetails![i].isExpanded = false;
+          // _orderDetails![i].isExpanded = false;
         }
       }
     }

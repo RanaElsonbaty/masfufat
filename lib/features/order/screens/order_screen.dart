@@ -59,9 +59,9 @@ class _OrderScreenState extends State<OrderScreen> {
                     const SizedBox(width: Dimensions.paddingSizeSmall),
                     OrderTypeButton(text: getTranslated('New', context), index: 4),
                     const SizedBox(width: Dimensions.paddingSizeSmall),
-                    OrderTypeButton(text: getTranslated('Preparing', context), index: 5),
+                    OrderTypeButton(text: getTranslated('Preparing', context), index: 6),
                     const SizedBox(width: Dimensions.paddingSizeSmall),
-                    OrderTypeButton(text: getTranslated('ready', context), index: 6),
+                    OrderTypeButton(text: getTranslated('ready', context), index: 5),
                     const SizedBox(width: Dimensions.paddingSizeSmall),
                     OrderTypeButton(text: getTranslated('In_progress', context), index: 7),
                     const SizedBox(width: Dimensions.paddingSizeSmall),
@@ -97,7 +97,7 @@ class _OrderScreenState extends State<OrderScreen> {
                   itemCount: orderController.selectTypeOrders.length,
                   padding: const EdgeInsets.all(0),
                   itemBuilder: (context, index) {
-                    print(orderController.selectTypeOrders[index].orderStatus);
+                    // print(orderController.selectTypeOrders[index].orderStatus);
                     return OrderWidget(orderModel: orderController.selectTypeOrders[index]);
                   },
                 ),

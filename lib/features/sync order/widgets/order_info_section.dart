@@ -168,7 +168,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('payment_method', context)!} : ${widget.orderDetailsModel.paymentMethod!=null?getTranslated(widget.orderDetailsModel.paymentMethod, context)!:'none'}',
+                        child: Text('${getTranslated('payment_method', context)!} : ${widget.orderDetailsModel.paymentMethod!=null?getTranslated(widget.orderDetailsModel.paymentMethod, context)!:''}',
 
                           overflow: TextOverflow.ellipsis,
                           style:  GoogleFonts.tajawal(
@@ -200,7 +200,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('Shipping_and_delivery_company', context)!} : ${widget.orderDetailsModel.shippingInfo != null && widget.orderDetailsModel.shippingInfo!.senderInfo!=null&& widget.orderDetailsModel.shippingInfo!.senderInfo!.name != null ? widget.orderDetailsModel.shippingInfo!.senderInfo!.name : "none"}',
+                        child: Text('${getTranslated('Shipping_and_delivery_company', context)!} : ${widget.orderDetailsModel.shippingInfo != null && widget.orderDetailsModel.shippingInfo!.senderInfo!=null&& widget.orderDetailsModel.shippingInfo!.senderInfo!.name != null ? widget.orderDetailsModel.shippingInfo!.senderInfo!.name : ""}',
                           overflow: TextOverflow.ellipsis,
 
                           style:  GoogleFonts.tajawal(
@@ -222,7 +222,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                             );
                             Clipboard.setData( ClipboardData(
                                 text:
-                                ' ${widget.orderDetailsModel.shippingInfo != null && widget.orderDetailsModel.shippingInfo!.senderInfo!=null&& widget.orderDetailsModel.shippingInfo!.senderInfo!.name != null ? widget.orderDetailsModel.shippingInfo!.senderInfo!.name : "none"}',
+                                ' ${widget.orderDetailsModel.shippingInfo != null && widget.orderDetailsModel.shippingInfo!.senderInfo!=null&& widget.orderDetailsModel.shippingInfo!.senderInfo!.name != null ? widget.orderDetailsModel.shippingInfo!.senderInfo!.name : ""}',
 
                             ));
                           },
@@ -234,7 +234,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('Tracking_number_with_shipping_and_delivery_company', context)!} : ${widget.orderDetailsModel.shippingInfo != null && widget.orderDetailsModel.shippingInfo!.shipmentData != null && widget.orderDetailsModel.shippingInfo!.shipmentData!.shippingTrackingNo != null ? widget.orderDetailsModel.shippingInfo!.shipmentData!.shippingTrackingNo! : "none"}',
+                        child: Text('${getTranslated('Tracking_number_with_shipping_and_delivery_company', context)!} : ${widget.orderDetailsModel.shippingInfo != null && widget.orderDetailsModel.shippingInfo!.shipmentData != null && widget.orderDetailsModel.shippingInfo!.shipmentData!.shippingTrackingNo != null ? widget.orderDetailsModel.shippingInfo!.shipmentData!.shippingTrackingNo! : ""}',
 
                           overflow: TextOverflow.ellipsis,
                           style:  GoogleFonts.tajawal(
@@ -256,7 +256,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                             );
                             Clipboard.setData( ClipboardData(
                                 text:
-                                ' ${widget.orderDetailsModel.shippingInfo != null && widget.orderDetailsModel.shippingInfo!.shipmentData != null && widget.orderDetailsModel.shippingInfo!.shipmentData!.shippingTrackingNo != null ? widget.orderDetailsModel.shippingInfo!.shipmentData!.shippingTrackingNo! : "none"}',
+                                ' ${widget.orderDetailsModel.shippingInfo != null && widget.orderDetailsModel.shippingInfo!.shipmentData != null && widget.orderDetailsModel.shippingInfo!.shipmentData!.shippingTrackingNo != null ? widget.orderDetailsModel.shippingInfo!.shipmentData!.shippingTrackingNo! : ""}',
 
                             ));
                           },
@@ -268,7 +268,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('Shipment_status_with_shipping_and_delivery_company', context)!} : ${widget.orderDetailsModel.shippingInfo != null && widget.orderDetailsModel.shippingInfo!.shipmentData != null && widget.orderDetailsModel.shippingInfo!.shipmentData!.status != null ? widget.orderDetailsModel.shippingInfo!.shipmentData!.status! : "none"}',
+                        child: Text('${getTranslated('Shipment_status_with_shipping_and_delivery_company', context)!} : ${widget.orderDetailsModel.shippingInfo != null && widget.orderDetailsModel.shippingInfo!.shipmentData != null && widget.orderDetailsModel.shippingInfo!.shipmentData!.status != null ? widget.orderDetailsModel.shippingInfo!.shipmentData!.status! : ""}',
 
                           overflow: TextOverflow.ellipsis,
                           style:  GoogleFonts.tajawal(
@@ -290,7 +290,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                             );
                             Clipboard.setData( ClipboardData(
                                 text:
-                                ' ${widget.orderDetailsModel.shippingInfo != null && widget.orderDetailsModel.shippingInfo!.shipmentData != null && widget.orderDetailsModel.shippingInfo!.shipmentData!.status != null ? widget.orderDetailsModel.shippingInfo!.shipmentData!.status! : "none"}',
+                                ' ${widget.orderDetailsModel.shippingInfo != null && widget.orderDetailsModel.shippingInfo!.shipmentData != null && widget.orderDetailsModel.shippingInfo!.shipmentData!.status != null ? widget.orderDetailsModel.shippingInfo!.shipmentData!.status! : ""}',
 
                             ));
                           },
@@ -310,7 +310,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('Order_status_on_the_store_platform', context)!} : ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.status != null ? widget.orderDetailsModel.externalOrder!.status! : "none"}',
+                        child: Text('${getTranslated('Order_status_on_the_store_platform', context)!} : ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.status != null ? widget.orderDetailsModel.externalOrder!.status! : ""}',
                           overflow: TextOverflow.ellipsis,
                           style:  GoogleFonts.tajawal(
                             fontSize: 14,
@@ -331,7 +331,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                             );
                             Clipboard.setData( ClipboardData(
                                 text:
-                                ' ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.status != null ? widget.orderDetailsModel.externalOrder!.status! : "none"}',
+                                ' ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.status != null ? widget.orderDetailsModel.externalOrder!.status! : ""}',
                             ));
                           },
                           child: Image.asset(Images.copy,width: 25,color: Theme.of(context).iconTheme.color)),
@@ -342,7 +342,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('Payment_status_of_the_order_by_the_end_customer_of_the_store', context)!} : ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.isPendingPayment != null ? widget.orderDetailsModel.externalOrder!.details!.data!.isPendingPayment == true ? getTranslated('unpaid', context) : getTranslated('paid', context) : "none"}',
+                        child: Text('${getTranslated('Payment_status_of_the_order_by_the_end_customer_of_the_store', context)!} : ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.isPendingPayment != null ? widget.orderDetailsModel.externalOrder!.details!.data!.isPendingPayment == true ? getTranslated('unpaid', context) : getTranslated('paid', context) : ""}',
 
                           overflow: TextOverflow.ellipsis,
                           style:  GoogleFonts.tajawal(
@@ -364,7 +364,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                             );
                             Clipboard.setData( ClipboardData(
                                 text:
-                                '${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.isPendingPayment != null ? widget.orderDetailsModel.externalOrder!.details!.data!.isPendingPayment == true ? getTranslated('unpaid', context) : getTranslated('paid', context) : "none"}',
+                                '${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.isPendingPayment != null ? widget.orderDetailsModel.externalOrder!.details!.data!.isPendingPayment == true ? getTranslated('unpaid', context) : getTranslated('paid', context) : ""}',
                             ));
                           },
                           child: Image.asset(Images.copy,width: 25,color: Theme.of(context).iconTheme.color)),
@@ -375,7 +375,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('payment_method', context)!} : ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.paymentMethod != null ? getTranslated(widget.orderDetailsModel.externalOrder!.details!.data!.paymentMethod, context) : "none"}',
+                        child: Text('${getTranslated('payment_method', context)!} : ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.paymentMethod != null ? getTranslated(widget.orderDetailsModel.externalOrder!.details!.data!.paymentMethod, context) : ""}',
 
                           overflow: TextOverflow.ellipsis,
                           style:  GoogleFonts.tajawal(
@@ -397,41 +397,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                             );
                             Clipboard.setData( ClipboardData(
                                 text:
-                                '${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.paymentMethod != null ? getTranslated(widget.orderDetailsModel.externalOrder!.details!.data!.paymentMethod, context) : "none"}',
-
-                            ));
-                          },
-                          child: Image.asset(Images.copy,width: 25,color: Theme.of(context).iconTheme.color)),
-                    ],
-                  ),
-                  const SizedBox(height: 10,),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 11,
-                        child: Text('${getTranslated('Order_number_on_the_store_platform', context)!} : ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.referenceId != null ? widget.orderDetailsModel.externalOrder!.details!.data!.referenceId : "none"}',
-                          overflow: TextOverflow.ellipsis,
-
-                          style:  GoogleFonts.tajawal(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-
-                          ),),
-                      ),
-                      const Spacer(),
-
-                      InkWell(
-                          onTap: (){
-                            showCustomSnackBar(
-                              getTranslated(
-                                  'The_text_has_been_copied',
-                                  context),
-                              context,
-                              isError: false,
-                            );
-                            Clipboard.setData( ClipboardData(
-                                text:
-                                ' ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.referenceId != null ? widget.orderDetailsModel.externalOrder!.details!.data!.referenceId : "none"}',
+                                '${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.paymentMethod != null ? getTranslated(widget.orderDetailsModel.externalOrder!.details!.data!.paymentMethod, context) : ""}',
 
                             ));
                           },
@@ -443,9 +409,9 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('End_customer_name', context)!} : ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer!.lastName != null ?( '${widget.orderDetailsModel.externalOrder!.details!.data!.customer!.firstName} ${widget.orderDetailsModel.externalOrder!.details!.data!.customer!.lastName}') : "none"}',
-
+                        child: Text('${getTranslated('Order_number_on_the_store_platform', context)!} : ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.referenceId != null ? widget.orderDetailsModel.externalOrder!.details!.data!.referenceId : ""}',
                           overflow: TextOverflow.ellipsis,
+
                           style:  GoogleFonts.tajawal(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -465,7 +431,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                             );
                             Clipboard.setData( ClipboardData(
                                 text:
-                                '  ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer!.lastName != null ?( '${widget.orderDetailsModel.externalOrder!.details!.data!.customer!.firstName} ${widget.orderDetailsModel.externalOrder!.details!.data!.customer!.lastName}') : "none"}',
+                                ' ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.referenceId != null ? widget.orderDetailsModel.externalOrder!.details!.data!.referenceId : ""}',
 
                             ));
                           },
@@ -477,7 +443,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('End_customer_mobile_number', context)!} : ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer!.mobile != null ? widget.orderDetailsModel.externalOrder!.details!.data!.customer!.mobile : "none"}',
+                        child: Text('${getTranslated('End_customer_name', context)!} : ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer!.lastName != null ?( '${widget.orderDetailsModel.externalOrder!.details!.data!.customer!.firstName} ${widget.orderDetailsModel.externalOrder!.details!.data!.customer!.lastName}') : ""}',
 
                           overflow: TextOverflow.ellipsis,
                           style:  GoogleFonts.tajawal(
@@ -499,7 +465,41 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                             );
                             Clipboard.setData( ClipboardData(
                                 text:
-                                '  ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer!.mobile != null ? widget.orderDetailsModel.externalOrder!.details!.data!.customer!.mobile : "none"}',
+                                '  ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer!.lastName != null ?( '${widget.orderDetailsModel.externalOrder!.details!.data!.customer!.firstName} ${widget.orderDetailsModel.externalOrder!.details!.data!.customer!.lastName}') : ""}',
+
+                            ));
+                          },
+                          child: Image.asset(Images.copy,width: 25,color: Theme.of(context).iconTheme.color)),
+                    ],
+                  ),
+                  const SizedBox(height: 10,),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 11,
+                        child: Text('${getTranslated('End_customer_mobile_number', context)!} : ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer!.mobile != null ? widget.orderDetailsModel.externalOrder!.details!.data!.customer!.mobile : ""}',
+
+                          overflow: TextOverflow.ellipsis,
+                          style:  GoogleFonts.tajawal(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+
+                          ),),
+                      ),
+                      const Spacer(),
+
+                      InkWell(
+                          onTap: (){
+                            showCustomSnackBar(
+                              getTranslated(
+                                  'The_text_has_been_copied',
+                                  context),
+                              context,
+                              isError: false,
+                            );
+                            Clipboard.setData( ClipboardData(
+                                text:
+                                '  ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer!.mobile != null ? widget.orderDetailsModel.externalOrder!.details!.data!.customer!.mobile : ""}',
 
                             ));
                           },
@@ -510,7 +510,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                     children: [
                       Expanded(
                         flex: 11,
-                        child: Text('${getTranslated('End_customer_email', context)!} : ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer!.email != null ? widget.orderDetailsModel.externalOrder!.details!.data!.customer!.email : "none"}',
+                        child: Text('${getTranslated('End_customer_email', context)!} : ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer!.email != null ? widget.orderDetailsModel.externalOrder!.details!.data!.customer!.email : ""}',
 
                           overflow: TextOverflow.ellipsis,
                           style:  GoogleFonts.tajawal(
@@ -532,7 +532,7 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
                             );
                             Clipboard.setData( ClipboardData(
                                 text:
-                                '  ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer!.email != null ? widget.orderDetailsModel.externalOrder!.details!.data!.customer!.email : "none"}',
+                                '  ${widget.orderDetailsModel.externalOrder != null && widget.orderDetailsModel.externalOrder!.details!.data != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer != null && widget.orderDetailsModel.externalOrder!.details!.data!.customer!.email != null ? widget.orderDetailsModel.externalOrder!.details!.data!.customer!.email : ""}',
 
                             ));
                           },
