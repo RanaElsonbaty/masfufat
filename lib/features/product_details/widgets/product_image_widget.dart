@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/controllers/product_details_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/domain/models/product_details_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/screens/product_image_screen.dart';
@@ -8,6 +9,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widge
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:widget_zoom/widget_zoom.dart';
+
+import '../../../utill/images.dart';
 
 
 class ProductImageWidget extends StatelessWidget {
@@ -150,7 +153,10 @@ class ProductImageWidget extends StatelessWidget {
                 // )),
 
               ]):
-              const SizedBox()),
+               const Padding(
+                 padding: EdgeInsets.symmetric(vertical: 40),
+                 child: NoInternetOrDataScreenWidget(isNoInternet: false,  message: 'no image',icon: Images.noProduct,),
+               )),
 
 
 

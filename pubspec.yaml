@@ -17,11 +17,15 @@ dependencies:
   widget_zoom: ^0.0.4
 #  kommon: ^0.4.1
   photo_manager: ^3.3.0
+  flutter_screenutil: ^5.9.3
+  flutter_cache_manager:
   cupertino_icons: ^1.0.6
   get_it: ^7.6.6
+  collection:
   provider: ^6.0.3
   connectivity_plus: ^5.0.2
   dio: ^5.3.4
+  flutter_js:
   http:
   dropdown_search: ^5.0.6
   drop_down_list: ^0.0.5
@@ -44,6 +48,7 @@ dependencies:
   shimmer: ^3.0.0
   url_launcher: ^6.2.3
   image_picker: ^1.0.7
+  device_preview:
   webview_flutter: ^4.4.4
   voice_message_package: ^2.2.1
   chat_bubbles:
@@ -130,6 +135,7 @@ flutter:
   assets:
     - assets/images/
     - assets/language/
+
 
   fonts:
     - family: SF-Pro-Rounded-Regular

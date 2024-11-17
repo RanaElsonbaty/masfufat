@@ -75,26 +75,26 @@ class MessageBubbleWidget extends StatelessWidget {
             Row(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start, children: [
 
-            ((!isMe && !isSameUserWithPreviousMessage) ||  (!isMe && isSameUserWithPreviousMessage)) &&
-                      chatProvider.getChatTimeWithPrevious(message, previous).isNotEmpty ?
-                 Padding(
-                  padding: const EdgeInsets.only(bottom: 3),
-                  child: Container( width: Dimensions.paddingSizeExtraLarge + 5, height: Dimensions.paddingSizeExtraLarge + 5,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.0),
-                      border: Border.all(color: Theme.of(context).primaryColor)),
-                    child: ClipRRect(borderRadius: BorderRadius.circular(20.0),
-                      child: CustomImageWidget(
-                        fit: BoxFit.cover, width: Dimensions.paddingSizeExtraLarge + 5,
-                        height: Dimensions.paddingSizeExtraLarge + 5, image: '${message.attachment}'))),
-                )
-                     :  !isMe ? const SizedBox(width: Dimensions.paddingSizeExtraLarge + 5,) : const SizedBox(),
+            // ((!isMe && !isSameUserWithPreviousMessage) ||  (!isMe && isSameUserWithPreviousMessage)) &&
+            //           chatProvider.getChatTimeWithPrevious(message, previous).isNotEmpty ?
+            //      Padding(
+            //       padding: const EdgeInsets.only(bottom: 3),
+            //       child: Container( width: Dimensions.paddingSizeExtraLarge + 5, height: Dimensions.paddingSizeExtraLarge + 5,
+            //         decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.0),
+            //           border: Border.all(color: Theme.of(context).primaryColor)),
+            //         child: ClipRRect(borderRadius: BorderRadius.circular(20.0),
+            //           child: CustomImageWidget(
+            //             fit: BoxFit.cover, width: Dimensions.paddingSizeExtraLarge + 5,
+            //             height: Dimensions.paddingSizeExtraLarge + 5, image: '${message.attachment}'))),
+            //     )
+            //          :  !isMe ? const SizedBox(width: Dimensions.paddingSizeExtraLarge + 5,) : const SizedBox(),
 
 
                 if(message.message.isNotEmpty)
                 Flexible(child: InkWell(
                   onTap: (){
-                    chatProvider.toggleOnClickMessage(onMessageTimeShowID :
-                    message.id.toString());
+                    // chatProvider.toggleOnClickMessage(onMessageTimeShowID :
+                    // message.id.toString());
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,

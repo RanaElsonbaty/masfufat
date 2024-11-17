@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/features/more/widgets/square_item_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wallet/screens/wallet_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/responsive_helper.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/profile/controllers/profile_contrroller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
-import 'package:flutter_sixvalley_ecommerce/features/loyaltyPoint/screens/loyalty_point_screen.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:provider/provider.dart';
 
@@ -16,15 +12,26 @@ import '../../../theme/controllers/theme_controller.dart';
 import '../../wallet/controllers/wallet_controller.dart';
 import '../../wallet/widgets/wallet_card_widget.dart';
 
-class MoreHorizontalSection extends StatelessWidget {
+class MoreHorizontalSection extends StatefulWidget {
   const MoreHorizontalSection({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final tooltipController = JustTheController();
-    final TextEditingController inputAmountController = TextEditingController();
-    final FocusNode focusNode = FocusNode();
+  State<MoreHorizontalSection> createState() => _MoreHorizontalSectionState();
+}
 
+class _MoreHorizontalSectionState extends State<MoreHorizontalSection> {
+  JustTheController tooltipController = JustTheController();
+
+   TextEditingController inputAmountController = TextEditingController();
+
+   FocusNode focusNode = FocusNode();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+  @override
+  Widget build(BuildContext context) {
     bool isGuestMode = !Provider.of<AuthController>(context, listen: false).isLoggedIn();
     return Consumer<ProfileController>(
       builder: (context, profileProvider,_) {
@@ -63,10 +70,10 @@ class MoreHorizontalSection extends StatelessWidget {
                               ));}),
 
 
-                    if(!isGuestMode && Provider.of<SplashController>(context,listen: false).configModel!=null&& Provider.of<SplashController>(context,listen: false).configModel!.loyaltyPointStatus == 1)
-                        SquareButtonWidget(image: Images.loyaltyPoint, title: getTranslated('loyalty_point', context),
-                          navigateTo: const LoyaltyPointScreen(),count: 1,hasCount: false,isWallet: true,subTitle: 'point',
-                          balance: profileProvider.loyaltyPoint, isLoyalty: true),
+                    // if(!isGuestMode && Provider.of<SplashController>(context,listen: false).configModel!=null&& Provider.of<SplashController>(context,listen: false).configModel!.loyaltyPointStatus == 1)
+                    //     SquareButtonWidget(image: Images.loyaltyPoint, title: getTranslated('loyalty_point', context),
+                    //       navigateTo: const LoyaltyPointScreen(),count: 1,hasCount: false,isWallet: true,subTitle: 'point',
+                    //       balance: profileProvider.loyaltyPoint, isLoyalty: true),
 
 
                       // if(!isGuestMode)

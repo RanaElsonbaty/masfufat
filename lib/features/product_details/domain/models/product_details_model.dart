@@ -561,6 +561,7 @@ class ProductDetailsModel {
       _currentStock = null;
     }
     _desc = json['desc'];
+    print(_desc);
     _slug = json['slug'];
     _productType = json['product_type'];
 
@@ -620,9 +621,14 @@ class ProductDetailsModel {
     _digitalProductType = json['digital_product_type'];
     _digitalFileReady = json['digital_file_ready'];
     try {
+      print(json['images']);
       _images = List<String>.from(json['images']);
     } catch (e) {
-      _images = json['images'];
+      try{
+        _images = json['images'];
+      }catch(e){
+        print( 'image error --$e');
+      }
     }
     _thumbnail = json['thumbnail'];
     _featured = json['featured'];
@@ -641,17 +647,17 @@ class ProductDetailsModel {
     }
 
     if (json['choice_options'] != null) {
-      _choiceOptions = <ChoiceOptions>[];
-      jsonDecode(json['choice_options']).forEach((v) {
-        _choiceOptions!.add(ChoiceOptions.fromJson(v));
-      });
+      // _choiceOptions = <ChoiceOptions>[];
+      // jsonDecode(json['choice_options']).forEach((v) {
+      //   _choiceOptions!.add(ChoiceOptions.fromJson(v));
+      // });
     }
     // print('_variation55 ${json['variation']}');
     if (json['variation'] != null) {
-      _variation = <Variation>[];
-      jsonDecode(json['variation']).forEach((v) {
-        _variation!.add(Variation.fromJson(v));
-      });
+      // _variation = <Variation>[];
+      // jsonDecode(json['variation']).forEach((v) {
+      //   _variation!.add(Variation.fromJson(v));
+      // });
     }
     _published = json['published'];
     // print('sadasdadadaS${json['pricings']['value']}');

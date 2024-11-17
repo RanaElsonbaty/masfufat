@@ -75,7 +75,8 @@ class _ProductSyncOrderState extends State<ProductSyncOrder> {
                               Text('(${getTranslated('tax', context)} ${PriceConverter.convertPrice(context, widget.products[index].tax??0.00)})',
                                 style: GoogleFonts.tajawal(color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault),):
                               Text('(${getTranslated('tax', context)} ${widget.products[index].tax??''}%)',
-                                  style: GoogleFonts.tajawal(color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault))]),
+                                  style: GoogleFonts.tajawal(color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault))
+                            ]),
                             const SizedBox(height: Dimensions.marginSizeExtraSmall),
 
                             Text('${getTranslated('qty', context)}: ${widget.syncOrder!.details![index].qty!}',

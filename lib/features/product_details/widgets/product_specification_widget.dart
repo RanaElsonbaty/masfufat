@@ -25,8 +25,9 @@ class ProductSpecificationWidget extends StatelessWidget {
       // Text(getTranslated('product_specification', context)??'',style: textMedium ),
 
       Container(
-        height: (productSpecification.isNotEmpty && productSpecification.length > 400) ? 150 : null,
-        padding: const EdgeInsets.all(Dimensions.paddingSizeSmall).copyWith(bottom: 0),
+        width: MediaQuery.of(context).size.width,
+        // height: (productSpecification.isNotEmpty && productSpecification.length > 400) ? 150 : null,
+        padding: const EdgeInsets.all(Dimensions.paddingSizeSmall+5).copyWith(bottom: 0),
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(0),
           physics: const NeverScrollableScrollPhysics(),
@@ -38,15 +39,7 @@ class ProductSpecificationWidget extends StatelessWidget {
         ),
       ),
 
-      if(productSpecification.isNotEmpty && productSpecification.length > 400)
-        Center(child: InkWell(
-          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => SpecificationScreen(specification: productSpecification))),
-          child: Text(getTranslated('view_full_detail', context)!, style: titleRegular.copyWith(
-            color: Provider.of<ThemeController>(context, listen: false).darkTheme
-                ? Colors.white
-                : Theme.of(context).primaryColor,
-          )),
-        )),
+
     ]);
   }
 }

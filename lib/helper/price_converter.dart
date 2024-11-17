@@ -45,4 +45,27 @@ class PriceConverter {
     return '-${(discountType == 'percent' || discountType == 'percentage') ? '$discount %'
         : convertPrice(context, discount)}';
   }
+  static double calculationTaxDouble(BuildContext context, double? price ,double tax,String ?taxType){
+    double taxPrice=0.00;
+    if(taxType==null||taxType=='percent'){
+    taxPrice=tax/100*price!;
+    }else{
+      taxPrice =tax;
+    }
+    return double.parse(taxPrice.toStringAsFixed(2));
+  } static String calculationTaxString(BuildContext context, double? price ,double tax,String ?taxType){
+    double taxPrice=0.00;
+    if(taxType==null||taxType=='percent'){
+    taxPrice=tax/100*price!;
+    }else{
+      taxPrice =tax;
+    }
+    bool singleCurrency =Provider.of<SplashController>(context, listen: false).configModel!=null? Provider.of<SplashController>(context, listen: false).configModel!.currencyModel == 'single_currency':true;
+    bool inRight = Provider.of<SplashController>(context, listen: false).configModel!=null?Provider.of<SplashController>(context, listen: false).configModel!.currencySymbolPosition == 'right':true;
+
+    return '${inRight ? '' : Provider.of<SplashController>(context, listen: false).myCurrency!.symbol} '
+        '${singleCurrency ? taxPrice!.toStringAsFixed(2) : taxPrice.toStringAsFixed(2)} '
+        '${inRight ? Provider.of<SplashController>(context, listen: false).myCurrency!.symbol: ''} ';
+
+  }
 }

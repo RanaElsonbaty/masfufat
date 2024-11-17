@@ -12,5 +12,5 @@ abstract class ProductServiceInterface{
   Future<dynamic> getFindWhatYouNeed();
   Future<dynamic> getJustForYouProductList();
   Future<dynamic> getMostSearchingProductList(int offset);
-  Future<dynamic> getHomeCategoryProductList();
+  Future<dynamic> getHomeCategoryProductList(int page);
 }

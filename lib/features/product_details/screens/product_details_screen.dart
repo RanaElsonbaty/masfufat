@@ -114,6 +114,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
                 
                 Column(children: [
+                  if(details.productDetailsModel!=null&& details.productDetailsModel!.images!=null)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -236,8 +237,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                     ],
                   ),
-                  
-const SizedBox(height: 10,),
+
+                  if(details.productDetailsModel!=null&& details.productDetailsModel!.images!=null)
+                  const SizedBox(height: 10,),
                   ProductTitleWidget(productModel: details.productDetailsModel,
                       averageRatting: details.productDetailsModel?.averageReview?? "0"),
 
@@ -255,11 +257,11 @@ const SizedBox(height: 10,),
                   ]):   details.index==0?
 
                   Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment:MainAxisAlignment.start,children: [
-                    (details.productDetailsModel?.details != null && details.productDetailsModel!.details!.isNotEmpty) ?
+                    (details.productDetailsModel?.desc != null && details.productDetailsModel!.desc!.isNotEmpty) ?
                     Row(
                       children: [
                         ProductSpecificationWidget(
-                          productSpecification: details.productDetailsModel!.details ?? '',
+                          productSpecification: details.productDetailsModel!.desc!['value'] ?? '',
                         ),
                       ],
                     ) :const NoInternetOrDataScreenWidget(isNoInternet: false),
@@ -291,7 +293,9 @@ const SizedBox(height: 10,),
         ),
       ),
 
-      bottomNavigationBar: Consumer<ProductDetailsController>(
+      bottomNavigationBar:
+
+      Consumer<ProductDetailsController>(
         builder: (context, details, child) {
           return !details.isDetails?
           BottomCartWidget(product: details.productDetailsModel):const SizedBox();

@@ -14,5 +14,5 @@ abstract class ProductRepositoryInterface<T> extends RepositoryInterface{
   Future<dynamic> getFindWhatYouNeed();
   Future<dynamic> getJustForYouProductList();
   Future<dynamic> getMostSearchingProductList(int offset);
-  Future<dynamic> getHomeCategoryProductList();
+  Future<dynamic> getHomeCategoryProductList(int page);
 }

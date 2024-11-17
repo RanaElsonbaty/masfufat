@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
+import 'package:flutter_sixvalley_ecommerce/features/Store%20settings/controllers/store_setting_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/controllers/product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
@@ -284,121 +285,134 @@ double total =0.00;
                           linked=true;
                         }
                       }
-                      return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: InkWell(
-                              onTap: ()async{
+                      return Consumer<StoreSettingController>(
+                        builder:(context, storeSetting, child) =>  Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: InkWell(
+                                onTap: ()async{
 
-                         try{
-                           if(inCart){
-                             if(cartProvider.cartList.isEmpty){
-                               await cartProvider.getCartData(context);
-                               cartProvider.setCartData();
-                             }
-                             CartModel? cartItem;
-                             int index= 0;
-                             for (int i=0;i<cartProvider.cartList.length;i++) {
-                               if(cartProvider.cartList[i].product!.id == widget.productModel.id){
-                                 index =i;
-                                 cartItem=cartProvider.cartList[i];
-                                 if(widget.productModel.currentStock!=cartItem.quantity){
+                           try{
+                             if(inCart){
+                               if(cartProvider.cartList.isEmpty){
+                                 await cartProvider.getCartData(context);
+                                 cartProvider.setCartData();
+                               }
+                               CartModel? cartItem;
+                               int index= 0;
+                               for (int i=0;i<cartProvider.cartList.length;i++) {
+                                 if(cartProvider.cartList[i].product!.id == widget.productModel.id){
+                                   index =i;
+                                   cartItem=cartProvider.cartList[i];
+                                   if(widget.productModel.currentStock!=cartItem.quantity){
 
-                                   cartProvider.updateCartProductQuantity(cartItem.id, cartItem.quantity!+1, context, true, index,product: true);
-                                 }else{
-                                   showCustomSnackBar(getTranslated('out_of_stock', context), context);
+                                     cartProvider.updateCartProductQuantity(cartItem.id, cartItem.quantity!+1, context, true, index,product: true);
+                                   }else{
+                                     showCustomSnackBar(getTranslated('out_of_stock', context), context);
+
+                                   }
+
 
                                  }
-
-
                                }
-                             }
 
 
-                             // showCustomSnackBar(getTranslated('Already_added', context), context);
-                           }else
-                           if(widget.productModel.currentStock==0){
-                             showCustomSnackBar(getTranslated('Out_of_stock', context), context);
-                           }else{
-                             CartModelBody cart = CartModelBody(
-                               productId: widget.productModel.id,
-                               quantity: 1,
-                             );
-                             Provider.of<CartController>(context, listen: false).addToCartAPI(
-                                 cart, context, []);}
-                         }catch(e){
-                           showCustomSnackBar(getTranslated('The_product_was_not_added_to_the_cart_successfully', context), context);
+                               // showCustomSnackBar(getTranslated('Already_added', context), context);
+                             }else
+                             if(widget.productModel.currentStock==0){
+                               showCustomSnackBar(getTranslated('Out_of_stock', context), context);
+                             }else{
+                               CartModelBody cart = CartModelBody(
+                                 productId: widget.productModel.id,
+                                 quantity: 1,
+                               );
+                               Provider.of<CartController>(context, listen: false).addToCartAPI(
+                                   cart, context, []);}
+                           }catch(e){
+                             showCustomSnackBar(getTranslated('The_product_was_not_added_to_the_cart_successfully', context), context);
 
-                         }
-                              },
-                              child: Container(
-                                height: 30,
+                           }
+                                },
+                                child: Container(
+                                  height: 30,
 
-                                decoration: BoxDecoration(
-                                    color:widget.productModel.currentStock==0?Colors.grey: Theme.of(context).primaryColor.withOpacity(0.20),
-                                    borderRadius: BorderRadius.circular(4)
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 3.0),
-                                  child: Center(child: Text(getTranslated('buy', context)!,style: GoogleFonts.tajawal(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color:widget.productModel.currentStock==0?Colors.white: Theme.of(context).iconTheme.color
-                                  ),)),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 5,),
-                          Expanded(
-                            child: InkWell(
-                              onTap: (){
-try{
-
-  if(widget.productModel.currentStock==0){
-    showCustomSnackBar(getTranslated('Out_of_stock', context), context);
-
-  }else if(!sync&&!linked){
-    myShopController.addProduct(widget.productModel.id!).then((value) {
-      if(value==true){
-        myShopController.getList();
-        showCustomSnackBar(getTranslated('Added_to_my_store', context), context,isError: false);
-
-      }else{
-        showCustomSnackBar(getTranslated('Not_added_to_my_store', context), context,isError: true );
-
-      }
-    });}else{
-    showCustomSnackBar(getTranslated('Already_added', context), context,isError: true );
-  }
-}catch(e){
-  showCustomSnackBar(getTranslated('Not_added_to_my_store', context), context,isError: true );
-}
-                              },
-
-                              child: Container(
-                                height: 30,
-                                decoration: BoxDecoration(
-                                    color:linked==true?Colors.green:sync||widget.productModel.currentStock==0?Colors.grey: Theme.of(context).primaryColor,
-                                    borderRadius: BorderRadius.circular(4)
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 3.0),
-                                  child: Center(child: Text(linked==false?getTranslated('sync', context)!:getTranslated('synced',context)!,style: GoogleFonts.tajawal(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white
-                                  ),)),
+                                  decoration: BoxDecoration(
+                                      color:widget.productModel.currentStock==0?Colors.grey: Theme.of(context).primaryColor.withOpacity(0.20),
+                                      borderRadius: BorderRadius.circular(4)
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 3.0),
+                                    child: Center(child: Text(getTranslated('buy', context)!,style: GoogleFonts.tajawal(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color:widget.productModel.currentStock==0?Colors.white: Theme.of(context).iconTheme.color
+                                    ),)),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
+                            const SizedBox(width: 5,),
+                            Expanded(
+                              child: InkWell(
+                                onTap: (){
+                                  // if (storeSetting.linkedAccountsList.isNotEmpty&&storeSetting.linkedAccountsList.first.storeDetails!=null||storeSetting.linkedAccountsList.last.storeDetails!=null){
 
-                        ],
-                      ),
-                    );
+                                    try{
+
+                          if(widget.productModel.currentStock==0){
+                            // Out of stock
+                            showCustomSnackBar(getTranslated('Out_of_stock', context), context);
+
+                          }else if(!sync&&!linked){
+                            myShopController.addProduct(widget.productModel.id!).then((value) {
+                              if(value==true){
+                                // get sync product
+                                myShopController.getList();
+                                // done
+                                showCustomSnackBar(getTranslated('Added_to_my_store', context), context,isError: false);
+
+                              }else{
+                              // unknown error
+                                // showCustomSnackBar(getTranslated('Not_added_to_my_store', context), context,isError: true );
+
+                              }
+                            });}else{
+                            // Already added
+                            showCustomSnackBar(getTranslated('Already_added', context), context,isError: true );
+                          }
+                        }catch(e){
+                                      // unknown error
+                          showCustomSnackBar(getTranslated('Not_added_to_my_store', context), context,isError: true );
+                        }
+                                  // }else{
+                                  //   showCustomSnackBar(getTranslated('Unable_to_connect_to_your_marketplace', context), context,time: 3);
+                                  // }
+                                },
+
+                                child: Container(
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                      color:linked==true?Colors.green:sync||widget.productModel.currentStock==0?Colors.grey: Theme.of(context).primaryColor,
+                                      borderRadius: BorderRadius.circular(4)
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 3.0),
+                                    child: Center(child: Text(linked==false?getTranslated('sync', context)!:getTranslated('synced',context)!,style: GoogleFonts.tajawal(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white
+                                    ),)),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                          ],
+                        ),
+                                            ),
+                      );
                     },
                   );
                   },
@@ -436,49 +450,57 @@ try{
             ),
           ),
           widget.selectActive!?  Positioned(top: 0, right: 2,
-            child: Consumer<ProductController>(
-              builder:(context, product, child) =>  Consumer<MyShopController>(
-                builder:(context, myShopController, child) =>  Checkbox(
-                    value: product.productSelect.contains(widget.productModel.id),
-                    onChanged: (val){
-                      // for (var element in widget.products) {
-                        bool  sync=false;
-                        for (var elm in myShopController.pendingList) {
-                          if(elm.id==widget.productModel.id){
-                            sync=true;
+            child: Consumer<StoreSettingController>(
+              builder:(context, storeSetting, child) =>  Consumer<ProductController>(
+                builder:(context, product, child) =>  Consumer<MyShopController>(
+                  builder:(context, myShopController, child) =>  Checkbox(
+                      value: product.productSelect.contains(widget.productModel.id),
+                      onChanged: (val){
+                  // if (storeSetting.linkedAccountsList.isNotEmpty&&storeSetting.linkedAccountsList.first.storeDetails!=null||storeSetting.linkedAccountsList.last.storeDetails!=null){
+
+                        // for (var element in widget.products) {
+                          bool  sync=false;
+                          for (var elm in myShopController.pendingList) {
+                            if(elm.id==widget.productModel.id){
+                              sync=true;
+                            }
+                          } for (var elm in myShopController.deleteList) {
+                            if(elm.id==widget.productModel.id!){
+                              sync=true;
+                            }
+                          } for (var elm in myShopController.linkedList) {
+                            if(elm.id==widget.productModel.id!){
+                              sync=true;
+                            }
                           }
-                        } for (var elm in myShopController.deleteList) {
-                          if(elm.id==widget.productModel.id!){
-                            sync=true;
+                          if(widget.productModel.currentStock==0){
+                            showCustomSnackBar(getTranslated('Out_of_stock', context), context);
+
+                          }else if(sync){
+                            showCustomSnackBar(getTranslated('Already_added', context), context,isError: true );
+
+                          }else{
+                            product.selectProduct(widget.productModel.id!,true);
+
+
                           }
-                        } for (var elm in myShopController.linkedList) {
-                          if(elm.id==widget.productModel.id!){
-                            sync=true;
-                          }
-                        }
-                        if(widget.productModel.currentStock==0){
-                          showCustomSnackBar(getTranslated('Out_of_stock', context), context);
+                      // }else{
+                    // showCustomSnackBar(getTranslated('Unable_to_connect_to_your_marketplace', context), context,time: 3);
+                  //
+                  // }
 
-                        }else if(sync){
-                          showCustomSnackBar(getTranslated('Already_added', context), context,isError: true );
+                        // }
+                        // product.selectProduct(productModel.id!,true);
+                      },
+                    checkColor: Colors.white,
+                  side: const BorderSide(width: 2,color: Colors.grey),
+                    activeColor: Theme.of(context).primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4)
+                    ),
 
-                        }else{
-                          product.selectProduct(widget.productModel.id!,true);
 
-
-                        }
-
-                      // }
-                      // product.selectProduct(productModel.id!,true);
-                    },
-                  checkColor: Colors.white,
-                side: const BorderSide(width: 2,color: Colors.grey),
-                  activeColor: Theme.of(context).primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4)
                   ),
-
-
                 ),
               ),
             ),):const SizedBox.shrink()

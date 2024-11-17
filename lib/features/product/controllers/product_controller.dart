@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
 import 'package:flutter_sixvalley_ecommerce/features/category/domain/models/find_what_you_need.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
@@ -215,6 +216,7 @@ int selectedProductTypeIndex = 0;
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
      try{
        _productCount =apiResponse.response!.data['count'];
+       notifyListeners();
      }catch(E){}
       apiResponse.response!.data['products']['data'].forEach((product) => _brandOrCategoryProductList.add(Product.fromJson(product)));
       return _brandOrCategoryProductList;
@@ -322,23 +324,59 @@ int selectedProductTypeIndex = 0;
   }
 
 
-  final List<HomeCategoryProduct> _homeCategoryProductList = [];
-  List<HomeCategoryProduct> get homeCategoryProductList => _homeCategoryProductList;
-
-  Future<void> getHomeCategoryProductList(bool reload) async {
+   List<Datum>? _homeCategoryProductList ;
+  List<Datum>? get homeCategoryProductList => _homeCategoryProductList;
+  bool _pageEnd=false;
+  bool get pageEnd=>_pageEnd;
+  void initPageEnd(){
+    if(_homeCategoryProductList!=null&&_homeCategoryProductList!.isEmpty){
+      _pageEnd=false;
+      notifyListeners();
+    }
+  }
+  Future<bool> getHomeCategoryProductList(bool reload,int page) async {
   // if (_homeCategoryProductList.isEmpty || reload) {
-    ApiResponse apiResponse = await productServiceInterface!.getHomeCategoryProductList();
+
+    _pageEnd=false;
+    ApiResponse apiResponse = await productServiceInterface!.getHomeCategoryProductList(page);
     if (apiResponse.response != null  && apiResponse.response!.statusCode == 200) {
       if(apiResponse.response!.data.toString() != '{}'){
-        _homeCategoryProductList.clear();
-        apiResponse.response!.data['data'].forEach((homeCategoryProduct) =>
-            _homeCategoryProductList.add(HomeCategoryProduct.fromJson(homeCategoryProduct)));
-      // }
+        if(page==1){
+          _homeCategoryProductList=[];
+          apiResponse.response!.data['data'].forEach((elm){
+            _homeCategoryProductList!.add(Datum.fromJson(elm));
+            notifyListeners();
+
+
+          });
+
+        }else{
+          if(apiResponse.response!.data['data']!=null&&apiResponse.response!.data['data'].isNotEmpty){
+            apiResponse.response!.data['data'].forEach((elm){
+              _homeCategoryProductList!.add(Datum.fromJson(elm));
+              notifyListeners();
+
+            });
+          }else{
+            _pageEnd=true;
+            return false;
+          }
+notifyListeners();
+        }
+        notifyListeners();
+
+
+        return true;
     } else {
       ApiChecker.checkApi( apiResponse);
+      notifyListeners();
+
+      return false;
+
     }
-    notifyListeners();
-  }
+  }else{
+      return false;
+    }
   }
 
   MostDemandedProductModel? mostDemandedProductModel;
@@ -449,9 +487,10 @@ List<int> productSelect=[];
      }
    notifyListeners();
  }
- Future clearSelectProduct()async{
+ Future clearSelectProduct({bool notify=true})async{
    productSelect=[];
-   notifyListeners();
+   if(notify){
+   notifyListeners();}
  }
   double value=0;
 
@@ -460,24 +499,37 @@ List<int> productSelect=[];
 
     return double.parse(percentage.toStringAsFixed(2));
   }
+  bool _addSyncLoading=false;
+  bool get addSyncLoading=>_addSyncLoading;
 Future addProductToSync()async{
+  _addSyncLoading=true;
   MyShopController myShop=Provider.of<MyShopController>(Get.context!,listen: false);
   for (int i=0;i<productSelect.length;i++) {
+  try{
     await myShop.addProduct(productSelect[i]).then((val) {
-      print('sdklfglsadfhaskdfgasjdfasjhdfjhgdgfjhsdjfgakjshdf----$val');
+      if(val==false){
+        showCustomSnackBar('${getTranslated('Product_sync_failed',Get.context!)} id = ${productSelect[i]}', Get.context!);
+      }
       if(i!=0){
         value= calculatePercentage(i,productSelect.length);
         notifyListeners();
 
       }
     });
+  }catch(e){
+    showCustomSnackBar(e.toString(), Get.context!,time: 3);
+  }
 
   }
+
+
+  notifyListeners();
 }
 void clear()async{
-await Provider.of<MyShopController>(Get.context!,listen: false).getList();
   value=0;
-productSelect=[];
+  productSelect=[];
+  _addSyncLoading=false;
+await Provider.of<MyShopController>(Get.context!,listen: false).getList();
 
   notifyListeners();
 }

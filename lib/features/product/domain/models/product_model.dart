@@ -254,24 +254,45 @@ String? get imagesFullUrl => _imagesFullUrl;
     }
 
     if(json['images'] != null){
-      try{
-        if(json['images'].runtimeType is List<dynamic>){
-          _images=[];
-        }else{
-          _images = json['images']  != null  ? json['images'].cast<String>() : [];
+if(json['images'].runtimeType ==String){
 
-        }
-      }catch(e){
+  try{
+    _images = json['images']  != null  ? json['images'].cast<String>() : [];
+
+  }catch(E){
+    try{
+         _images = json['images'] != null && json['images'] != null ? jsonDecode(json['images'])['sa'].cast<String>() : [];
+    }catch(e){
 try{
+  _images = json['images'] != null && json['images'] != null ? jsonDecode(json['images']).cast<String>() : [];
 
-   _images = json['images'] != null && json['images'] != null ? jsonDecode(json['images'])['sa'].cast<String>() : [];
 } catch(e){
-_images = json['images'] != null && json['images'] != null ? jsonDecode(json['images']).cast<String>() : [];
-
 
 }
-      }
     }
+  }
+
+}else if(json['images'].runtimeType ==List<dynamic>){
+  try{
+    _images=[];
+    json['images'].forEach((elm){
+      if(elm!=null){
+        _images!.add(elm);
+
+      }
+    });
+
+
+  }catch(e){
+    print(e);
+    _images=[''];
+  }
+}else{
+  _images=[''];
+print('not String ${json['images']}');
+}
+    }
+
     synced=json['synced'] ?? 0;
 
     if (json['image_url'] != null) {

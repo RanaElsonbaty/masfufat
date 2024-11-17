@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 
@@ -31,16 +32,7 @@ class _CustomImageWidgetState extends State<CustomImageWidget> {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     loadImage();
-    images=CachedNetworkImage(
 
-      placeholder: (context, url) => Image.asset(widget.placeholder?? Images.placeholder, height: widget.height, width: widget.width, fit: BoxFit.cover),
-      imageUrl: widget.image, fit: widget.fit?? BoxFit.cover,
-      filterQuality: FilterQuality.medium,
-      useOldImageOnUrlChange:true ,
-      height: widget.height,width: widget.width,
-      errorWidget: (c, o, s) => Image.asset(widget.placeholder?? Images.placeholder, height: widget.height, width: widget.width, fit: BoxFit.cover),
-
-    );
     
 
   }
@@ -50,21 +42,37 @@ class _CustomImageWidgetState extends State<CustomImageWidget> {
     // TODO: implement initState
     super.initState();
     loadImage();
-     images=CachedNetworkImage(
-
-      placeholder: (context, url) => Image.asset(widget.placeholder?? Images.placeholder, height: widget.height, width: widget.width, fit: BoxFit.cover),
-      imageUrl: widget.image, fit: widget.fit?? BoxFit.cover,
-      filterQuality: FilterQuality.medium,
-      useOldImageOnUrlChange:true ,
-      height: widget.height,width: widget.width,
-      errorWidget: (c, o, s) => Image.asset(widget.placeholder?? Images.placeholder, height: widget.height, width: widget.width, fit: BoxFit.cover),
-
-    );
 
   }
 
   @override
   Widget build(BuildContext context) {
-    return images;
+    return CachedNetworkImage(
+      // cacheManager: CustomCacheManager.instance,
+      // cacheKey: "customCacheKey",
+      maxWidthDiskCache: 800,
+      maxHeightDiskCache: 800,
+
+      placeholder: (context, url) => Image.asset(widget.placeholder?? Images.placeholder, height: widget.height, width: widget.width, fit: BoxFit.cover),
+      imageUrl: widget.image, fit: widget.fit?? BoxFit.cover,
+      filterQuality: FilterQuality.high,
+      useOldImageOnUrlChange:true ,
+      height: widget.height,width: widget.width,
+      errorWidget: (c, o, s) => Image.asset(widget.placeholder?? Images.placeholder, height: widget.height, width: widget.width, fit: BoxFit.cover),
+
+    );
   }
 }
+// class CustomCacheManager {
+//   static const key = 'customCacheKey';
+//   static CacheManager instance = CacheManager(
+//     Config(
+//       key,
+//       stalePeriod: const Duration(days: 7),
+//       maxNrOfCacheObjects: 20,
+//       repo: JsonCacheInfoRepository(databaseName: key),
+//       fileSystem: FileSystem(key),
+//       fileService: HttpFileService(),
+//     ),
+//   );
+// }

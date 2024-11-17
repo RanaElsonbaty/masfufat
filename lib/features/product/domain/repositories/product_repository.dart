@@ -45,6 +45,7 @@ class ProductRepository implements ProductRepositoryInterface{
   @override
   Future<ApiResponse> getBrandOrCategoryProductList(bool isBrand,int brandId, String id,int offset,bool reloud,String search,String syncFilter,String filter,String price,bool onlyBrand) async {
     try {
+      print('object$isBrand');
       String uri;
       print('object - $onlyBrand');
       if(isBrand){
@@ -167,9 +168,9 @@ class ProductRepository implements ProductRepositoryInterface{
   }
 
   @override
-  Future<ApiResponse> getHomeCategoryProductList() async {
+  Future<ApiResponse> getHomeCategoryProductList(int page) async {
     try {
-      final response = await dioClient!.get(AppConstants.homeCategoryProductUri);
+      final response = await dioClient!.get('${AppConstants.homeCategoryProductUri}?page=$page');
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));

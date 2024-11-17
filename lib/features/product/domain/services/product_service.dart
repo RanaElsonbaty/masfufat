@@ -29,8 +29,8 @@ class ProductService implements ProductServiceInterface{
   }
 
   @override
-  Future getHomeCategoryProductList() async{
-    return await productRepositoryInterface.getHomeCategoryProductList();
+  Future getHomeCategoryProductList(int page) async{
+    return await productRepositoryInterface.getHomeCategoryProductList(page);
   }
 
   @override

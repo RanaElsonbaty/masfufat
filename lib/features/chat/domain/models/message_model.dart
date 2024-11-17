@@ -135,324 +135,324 @@ class Message {
 
 class SellerInfo {
   final int id;
-  final dynamic fName;
-  final dynamic lName;
-  final String phone;
+  // final dynamic fName;
+  // final dynamic lName;
+  // final String phone;
   final String image;
-  final String email;
-  final String password;
-  final String status;
-  final String rememberToken;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final String bankName;
-  final String branch;
-  final String accountNo;
-  final String holderName;
-  final String authToken;
-  final int salesCommissionPercentage;
-  final String gst;
-  final String cmFirebaseToken;
-  final int posStatus;
-  final int minimumOrderAmount;
-  final int freeDeliveryStatus;
-  final int freeDeliveryOverAmount;
+  // final String email;
+  // final String password;
+  // final String status;
+  // final String rememberToken;
+  // final DateTime createdAt;
+  // final DateTime updatedAt;
+  // final String bankName;
+  // final String branch;
+  // final String accountNo;
+  // final String holderName;
+  // final String authToken;
+  // final int salesCommissionPercentage;
+  // final String gst;
+  // final String cmFirebaseToken;
+  // final int posStatus;
+  // final int minimumOrderAmount;
+  // final int freeDeliveryStatus;
+  // final int freeDeliveryOverAmount;
   final dynamic companyName;
-  final dynamic licenseOwnerName;
-  final dynamic licenseOwnerPhone;
-  final String delegateName;
-  final String delegatePhone;
-  final String commercialRegistrationNo;
-  final String commercialRegistrationImg;
-  final String taxNo;
-  final String taxCertificateImg;
-  final String country;
-  final String area;
-  final String governorate;
-  final String address;
-  final String vendorAccountNumber;
-  final String city;
-  final String lat;
-  final String lon;
+  // final dynamic licenseOwnerName;
+  // final dynamic licenseOwnerPhone;
+  // final String delegateName;
+  // final String delegatePhone;
+  // final String commercialRegistrationNo;
+  // final String commercialRegistrationImg;
+  // final String taxNo;
+  // final String taxCertificateImg;
+  // final String country;
+  // final String area;
+  // final String governorate;
+  // final String address;
+  // final String vendorAccountNumber;
+  // final String city;
+  // final String lat;
+  // final String lon;
   final String name;
-  final int deleted;
+  // final int deleted;
   final int showSellersSection;
   // final List<FavMenu> favMenu;
-  final int managerId;
-  final String iban;
-  final dynamic storeAddress;
-  final String siteUrl;
-  final String zip;
-  final String activity;
-  final List<String> moduleAccess;
-  final List<String> inputAccess;
-  final String appLanguage;
-  final int accountManagerSupervisorId;
-  final String identityType;
-  final dynamic idNumber;
-  final DateTime releaseDateIdNumber;
-  final DateTime expiryDateIdNumber;
-  final dynamic idPhoto;
-  final String nationality;
+  // final int managerId;
+  // final String iban;
+  // final dynamic storeAddress;
+  // final String siteUrl;
+  // final String zip;
+  // final String activity;
+  // final List<String> moduleAccess;
+  // final List<String> inputAccess;
+  // final String appLanguage;
+  // final int accountManagerSupervisorId;
+  // final String identityType;
+  // final dynamic idNumber;
+  // final DateTime releaseDateIdNumber;
+  // final DateTime expiryDateIdNumber;
+  // final dynamic idPhoto;
+  // final String nationality;
   final String employer;
-  final String occupation;
-  final String gender;
-  final DateTime releaseDateCommercialRegister;
-  final DateTime expiryDateCommercialRegister;
-  final DateTime releaseDateTaxNo;
-  final DateTime expiryDateTaxNo;
-  final dynamic shortTitleCode;
-  final String buildingNo;
-  final dynamic subNo;
-  final dynamic unitNo;
-  final String neighborhood;
-  final String street;
-  final String titleExplanation;
-  final int commissionTaxRate;
-  final int powerOfAttorney;
-  final dynamic commissionType;
+  // final String occupation;
+  // final String gender;
+  // final DateTime releaseDateCommercialRegister;
+  // final DateTime expiryDateCommercialRegister;
+  // final DateTime releaseDateTaxNo;
+  // final DateTime expiryDateTaxNo;
+  // final dynamic shortTitleCode;
+  // final String buildingNo;
+  // final dynamic subNo;
+  // final dynamic unitNo;
+  // final String neighborhood;
+  // final String street;
+  // final String titleExplanation;
+  // final int commissionTaxRate;
+  // final int powerOfAttorney;
+  // final dynamic commissionType;
   final List<Shop> shops;
 
   SellerInfo({
     required this.id,
-    required this.fName,
-    required this.lName,
-    required this.phone,
+    // required this.fName,
+    // required this.lName,
+    // required this.phone,
     required this.image,
-    required this.email,
-    required this.password,
-    required this.status,
-    required this.rememberToken,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.bankName,
-    required this.branch,
-    required this.accountNo,
-    required this.holderName,
-    required this.authToken,
-    required this.salesCommissionPercentage,
-    required this.gst,
-    required this.cmFirebaseToken,
-    required this.posStatus,
-    required this.minimumOrderAmount,
-    required this.freeDeliveryStatus,
-    required this.freeDeliveryOverAmount,
+    // required this.email,
+    // required this.password,
+    // required this.status,
+    // required this.rememberToken,
+    // required this.createdAt,
+    // required this.updatedAt,
+    // required this.bankName,
+    // required this.branch,
+    // required this.accountNo,
+    // required this.holderName,
+    // required this.authToken,
+    // required this.salesCommissionPercentage,
+    // required this.gst,
+    // required this.cmFirebaseToken,
+    // required this.posStatus,
+    // required this.minimumOrderAmount,
+    // required this.freeDeliveryStatus,
+    // required this.freeDeliveryOverAmount,
     required this.companyName,
-    required this.licenseOwnerName,
-    required this.licenseOwnerPhone,
-    required this.delegateName,
-    required this.delegatePhone,
-    required this.commercialRegistrationNo,
-    required this.commercialRegistrationImg,
-    required this.taxNo,
-    required this.taxCertificateImg,
-    required this.country,
-    required this.area,
-    required this.governorate,
-    required this.address,
-    required this.vendorAccountNumber,
-    required this.city,
-    required this.lat,
-    required this.lon,
+    // required this.licenseOwnerName,
+    // required this.licenseOwnerPhone,
+    // required this.delegateName,
+    // required this.delegatePhone,
+    // required this.commercialRegistrationNo,
+    // required this.commercialRegistrationImg,
+    // required this.taxNo,
+    // required this.taxCertificateImg,
+    // required this.country,
+    // required this.area,
+    // required this.governorate,
+    // required this.address,
+    // required this.vendorAccountNumber,
+    // required this.city,
+    // required this.lat,
+    // required this.lon,
     required this.name,
-    required this.deleted,
+    // required this.deleted,
     required this.showSellersSection,
     // required this.favMenu,
-    required this.managerId,
-    required this.iban,
-    required this.storeAddress,
-    required this.siteUrl,
-    required this.zip,
-    required this.activity,
-    required this.moduleAccess,
-    required this.inputAccess,
-    required this.appLanguage,
-    required this.accountManagerSupervisorId,
-    required this.identityType,
-    required this.idNumber,
-    required this.releaseDateIdNumber,
-    required this.expiryDateIdNumber,
-    required this.idPhoto,
-    required this.nationality,
+    // required this.managerId,
+    // required this.iban,
+    // required this.storeAddress,
+    // required this.siteUrl,
+    // required this.zip,
+    // required this.activity,
+    // required this.moduleAccess,
+    // required this.inputAccess,
+    // required this.appLanguage,
+    // required this.accountManagerSupervisorId,
+    // required this.identityType,
+    // required this.idNumber,
+    // required this.releaseDateIdNumber,
+    // required this.expiryDateIdNumber,
+    // required this.idPhoto,
+    // required this.nationality,
     required this.employer,
-    required this.occupation,
-    required this.gender,
-    required this.releaseDateCommercialRegister,
-    required this.expiryDateCommercialRegister,
-    required this.releaseDateTaxNo,
-    required this.expiryDateTaxNo,
-    required this.shortTitleCode,
-    required this.buildingNo,
-    required this.subNo,
-    required this.unitNo,
-    required this.neighborhood,
-    required this.street,
-    required this.titleExplanation,
-    required this.commissionTaxRate,
-    required this.powerOfAttorney,
-    required this.commissionType,
+    // required this.occupation,
+    // required this.gender,
+    // required this.releaseDateCommercialRegister,
+    // required this.expiryDateCommercialRegister,
+    // required this.releaseDateTaxNo,
+    // required this.expiryDateTaxNo,
+    // required this.shortTitleCode,
+    // required this.buildingNo,
+    // required this.subNo,
+    // required this.unitNo,
+    // required this.neighborhood,
+    // required this.street,
+    // required this.titleExplanation,
+    // required this.commissionTaxRate,
+    // required this.powerOfAttorney,
+    // required this.commissionType,
     required this.shops,
   });
 
   factory SellerInfo.fromJson(Map<String, dynamic> json) => SellerInfo(
     id: json["id"],
-    fName: json["f_name"],
-    lName: json["l_name"],
-    phone: json["phone"],
+    // fName: json["f_name"],
+    // lName: json["l_name"],
+    // phone: json["phone"],
     image: json["image"],
-    email: json["email"],
-    password: json["password"],
-    status: json["status"],
-    rememberToken: json["remember_token"]??'',
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
-    bankName: json["bank_name"],
-    branch: json["branch"],
-    accountNo: json["account_no"],
-    holderName: json["holder_name"],
-    authToken: json["auth_token"]??'',
-    salesCommissionPercentage: json["sales_commission_percentage"]??0,
-    gst: json["gst"],
-    cmFirebaseToken: json["cm_firebase_token"]??'',
-    posStatus: json["pos_status"]??0,
-    minimumOrderAmount: json["minimum_order_amount"],
-    freeDeliveryStatus: json["free_delivery_status"],
-    freeDeliveryOverAmount: json["free_delivery_over_amount"],
+    // email: json["email"],
+    // password: json["password"],
+    // status: json["status"],
+    // rememberToken: json["remember_token"]??'',
+    // createdAt: DateTime.parse(json["created_at"]),
+    // updatedAt: DateTime.parse(json["updated_at"]),
+    // bankName: json["bank_name"],
+    // branch: json["branch"],
+    // accountNo: json["account_no"],
+    // holderName: json["holder_name"],
+    // authToken: json["auth_token"]??'',
+    // salesCommissionPercentage: json["sales_commission_percentage"]??0,
+    // gst: json["gst"],
+    // cmFirebaseToken: json["cm_firebase_token"]??'',
+    // posStatus: json["pos_status"]??0,
+    // minimumOrderAmount: json["minimum_order_amount"],
+    // freeDeliveryStatus: json["free_delivery_status"],
+    // freeDeliveryOverAmount: json["free_delivery_over_amount"],
     companyName: json["company_name"],
-    licenseOwnerName: json["license_owner_name"],
-    licenseOwnerPhone: json["license_owner_phone"],
-    delegateName: json["delegate_name"],
-    delegatePhone: json["delegate_phone"],
-    commercialRegistrationNo: json["commercial_registration_no"],
-    commercialRegistrationImg: json["commercial_registration_img"],
-    taxNo: json["tax_no"],
-    taxCertificateImg: json["tax_certificate_img"],
-    country: json["country"],
-    area: json["area"],
-    governorate: json["governorate"],
-    address: json["address"],
-    vendorAccountNumber: json["vendor_account_number"],
-    city: json["city"],
-    lat: json["lat"],
-    lon: json["lon"],
+    // licenseOwnerName: json["license_owner_name"],
+    // licenseOwnerPhone: json["license_owner_phone"],
+    // delegateName: json["delegate_name"],
+    // delegatePhone: json["delegate_phone"],
+    // commercialRegistrationNo: json["commercial_registration_no"],
+    // commercialRegistrationImg: json["commercial_registration_img"],
+    // taxNo: json["tax_no"],
+    // taxCertificateImg: json["tax_certificate_img"],
+    // country: json["country"],
+    // area: json["area"],
+    // governorate: json["governorate"],
+    // address: json["address"],
+    // vendorAccountNumber: json["vendor_account_number"],
+    // city: json["city"],
+    // lat: json["lat"],
+    // lon: json["lon"],
     name: json["name"],
-    deleted: json["deleted"],
+    // deleted: json["deleted"],
     showSellersSection: json["show_sellers_section"],
     // favMenu: List<FavMenu>.from(json["fav_menu"].map((x) => FavMenu.fromJson(x))),
-    managerId: json["manager_id"],
-    iban: json["iban"],
-    storeAddress: json["store_address"],
-    siteUrl: json["site_url"]??'',
-    zip: json["zip"],
-    activity: json["activity"]??'',
-    moduleAccess: List<String>.from(json["module_access"].map((x) => x)),
-    inputAccess: List<String>.from(json["input_access"].map((x) => x)),
-    appLanguage: json["app_language"]??'',
-    accountManagerSupervisorId: json["account_manager_supervisor_id"],
-    identityType: json["identity_type"]??'',
-    idNumber: json["id_number"]??'',
-    releaseDateIdNumber: DateTime.parse(json["release_date_id_number"]),
-    expiryDateIdNumber: DateTime.parse(json["expiry_date_id_number"]),
-    idPhoto: json["id_photo"]??'',
-    nationality: json["nationality"]??'',
+    // managerId: json["manager_id"],
+    // iban: json["iban"],
+    // storeAddress: json["store_address"],
+    // siteUrl: json["site_url"]??'',
+    // zip: json["zip"],
+    // activity: json["activity"]??'',
+    // moduleAccess: List<String>.from(json["module_access"].map((x) => x)),
+    // inputAccess: List<String>.from(json["input_access"].map((x) => x)),
+    // appLanguage: json["app_language"]??'',
+    // accountManagerSupervisorId: json["account_manager_supervisor_id"],
+    // identityType: json["identity_type"]??'',
+    // idNumber: json["id_number"]??'',
+    // releaseDateIdNumber: DateTime.parse(json["release_date_id_number"]),
+    // expiryDateIdNumber: DateTime.parse(json["expiry_date_id_number"]),
+    // idPhoto: json["id_photo"]??'',
+    // nationality: json["nationality"]??'',
     employer: json["employer"]??'',
-    occupation: json["occupation"]??'',
-    gender: json["gender"]??'',
-    releaseDateCommercialRegister: DateTime.parse(json["release_date_commercial_register"]),
-    expiryDateCommercialRegister: DateTime.parse(json["expiry_date_commercial_register"]),
-    releaseDateTaxNo: DateTime.parse(json["release_date_tax_no"]),
-    expiryDateTaxNo: DateTime.parse(json["expiry_date_tax_no"]),
-    shortTitleCode: json["short_title_code"],
-    buildingNo: json["building_no"]??'',
-    subNo: json["sub_no"],
-    unitNo: json["unit_no"],
-    neighborhood: json["neighborhood"]??'',
-    street: json["street"]??'',
-    titleExplanation: json["title_explanation"]??'',
-    commissionTaxRate: json["commission_tax_rate"]??0,
-    powerOfAttorney: json["power_of_attorney"]??0,
-    commissionType: json["commission_type"]??'',
+    // occupation: json["occupation"]??'',
+    // gender: json["gender"]??'',
+    // releaseDateCommercialRegister: DateTime.parse(json["release_date_commercial_register"]),
+    // expiryDateCommercialRegister: DateTime.parse(json["expiry_date_commercial_register"]),
+    // releaseDateTaxNo: DateTime.parse(json["release_date_tax_no"]),
+    // expiryDateTaxNo: DateTime.parse(json["expiry_date_tax_no"]),
+    // shortTitleCode: json["short_title_code"],
+    // buildingNo: json["building_no"]??'',
+    // subNo: json["sub_no"],
+    // unitNo: json["unit_no"],
+    // neighborhood: json["neighborhood"]??'',
+    // street: json["street"]??'',
+    // titleExplanation: json["title_explanation"]??'',
+    // commissionTaxRate: json["commission_tax_rate"]??0,
+    // powerOfAttorney: json["power_of_attorney"]??0,
+    // commissionType: json["commission_type"]??'',
     shops: List<Shop>.from(json["shops"].map((x) => Shop.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
-    "f_name": fName,
-    "l_name": lName,
-    "phone": phone,
+    // "f_name": fName,
+    // "l_name": lName,
+    // "phone": phone,
     "image": image,
-    "email": email,
-    "password": password,
-    "status": status,
-    "remember_token": rememberToken,
-    "created_at": createdAt.toIso8601String(),
-    "updated_at": updatedAt.toIso8601String(),
-    "bank_name": bankName,
-    "branch": branch,
-    "account_no": accountNo,
-    "holder_name": holderName,
-    "auth_token": authToken,
-    "sales_commission_percentage": salesCommissionPercentage,
-    "gst": gst,
-    "cm_firebase_token": cmFirebaseToken,
-    "pos_status": posStatus,
-    "minimum_order_amount": minimumOrderAmount,
-    "free_delivery_status": freeDeliveryStatus,
-    "free_delivery_over_amount": freeDeliveryOverAmount,
+    // "email": email,
+    // "password": password,
+    // "status": status,
+    // "remember_token": rememberToken,
+    // "created_at": createdAt.toIso8601String(),
+    // "updated_at": updatedAt.toIso8601String(),
+    // "bank_name": bankName,
+    // "branch": branch,
+    // "account_no": accountNo,
+    // "holder_name": holderName,
+    // "auth_token": authToken,
+    // "sales_commission_percentage": salesCommissionPercentage,
+    // "gst": gst,
+    // "cm_firebase_token": cmFirebaseToken,
+    // "pos_status": posStatus,
+    // "minimum_order_amount": minimumOrderAmount,
+    // "free_delivery_status": freeDeliveryStatus,
+    // "free_delivery_over_amount": freeDeliveryOverAmount,
     "company_name": companyName,
-    "license_owner_name": licenseOwnerName,
-    "license_owner_phone": licenseOwnerPhone,
-    "delegate_name": delegateName,
-    "delegate_phone": delegatePhone,
-    "commercial_registration_no": commercialRegistrationNo,
-    "commercial_registration_img": commercialRegistrationImg,
-    "tax_no": taxNo,
-    "tax_certificate_img": taxCertificateImg,
-    "country": country,
-    "area": area,
-    "governorate": governorate,
-    "address": address,
-    "vendor_account_number": vendorAccountNumber,
-    "city": city,
-    "lat": lat,
-    "lon": lon,
-    "name": name,
-    "deleted": deleted,
+    // "license_owner_name": licenseOwnerName,
+    // "license_owner_phone": licenseOwnerPhone,
+    // "delegate_name": delegateName,
+    // "delegate_phone": delegatePhone,
+    // "commercial_registration_no": commercialRegistrationNo,
+    // "commercial_registration_img": commercialRegistrationImg,
+    // "tax_no": taxNo,
+    // "tax_certificate_img": taxCertificateImg,
+    // "country": country,
+    // "area": area,
+    // "governorate": governorate,
+    // "address": address,
+    // "vendor_account_number": vendorAccountNumber,
+    // "city": city,
+    // "lat": lat,
+    // "lon": lon,
+    // "name": name,
+    // "deleted": deleted,
     "show_sellers_section": showSellersSection,
     // "fav_menu": List<dynamic>.from(favMenu.map((x) => x.toJson())),
-    "manager_id": managerId,
-    "iban": iban,
-    "store_address": storeAddress,
-    "site_url": siteUrl,
-    "zip": zip,
-    "activity": activity,
-    "module_access": List<dynamic>.from(moduleAccess.map((x) => x)),
-    "input_access": List<dynamic>.from(inputAccess.map((x) => x)),
-    "app_language": appLanguage,
-    "account_manager_supervisor_id": accountManagerSupervisorId,
-    "identity_type": identityType,
-    "id_number": idNumber,
-    "release_date_id_number": "${releaseDateIdNumber.year.toString().padLeft(4, '0')}-${releaseDateIdNumber.month.toString().padLeft(2, '0')}-${releaseDateIdNumber.day.toString().padLeft(2, '0')}",
-    "expiry_date_id_number": "${expiryDateIdNumber.year.toString().padLeft(4, '0')}-${expiryDateIdNumber.month.toString().padLeft(2, '0')}-${expiryDateIdNumber.day.toString().padLeft(2, '0')}",
-    "id_photo": idPhoto,
-    "nationality": nationality,
+    // "manager_id": managerId,
+    // "iban": iban,
+    // "store_address": storeAddress,
+    // "site_url": siteUrl,
+    // "zip": zip,
+    // "activity": activity,
+    // "module_access": List<dynamic>.from(moduleAccess.map((x) => x)),
+    // "input_access": List<dynamic>.from(inputAccess.map((x) => x)),
+    // "app_language": appLanguage,
+    // "account_manager_supervisor_id": accountManagerSupervisorId,
+    // "identity_type": identityType,
+    // "id_number": idNumber,
+    // "release_date_id_number": "${releaseDateIdNumber.year.toString().padLeft(4, '0')}-${releaseDateIdNumber.month.toString().padLeft(2, '0')}-${releaseDateIdNumber.day.toString().padLeft(2, '0')}",
+    // "expiry_date_id_number": "${expiryDateIdNumber.year.toString().padLeft(4, '0')}-${expiryDateIdNumber.month.toString().padLeft(2, '0')}-${expiryDateIdNumber.day.toString().padLeft(2, '0')}",
+    // "id_photo": idPhoto,
+    // "nationality": nationality,
     "employer": employer,
-    "occupation": occupation,
-    "gender": gender,
-    "release_date_commercial_register": "${releaseDateCommercialRegister.year.toString().padLeft(4, '0')}-${releaseDateCommercialRegister.month.toString().padLeft(2, '0')}-${releaseDateCommercialRegister.day.toString().padLeft(2, '0')}",
-    "expiry_date_commercial_register": "${expiryDateCommercialRegister.year.toString().padLeft(4, '0')}-${expiryDateCommercialRegister.month.toString().padLeft(2, '0')}-${expiryDateCommercialRegister.day.toString().padLeft(2, '0')}",
-    "release_date_tax_no": "${releaseDateTaxNo.year.toString().padLeft(4, '0')}-${releaseDateTaxNo.month.toString().padLeft(2, '0')}-${releaseDateTaxNo.day.toString().padLeft(2, '0')}",
-    "expiry_date_tax_no": "${expiryDateTaxNo.year.toString().padLeft(4, '0')}-${expiryDateTaxNo.month.toString().padLeft(2, '0')}-${expiryDateTaxNo.day.toString().padLeft(2, '0')}",
-    "short_title_code": shortTitleCode,
-    "building_no": buildingNo,
-    "sub_no": subNo,
-    "unit_no": unitNo,
-    "neighborhood": neighborhood,
-    "street": street,
-    "title_explanation": titleExplanation,
-    "commission_tax_rate": commissionTaxRate,
-    "power_of_attorney": powerOfAttorney,
-    "commission_type": commissionType,
+    // "occupation": occupation,
+    // "gender": gender,
+    // "release_date_commercial_register": "${releaseDateCommercialRegister.year.toString().padLeft(4, '0')}-${releaseDateCommercialRegister.month.toString().padLeft(2, '0')}-${releaseDateCommercialRegister.day.toString().padLeft(2, '0')}",
+    // "expiry_date_commercial_register": "${expiryDateCommercialRegister.year.toString().padLeft(4, '0')}-${expiryDateCommercialRegister.month.toString().padLeft(2, '0')}-${expiryDateCommercialRegister.day.toString().padLeft(2, '0')}",
+    // "release_date_tax_no": "${releaseDateTaxNo.year.toString().padLeft(4, '0')}-${releaseDateTaxNo.month.toString().padLeft(2, '0')}-${releaseDateTaxNo.day.toString().padLeft(2, '0')}",
+    // "expiry_date_tax_no": "${expiryDateTaxNo.year.toString().padLeft(4, '0')}-${expiryDateTaxNo.month.toString().padLeft(2, '0')}-${expiryDateTaxNo.day.toString().padLeft(2, '0')}",
+    // "short_title_code": shortTitleCode,
+    // "building_no": buildingNo,
+    // "sub_no": subNo,
+    // "unit_no": unitNo,
+    // "neighborhood": neighborhood,
+    // "street": street,
+    // "title_explanation": titleExplanation,
+    // "commission_tax_rate": commissionTaxRate,
+    // "power_of_attorney": powerOfAttorney,
+    // "commission_type": commissionType,
     "shops": List<dynamic>.from(shops.map((x) => x.toJson())),
   };
 }
