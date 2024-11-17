@@ -818,6 +818,7 @@
   "skip": "تخطي",
   "add_coupon": "أضف عرض",
   "The_balance_has_been_added_successfully": "تم اضافة الرصيد بنجاح",
+  "The_order_number_you_entered_was_not_found": "لم يتم العثور علي رقم الطلب الذي ادخلته",
 
   "add_more": "إضافة +",
   "enter_coupon": "أدخل القسيمة",

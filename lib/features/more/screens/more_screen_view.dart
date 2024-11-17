@@ -159,8 +159,8 @@ class _MoreScreenState extends State<MoreScreen> {
                               image: Images.shoppingIcon,
                               title: getTranslated('TRACK_ORDER', context),
                               navigateTo: const
-                              JsDart()
-                              // GuestTrackOrderScreen()
+                              // JsDart()
+                              GuestTrackOrderScreen()
                           ),
 
                           MenuButtonWidget(

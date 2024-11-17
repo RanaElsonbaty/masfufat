@@ -776,6 +776,7 @@
   "password_is_required": "Password is required",
   "email_already_taken": "Phone or email already taken",
   "skip": "Skip",
+  "The_order_number_you_entered_was_not_found": "The order number you entered was not found.",
   "The_balance_has_been_added_successfully": "The balance has been added successfully.",
   "add_coupon": "Add coupon",
   "add_more": "Add +",

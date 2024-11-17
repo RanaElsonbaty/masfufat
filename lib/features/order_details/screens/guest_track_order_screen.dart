@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
+import 'package:flutter_sixvalley_ecommerce/features/order/controllers/order_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/controllers/order_details_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/screens/order_details_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/velidate_check.dart';
@@ -23,7 +25,14 @@ class _GuestTrackOrderScreenState extends State<GuestTrackOrderScreen> {
   TextEditingController phoneNumberController = TextEditingController();
 
   GlobalKey<FormState> formKey = GlobalKey();
-
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(Provider.of<OrderController>(context,listen: false).orderModel==null){
+      Provider.of<OrderController>(context,listen: false).getOrderList(1, 'all');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,28 +80,44 @@ class _GuestTrackOrderScreenState extends State<GuestTrackOrderScreen> {
                 // ),
                 // const SizedBox(height: Dimensions.paddingSizeExtraLarge),
 
-                CustomButton(
-                  isLoading: orderTrackingProvider.searching,
-                  buttonText: '${getTranslated('TRACK_ORDER', context)}',
-                  onTap: () async {
-                    FocusManager.instance.primaryFocus?.unfocus();
-                    String orderId = orderIdController.text.trim();
-                    // String phone = phoneNumberController.text.trim();
+                Consumer<OrderController>(
+                  builder:(context, orderProvider, child) =>  CustomButton(
+                    isLoading: orderTrackingProvider.searching,
+                    buttonText: '${getTranslated('TRACK_ORDER', context)}',
+                    onTap: () async {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      String orderId = orderIdController.text.trim();
+                  bool findOrder=false;
 
-                    if(formKey.currentState?.validate() ?? false) {
-                      await orderTrackingProvider.trackOrder(orderId: orderId.toString(),  isUpdate: true).then((value) {
-                        if(value.response?.statusCode == 200){
-                          if(value.response?.data!=null){
-                          Navigator.push(context, MaterialPageRoute(builder: (_)=> OrderDetailsScreen(
-                            fromTrack: false,
-                            orderId: int.parse(orderIdController.text.trim()),
-                            // phone: phone,
-                          )));
+                      if(formKey.currentState?.validate() ?? false) {
+                        for (var element in orderProvider.orderModel!) {
+                          if(element.id.toString()==orderId){
+                            findOrder=true;
                           }
                         }
-                      });
-                    }
-                  },
+                        if(findOrder) {
+                          await orderTrackingProvider.trackOrder(
+                              orderId: orderId.toString(), isUpdate: true)
+                              .then((value) {
+                            if (value.response?.statusCode == 200) {
+                              if (value.response?.data != null) {
+                                Navigator.push(
+                                    context, MaterialPageRoute(builder: (_) =>
+                                    OrderDetailsScreen(
+                                      fromTrack: false,
+                                      orderId: int.parse(
+                                          orderIdController.text.trim()),
+                                      // phone: phone,
+                                    )));
+                              }
+                            }
+                          });
+                        }else{
+                        showCustomSnackBar(getTranslated('The_order_number_you_entered_was_not_found', context), context, isError: true,time: 3);
+                        }
+                      }
+                    },
+                  ),
                 ),
 
               ]),
