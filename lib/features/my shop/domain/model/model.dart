@@ -70,7 +70,7 @@ class Deleted {
     return Deleted(
     id: json["id"],
     deleted: json["deleted"],
-    slug: json["slug"],
+    slug: json["slug"]??'',
     name: json["name"],
     linkedProduct: LinkedProduct.fromJson(json["linked_product_"]),
 
@@ -79,7 +79,7 @@ class Deleted {
     tax: double.parse(json["tax"]!=null?json["tax"].toString():'0.00'),
     taxType: json["tax_type"]??'',
     unit: json["unit"],
-    itemNumber: json["item_number"],
+    itemNumber: json["item_number"]??'',
     pricings: DeletedPricings.fromJson(json["pricings"]),
     imageUrl: json["image_url"].toString(),
     code: json["code"],
@@ -120,7 +120,7 @@ class Deleted {
 
 class LinkedProduct {
   final int id;
-  final String price;
+  final double price;
   final String dateSynced;
   final String deleted;
   final String? deletionReason;
@@ -135,9 +135,9 @@ class LinkedProduct {
 
   factory LinkedProduct.fromJson(Map<String, dynamic> json) => LinkedProduct(
     id: json["id"],
-    price: json["price"],
+    price:json["price"]!=null? double.parse(json["price"].toString()):0.00,
     dateSynced: json["date_synced"],
-    deleted: json["deleted"],
+    deleted: json["deleted"]??'',
     deletionReason: json["deletion_reason"],
   );
 
@@ -235,7 +235,7 @@ class Linked {
   final String images;
   final dynamic pricing;
   final String code;
-  final int? myUnitPrice;
+  final double? myUnitPrice;
   final LinkedPricings pricings;
   final String imageUrl;
 
@@ -269,7 +269,7 @@ class Linked {
     linkedProduct: LinkedProduct.fromJson(json["linked_product_"]),
 
     code: json["code"],
-    myUnitPrice: json["my_unit_price"],
+    myUnitPrice: json["my_unit_price"]!=null?json["my_unit_price"].toDouble():0.00,
     pricings: LinkedPricings.fromJson(json["pricings"]),
     imageUrl: json["image_url"],
   );

@@ -9,7 +9,7 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/title_row_widget.d
 import 'package:provider/provider.dart';
 
 class HomeCategoryProductItemWidget extends StatelessWidget {
-  final HomeCategoryProduct homeCategoryProduct;
+  final List<Datum> homeCategoryProduct;
   final int index;
   final bool isHomePage;
   const HomeCategoryProductItemWidget({super.key, required this.homeCategoryProduct, required this.index, required this.isHomePage});
@@ -25,16 +25,16 @@ class HomeCategoryProductItemWidget extends StatelessWidget {
           if(index != 0) const SizedBox(height: Dimensions.paddingSizeSmall),
 
           TitleRowWidget(
-            title: homeCategoryProduct.name,
+            title: homeCategoryProduct[index].name,
             onTap: () {
-              final tIndex =  Provider.of<CategoryController>(context, listen: false).categoryList.indexWhere((element) => element.id == homeCategoryProduct.id);
+              final tIndex =  Provider.of<CategoryController>(context, listen: false).categoryList.indexWhere((element) => element.id == homeCategoryProduct![index].id);
 
               // print('homeCategoryProduct --- ${homeCategoryProduct.}')
               Navigator.push(context, MaterialPageRoute(builder: (_) => BrandAndCategoryProductScreen(
                   isBrand: false,
                   index:  tIndex,
-                  id: homeCategoryProduct.id.toString(),
-                  name: homeCategoryProduct.name)));
+                  id: homeCategoryProduct![index].id.toString(),
+                  name: homeCategoryProduct![index].name)));
             },
           ),
           const SizedBox(height: Dimensions.paddingSizeDefault),
@@ -49,18 +49,18 @@ SingleChildScrollView(
     child: ListView.builder(
       padding: const EdgeInsets.all(0),
       scrollDirection: Axis.horizontal,
-      itemCount: (isHomePage && homeCategoryProduct.products!.length > 4) ? 4
-              : homeCategoryProduct.products!.length,
+      itemCount: (isHomePage && homeCategoryProduct![index].products!.length > 4) ? 4
+              : homeCategoryProduct![index].products!.length,
       shrinkWrap: true,
       itemBuilder:(context, i) {
         return SizedBox(
           width: 200,
           child: InkWell(onTap: () {
               Navigator.push(context, PageRouteBuilder(transitionDuration: const Duration(milliseconds: 1000),
-                  pageBuilder: (context, anim1, anim2) => ProductDetails(productId: homeCategoryProduct.products![i].id,
-                      slug: homeCategoryProduct.products![i].slug, product: homeCategoryProduct.products![i],)));
+                  pageBuilder: (context, anim1, anim2) => ProductDetails(productId: homeCategoryProduct?[index].products![i].id,
+                      slug: homeCategoryProduct?[index].products![i].slug, product: homeCategoryProduct?[index].products![i],)));
             },
-                child: ProductWidget(productModel: homeCategoryProduct.products![i])),
+                child: ProductWidget(productModel: homeCategoryProduct![index].products![i])),
         );
       },
     ),

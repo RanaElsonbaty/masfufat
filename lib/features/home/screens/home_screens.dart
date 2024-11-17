@@ -70,12 +70,12 @@ class _HomePageState extends State<HomePage> {
     await Provider.of<ShopController>(Get.context!, listen: false).getTopSellerList(reload, 1, type: "top");
     await Provider.of<ProductController>(Get.context!, listen: false).getRecommendedProduct();
     Provider.of<BannerController>(Get.context!, listen: false).getBannerList(reload,'main_section_banner');
-    Provider.of<ProductController>(Get.context!, listen: false).getHomeCategoryProductList(reload);
+    Provider.of<ProductController>(Get.context!, listen: false).getHomeCategoryProductList(reload,1);
     Provider.of<AddressController>(Get.context!, listen: false).getAddressList();
     await Provider.of<CartController>(Get.context!, listen: false).getCartData(Get.context!);
     await Provider.of<ProductController>(Get.context!, listen: false).getLatestProductList(1, reload: reload);
-
-    // await Provider.of<ProductController>(Get.context!, listen: false).getLProductList('1', reload: reload);
+    //
+    await Provider.of<ProductController>(Get.context!, listen: false).getLProductList('1', reload: reload);
     await Provider.of<NotificationController>(Get.context!, listen: false).getNotificationList(1);
     if(Provider.of<AuthController>(Get.context!, listen: false).isLoggedIn()){
       await  Provider.of<ProfileController>(Get.context!, listen: false).getUserInfo(Get.context!);
@@ -220,7 +220,7 @@ surfaceTintColor: Theme.of(context).highlightColor,
                       child: Consumer<NotificationController>(builder:(context, provider, child) {
                         return provider.notificationModel.isNotEmpty? CircleAvatar(radius:provider.notificationModel.length<100? 8:10,backgroundColor: Colors.red,child:
                         Center(
-                          child: Text(provider.notificationModel.isNotEmpty?provider.notificationModel.length.toString():'0',
+                          child: Text(provider.notificationModel.isNotEmpty?provider.totalNotification.toString():'0',
                             style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 9,
@@ -398,7 +398,7 @@ surfaceTintColor: Theme.of(context).highlightColor,
 
               const Padding(padding: EdgeInsets.only(bottom: Dimensions.paddingSizeDefault),
                   child: LatestProductListWidget()),
-              const HomeCategoryProductWidget(isHomePage: true),
+               HomeCategoryProductWidget(isHomePage: true, scrollController:_scrollController ,),
               const SizedBox(height: Dimensions.paddingSizeDefault),
               TitleRowWidget(
                 title: getTranslated('brand', context),
