@@ -49,8 +49,8 @@ void addOfflineWishList(Product productModel,bool add){
   }
 
   void removeWishList(int? productID, {int? index}) async {
-    addedIntoWish.removeAt(addedIntoWish.indexOf(productID!));
-    ApiResponse apiResponse = await wishlistServiceInterface!.delete(productID);
+    // addedIntoWish.removeAt(addedIntoWish.indexOf(productID!));
+    ApiResponse apiResponse = await wishlistServiceInterface!.delete(productID!);
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       getWishList();
       showCustomSnackBar("${getTranslated("successfully_removed_from_wishlist", Get.context!)}", Get.context!, isError: false);

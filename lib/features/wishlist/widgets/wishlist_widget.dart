@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_directionality_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
+import 'package:flutter_sixvalley_ecommerce/features/Store%20settings/controllers/store_setting_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/screens/product_details_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wishlist/domain/models/wishlist_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wishlist/widgets/remove_from_wishlist_bottom_sheet_widget.dart';
@@ -179,37 +180,34 @@ class WishListWidget extends StatelessWidget {
                         const SizedBox(
                           width: 3,
                         ),
-                        wishlistModel!.product!.taxModel == 'exclude'
-                            ? Padding(
+                   Padding(
                                 padding: const EdgeInsets.only(
                                     top: Dimensions.paddingSizeExtraSmall),
                                 child: Text(
-                                  '(${getTranslated('tax', context)} :${PriceConverter.convertPrice(context, wishlistModel!.product!.tax ?? 0.00)})',
+                                  '(${getTranslated('tax', context)} :${PriceConverter.convertPrice(context, (wishlistModel!.product!.tax!/100*wishlistModel!.product!.unitPrice!) ?? 0.00)})',
                                   style: GoogleFonts.tajawal(
                                       fontSize: 14, color: Colors.grey),
                                 ),
                               )
-                            : Padding(
-                                padding: const EdgeInsets.only(
-                                    top: Dimensions.paddingSizeExtraSmall),
-                                child: Text(
-                                    '(${getTranslated('tax', context)} ${wishlistModel!.product!.taxModel ?? ''})',
-                                    style: GoogleFonts.tajawal(
-                                        color: Colors.grey, fontSize: 14))),
+
                       ]),
                       Consumer<CartController>(
                         builder: (context, cartProvider, child) {
                           bool inCart = false;
+
                           for (var element in cartProvider.cartList) {
                             if (element.product!.id.toString() ==
                                 wishlistModel!.product!.id.toString()) {
                               inCart = true;
-                              print('object');
+
                             }
                           }
                           return Consumer<MyShopController>(
                             builder: (context, myShopController, child) {
                               bool sync = false;
+                              if(wishlistModel!.product!.currentStock==0){
+                                sync=true;
+                              }
                               for (var element
                                   in myShopController.pendingList) {
                                 if (element.id == wishlistModel!.product!.id) {
@@ -231,7 +229,14 @@ class WishListWidget extends StatelessWidget {
                                   Expanded(
                                     child: InkWell(
                                       onTap: () async {
-                                        if (inCart) {
+                                        if (wishlistModel!
+                                            .product!.currentStock ==
+                                            0) {
+                                          showCustomSnackBar(
+                                              getTranslated(
+                                                  'Out_of_stock', context),
+                                              context);
+                                        } else if (inCart) {
                                           if (cartProvider.cartList.isEmpty) {
                                             await cartProvider
                                                 .getCartData(context);
@@ -269,14 +274,8 @@ class WishListWidget extends StatelessWidget {
                                           }
 
                                           // showCustomSnackBar(getTranslated('Already_added', context), context);
-                                        } else if (wishlistModel!
-                                                .product!.currentStock ==
-                                            0) {
-                                          showCustomSnackBar(
-                                              getTranslated(
-                                                  'Out_of_stock', context),
-                                              context);
-                                        } else {
+                                        }
+                                          else {
                                           CartModelBody cart = CartModelBody(
                                             productId:
                                                 wishlistModel!.product!.id,
@@ -313,63 +312,48 @@ class WishListWidget extends StatelessWidget {
                                     width: 5,
                                   ),
                                   Expanded(
-                                    child: InkWell(
-                                      onTap: () {
-                                        if(wishlistModel!.product!.currentStock==0){
-                                          showCustomSnackBar(getTranslated('Out_of_stock', context), context);
+                                    child: Consumer<StoreSettingController>(
+                                      builder:(context, storeSetting, child) =>  InkWell(
+                                        onTap: () {
+                                          if (storeSetting.linkedAccountsList.isNotEmpty&&storeSetting.linkedAccountsList.first.storeDetails!=null||storeSetting.linkedAccountsList.last.storeDetails!=null){
 
-                                        }else if(!sync){
-                                          myShopController.addProduct(wishlistModel!.product!.id!).then((value) {
-                                            if(value==true){
-                                              showCustomSnackBar(getTranslated('Added_to_my_store', context), context,isError: false);
-                                              myShopController.getList();
-                                            }else{
-                                              showCustomSnackBar(getTranslated('Not_added_to_my_store', context), context,isError: true );
+                                          if(wishlistModel!.product!.currentStock==0){
+                                            showCustomSnackBar(getTranslated('Out_of_stock', context), context);
 
-                                            }
-                                          });}else{
-                                          showCustomSnackBar(getTranslated('Already_added', context), context,isError: true );
-                                        }
-                                        // if (sync == false) {
-                                        //   myShopController
-                                        //       .addProduct(
-                                        //           wishlistModel!.product!.id!)
-                                        //       .then((value) {
-                                        //     if (value == true) {
-                                        //       showCustomSnackBar(
-                                        //           getTranslated(
-                                        //               'Added_to_my_store',
-                                        //               context),
-                                        //           context,
-                                        //           isError: false);
-                                        //       myShopController.getList();
-                                        //     } else {
-                                        //       showCustomSnackBar(
-                                        //           getTranslated(
-                                        //               'Not_added_to_my_store',
-                                        //               context),
-                                        //           context,
-                                        //           isError: true);
-                                        //     }
-                                        //   });
-                                        // }
-                                      },
-                                      child: Container(
-                                        height: 35,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          color: sync
-                                              ? Colors.grey
-                                              : Theme.of(context).primaryColor,
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            getTranslated('sync', context)!,
-                                            style: GoogleFonts.tajawal(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.white),
+                                          }else if(!sync){
+                                            myShopController.addProduct(wishlistModel!.product!.id!).then((value) {
+                                              if(value==true){
+                                                showCustomSnackBar(getTranslated('Added_to_my_store', context), context,isError: false);
+                                                myShopController.getList();
+                                              }else{
+                                                showCustomSnackBar(getTranslated('Not_added_to_my_store', context), context,isError: true );
+
+                                              }
+                                            });}else{
+                                            showCustomSnackBar(getTranslated('Already_added', context), context,isError: true );
+                                          }}else{
+                                            showCustomSnackBar(getTranslated('Unable_to_connect_to_your_marketplace', context), context,time: 3);
+
+                                          }
+
+                                        },
+                                        child: Container(
+                                          height: 35,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            color: sync
+                                                ? Colors.grey
+                                                : Theme.of(context).primaryColor,
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              getTranslated('sync', context)!,
+                                              style: GoogleFonts.tajawal(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.white),
+                                            ),
                                           ),
                                         ),
                                       ),
