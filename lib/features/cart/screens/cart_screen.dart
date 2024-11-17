@@ -154,7 +154,7 @@ class CartScreenState extends State<CartScreen> {
 
 
                  }catch(e){
-
+print(e);
                  }
                   return Scaffold(
 
@@ -168,7 +168,7 @@ class CartScreenState extends State<CartScreen> {
                         }
                       },
                       child: SingleChildScrollView(
-                        child: cart.cartLoading ? const CartPageShimmerWidget() :sellerList.isNotEmpty ?
+                        child: cart.cartLoading ? const CartPageShimmerWidget() :cart.cartList.isNotEmpty&&sellerList.isNotEmpty ?
                         Column(children: [
 
                           ListView.builder(

@@ -18,7 +18,7 @@ class CartRepository implements CartRepositoryInterface<ApiResponse>{
   @override
   Future<ApiResponse> getList({int? offset}) async {
     try {
-      final response = await dioClient!.get('${AppConstants.getCartDataUri}?guest_id=${Provider.of<AuthController>(Get.context!, listen: false).getGuestToken()}');
+      final response = await dioClient!.get(AppConstants.getCartDataUri);
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
