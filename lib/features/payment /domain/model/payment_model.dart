@@ -4,5 +4,6 @@ class PaymentModel{
   final String paymentMethod;
   final String paymentAmount;
   final String paymentReason;
-  PaymentModel(this.invoiceId, this.invoiceReference, this.paymentMethod, this.paymentAmount, this.paymentReason);
+  final String? orderId;
+  PaymentModel(this.invoiceId, this.invoiceReference, this.paymentMethod, this.paymentAmount, this.paymentReason, this.orderId);
 }

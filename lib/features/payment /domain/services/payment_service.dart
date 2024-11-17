@@ -9,9 +9,8 @@ class PaymentsService implements PaymentServiceInterface{
   PaymentsService({required this.paymentRepositoryInterface});
 
   @override
-  Future checkPayment(PaymentModel paymentModel) {
-    // TODO: implement checkPayment
-    throw UnimplementedError();
+  Future checkPayment(PaymentModel paymentModel) async{
+  return await paymentRepositoryInterface.checkPayment(paymentModel);
   }
 
 

@@ -13,19 +13,21 @@ class PaymentRepository implements PaymentRepositoryInterface{
   PaymentRepository({required this.dioClient});
 
   @override
-  Future checkPayment(PaymentModel paymentModel)async {
+  Future<ApiResponse> checkPayment(PaymentModel paymentModel)async {
     var data = FormData.fromMap({
       'invoiceId': paymentModel.invoiceId,
       'InvoiceReference': paymentModel.invoiceReference,
       'payment_method': paymentModel.paymentMethod,
       'payment_amount': paymentModel.paymentAmount,
-      "payment_reason":paymentModel.paymentReason
+      "payment_reason":paymentModel.paymentReason,
+      "order_id":paymentModel.orderId??'',
     });
     print('invoiceId ---> ${paymentModel.invoiceId}');
     print('invoiceReference ---> ${paymentModel.invoiceReference}');
     print('paymentMethod ---> ${paymentModel.paymentMethod}');
     print('paymentAmount ---> ${paymentModel.paymentAmount}');
     print('orderPrice ---> ${paymentModel.paymentReason}');
+    print('order id ---> ${paymentModel.orderId}');
     try{
     Response response = await dioClient!.post(
       '/api/v1/customer/order/place_paid',

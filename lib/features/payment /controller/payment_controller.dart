@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
+import 'package:flutter_sixvalley_ecommerce/features/cart/controllers/cart_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order/controllers/order_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/payment%20/domain/model/payment_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/payment%20/domain/services/payment_service_interface.dart';
@@ -11,10 +13,13 @@ import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../../../common/basewidget/animated_custom_dialog_widget.dart';
 import '../../../common/basewidget/show_custom_snakbar_widget.dart';
 import '../../../localization/language_constrants.dart';
 import '../../../utill/images.dart';
+import '../../checkout/widgets/order_place_dialog_widget.dart';
 import '../../checkout/widgets/payment_method_bottom_sheet_widget.dart';
+import '../../dashboard/screens/dashboard_screen.dart';
 import '../../splash/domain/models/config_model.dart';
 
 class PaymentController extends ChangeNotifier {
@@ -42,17 +47,26 @@ class PaymentController extends ChangeNotifier {
   Future getApiKey(BuildContext context) async {
     ConfigModel? configModel =
         Provider.of<SplashController>(context, listen: false).configModel!;
-    _apiKey =configModel!=null? configModel.paymentMethods.fatoorah.apiKey:"";
+    if (configModel!=null) {
+      // _apiKey='BxmEsVbst5n67F8_vtxMqNzUCKLz6CMnNBgFNlsjNSqh4LKzL1ge76ZCkSEWn5kpT1qgjEPjebxrgdgh1jEoBWbC4ESHbK7nKExX0TkHGVoQRQCV-tSpRws8wEA_1z7_g_6qi1y4dt1ledcOb1nJjxdc6d9Sr2xknxlSd1nwwgwCmf2c259-EPhgvaQwr642CzDWe588yrI_yU-m-4dlvOC4kPfQrYgLlWrnNCdDj_z4S_bj9w9sv3U0ypWTSrIqB19hU2DtR7OOia5dEhRXXaGkPeAT_y0_eNL2Jn2WmELbohFK2jH80eh0KIgBMPbznFYU-sU059ukpVuOMDZmwc-tzEqyrUQT1pCCPkSNZYxGpmxmoeOkvxeqSSoyzCnwrRZdp8ery8BWx_OCRCyN6T1yO4X02ZVBY6jbhnag6YxnHDs3VDw0K8s2wsLMFppNZtQT0HzmW4bIDUCy0y_wwJoH-WtQ4pWZxEeGEoEAbtk_8vTmZMhieoW-4SMH0NfIQ5IHoDr8wVWCzhhsGLNAvNDpmP35-6p0lDfNCoKWuPUN8J5Pj0oD80LcPfMZTd2CnezPMEjMlVZJnDUh6qYVxLXoFogjuV3O-uY4PUg0dJt14LBGnJCaxBGgREqXmxkodjB0BUvI_UgQLrJ5-R1Z9VME-yYrik44J4a7uqk9aDACrGIf';
+      _apiKey = configModel.paymentMethods.fatoorah.apiKey;
+    } else {
+      _apiKey = "";
+    }
     // _apiKey='rLtt6JWvbUHDDhsZnfpAhpYk4dxYDQkbcPTyGaKp2TYqQgG7FGZ5Th_WD53Oq8Ebz6A53njUoo1w3pjU1D4vs_ZMqFiz_j0urb_BH9Oq9VZoKFoJEDAbRZepGcQanImyYrry7Kt6MnMdgfG5jn4HngWoRdKduNNyP4kzcp3mRv7x00ahkm9LAK7ZRieg7k1PDAnBIOG3EyVSJ5kK4WLMvYr7sCwHbHcu4A5WwelxYK0GMJy37bNAarSJDFQsJ2ZvJjvMDmfWwDVFEVe_5tOomfVNt6bOg9mexbGjMrnHBnKnZR1vQbBtQieDlQepzTZMuQrSuKn-t5XZM7V6fCW7oP-uXGX-sMOajeX65JOf6XVpk29DP6ro8WTAflCDANC193yof8-f5_EYY-3hXhJj7RBXmizDpneEQDSaSz5sFk0sV5qPcARJ9zGG73vuGFyenjPPmtDtXtpx35A-BVcOSBYVIWe9kndG3nclfefjKEuZ3m4jL9Gg1h2JBvmXSMYiZtp9MR5I6pvbvylU_PP5xJFSjVTIz7IQSjcVGO41npnwIxRXNRxFOdIUHn0tjQ-7LwvEcTXyPsHXcMD8WtgBh-wxR8aKX7WPSsT1O8d8reb2aR7K3rkV3K82K_0OgawImEpwSvp9MNKynEAJQS6ZHe_J_l77652xwPNxMRTMASk1ZsJL';
   }
 
   String _type = '';
 
   String get type => _type;
-  final String _id = '';
+   String _id = '';
 
   String get id => _id;
+void getOrderId(String id){
+  _id=id;
+  notifyListeners();
 
+}
   void getType(String type) {
     _type = type;
   }
@@ -67,7 +81,7 @@ class PaymentController extends ChangeNotifier {
   String expiryMonth = "05";
   String expiryYear = "21";
   String securityCode = "100";
-  String cardHolderName = "Test Account";
+  String cardHolderName = "";
 
   double _amount = 0.00;
 
@@ -81,14 +95,15 @@ class PaymentController extends ChangeNotifier {
   initiate(BuildContext context) async {
   try{
     print('api key ----> $apiKey');
-    await MFSDK.init(apiKey, MFCountry.SAUDIARABIA, MFEnvironment.LIVE);
-
+    await MFSDK.init('apiKey', MFCountry.SAUDIARABIA, MFEnvironment.TEST);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await initSession(context);
       await initiatePayment();
-      // await initiateSession();
     });
-  }catch(e){}
+  }catch(e){
+print('error initiate ===== $e');
+
+  }
   }
 
   log(Object object) {
@@ -97,33 +112,37 @@ class PaymentController extends ChangeNotifier {
   }
 
   // Send Payment
-  sendPayment() async {
-    var request = MFSendPaymentRequest(
-        invoiceValue: amount,
-        customerName: "Customer name",
-        notificationOption: MFNotificationOption.LINK);
-    await MFSDK
-        .sendPayment(request, MFLanguage.ENGLISH)
-        .then((value) => log(value))
-        .catchError((error) => {log(error)});
-  }
+  // sendPayment() async {
+  //   var request = MFSendPaymentRequest(
+  //       invoiceValue: amount,
+  //
+  //       customerName: "Customer name",
+  //       notificationOption: MFNotificationOption.LINK);
+  //   await MFSDK
+  //       .sendPayment(request, MFLanguage.ENGLISH)
+  //       .then((value) => log(value))
+  //       .catchError((error) => {log(error)});
+  // }
 
   // Initiate Payment
   initiatePayment() async {
     var request = MFInitiatePaymentRequest(
       invoiceAmount: amount,
       currencyIso: MFCurrencyISO.SAUDIARABIA_SAR,
+
     );
 
     await MFSDK
-        .initiatePayment(request, MFLanguage.ENGLISH)
+        .initiatePayment(request, MFLanguage.ENGLISH,)
         .then((value) => {
               log(value),
               paymentMethods.addAll(value.paymentMethods!),
               for (int i = 0; i < paymentMethods.length; i++)
                 isSelected.add(false)
             })
-        .catchError((error) => {log(error.message)});
+        .catchError((error) {
+          return {log('error initiatePayment ---->${error.message}')};
+        });
   }
 
   // Execute Regular Payment
@@ -218,25 +237,25 @@ class PaymentController extends ChangeNotifier {
     }
   }
 
-  executePayment() {
-    if (selectedPaymentMethodIndex == -1) {
-    } else {
-      if (paymentMethods[selectedPaymentMethodIndex].isDirectPayment!) {
-        if (cardNumber.isEmpty ||
-            expiryMonth.isEmpty ||
-            expiryYear.isEmpty ||
-            securityCode.isEmpty) {
-        } else {
-          executeDirectPayment(
-              paymentMethods[selectedPaymentMethodIndex].paymentMethodId!,
-              false);
-        }
-      } else {
-        executeRegularPayment(
-            paymentMethods[selectedPaymentMethodIndex].paymentMethodId!);
-      }
-    }
-  }
+  // executePayment() {
+  //   if (selectedPaymentMethodIndex == -1) {
+  //   } else {
+  //     if (paymentMethods[selectedPaymentMethodIndex].isDirectPayment!) {
+  //       if (cardNumber.isEmpty ||
+  //           expiryMonth.isEmpty ||
+  //           expiryYear.isEmpty ||
+  //           securityCode.isEmpty) {
+  //       } else {
+  //         executeDirectPayment(
+  //             paymentMethods[selectedPaymentMethodIndex].paymentMethodId!,
+  //             false);
+  //       }
+  //     } else {
+  //       executeRegularPayment(
+  //           paymentMethods[selectedPaymentMethodIndex].paymentMethodId!);
+  //     }
+  //   }
+  // }
 
   // card design
   MFCardViewStyle cardViewStyle() {
@@ -258,9 +277,13 @@ class PaymentController extends ChangeNotifier {
         MFInitiateSessionRequest();
 
     await MFSDK
-        .initSession(initiateSessionRequest, MFLanguage.ENGLISH)
+        .initSession(initiateSessionRequest, MFLanguage.ENGLISH,)
         .then((value) => loadEmbeddedPayment(value, context))
-        .catchError((error) => {log(error.message)});
+        .catchError((error) {
+      showCustomSnackBar(getTranslated('pay_dis', Get.context!), Get.context!,time: 5,isError: true);
+
+          return {log('error initSession ----> ${error.message}')};
+        });
   }
 
   // load card view
@@ -293,18 +316,20 @@ class PaymentController extends ChangeNotifier {
 
   }
 
-  openPaymentSheet() {
-    if (Platform.isIOS) {
-      MFApplepay.executeApplePayPayment()
-          .then((value) => log(value))
-          .catchError((error) => {log(error.message)});
-    }
-  }
+  // openPaymentSheet() {
+  //   if (Platform.isIOS) {
+  //     MFApplepay.executeApplePayPayment()
+  //         .then((value) => log(value))
+  //         .catchError((error) => {log(error.message)});
+  //   }
+  // }
 
   // get amount form main screens
-  getAmount(double val) {
+  getAmount(double val,{bool notify=true}) {
     _amount = val;
-    // notifyListeners();
+    if(notify){
+    notifyListeners();
+    }
   }
 
   // update apple pay amount
@@ -379,29 +404,38 @@ class PaymentController extends ChangeNotifier {
   }
 
   // pay fun (connect with my fatora then check if payment done or not)
- Future pay(BuildContext context) async {
+ Future<bool> pay(BuildContext context) async {
+   print(amount);
+
     var executePaymentRequest = MFExecutePaymentRequest(invoiceValue: amount);
     executePaymentRequest.displayCurrencyIso = displayCurrencyIso;
     await mfCardView.pay(executePaymentRequest, MFLanguage.ENGLISH,
         (invoiceId) {
       debugPrint("-----------$invoiceId------------");
-      // debugPrint("-----------${executePaymentRequest.paymentMethodId}------------");
       log(invoiceId);
-    }).then((value) {
+
+    }).then((value)async {
+      // mfCardView.
+
       print('pay invoiceId ----> ${value.invoiceId}');
       getPaymentStatus(value.invoiceId!.toString());
-      checkPayment(
-          value.invoiceId.toString(),
-          value.invoiceReference.toString(),
-          '6',
-          amount.toString(),
-          type,
-          id,
-          context);
+   // try{
+     await   checkPayment(
+         value.invoiceId.toString(),
+         value.invoiceReference.toString(),
+         '6',
+         amount.toString(),
+         type,
+         id,
+         context).then((value) {
+       _callback(true,'نجح الدفع','',false);
+
+         });
+
       initiateSession();
       return true;
     }).catchError((error) async{
-
+print('asdasdasldjhasdljashdlajsdhlajsdhaljshdlahjd}');
     try{
       await initiate(context);
       notifyListeners();
@@ -419,11 +453,14 @@ class PaymentController extends ChangeNotifier {
             isError: true);
         initiateSession();
       }
+      return false;
     }catch(e){
+      return false;
 
     }
-      return false;
     });
+   return false;
+
   }
 
   // check payment result by api with my fatoora
@@ -434,9 +471,23 @@ class PaymentController extends ChangeNotifier {
       String paymentAmount,
       String type,
       String id,
+
       BuildContext context) async {
-  PaymentModel paymentModel =PaymentModel(invoiceId, invoiceReference, paymentMethod, paymentAmount, type);
-  paymentServiceInterface.checkPayment(paymentModel);
+  PaymentModel paymentModel =PaymentModel(invoiceId, invoiceReference, paymentMethod, paymentAmount, type,id);
+ApiResponse response= await paymentServiceInterface.checkPayment(paymentModel);
+
+if(response.response!=null&&response.response!.statusCode==201||response.response!.statusCode==200){
+  print(response.response!.data);
+  _callback(true,'نجح الدفع','',false);
+  return true;
+}else{
+  print(response.error);
+
+  _callback(false,'فشل الدفع','',false);
+  return false;
+
+
+}
   }
 
   validate() async {
@@ -568,7 +619,7 @@ class PaymentController extends ChangeNotifier {
   List<PaymentMethod> get paymentMethod => _paymentMethod;
 
 // get payment method
-  Future getPaymentMethod(BuildContext context, String type) async {
+  Future getPaymentMethod(BuildContext context, String type,{bool notify=true}) async {
     _paymentMethod = [];
     ConfigModel configModel =
         Provider.of<SplashController>(context, listen: false).configModel!;
@@ -579,31 +630,33 @@ class PaymentController extends ChangeNotifier {
     if (configModel.paymentMethods.fatoorah.enabled == 1 && Platform.isIOS) {
       _paymentMethod.add(PaymentMethod('Apple_pay', Images.applePay, 1));
     }
-    if (configModel.paymentMethods.cashOnDelivery.enabled && type != 'wallet') {
+    if (configModel.paymentMethods.cashOnDelivery.enabled && type != 'wallet_charge') {
       _paymentMethod.add(PaymentMethod(
           configModel.paymentMethods.cashOnDelivery.name,
           configModel.paymentMethods.cashOnDelivery.logo,
           2));
     }
     if (configModel.paymentMethods.bankTransfer.enabled == 1 &&
-        type != 'wallet') {
+        type != 'wallet_charge') {
       _paymentMethod.add(PaymentMethod(
           configModel.paymentMethods.bankTransfer.name,
           configModel.paymentMethods.bankTransfer.logo,
           3));
     }
-    if (configModel.paymentMethods.wallet.enabled && type != 'wallet') {
+    if (configModel.paymentMethods.wallet.enabled && type != 'wallet_charge') {
       _paymentMethod.add(PaymentMethod(configModel.paymentMethods.wallet.name,
           configModel.paymentMethods.wallet.logo, 4));
     }
-    if (configModel.paymentMethods.delayed.enabled && type != 'wallet') {
+    if (configModel.paymentMethods.delayed.enabled && type != 'wallet_charge') {
       _paymentMethod.add(PaymentMethod(configModel.paymentMethods.delayed.name,
           configModel.paymentMethods.delayed.logo, 5));
     }
     for (var element in _paymentMethod) {
       print('_paymentMethod name --> ${element.name}');
     }
-    notifyListeners();
+   if(notify){
+     notifyListeners();
+   }
   }
 
   String _displayCurrencyIso = '';
@@ -657,4 +710,22 @@ class PaymentController extends ChangeNotifier {
     notifyListeners();
     print('_displayCurrencyIso ---> $_displayCurrencyIso');
   }
+  void _callback(bool isSuccess, String message, String orderID, bool createAccount) async {
+
+    if(isSuccess) {
+      if(type=='order'){
+        Provider.of<CartController>(Get.context!,listen: false).getCartData(Get.context!);
+      }
+      Navigator.of(Get.context!).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => const DashBoardScreen()), (route) => false);
+      showAnimatedDialog(Get.context!, OrderPlaceDialogWidget(
+        icon: Icons.check,
+        title: getTranslated(createAccount ? 'order_placed_Account_Created' : 'order_placed', Get.context!),
+        description: getTranslated('your_order_placed', Get.context!),
+        isFailed: false,
+      ), dismissible: false, willFlip: true);
+    }else {
+      showCustomSnackBar(message, Get.context!, isToaster: true);
+    }
+  }
+
 }
