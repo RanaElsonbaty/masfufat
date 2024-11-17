@@ -26,6 +26,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   // String? _countryDialCode = '+880';
 
   final GlobalKey<FormState> forgetFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
 
   @override
@@ -149,24 +150,27 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   //     inputType: TextInputType.phone,
                   //   )) :
 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: CustomTextFieldWidget(
-                      controller: _controller,
-                      // lTf: true,
-                      // labelText: getTranslated('email', context),
-                      titleText: getTranslated('email', context),
-                      showLabelText: false,
+                  Form(
+                    key: formKey,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: CustomTextFieldWidget(
+                        controller: _controller,
+                        // lTf: true,
+                        // labelText: getTranslated('email', context),
+                        titleText: getTranslated('email', context),
+                        showLabelText: false,
 
 
-                      hintText: getTranslated('Enter_your_email_address', context),
-                      inputAction: TextInputAction.done,
-                      inputType: TextInputType.emailAddress,
-                      required: true,
+                        hintText: getTranslated('Enter_your_email_address', context),
+                        inputAction: TextInputAction.done,
+                        inputType: TextInputType.emailAddress,
+                        required: true,
 
-                      showBorder: true,
+                        showBorder: true,
 
-                      validator: (value)=> ValidateCheck.validateEmail(value,),
+                        validator: (value)=> ValidateCheck.validateEmail(value,),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 70),
@@ -177,38 +181,32 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     child: CustomButton(
                       isLoading: authProvider.isLoading,
                       buttonText:
-                      // splashProvider.configModel?.forgotPasswordVerification == "phone"
-                      //     ? getTranslated('send_otp', context)
-                      //     :
                       getTranslated('Send_link', context),
-                      onTap: () {
+                      onTap: () async{
+                        if(formKey.currentState!.validate()){
                     if(_controller.text.isNotEmpty){
 
 
 
-                          authProvider.forgetPassword(_controller.text).then((value) {
+                      await    authProvider.forgetPassword(_controller.text).then((value) {
 
                             if(value.response?.statusCode == 200) {
+                              print(value.response?.data);
                               FocusScopeNode currentFocus = FocusScope.of(context);
                               if (!currentFocus.hasPrimaryFocus) {
+                                Navigator.push(context,MaterialPageRoute(builder: (context) => EmailOtpVerification(email: _controller.text,),));
                                 currentFocus.unfocus();
                               }
-                              print('adasdasdasdasdasd${value.response!.data}');
-                              // Navigator.push(context,MaterialPageRoute(builder: (context) =>  EmailOtpVerification(email: _controller.text,),));
-                              // _controller.clear();
 
-                              // showAnimatedDialog(context, SuccessDialog(
-                              //   icon: Icons.send,
-                              //   title: getTranslated('sent', context),
-                              //   description: getTranslated('recovery_link_sent', context),
-                              //   rotateAngle: 5.5,
-                              // ), dismissible: false);
                             }
                           });
                     }else{
                       showCustomSnackBar(getTranslated('enter_email_or_mobile', context), context,isError: true);
 
-                    }
+                    }}else{
+                          showCustomSnackBar(getTranslated('enter_email_or_mobile', context), context,isError: true);
+
+                        }
                         // }
 
 

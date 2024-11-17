@@ -150,7 +150,7 @@ controller: pinController,
                         auth.verifyOtpForResetPassword(widget.email,pinController.text).then((value) {
                         if(value.response==null){
 showCustomSnackBar(getTranslated('verify_otp', context), context);
-                        }else if(value.response!.data=={ "message": "otp expired."}){
+                        }else if(value.response!.data['message']== "otp expired."){
                           showCustomSnackBar(getTranslated('verify_otp', context), context);
 
                         }else{
