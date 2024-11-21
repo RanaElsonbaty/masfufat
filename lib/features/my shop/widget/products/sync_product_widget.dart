@@ -367,8 +367,9 @@ TextEditingController percentage =TextEditingController(text: '0');
                                   decoration:  InputDecoration(
 
                                       suffix: Padding(
-                                        padding: const EdgeInsets.only(left: 1.0,right: 1),
-                                        child: Text(Provider.of<SplashController>(context, listen: false).myCurrency!.symbol,style: TextStyle(color: Colors.black,height: .8),),
+                                        padding: const EdgeInsets.only(left: 5.0,right: 5),
+
+                                        child: Text(Provider.of<SplashController>(context, listen: false).myCurrency!.symbol,style: TextStyle(color: Theme.of(context).iconTheme.color,height: .8),),
                                       ),
                                     border: InputBorder.none
                                   ),
@@ -399,11 +400,11 @@ TextEditingController percentage =TextEditingController(text: '0');
                                   }, inputFormatters: [
                                   FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')), // Allow digits and decimal point
                                 ],
-                                  decoration: const InputDecoration(
+                                  decoration:  InputDecoration(
 
                                       suffix: Padding(
-                                        padding: EdgeInsets.only(left: 1.0,right: 1),
-                                        child: Text('%',style: TextStyle(color: Colors.black,height: .8),),
+                                        padding: const EdgeInsets.only(left: 5.0,right: 5),
+                                        child: Text('%',style: TextStyle(color: Theme.of(context).iconTheme.color,height: .8),),
                                       ),
                                       border: InputBorder.none
                                   ),
@@ -467,11 +468,16 @@ TextEditingController percentage =TextEditingController(text: '0');
                                 child: TextFormField(
                                   controller: widget.controller,
                                   decoration: InputDecoration(
-                                    hintText:  '${widget.controller.text} ر.س',
+                                    hintText:  '${widget.controller.text} ',
                                     hintStyle: GoogleFonts.tajawal(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.grey
+                                    ),
+                                    suffix: Padding(
+                                      padding: const EdgeInsets.only(left: 5.0,right: 5),
+
+                                      child: Text(Provider.of<SplashController>(context, listen: false).myCurrency!.symbol,style:  TextStyle(color:  Theme.of(context).iconTheme.color,height: .8),),
                                     ),
 
                                     focusedBorder: UnderlineInputBorder(

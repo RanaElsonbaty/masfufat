@@ -94,8 +94,10 @@ void getOrderId(String id){
   // init my fatotra
   initiate(BuildContext context) async {
   try{
+    // mfCardView.
     print('api key ----> $apiKey');
     await MFSDK.init(apiKey, MFCountry.SAUDIARABIA, MFEnvironment.TEST);
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await initSession(context);
       await initiatePayment();
@@ -335,6 +337,7 @@ print('error initiate ===== $e');
   // update apple pay amount
   updateAmount() {
     if (Platform.isIOS) MFApplepay.updateAmount(_amount);
+
   }
 
   // only ref apple pay
@@ -440,10 +443,12 @@ print('asdasdasldjhasdljashdlajsdhlajsdhaljshdlahjd}');
       await initiate(context);
       notifyListeners();
       print('pay error message ----> ${error.message}');
+await Future.delayed(const Duration(seconds: 2));
       if (error.message
           .toString()
-          .compareTo('Card details are invalid or missing!') ==
-          0) {
+
+          ==('Card details are invalid or missing!')
+          ) {
         showCustomSnackBar(
             getTranslated('Card_details_are_invalid_or_missing', Get.context!),
             Get.context!,
@@ -478,12 +483,12 @@ ApiResponse response= await paymentServiceInterface.checkPayment(paymentModel);
 
 if(response.response!=null&&response.response!.statusCode==201||response.response!.statusCode==200){
   print(response.response!.data);
-  _callback(true,'نجح الدفع','',type=='wallet_charge'?true:false);
+  _callback(true,getTranslated('Payment_successful', Get.context!)!,'',type=='wallet_charge'?true:false);
   return true;
 }else{
   print(response.error);
 
-  _callback(false,'فشل الدفع','',type=='wallet_charge'?true:false);
+  _callback(false,getTranslated('Payment_failed', Get.context!)!,'',type=='wallet_charge'?true:false);
   return false;
 
 
@@ -719,8 +724,8 @@ if(response.response!=null&&response.response!.statusCode==201||response.respons
       Navigator.of(Get.context!).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => const DashBoardScreen()), (route) => false);
       showAnimatedDialog(Get.context!, OrderPlaceDialogWidget(
         icon: Icons.check,
-        title: getTranslated(createAccount ? 'The_balance_has_been_added_successfully' : 'order_placed', Get.context!),
-        description:createAccount?'': getTranslated('your_order_placed', Get.context!),
+        title: getTranslated(createAccount ? 'Operation_success' : 'order_placed', Get.context!),
+        description:createAccount?getTranslated('Your_wallet_balance_has_been_successfully_charged_Thank_you', Get.context!): getTranslated('your_order_placed', Get.context!),
         isFailed: false,
       ), dismissible: false, willFlip: true);
     }else {

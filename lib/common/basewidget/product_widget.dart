@@ -138,15 +138,33 @@ double total =0.00;
                     )
                   ),
                 // if(ratting > 0)
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Row(
+                  children: [
+                    const SizedBox(width: 5,),
+                    Expanded(
+                      flex: 1,
+                      child: Text("${getTranslated('price_value', context)} ${PriceConverter.convertPrice(context,
+                          widget.productModel.unitPrice!, discountType: widget.productModel.discountType,
+                          discount: widget.productModel.discount ?? 0.00)}ٍ",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.tajawal(color: Theme.of(context).primaryColor,fontWeight: FontWeight.w500,fontSize: 12)),
+                    ),
 
-                  const Icon(Icons.star_rate_rounded, color: Colors.orange,size: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                    child: Text(ratting.toStringAsFixed(1), style: GoogleFonts.cairo(fontSize: Dimensions.fontSizeDefault)),
-                  ),
-                  Text('(${widget.productModel.reviewCount!=null?widget.productModel.reviewCount.toString():0})',
-                      style: GoogleFonts.cairo(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor))]),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+
+                      const Icon(Icons.star_rate_rounded, color: Colors.orange,size: 20),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                        child: Text(ratting.toStringAsFixed(1), style: GoogleFonts.cairo(fontSize: Dimensions.fontSizeDefault)),
+                      ),
+                      Text('(${widget.productModel.reviewCount!=null?widget.productModel.reviewCount.toString():0})',
+                          style: GoogleFonts.cairo(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor))
+
+                    ]),
+                    const SizedBox(width: 5,),
+                  ],
+                ),
                  const SizedBox(height: 3,),
                  Padding(
                    padding: const EdgeInsets.symmetric(horizontal: 8.0),

@@ -245,6 +245,11 @@
   "Files": "ملفات",
   "Contact_us": "تواصل معنا",
   "Unified_number": "الرقم الموحد",
+  "Payment_failed": "فشل الدفع",
+  "Card_details_are_invalid_or_missing": "تفاصيل البطاقة غير صالحة أو مفقودة",
+  "Payment_successful": "نجح الدفع",
+
+  "Deslind: Enfield Card Number": "Enfield Card Number",
 
   "Not_related": "غير مرتبط",
   "Select_Support_Card_Category": "اختر فئة بطاقة الدعم",
@@ -816,7 +821,11 @@
   "password_is_required": "كلمة المرور مطلوبة",
   "email_already_taken": "الهاتف أو البريد الإلكتروني الذي تم التقاطه بالفعل",
   "skip": "تخطي",
+  "Operation_success": "نجاح العملية",
+
   "add_coupon": "أضف عرض",
+  "Your_wallet_balance_has_been_successfully_charged_Thank_you": "تم شحن رصيد محفظتك بنجاح .. شكراً لك",
+
   "The_balance_has_been_added_successfully": "تم اضافة الرصيد بنجاح",
   "The_order_number_you_entered_was_not_found": "لم يتم العثور علي رقم الطلب الذي ادخلته",
 

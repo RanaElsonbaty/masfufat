@@ -20,7 +20,7 @@ class PaymentRepository implements PaymentRepositoryInterface{
       'payment_method': paymentModel.paymentMethod,
       'payment_amount': paymentModel.paymentAmount,
       "payment_reason":paymentModel.paymentReason,
-      "order_id":paymentModel.orderId??'',
+      "order_id":paymentModel.orderId??'1',
     });
     print('invoiceId ---> ${paymentModel.invoiceId}');
     print('invoiceReference ---> ${paymentModel.invoiceReference}');

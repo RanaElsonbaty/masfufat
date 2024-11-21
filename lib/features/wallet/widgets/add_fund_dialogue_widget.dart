@@ -11,6 +11,7 @@ import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/widgets/custom_check_box_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../localization/controllers/localization_controller.dart';
@@ -64,73 +65,29 @@ class _AddFundDialogueWidgetState extends State<AddFundDialogueWidget> {
                                       color: Theme.of(context).hintColor, size: 30,))),),
 
                               Text(getTranslated('add_fund_to_wallet', context)!,
-                                  style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                                  style: GoogleFonts.tajawal(fontSize: 18)),
                               const SizedBox(width: 25,),
                             ],
                           ),
                           Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall,
                               bottom: Dimensions.paddingSizeDefault),
                             child: Text(getTranslated('add_fund_form_secured_digital_payment_gateways', context)!,
-                                style: textRegular.copyWith(fontSize: Dimensions.fontSizeSmall), textAlign: TextAlign.center),),
-
-
-                          Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-                            child: Container(decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
-                              border: Border.all(width: .5,color: Provider.of<ThemeController>(context, listen: false).darkTheme?
-                              Theme.of(context).hintColor : Theme.of(context).primaryColor.withOpacity(.5))),
-                              child: Row(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center, children: [
-
-                                Provider.of<LocalizationController>(context,listen: false).isLtr?     Padding(
-                                  padding: const EdgeInsets.only(top: 5.0),
-                                  child: Text(configProvider.myCurrency!.symbol,
-                                      style: textBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge,
-                                          color:  Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(.75) )),
-                                ):const SizedBox(),
-                                Provider.of<LocalizationController>(context,listen: false).isLtr?   const SizedBox(width: 5,):const SizedBox.shrink(),
-
-                                Consumer<PaymentController>(
-                                  builder:(context, paymentProvider, child) =>  IntrinsicWidth(child: TextField(
-                                    controller: widget.inputAmountController,
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9.]+'))],
-                                    textInputAction: TextInputAction.done,
-                                    textAlign: TextAlign.center,
-                                    onChanged: (val){
-                                      paymentProvider.getAmount(val!=''?double.parse(val):0.00);
-
-                                      paymentProvider.initiate(context);
-                                    },
-                                    style: textBold.copyWith(fontSize: Dimensions.fontSizeLarge),
-                                    decoration: const InputDecoration(
-                                      contentPadding: EdgeInsets.zero,
-                                      border: InputBorder.none,
-                                      hintText: '500',
-                                    ),
-                                  )),
-                                ),
-                             Provider.of<LocalizationController>(context,listen: false).isLtr==false?   const SizedBox(width: 5,):const SizedBox.shrink(),
-                                Provider.of<LocalizationController>(context,listen: false).isLtr==false?     Padding(
-                                  padding: const EdgeInsets.only(top: 5.0),
-                                  child: Text(configProvider.myCurrency!.symbol,
-                                      style: textBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge,
-                                          color:  Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(.75) )),
-                                ):const SizedBox(),
-
-                              ]))),
+                                style: GoogleFonts.tajawal(fontSize: 14), textAlign: TextAlign.center),),
 
 
 
-                          Padding(padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall,
-                              top: Dimensions.paddingSizeDefault, left: Dimensions.paddingSizeDefault,
-                              right: Dimensions.paddingSizeDefault),
-                            child: Row(children: [
-                              Text('${getTranslated('add_money_via_online', context)}',
-                                  style: textRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
-                              Padding(padding: const EdgeInsets.only(left: Dimensions.paddingSizeExtraSmall),
-                                child: Text('${getTranslated('fast_and_secure', context)}',
-                                    style: textRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall,
-                                        color: Theme.of(context).hintColor)))])),
+
+
+                          // Padding(padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall,
+                          //     top: Dimensions.paddingSizeDefault, left: Dimensions.paddingSizeDefault,
+                          //     right: Dimensions.paddingSizeDefault),
+                          //   child: Row(children: [
+                          //     Text('${getTranslated('add_money_via_online', context)}',
+                          //         style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeSmall)),
+                          //     const SizedBox(width: 3,),
+                          //     Text('${getTranslated('fast_and_secure', context)}',
+                          //         style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeExtraSmall,
+                          //             color: Theme.of(context).hintColor))])),
 
 
                           Consumer<PaymentController>(
@@ -151,6 +108,51 @@ class _AddFundDialogueWidgetState extends State<AddFundDialogueWidget> {
                                   );
                                 }),
                           ),
+                          Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+                              child: Container(decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
+                                  border: Border.all(width: .5,color: Provider.of<ThemeController>(context, listen: false).darkTheme?
+                                  Theme.of(context).hintColor : Theme.of(context).primaryColor.withOpacity(.5))),
+                                  child: Row(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center, children: [
+
+                                    Provider.of<LocalizationController>(context,listen: false).isLtr?     Padding(
+                                      padding: const EdgeInsets.only(top: 5.0),
+                                      child: Text(configProvider.myCurrency!.symbol,
+                                          style: textBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge,
+                                              color:  Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(.75) )),
+                                    ):const SizedBox(),
+                                    Provider.of<LocalizationController>(context,listen: false).isLtr?   const SizedBox(width: 5,):const SizedBox.shrink(),
+
+                                    Consumer<PaymentController>(
+                                      builder:(context, paymentProvider, child) =>  IntrinsicWidth(child: TextField(
+                                        controller: widget.inputAmountController,
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9.]+'))],
+                                        textInputAction: TextInputAction.done,
+                                        textAlign: TextAlign.center,
+                                        onChanged: (val){
+                                          paymentProvider.getAmount(val!=''?double.parse(val):0.00);
+
+                                          paymentProvider.initiate(context);
+                                        },
+                                        style: textBold.copyWith(fontSize: Dimensions.fontSizeLarge),
+                                        decoration: const InputDecoration(
+                                          contentPadding: EdgeInsets.zero,
+                                          border: InputBorder.none,
+                                          hintText: '500',
+                                        ),
+                                      )),
+                                    ),
+                                    Provider.of<LocalizationController>(context,listen: false).isLtr==false?   const SizedBox(width: 5,):const SizedBox.shrink(),
+                                    Provider.of<LocalizationController>(context,listen: false).isLtr==false?     Padding(
+                                      padding: const EdgeInsets.only(top: 5.0),
+                                      child: Text(configProvider.myCurrency!.symbol,
+                                          style: textBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge,
+                                              color:  Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(.75) )),
+                                    ):const SizedBox(),
+
+                                  ]))),
+
                           Consumer<PaymentController>(builder:(context, paymentProvider, child) => paymentProvider.isLoading==false? CheckOutPaymentSection( amount:widget.inputAmountController.text!=''?double.parse(widget.inputAmountController.text):0.0,):const CircularProgressIndicator()),
 
                           const SizedBox(height: Dimensions.paddingSizeSmall),

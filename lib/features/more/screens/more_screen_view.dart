@@ -259,7 +259,8 @@ class _MoreScreenState extends State<MoreScreen> {
                               isScrollControlled: true,
                               context: context,
                               builder: (_) =>
-                                  const SelectLanguageBottomSheetWidget())),
+                                  const SelectLanguageBottomSheetWidget())
+                                                  ),
                                                   TitleButton(
                           image: Images.currencyIcon,
                           title:

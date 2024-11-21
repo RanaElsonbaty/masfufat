@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_sixvalley_ecommerce/features/brand/controllers/brand_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/category/controllers/category_controller.dart';
@@ -318,9 +320,9 @@ bool isBrand=false;
                   Consumer<CategoryController>(
                     builder:(context, category, child) {
                       return Container(
-                        width: 120,
+                        width: 80,
                         color: Colors.black,
-                        height: MediaQuery.of(context).size.height-100.h,
+                        height: MediaQuery.of(context).size.height-250,
                         child: ListView.builder(
                         shrinkWrap: true,
                         padding: EdgeInsets.zero,
@@ -343,7 +345,6 @@ bool isBrand=false;
                               pagingController.refresh();
 
                               fetchPage(page,isBrand, Provider.of<CategoryController>(context,listen: false).brandCategoryList[selectIndexCategory].id.toString(), Get.context!,true);
-                              // scrollController.addListener(_scrollListener);
 
 
 
@@ -356,7 +357,7 @@ bool isBrand=false;
 
                             },
                             child: Container(
-
+                        width: 80,
                               decoration: BoxDecoration(
                                 color:selectIndexCategory==index? Theme.of(context).cardColor:null
                               ),
@@ -364,21 +365,30 @@ bool isBrand=false;
                                 padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 5),
                                 child: Column(children: [
                                   CustomImageWidget(image: category.brandCategoryList[index].iconUrl,width: 80,),
-                                  Text(category.brandCategoryList[index].name,
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.tajawal(
-                                    color:selectIndexCategory==index?Colors.black: Colors.white
-                                  ),)
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(category.brandCategoryList[index].name,
+                                          textAlign: TextAlign.center,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                          style: GoogleFonts.tajawal(
+                                          color:selectIndexCategory==index?Colors.black: Colors.white
+                                        ),),
+                                      ),
+                                    ],
+                                  )
                                 ],),
                               ),
                             ),
                           );
-                      },),
+                                              },),
                     );
                     },
                   ),
-                  const SizedBox(width: 5,),
+                  // const SizedBox(width: 5,),
                   Expanded(
+                    flex: 5,
                     child: Column(
                       children: [
                         // select name and count / filter
@@ -388,7 +398,7 @@ bool isBrand=false;
                               builder:(context, brand, child) {
                                 return Container(
                                 height: 50,
-                                width: MediaQuery.of(context).size.width/1.42,
+                                width: MediaQuery.of(context).size.width/1.25,
                                 decoration: const BoxDecoration(
                                   color: Colors.black,
                                   borderRadius: BorderRadius.only(

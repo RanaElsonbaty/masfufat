@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/common/basewidget/animated_custom_dialog_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wallet/controllers/wallet_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wallet/widgets/add_fund_dialogue_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
@@ -58,9 +59,10 @@ class WalletCardWidget extends StatelessWidget {
              InkWell(onTap: () {
                Provider.of<PaymentController>(Get.context!,listen: false).getPaymentMethod(context, 'wallet_charge');
 
-                  showDialog(context: context, builder: (BuildContext context) {
-                    return AddFundDialogueWidget(focusNode: focusNode, inputAmountController: inputAmountController);
-                  });
+                  // showDialog(context: context, builder: (BuildContext context) {
+                  //   return AddFundDialogueWidget(focusNode: focusNode, inputAmountController: inputAmountController);
+                  // });
+               showAnimatedDialog(  willFlip: true, context,Center(child: AddFundDialogueWidget(focusNode: focusNode, inputAmountController: inputAmountController),));
                 },
                 child: Container(decoration: (const BoxDecoration(color: Colors.white, shape: BoxShape.circle)),
                   padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),

@@ -227,7 +227,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                             ),
                                           ),
                                         ),
-                                      ):SizedBox(),
+                                      ):const SizedBox(),
                                     ],
                                   ),
                                 );

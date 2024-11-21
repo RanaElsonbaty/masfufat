@@ -44,27 +44,7 @@ class SplashController extends ChangeNotifier {
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
 
       _configModelGuest = guest.ConfigGuest.fromJson(apiResponse.response!.data);
-      // _baseUrls = ConfigModel.fromJson(apiResponse.response!.data).baseUrls;
-      // String? currencyCode = splashServiceInterface!.getCurrency();
 
-      // themeController.setThemeColor(
-      //   primaryColor: ColorHelper.hexCodeToColor(_configModel?.primaryColorCode),
-      //   secondaryColor: ColorHelper.hexCodeToColor(_configModel?.secondaryColorCode),
-      // );
-
-      // isExpanded= List.filled(_configModel!.faq.isNotEmpty?_configModel!.faq.length:0, false);
-      // for(CurrencyList currencyList in _configModel!.currencyList) {
-      //   if(currencyList.id == _configModel!.systemDefaultCurrency) {
-      //     if(currencyCode == null || currencyCode.isEmpty) {
-      //       currencyCode = currencyList.code;
-      //     }
-      //     _defaultCurrency = currencyList;
-      //   }
-      //   if(currencyList.code == 'USD') {
-      //     _usdCurrency = currencyList;
-      //   }
-      // }
-      // getCurrencyData(currencyCode);
       isSuccess = true;
     } else {
       isSuccess = false;
@@ -89,10 +69,6 @@ class SplashController extends ChangeNotifier {
       _baseUrls = ConfigModel.fromJson(apiResponse.response!.data).baseUrls;
       String? currencyCode = splashServiceInterface!.getCurrency();
 
-      // themeController.setThemeColor(
-      //   primaryColor: ColorHelper.hexCodeToColor(_configModel?.primaryColorCode),
-      //   secondaryColor: ColorHelper.hexCodeToColor(_configModel?.secondaryColorCode),
-      // );
 
       isExpanded= List.filled(_configModel!.faq.isNotEmpty?_configModel!.faq.length:0, false);
       for(CurrencyList currencyList in _configModel!.currencyList) {
@@ -212,7 +188,7 @@ class SplashController extends ChangeNotifier {
     bankTransferImage = await ImagePicker().pickImage(
         imageQuality: 100, source: ImageSource.gallery);
   }catch(e){
-
+print(e);
   }
     notifyListeners();
   }
