@@ -216,7 +216,7 @@ double total =0.00;
                        ),
                      ),
                    ),
-
+if(ratting!=0)
                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
 
                      const Icon(Icons.star_rate_rounded, color: Colors.orange,size: 20),

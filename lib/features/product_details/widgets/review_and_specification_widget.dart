@@ -18,6 +18,7 @@ class ReviewAndSpecificationSectionWidget extends StatelessWidget {
 
 
           Expanded(
+
             child: InkWell(onTap: ()=> productDetailsController.selectReviewSection(0),
                 child: Column(children: [
                   Container(padding: const EdgeInsets.symmetric(
@@ -34,7 +35,7 @@ class ReviewAndSpecificationSectionWidget extends StatelessWidget {
                         style: GoogleFonts.tajawal(fontWeight:FontWeight.w400,fontSize: 14,color: productDetailsController.index==0?Theme.of(context).primaryColor:Theme.of(context).iconTheme.color),),
                     ),),
                   // if(productDetailsController.index==0)
-                    Container(width:  MediaQuery.of(context).size.width/3, height: 3,color: productDetailsController.index==0? Theme.of(context).primaryColor:Theme.of(context).cardColor,)])),
+                    Container( height: 3,color: productDetailsController.index==0? Theme.of(context).primaryColor:Theme.of(context).cardColor,)])),
           ),
           // const SizedBox(width: Dimensions.paddingSizeDefault),
 
@@ -59,12 +60,12 @@ class ReviewAndSpecificationSectionWidget extends StatelessWidget {
                         style:  GoogleFonts.tajawal(fontWeight:FontWeight.w400,fontSize: 14,color:productDetailsController.index==1?Theme.of(context).primaryColor:Theme.of(context).iconTheme.color),),
                     ),),
                   // if(productDetailsController.index==1)
-                    Container(width: MediaQuery.of(context).size.width/3, height: 3,color:productDetailsController.index==1? Theme.of(context).primaryColor:Theme.of(context).cardColor,)])),
+                    Container(height: 3,color:productDetailsController.index==1? Theme.of(context).primaryColor:Theme.of(context).cardColor,)])),
             ),
           // const SizedBox(width: Dimensions.paddingSizeDefault),
 
 
-
+  if(productDetailsController.productDetailsModel!=null&&productDetailsController.productDetailsModel!.reviewsCount!=null&&productDetailsController.productDetailsModel!.reviewsCount!=0)
           Expanded(
             // flex: 1,
             child: InkWell(onTap: ()=> productDetailsController.selectReviewSection(2),
@@ -89,7 +90,7 @@ class ReviewAndSpecificationSectionWidget extends StatelessWidget {
                   // if(productDetailsController.isReviewSelected)
                   // if()
 
-                    Container(width:  MediaQuery.of(context).size.width/3, height: 3,color:productDetailsController.index==2? Theme.of(context).primaryColor:Theme.of(context).cardColor)]),
+                    Container(height: 3,color:productDetailsController.index==2? Theme.of(context).primaryColor:Theme.of(context).cardColor)]),
 
               ],
               ),
