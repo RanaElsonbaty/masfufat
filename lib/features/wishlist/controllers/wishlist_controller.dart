@@ -40,7 +40,7 @@ void addOfflineWishList(Product productModel,bool add){
     addedIntoWish.add(productID!);
     ApiResponse apiResponse = await wishlistServiceInterface!.add(productID);
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-      showCustomSnackBar("${getTranslated("successfully_added_to_wishlist", Get.context!)}", Get.context!, isError: false);
+      // showCustomSnackBar("${getTranslated("successfully_added_to_wishlist", Get.context!)}", Get.context!, isError: false);
 
     } else {
       showCustomSnackBar(apiResponse.error.toString(), Get.context!);
@@ -53,7 +53,7 @@ void addOfflineWishList(Product productModel,bool add){
     ApiResponse apiResponse = await wishlistServiceInterface!.delete(productID!);
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       getWishList();
-      showCustomSnackBar("${getTranslated("successfully_removed_from_wishlist", Get.context!)}", Get.context!, isError: false);
+      // showCustomSnackBar("${getTranslated("successfully_removed_from_wishlist", Get.context!)}", Get.context!, isError: false);
     } else {
       showCustomSnackBar(apiResponse.error.toString(), Get.context!);
     }
