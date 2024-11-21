@@ -184,7 +184,7 @@ class WishListWidget extends StatelessWidget {
                                 padding: const EdgeInsets.only(
                                     top: Dimensions.paddingSizeExtraSmall),
                                 child: Text(
-                                  '(${getTranslated('tax', context)} :${PriceConverter.convertPrice(context, (wishlistModel!.product!.tax!/100*wishlistModel!.product!.unitPrice!) ?? 0.00)})',
+                                  '(${getTranslated('tax', context)} :${PriceConverter.convertPrice(context, (wishlistModel!.product!.tax??0/100*wishlistModel!.product!.unitPrice!) ?? 0.00)})',
                                   style: GoogleFonts.tajawal(
                                       fontSize: 14, color: Colors.grey),
                                 ),
