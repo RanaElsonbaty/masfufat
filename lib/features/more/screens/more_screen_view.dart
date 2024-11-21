@@ -105,12 +105,12 @@ class _MoreScreenState extends State<MoreScreen> {
           SliverAppBar(
               floating: true,
               elevation: 0,
-              expandedHeight: 160,
+              expandedHeight: 120,
               pinned: true,
               centerTitle: false,
               automaticallyImplyLeading: false,
               backgroundColor: Theme.of(context).highlightColor,
-              collapsedHeight: 160,
+              collapsedHeight: 120,
               flexibleSpace: const ProfileInfoSectionWidget()),
           SliverToBoxAdapter(
             child: Container(
