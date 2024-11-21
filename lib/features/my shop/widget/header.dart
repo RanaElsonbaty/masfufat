@@ -24,11 +24,23 @@ class _HeaderSectionState extends State<HeaderSection> {
         height: widget.index==0||widget.index==2? 100:60,
         child: Column(
           children: [
+
             const SizedBox(height: 10,),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment:myShopProvider.selectIds.isEmpty?MainAxisAlignment.center: MainAxisAlignment.spaceBetween,
               children: [
-                widget.index==0||widget.index==2?   InkWell(
+                // const SizedBox(width: 2,),
+                if(myShopProvider.selectIds.isNotEmpty)
+                widget.index==0||widget.index==2?
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: Text("${getTranslated('Specific_products', context)!} ${myShopProvider.selectIds.length}",style: GoogleFonts.tajawal(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),),
+                    ):const SizedBox(),
+                if(widget.index==0||widget.index==2)
+                  InkWell(
                   onTap: (){
                     showModalBottomSheet(context: context, builder: (BuildContext context)=> ShowModalBottomSheetShop(delete: false,index: widget.index,));
 
@@ -65,21 +77,20 @@ class _HeaderSectionState extends State<HeaderSection> {
                           const SizedBox(width: 5,),
                           Image.asset(Images.syncIcon
                             ,
-                            color: Colors.white,width: 20,)
+                            color: Colors.white,width: 20,),
+
                         ],),
                     ),
                   ),
-                ):const SizedBox.shrink(),
+                ),
+                const SizedBox(),
+                const SizedBox(),
               ],
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Row(
-                // mainAxisAlignment: MainAxisAlignment.ss
                 children: [
-
-                  // widget.index!=0? const Spacer():const SizedBox.shrink(),
-
                 Checkbox(
                   value: myShopProvider.selectAll,
                   onChanged: (val){
