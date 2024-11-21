@@ -44,6 +44,7 @@ class _SupportTicketWidgetState extends State<SupportTicketWidget> {
   }
   @override
   Widget build(BuildContext context) {
+    print(widget.supportTicketModel.status);
     return Padding(
       padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeSmall, Dimensions.paddingSizeSmall, Dimensions.paddingSizeSmall, 0),
       child: Slidable(key: const ValueKey(0),
