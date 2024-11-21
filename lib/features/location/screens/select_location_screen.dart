@@ -408,7 +408,7 @@ setState(() {
   Future<void> handleSearch() async {
     places.Prediction? p = await loc.PlacesAutocomplete.show(
         context: context,
-        apiKey: 'AIzaSyAEFRLByymAFIq3xzSr37UdAqnZoPN_aoo',
+        apiKey: 'AIzaSyCruxq7GI3gz6iNk2G72e-igYyz9-eXcfE',
         onError: onError, // call the onError function below
         mode: loc.Mode.overlay,
         language: 'en', //you can set any language for search
@@ -445,7 +445,7 @@ setState(() {
 
   Future<void> displayPrediction(places.Prediction p, ScaffoldState? currentState) async {
     places.GoogleMapsPlaces placess = places.GoogleMapsPlaces(
-        apiKey: 'AIzaSyAEFRLByymAFIq3xzSr37UdAqnZoPN_aoo',
+        apiKey: 'AIzaSyCruxq7GI3gz6iNk2G72e-igYyz9-eXcfE',
         apiHeaders: await const header.GoogleApiHeaders().getHeaders());
     places.PlacesDetailsResponse detail =
     await placess.getDetailsByPlaceId(p.placeId!);
