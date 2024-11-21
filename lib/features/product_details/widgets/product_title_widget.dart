@@ -55,15 +55,42 @@ class ProductTitleWidget extends StatelessWidget {
                   return Row(children: [
                     // if(reviewController.reviewList!=null)
 
-                    Text.rich(TextSpan(children: [
-                      TextSpan(text: '${details.productDetailsModel!.reviews != null ? details.productDetailsModel!.reviews!.length : 0} ',
-                          style: GoogleFonts.tajawal(
-                              color: Provider.of<ThemeController>(context, listen: false).darkTheme?
+                    // Text.rich(TextSpan(children: [
+                    //   TextSpan(text: '${details.productDetailsModel!.reviews != null ? details.productDetailsModel!.reviews!.length : 0} ',
+                    //       style: GoogleFonts.tajawal(
+                    //           color: Provider.of<ThemeController>(context, listen: false).darkTheme?
+                    //           Theme.of(context).hintColor : Theme.of(context).primaryColor,
+                    //           fontSize: Dimensions.fontSizeDefault)),
+                    //
+                    //   TextSpan(text: '  | ',
+                    //       style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault,))])),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 3.0),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.star,color:Colors.yellow,),
+                          const SizedBox(),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4.0),
+                            child: Text('${details.productDetailsModel!.reviews != null ? details.productDetailsModel!.reviews!.length : 0} ',
+                                style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault,
+                                  color:  Provider.of<ThemeController>(context, listen: false).darkTheme?
+                                            Theme.of(context).hintColor : Theme.of(context).primaryColor,
+                                ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 2),
+                            child: Text('|',  style: TextStyle(fontSize: Dimensions.fontSizeDefault,
+                              color:  Provider.of<ThemeController>(context, listen: false).darkTheme?
                               Theme.of(context).hintColor : Theme.of(context).primaryColor,
-                              fontSize: Dimensions.fontSizeDefault)),
-                      TextSpan(text: '${getTranslated('Product_Reviews', context)}  | ',
-                          style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault,))])),
 
+                            ),),
+                          )
+                        ],
+                      ),
+                    ),
+const SizedBox(width: 5,),
 // if(details.orderCount!=null)
                      Text.rich(TextSpan(children: [
                       TextSpan(text: '${details.productDetailsModel!.orderCount ?? 0} ', style: GoogleFonts.tajawal(
