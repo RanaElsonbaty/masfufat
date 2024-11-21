@@ -291,7 +291,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                       Text(PriceConverter.convertPrice(context, widget.orderDetailsModel.price),maxLines: 1,
                           style: titilliumSemiBold.copyWith(color: ColorResources.getPrimary(context), fontSize: 16),),
 
-                      Expanded(child: Text('(${getTranslated('tax', context)} ${widget.orderDetailsModel.productDetails.taxType} ${widget.orderDetailsModel.tax})',
+                      Expanded(child: Text('(${getTranslated('tax', context)} ${widget.orderDetailsModel.productDetails!.taxType} ${widget.orderDetailsModel.tax})',
                         maxLines: 1,overflow: TextOverflow.ellipsis,
                           style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: 14)))]),
                     const SizedBox(height: Dimensions.marginSizeExtraSmall),

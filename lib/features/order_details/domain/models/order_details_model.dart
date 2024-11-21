@@ -16,7 +16,7 @@ class OrderDetailsModel {
   final int productId;
   final int sellerId;
   final dynamic digitalFileAfterSell;
-  final Product productDetails;
+  final Product? productDetails;
   final int qty;
   final double price;
   final double tax;
@@ -35,7 +35,7 @@ class OrderDetailsModel {
   final String pendingDelete;
   final dynamic preparationDetails;
   final double total;
-  final OrderDetailsModelSeller seller;
+  // final OrderDetailsModelSeller? seller;
   final Order order;
 
   OrderDetailsModel({
@@ -63,7 +63,7 @@ class OrderDetailsModel {
     required this.pendingDelete,
     required this.preparationDetails,
     required this.total,
-    required this.seller,
+    // required this.seller,
     required this.order,
   });
 
@@ -73,7 +73,7 @@ class OrderDetailsModel {
     productId: json["product_id"],
     sellerId: json["seller_id"],
     digitalFileAfterSell: json["digital_file_after_sell"],
-    productDetails: Product.fromJson(json["product_details"]),
+    productDetails:json["product_details"]!=null? Product.fromJson(json["product_details"]):null,
     qty: json["qty"],
     price: json["price"].toDouble(),
     tax: json["tax"].toDouble(),
@@ -92,7 +92,7 @@ class OrderDetailsModel {
     pendingDelete: json["pending_delete"],
     preparationDetails: json["preparation_details"],
     total: json["total"].toDouble(),
-    seller: OrderDetailsModelSeller.fromJson(json["seller"]),
+    // seller:json["seller"]!=null? OrderDetailsModelSeller.fromJson(json["seller"]):null,
     order: Order.fromJson(json["order"]),
   );
 
@@ -121,7 +121,7 @@ class OrderDetailsModel {
     "pending_delete": pendingDelete,
     "preparation_details": preparationDetails,
     "total": total,
-    "seller": seller.toJson(),
+    // "seller": seller!.toJson(),
     "order": order.toJson(),
   };
 }
@@ -260,13 +260,13 @@ class Order {
     customerType: json["customer_type"],
     paymentStatus: json["payment_status"],
     orderStatus: json["order_status"],
-    paymentMethod: json["payment_method"],
-    transactionRef: json["transaction_ref"],
+    paymentMethod: json["payment_method"]??'',
+    transactionRef: json["transaction_ref"]??'',
     paymentBy: json["payment_by"],
     paymentNote: json["payment_note"],
     orderAmount: json["order_amount"]?.toDouble(),
-    adminCommission: json["admin_commission"],
-    isPause: json["is_pause"],
+    adminCommission: json["admin_commission"]??'',
+    isPause: json["is_pause"]??'',
     cause: json["cause"],
     shippingAddress: json["shipping_address"],
     createdAt: DateTime.parse(json["created_at"]),
@@ -1033,8 +1033,8 @@ class OrderDetailsModelSeller {
   final dynamic siteUrl;
   final String zip;
   final dynamic activity;
-  final List<String> moduleAccess;
-  final List<String> inputAccess;
+  // final List<String> moduleAccess;
+  // final List<String> inputAccess;
   final String appLanguage;
   final dynamic accountManagerSupervisorId;
   final String identityType;
@@ -1119,8 +1119,8 @@ class OrderDetailsModelSeller {
     required this.siteUrl,
     required this.zip,
     required this.activity,
-    required this.moduleAccess,
-    required this.inputAccess,
+    // required this.moduleAccess,
+    // required this.inputAccess,
     required this.appLanguage,
     required this.accountManagerSupervisorId,
     required this.identityType,
@@ -1168,7 +1168,7 @@ class OrderDetailsModelSeller {
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
     bankName: json["bank_name"],
-    branch: json["branch"],
+    branch: json["branch"]??'',
     accountNo: json["account_no"],
     holderName: json["holder_name"],
     authToken: json["auth_token"],
@@ -1182,11 +1182,11 @@ class OrderDetailsModelSeller {
     companyName: json["company_name"],
     licenseOwnerName: json["license_owner_name"],
     licenseOwnerPhone: json["license_owner_phone"],
-    delegateName: json["delegate_name"],
-    delegatePhone: json["delegate_phone"],
+    delegateName: json["delegate_name"]??'',
+    delegatePhone: json["delegate_phone"]??'',
     commercialRegistrationNo: json["commercial_registration_no"],
     commercialRegistrationImg: json["commercial_registration_img"],
-    taxNo: json["tax_no"],
+    taxNo: json["tax_no"]??'',
     taxCertificateImg: json["tax_certificate_img"],
     country: json["country"],
     area: json["area"],
@@ -1206,8 +1206,8 @@ class OrderDetailsModelSeller {
     siteUrl: json["site_url"],
     zip: json["zip"],
     activity: json["activity"],
-    moduleAccess: List<String>.from(json["module_access"].map((x) => x)),
-    inputAccess: List<String>.from(json["input_access"].map((x) => x)),
+    // moduleAccess: List<String>.from(json["module_access"].map((x) => x)),
+    // inputAccess: List<String>.from(json["input_access"].map((x) => x)),
     appLanguage: json["app_language"],
     accountManagerSupervisorId: json["account_manager_supervisor_id"],
     identityType: json["identity_type"],
@@ -1235,10 +1235,10 @@ class OrderDetailsModelSeller {
     commissionType: json["commission_type"],
     ipAddress: json["ip_address"],
     lastLogin: json["last_login"],
-    platformCommissionPercentage: json["platform_commission_percentage"],
-    platformCommissionAmount: json["platform_commission_amount"],
-    commissionTaxPercentage: json["commission_tax_percentage"],
-    productsCount: json["products_count"],
+    platformCommissionPercentage: json["platform_commission_percentage"]??'',
+    platformCommissionAmount: json["platform_commission_amount"]??'',
+    commissionTaxPercentage: json["commission_tax_percentage"]??'',
+    productsCount: json["products_count"]??'',
     shop: Shop.fromJson(json["shop"]),
   );
 
@@ -1293,8 +1293,8 @@ class OrderDetailsModelSeller {
     "site_url": siteUrl,
     "zip": zip,
     "activity": activity,
-    "module_access": List<dynamic>.from(moduleAccess.map((x) => x)),
-    "input_access": List<dynamic>.from(inputAccess.map((x) => x)),
+    // "module_access": List<dynamic>.from(moduleAccess.map((x) => x)),
+    // "input_access": List<dynamic>.from(inputAccess.map((x) => x)),
     "app_language": appLanguage,
     "account_manager_supervisor_id": accountManagerSupervisorId,
     "identity_type": identityType,

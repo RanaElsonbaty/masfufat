@@ -114,14 +114,14 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                               //
                               // widget.orderDetailsModel.productDetails!=null&&widget.orderDetailsModel.productDetails!.taxModel!=null&&widget.orderDetailsModel.productDetails!.taxModel == 'exclude'?
                               Expanded(
-                                child: Text('(${getTranslated('tax', context)} ${PriceConverter.calculationTaxString(context, widget.orderDetailsModel.price,widget.orderDetailsModel.productDetails!.tax!,widget.orderDetailsModel.productDetails!.taxType,)})',
+                                child: Text('(${getTranslated('tax', context)} ${PriceConverter.calculationTaxString(context, widget.orderDetailsModel.price,widget.orderDetailsModel.productDetails!=null?widget.orderDetailsModel.productDetails!.tax??0.00:0,widget.orderDetailsModel.productDetails!=null?widget.orderDetailsModel.productDetails!.taxType:'',)})',
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1 ,
                                   style: GoogleFonts.tajawal(color: ColorResources.hintTextColor, fontSize: 14,fontWeight: FontWeight.w400),),
                               )
                             ]),  Row(children: [
 
-                              Text("${getTranslated('total', context)} :${PriceConverter.convertPrice(context,PriceConverter.calculationTaxDouble(context, widget.orderDetailsModel.price,widget.orderDetailsModel.productDetails!.tax!,widget.orderDetailsModel.productDetails!.taxType,)+widget.orderDetailsModel.price!)}",
+                              Text("${getTranslated('total', context)} :${PriceConverter.convertPrice(context,PriceConverter.calculationTaxDouble(context, widget.orderDetailsModel.price,widget.orderDetailsModel.productDetails!=null?widget.orderDetailsModel.productDetails!.tax??0:0,widget.orderDetailsModel.productDetails!=null?widget.orderDetailsModel.productDetails!.taxType:'',)+widget.orderDetailsModel.price!)}",
                                 style: GoogleFonts.tajawal( fontSize: 16,fontWeight: FontWeight.w400),),
                               //
 
