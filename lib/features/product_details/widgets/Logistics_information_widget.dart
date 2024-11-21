@@ -36,8 +36,48 @@ class _LogisticsInformationWidgetState extends State<LogisticsInformationWidget>
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    widget.productDetailsModel.itemNumber != null
-                        ? Padding(
+                   if( widget.productDetailsModel.brand != null)
+                         Padding(
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: 8),
+                      child: InkWell(
+                        onTap: () {
+
+                          showCustomSnackBar(
+                              getTranslated(
+                                  'The_text_has_been_copied',
+                                  context),
+                              context,
+                              isError: false);
+                          Clipboard.setData(ClipboardData(
+                              text:
+                              " ${getTranslated('Brand', context)} - ${widget.productDetailsModel.brand}"));
+                        },
+                        child: Row(
+                          children: [
+                            Text(
+                              '- ${getTranslated('Brand', context)}',
+                              // style: TextStyle(fontSize: ),
+                            ),
+                            const Spacer(),
+                            Padding(
+                              padding:
+                              const EdgeInsets.only(bottom: 2),
+                              child: Text(widget
+                                  .productDetailsModel
+                                  .brand !=
+                                  null
+                                  ? widget.productDetailsModel
+                                  .brand
+                                  .toString()
+                                  : '0'),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                       ,  if( widget.productDetailsModel.itemNumber != null)
+                         Padding(
                       padding:
                       const EdgeInsets.symmetric(horizontal: 8),
                       child: InkWell(
@@ -76,9 +116,9 @@ class _LogisticsInformationWidgetState extends State<LogisticsInformationWidget>
                         ),
                       ),
                     )
-                        : const SizedBox.shrink(),
-                    widget.productDetailsModel.code != null
-                        ? Padding(
+                       ,
+                    if(widget.productDetailsModel.code != null)
+                       Padding(
                       padding:
                       const EdgeInsets.symmetric(horizontal: 8),
                       child: InkWell(
@@ -116,10 +156,10 @@ class _LogisticsInformationWidgetState extends State<LogisticsInformationWidget>
                         ),
                       ),
                     )
-                        : const SizedBox.shrink(),
-                    widget.productDetailsModel.gtin != '' &&
-                        widget.productDetailsModel.gtin != null
-                        ? Padding(
+                        ,
+                  if(  widget.productDetailsModel.gtin != '' &&
+                      widget.productDetailsModel.gtin != null)
+                         Padding(
                       padding:
                       const EdgeInsets.symmetric(horizontal: 8),
                       child: InkWell(
@@ -157,10 +197,10 @@ class _LogisticsInformationWidgetState extends State<LogisticsInformationWidget>
                         ),
                       ),
                     )
-                        : const SizedBox.shrink(),
-                    widget.productDetailsModel.mpn != '' &&
-                        widget.productDetailsModel.mpn != null
-                        ? Padding(
+                       ,
+                   if( widget.productDetailsModel.mpn != '' &&
+                       widget.productDetailsModel.mpn != null)
+                       Padding(
                       padding:
                       const EdgeInsets.symmetric(horizontal: 8),
                       child: InkWell(
@@ -211,9 +251,9 @@ class _LogisticsInformationWidgetState extends State<LogisticsInformationWidget>
                         ),
                       ),
                     )
-                        : const SizedBox.shrink(),
-                    widget.productDetailsModel.hsCode != null
-                        ? Padding(
+                      ,
+                   if( widget.productDetailsModel.hsCode != null)
+                         Padding(
                       padding:
                       const EdgeInsets.symmetric(horizontal: 8),
                       child: InkWell(
@@ -260,9 +300,9 @@ class _LogisticsInformationWidgetState extends State<LogisticsInformationWidget>
                         ),
                       ),
                     )
-                        : const SizedBox.shrink(),
-                    widget.productDetailsModel.length != null
-                        ? Padding(
+                      ,
+                   if( widget.productDetailsModel.length != null)
+                        Padding(
                       padding:
                       const EdgeInsets.symmetric(horizontal: 8),
                       child: InkWell(
@@ -294,9 +334,9 @@ class _LogisticsInformationWidgetState extends State<LogisticsInformationWidget>
                         ),
                       ),
                     )
-                        : const SizedBox.shrink(),
-                    widget.productDetailsModel.width != null
-                        ? Padding(
+                       ,
+                  if(  widget.productDetailsModel.width != null)
+                      Padding(
                       padding:
                       const EdgeInsets.symmetric(horizontal: 8),
                       child: InkWell(
@@ -328,9 +368,9 @@ class _LogisticsInformationWidgetState extends State<LogisticsInformationWidget>
                         ),
                       ),
                     )
-                        : const SizedBox.shrink(),
-                    widget.productDetailsModel.height != null
-                        ? Padding(
+                        ,
+                 if(   widget.productDetailsModel.height != null)
+                         Padding(
                       padding:
                       const EdgeInsets.symmetric(horizontal: 8),
                       child: InkWell(
@@ -362,9 +402,9 @@ class _LogisticsInformationWidgetState extends State<LogisticsInformationWidget>
                         ),
                       ),
                     )
-                        : const SizedBox.shrink(),
-                    widget.productDetailsModel.size != null
-                        ? Padding(
+                       ,
+                  if(  widget.productDetailsModel.size != null)
+                       Padding(
                       padding:
                       const EdgeInsets.symmetric(horizontal: 8),
                       child: InkWell(
@@ -404,9 +444,9 @@ class _LogisticsInformationWidgetState extends State<LogisticsInformationWidget>
                         ),
                       ),
                     )
-                        : const SizedBox.shrink(),
-                    widget.productDetailsModel.space != null
-                        ? Padding(
+                       ,
+                 if(   widget.productDetailsModel.space != null)
+                       Padding(
                       padding:
                       const EdgeInsets.symmetric(horizontal: 8),
                       child: InkWell(
@@ -447,9 +487,9 @@ class _LogisticsInformationWidgetState extends State<LogisticsInformationWidget>
                         ),
                       ),
                     )
-                        : const SizedBox.shrink(),
-                    widget.productDetailsModel.weight != null
-                        ? Padding(
+                        ,
+                    if(widget.productDetailsModel.weight != null)
+                         Padding(
                       padding:
                       const EdgeInsets.symmetric(horizontal: 8),
                       child: InkWell(
@@ -490,9 +530,9 @@ class _LogisticsInformationWidgetState extends State<LogisticsInformationWidget>
                         ),
                       ),
                     )
-                        : const SizedBox.shrink(),
-                    widget.productDetailsModel.unit != null
-                        ? Padding(
+                        ,
+                   if( widget.productDetailsModel.unit != null)
+                        Padding(
                       padding:
                       const EdgeInsets.symmetric(horizontal: 8),
                       child: InkWell(
@@ -532,10 +572,10 @@ class _LogisticsInformationWidgetState extends State<LogisticsInformationWidget>
                         ),
                       ),
                     )
-                        : const SizedBox.shrink(),
-                    widget.productDetailsModel.madeIn != null &&
-                        widget.productDetailsModel.madeIn != '0'
-                        ? Padding(
+                        ,
+                   if( widget.productDetailsModel.madeIn != null &&
+                       widget.productDetailsModel.madeIn != '0')
+                        Padding(
                       padding:
                       const EdgeInsets.symmetric(horizontal: 8),
                       child: InkWell(
@@ -576,9 +616,9 @@ class _LogisticsInformationWidgetState extends State<LogisticsInformationWidget>
                         ),
                       ),
                     )
-                        : const SizedBox.shrink(),
-                    widget.productDetailsModel.color != null
-                        ? Padding(
+                       ,
+                  if(  widget.productDetailsModel.color != null)
+                         Padding(
                       padding:
                       const EdgeInsets.symmetric(horizontal: 8),
                       child: InkWell(
@@ -602,7 +642,6 @@ class _LogisticsInformationWidgetState extends State<LogisticsInformationWidget>
                           Clipboard.setData(ClipboardData(
                               text:
                               "${getTranslated('color', context)} - ${widget.productDetailsModel.color}"));
-                          print('asdasdasdasdasdasda---> ${widget.productDetailsModel.color }  // ${Color(int.parse('0xFF${widget.productDetailsModel.color!.split('#').last}'))}');
                         },
                         child: Row(
                           children: [
@@ -630,7 +669,7 @@ class _LogisticsInformationWidgetState extends State<LogisticsInformationWidget>
                         ),
                       ),
                     )
-                        : const SizedBox.shrink(),
+                       ,
                   ],
                 ),
               )),
