@@ -124,7 +124,7 @@ class _HomePageState extends State<HomePage> {
           SliverAppBar(
             floating: true,
             elevation: 5,
-            pinned: false,
+            pinned: true,
             centerTitle: false,
             automaticallyImplyLeading: false,
 surfaceTintColor: Theme.of(context).highlightColor,
