@@ -798,6 +798,8 @@
   "please_input_amount": "الرجاء إدخال مبلغ",
   "please_select_any_payment_type": "الرجاء تحديد أي نوع دفع",
   "re_order": "إعادة ترتيب",
+  "successfully removed!": "تمت الإزالة بنجاح!",
+
   "minimum_order_amount_is": "الحد الأدنى لمبلغ الطلب",
   "some_shop_not_full_fill_minimum_order_amount": "متطلبات مبلغ الحد الأدنى لـ Chek",
   "shop_again_from_recent_store": "تسوق مرة أخرى من المتجر الأخير",

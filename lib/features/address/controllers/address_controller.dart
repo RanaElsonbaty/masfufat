@@ -7,6 +7,7 @@ import 'package:flutter_sixvalley_ecommerce/features/address/domain/models/label
 import 'package:flutter_sixvalley_ecommerce/features/address/domain/models/restricted_zip_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/address/domain/services/address_service_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
+import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 
 class AddressController with ChangeNotifier {
@@ -128,7 +129,8 @@ class AddressController with ChangeNotifier {
   Future<void> deleteAddress(int id) async {
     ApiResponse apiResponse = await addressServiceInterface.delete(id);
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-      showCustomSnackBar(apiResponse.response!.data['message'], Get.context!, isError: false);
+      print(apiResponse.response!.data['message']);
+      showCustomSnackBar(getTranslated(apiResponse.response!.data['message'], Get.context!), Get.context!, isError: false);
       getAddressList(fromRemove: true);
     } else {
       ApiChecker.checkApi( apiResponse);
