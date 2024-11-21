@@ -161,7 +161,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
                     onTap: () {
                       getCurrentLocations(context);
                       locationEdit=true;
-                      zoom=10;
+                      zoom=17;
 
 
                     },
@@ -394,7 +394,7 @@ setState(() {
 
    if (mapController != null) {
      mapController!.animateCamera(CameraUpdate.newCameraPosition(
-       CameraPosition(target: LatLng(myPosition.latitude, myPosition.longitude), zoom: 10),
+       CameraPosition(target: LatLng(myPosition.latitude, myPosition.longitude), zoom: 17),
      ));
    }
    setState(() {
