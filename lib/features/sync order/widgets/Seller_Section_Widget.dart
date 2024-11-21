@@ -53,6 +53,7 @@ class _SyncSellerSectionWidgetState extends State<SyncSellerSectionWidget> {
                 // "${Provider.of<SplashController>(context, listen: false).configModel?.companyName}"
                 // :
                 sellerModel!.name,
+                userType: 1,
                 image:
                 // order!.orderDetails![0].order?.sellerIs == 'admin' ?
                 // "${Provider.of<SplashController>(context, listen: false).configModel?.companyFavIcon?.path}"

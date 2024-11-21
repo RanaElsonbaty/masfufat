@@ -17,6 +17,21 @@ class ConversationListTabview extends StatelessWidget {
     return Consumer<SplashController>(
       builder:(context, splash, child) {
         List<Widget> taps=[
+          if(splash.configModel!.chatWithSellerStatus==true)
+
+            SizedBox(
+              height: 35,
+              width: MediaQuery.of(context).size.width/2.65,
+              child:  Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+
+                  children: [
+                    Text(getTranslated('vendor', context)!,style: GoogleFonts.tajawal(fontWeight: FontWeight.w500),),
+                  ],
+                ),
+              ),
+            ),
             SizedBox(
               height: 35,
               width: MediaQuery.of(context).size.width/2.65,
@@ -30,21 +45,7 @@ class ConversationListTabview extends StatelessWidget {
                 ),
               ),
             ),
-          if(splash.configModel!.chatWithSellerStatus==true)
 
-          SizedBox(
-            height: 35,
-            width: MediaQuery.of(context).size.width/2.65,
-            child:  Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-
-                children: [
-                  Text(getTranslated('vendor', context)!,style: GoogleFonts.tajawal(fontWeight: FontWeight.w500),),
-                ],
-              ),
-            ),
-          ),
         ];
         return Consumer<ChatController>(
           builder: (context, chatProvider,_) {

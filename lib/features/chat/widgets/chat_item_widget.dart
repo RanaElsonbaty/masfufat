@@ -42,29 +42,16 @@ class _ChatItemWidgetState extends State<ChatItemWidget> {
     Provider.of<SplashController>(context, listen: false).baseUrls!.shopImageUrl:
     Provider.of<SplashController>(context, listen: false).baseUrls!.deliveryManImageUrl;
 
-    // image = widget.chatProvider.userTypeIndex != 0 ?
-    // widget.chat!.sellerInfo != null? widget.chat?.sellerInfo?.shops![0].image :'' : widget.chat?.deliveryMan?.imageFullUrl?.path ?? '';
-    //
-    // call = widget.chatProvider.userTypeIndex != 0 ?
-    // '' : '${widget.chat!.deliveryMan?.code}${widget.chat!.deliveryMan?.phone}';
-    //
+
     id = widget.chatProvider.userTypeIndex != 0 ?
     widget.chat?.sellerId??widget.chat?.adminId : widget.chat!.deliveryManId;
-    // if(widget.chatProvider.userTypeIndex != 0){
-    //   if(widget.chat!.sellerInfo != null && widget.chat?.adminId == null){
-    //     name = widget.chat!.sellerInfo!.shops!.first.name??'';
-    //   }else if(widget.chat?.adminId == 0){
-    //     // name = "${Provider.of<SplashController>(context, listen: false).configModel?.c}";
-    //   }else{
-    //     name = 'Shop not found';
-    //   }
-    // }else{
-    //   name = "${widget.chat!.deliveryMan?.fName??''} ${widget.chat!.deliveryMan?.lName??''}";
-    // }
+
+    if(Provider.of<ShopController>(context,listen: false).sellerModel!=null){
 for (var element in Provider.of<ShopController>(context,listen: false).sellerModel!) {
   if(element.seller!.id==widget.chat!.sellerId!){
     // widget.chat!.
    setState(() {
+     id =element.sellerId;
      name=element.name;
      image=element.image;
      // id =element.id;
@@ -72,6 +59,21 @@ for (var element in Provider.of<ShopController>(context,listen: false).sellerMod
    });
   }
 }
+}else{
+      Provider.of<ShopController>(context,listen: false).getTopSellerList(true, 1, type:  '').then((value) {
+        for (var element in Provider.of<ShopController>(context,listen: false).sellerModel!) {
+          if(element.seller!.id==widget.chat!.sellerId!){
+            // widget.chat!.
+            setState(() {
+              name=element.name;
+              image=element.image;
+              // id =element.id;
+
+            });
+          }
+        }
+      });
+    }
     if(widget.chatProvider.userTypeIndex != 0){
       if (widget.chat?.sellerInfo?.shops![0].vacationEndDate != null) {
         DateTime vacationDate = DateTime.parse(widget.chat!.sellerInfo!.shops![0].vacationEndDate!);
@@ -101,7 +103,7 @@ for (var element in Provider.of<ShopController>(context,listen: false).sellerMod
               // }else{
                 Navigator.push(Get.context!, MaterialPageRoute(builder: (_) =>
                     ChatScreen(id: id, name: name, image:   '$baseUrl/$image',
-                        isDelivery: widget.chatProvider.userTypeIndex == 1, phone: call, shopClose: vacationIsOn,)));
+                        isDelivery: widget.chatProvider.userTypeIndex == 0, phone: call, shopClose: vacationIsOn,)));
               // }
             },
               child: Container(decoration: const BoxDecoration(

@@ -42,7 +42,7 @@ class ChatController extends ChangeNotifier {
   ChatModel? catModel;
 
   void getChatType(int index){
-    if(index == 0){
+    if(index == 1){
       if(isSearchComplete){
         catModel = searchDeliverymanChatModel;
       } else {
@@ -68,7 +68,7 @@ notifyListeners();
   File? get imageFile => _imageFile;
   bool _isLoading = false;
   bool get isLoading => _isLoading;
-  int _userTypeIndex = 0;
+  int _userTypeIndex = 1;
   int get userTypeIndex =>  _userTypeIndex;
 
   ChatModel? chatModel;
@@ -154,46 +154,9 @@ bool get loading =>_loading;
     } else {
       ApiChecker.checkApi( apiResponse);
     }
-    // if(userType == null){
       notifyListeners();
-    // }
   }
 
-  // Future<void> searchChat(BuildContext context, String search, int userIndex) async {
-  //   _isLoading = true;
-  //   searchChatModel = null;
-  //   _isSearchComplete = false;
-  //   notifyListeners();
-  //   ApiResponse apiResponse = await chatServiceInterface!.searchChat(userIndex == 0? 'seller' : 'delivery-man', search);
-  //   if (apiResponse.response != null && apiResponse.response?.statusCode == 200 && apiResponse.response is !List) {
-  //     if(userIndex == 0) {
-  //       searchChatModel = null;
-  //       searchChatModel = ChatModel(totalSize: 1, limit: '10', offset: '1', chat: []);
-  //
-  //       apiResponse.response!.data.forEach((chat) => searchChatModel!.chat!.add(Chat.fromJson(chat)));
-  //       searchChatModel?.chat = searchChatModel!.chat;
-  //     } else {
-  //       searchDeliverymanChatModel = null;
-  //       searchDeliverymanChatModel = ChatModel(totalSize: 1, limit: '10', offset: '1', chat: []);
-  //
-  //       apiResponse.response!.data.forEach((chat) => searchDeliverymanChatModel!.chat!.add(Chat.fromJson(chat)));
-  //       searchDeliverymanChatModel?.chat = searchDeliverymanChatModel!.chat;
-  //     }
-  //   } else {
-  //     _isLoading = false;
-  //     ApiChecker.checkApi( apiResponse);
-  //   }
-  //
-  //   // if(tabController?.index == 0 && searchDeliverymanChatModel!.chat!.isEmpty && searchChatModel!.chat!.isNotEmpty){
-  //   //   tabController?.index = 1;
-  //   // } else if(tabController?.index == 1 && searchChatModel!.chat!.isEmpty && searchDeliverymanChatModel!.chat!.isNotEmpty){
-  //   //   tabController?.index = 0;
-  //   // }
-  //
-  //   _isLoading = false;
-  //   _isSearchComplete = true;
-  //   notifyListeners();
-  // }
   bool _search=false;
   bool get search=>_search;
   ChatModel? _searchChatModel;
@@ -221,14 +184,6 @@ bool get loading =>_loading;
       }
     });
     _searchChatModel=ChatModel(offset: '1',limit: '300',totalSize: 1,chat:chat+notChat );
-    notifyListeners();
-    //
-    // catModel!.chat!.sort((a, b) {
-    //   return ListSearch.compareNatural(
-    //   '${a.sellerInfo?.shops?.first!.name.toString()}',
-    //   '${b.sellerInfo?.shops?.first!.name.toString()}'
-    // );
-    // });
     notifyListeners();
   }
 
@@ -260,6 +215,8 @@ bool get loading =>_loading;
           }
           allMessageList.add(data);
         }
+        notifyListeners();
+
         for(int i=0; i< dateList.length; i++){
           messageList.add([]);
           for (var element in allMessageList) {
@@ -270,25 +227,13 @@ bool get loading =>_loading;
         }
       } else{
         messageModel = MessageModel(message: [], totalSize: 0, offset: '0', limit: '');
-        // messageModel?.message = [];
-        // messageModel!.totalSize =  MessageModel.fromJson(apiResponse.response!.data).totalSize;
-        // messageModel!.offset =  MessageModel.fromJson(apiResponse.response!.data).offset;
         messageModel!.message.addAll(MessageModel.fromJson(apiResponse.response!.data).message) ;
 
         for (var data in messageModel!.message) {
-          // if(!dateList.contains(DateConverter.dateStringMonthYear(DateTime.tryParse(data.createdAt!)))) {
-          //   dateList.add(DateConverter.dateStringMonthYear(DateTime.tryParse(data.createdAt!)));
-          // }
           allMessageList.add(data);
         }
 
-        // for(int i=0; i< dateList.length; i++) {
-        //   messageList.add([]);
-        //   for (var element in allMessageList) {
-        //     if(dateList[i]== DateConverter.dateStringMonthYear(DateTime.tryParse(element.createdAt!))){
-        //       messageList[i].add(element);
-        //     }}
-        // }
+    notifyListeners();
       }
     } else {
       _isLoading = false;
@@ -394,6 +339,7 @@ bool get loading =>_loading;
     _userTypeIndex = index;
     if(!searchActive){
       // getChatList(1);
+      // getChatType(_userTypeIndex);
     }
     notifyListeners();
   }
