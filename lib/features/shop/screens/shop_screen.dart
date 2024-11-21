@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/controllers/seller_product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
@@ -44,8 +45,24 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
   TextEditingController searchController = TextEditingController();
   bool vacationIsOn = false;
   int selectedIndex = 0;
+  bool show=false;
+  void showLogo() {
+    if (scrollController.position.pixels
+    > 250) {
+     setState(() {
+       show=true;
+     });
+
+    }else{
+      setState(() {
+        show=false;
+      });
+    }
+  }
 
   void _load() async{
+    scrollController.addListener(showLogo);
+
     await Provider.of<ShopController>(Get.context!, listen: false).getSellerInfo(widget.sellerId.toString());
     scrollController.addListener(_scrollListener);
     fetchPage(1);
@@ -56,6 +73,7 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
   bool lastPage = false;
   double scrollPixcel=0.00;
   void _scrollListener() async {
+
     if (lastPage == false) {
       if (loading == true) {
         return; // Prevent redundant fetches while loading
@@ -162,19 +180,22 @@ setState(() {
         // appBar: CustomAppBar(title: widget.name),
         body: Consumer<ShopController>(
           builder: (context, sellerProvider, _) {
+            print( MediaQuery.of(context).size.height);
             return CustomScrollView(
               shrinkWrap: true,
               physics: const AlwaysScrollableScrollPhysics(),
               controller: scrollController,
           slivers: [
             SliverAppBar(
-              expandedHeight: 285.0,
+
+              expandedHeight: MediaQuery.of(context).size.height<600.0?285:310 ,
+              // expandedHeight: constraints.maxHeight*0.35.h,
               snap: false,
               pinned: true,
               floating: false,
               title: Row(
                 children: [
-                  ClipRRect(
+                  show?  ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: CustomImageWidget(
                       image:
@@ -183,7 +204,9 @@ setState(() {
                       width: 50,
                       fit: BoxFit.fitHeight,
                     ),
-                  ),
+                  ).animate().addEffect(FadeEffect(duration: Duration(milliseconds: 200)))
+                      
+                      :const SizedBox.shrink(),
                   const SizedBox(
                     width: 5,
                   ),

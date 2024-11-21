@@ -262,7 +262,7 @@
 
   "Unlink": "الغاء الارتباط",
   "discount": "خصم:",
-  "tax": "ضريبة",
+  "tax": "الضريبة",
   "total_payable": "إجمالي المدفوعات:",
   "PAYMENT": "دفع",
   "PLEASE_LOGIN_FIRST": "الرجاء تسجيل الدخول أولا للمتابعة.\nلأنك الآن في وضع الضيف.",
@@ -395,7 +395,7 @@
   "address": "تبوك",
   "invalid_coupon_or": "قسيمة غير صالحة أو فشل في الحصول على الخصم",
   "solved": "تم حلها",
-  "out_of_stock": "إنتهى من المخزن",
+  "out_of_stock": "إنتهت الكمية",
   "support_ticket_conversation": "دعم تذكرة المحادثة",
   "variant": "متغير",
   "variations": "تفاوت",

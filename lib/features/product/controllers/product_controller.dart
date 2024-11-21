@@ -217,7 +217,9 @@ int selectedProductTypeIndex = 0;
      try{
        _productCount =apiResponse.response!.data['count'];
        notifyListeners();
-     }catch(E){}
+     }catch(E){
+       print(E);
+     }
       apiResponse.response!.data['products']['data'].forEach((product) => _brandOrCategoryProductList.add(Product.fromJson(product)));
       return _brandOrCategoryProductList;
     } else {

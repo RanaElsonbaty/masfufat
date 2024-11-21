@@ -17,16 +17,28 @@ class CategoryController extends ChangeNotifier {
 
   List<CategoryModel> get categoryList => _categoryList;
   int? get categorySelectedIndex => _categorySelectedIndex;
-
+  CategoryModel? _allProduct;
+  CategoryModel? get allProduct=>_allProduct;
   Future<void> getCategoryList(bool reload) async {
     if (_categoryList.isEmpty || reload) {
       ApiResponse apiResponse = await categoryServiceInterface!.getList();
       if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
         _categoryList.clear();
         brandCategoryList.clear();
-        apiResponse.response!.data.forEach((category) => _categoryList.add(CategoryModel.fromJson(category)));
+
+        apiResponse.response!.data.forEach((category) {
+
+          _categoryList.add(CategoryModel.fromJson(category));
+        });
         apiResponse.response!.data.forEach((category) => brandCategoryList.add(CategoryModel.fromJson(category)));
         _categorySelectedIndex = 0;
+        for(CategoryModel elm in _categoryList){
+          if(elm.id==0){
+            _allProduct=elm;
+            break;
+          }
+
+        }
       } else {
         ApiChecker.checkApi( apiResponse);
       }
@@ -107,15 +119,19 @@ class CategoryController extends ChangeNotifier {
     _searchCategoryList=[];
     _searchCategoryList.addAll(categoryList);
   }
-  List<CategoryModel> _brandCategoryList = [];
+  final List<CategoryModel> _brandCategoryList = [];
   // int? _categorySelectedIndex;
 
   List<CategoryModel> get brandCategoryList => _brandCategoryList;
   Future<bool> getBrandCategoryList(int id) async {
-    // if (_categoryList.isEmpty) {
+
       ApiResponse apiResponse = await categoryServiceInterface!.get(id.toInt());
       if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
         _brandCategoryList.clear();
+        if(_allProduct!=null){
+        _brandCategoryList.add(_allProduct!);
+        }
+
         apiResponse.response!.data.forEach((category) => _brandCategoryList.add(CategoryModel.fromJson(category)));
         _categorySelectedIndex = 0;
         notifyListeners();
