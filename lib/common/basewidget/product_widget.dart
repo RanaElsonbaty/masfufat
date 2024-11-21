@@ -139,6 +139,7 @@ double total =0.00;
                   ),
                 // if(ratting > 0)
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.start  ,
                   children: [
                     const SizedBox(width: 5,),
                     Expanded(
@@ -150,97 +151,88 @@ double total =0.00;
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.tajawal(color: Theme.of(context).primaryColor,fontWeight: FontWeight.w500,fontSize: 12)),
                     ),
+                    RichText(
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      text: TextSpan(
+                        text:"${getTranslated('qty', context)!} :" ,
+                        style: GoogleFonts.tajawal(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            // color: Colors.grey,
+                            color: Theme.of(context).iconTheme.color
 
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                        ),
+                        children: [
 
-                      const Icon(Icons.star_rate_rounded, color: Colors.orange,size: 20),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                        child: Text(ratting.toStringAsFixed(1), style: GoogleFonts.cairo(fontSize: Dimensions.fontSizeDefault)),
+                          TextSpan(
+                            text: widget.productModel.currentStock.toString()??'0',
+
+                            style:  GoogleFonts.tajawal(
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).iconTheme.color
+                                ,
+                                fontSize: 12
+                            ),
+                          ),
+                        ],
                       ),
-                      Text('(${widget.productModel.reviewCount!=null?widget.productModel.reviewCount.toString():0})',
-                          style: GoogleFonts.cairo(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor))
-
-                    ]),
+                    ),
                     const SizedBox(width: 5,),
                   ],
                 ),
                  const SizedBox(height: 3,),
-                 Padding(
-                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                   child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                     Expanded(
-                       child: RichText(
-                         textAlign: TextAlign.start,
-                         overflow: TextOverflow.ellipsis,
-                         maxLines: 1,
-                         text: TextSpan(
-                           text:"${getTranslated('tax', context)}:" ,
-                           style: GoogleFonts.tajawal(
-                             fontSize: 12,
-                             fontWeight: FontWeight.w400,
-                             // color: Colors.grey,
-                               color: Theme.of(context).iconTheme.color
+                 Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                   const SizedBox(width: 5,),
 
-                           ),
-                           children: [
-
-                             TextSpan(
-                               text: PriceConverter.convertPrice(context,tax??0.0),
-
-                               style:  GoogleFonts.tajawal(
-                                 fontWeight: FontWeight.w400,
-                                 color: Colors.red,
-                                 fontSize: 12
-                               ),
-                             ),
-                           ],
-                         ),
-                       ),
-                     ),
-                     //                  Text('${getTranslated('tax', context)!}:${PriceConverter.convertPrice(context,productModel.tax??0.0)}',style: GoogleFonts.tajawal(
-                     //                      fontSize: 12,
-                     //                      fontWeight: FontWeight.w400,
-                     //                      color: Colors.red
-                     //                    ),),
-                     // Spacer(),
-                     // Text('${getTranslated('qty', context)!}: ${}3123123123131',style: GoogleFonts.tajawal(
-                     //   fontSize: 12,
-                     //   fontWeight: FontWeight.w400,
-                     //   color: Colors.white
-                     // ),),
-
-                     RichText(
+                   Expanded(
+                     flex: 1,
+                     child: RichText(
                        textAlign: TextAlign.start,
                        overflow: TextOverflow.ellipsis,
                        maxLines: 1,
                        text: TextSpan(
-                         text:"${getTranslated('qty', context)!}:" ,
+                         text:"${getTranslated('tax', context)}:" ,
                          style: GoogleFonts.tajawal(
-                             fontSize: 12,
-                             fontWeight: FontWeight.w400,
-                             // color: Colors.grey,
+                           fontSize: 12,
+                           fontWeight: FontWeight.w400,
+                           // color: Colors.grey,
                              color: Theme.of(context).iconTheme.color
 
                          ),
                          children: [
 
                            TextSpan(
-                             text: widget.productModel.currentStock.toString()??'0',
+                             text: PriceConverter.convertPrice(context,tax??0.0),
 
                              style:  GoogleFonts.tajawal(
-                                 fontWeight: FontWeight.w400,
-                                 color: Theme.of(context).iconTheme.color
-                     ,
-                                 fontSize: 12
+                               fontWeight: FontWeight.w400,
+                               color: Colors.red,
+                               fontSize: 12
                              ),
                            ),
                          ],
                        ),
                      ),
+                   ),
+
+                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+
+                     const Icon(Icons.star_rate_rounded, color: Colors.orange,size: 20),
+                     Padding(
+                       padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                       child: Text(ratting.toStringAsFixed(1), style: GoogleFonts.cairo(fontSize: Dimensions.fontSizeDefault)),
+                     ),
+                     Text('(${widget.productModel.reviewCount!=null?widget.productModel.reviewCount.toString():0})',
+                         style: GoogleFonts.cairo(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor))
 
                    ]),
-                 ),
+                   const SizedBox(width: 5,),
+
+
+
+                 ]),
 
 
 
@@ -248,10 +240,11 @@ double total =0.00;
                 const SizedBox(height: 5,),
 
                    Padding(
-                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                     padding: const EdgeInsets.symmetric(horizontal: 0.0),
                      child: Row(
                        mainAxisAlignment: MainAxisAlignment.start,
                        children: [
+                         const SizedBox(width: 5,),
 
                          //
                          Expanded(
