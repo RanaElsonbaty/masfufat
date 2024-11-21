@@ -192,20 +192,22 @@ class AddTicketScreenState extends State<AddTicketScreen> {
                     ),
                     height: 100,
                     child: Stack(children: [
-                      Padding(padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
-                        child: Container(decoration: const BoxDecoration(color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(20)),),
-                          child: ClipRRect(borderRadius: const BorderRadius.all(Radius.circular(Dimensions.paddingSizeExtraSmall)),
-                            child:  Image.file(File(supportTicketProvider.pickedImageFileStored[index].path),
-                              width: MediaQuery.of(context).size.width, height:50, fit: BoxFit.cover)))),
+                      Container(
+                          height: 100,
+                          decoration: const BoxDecoration(color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(20)),),
+                        child: ClipRRect(borderRadius: const BorderRadius.all(Radius.circular(Dimensions.paddingSizeExtraSmall)),
+                          child:  Image.file(File(supportTicketProvider.pickedImageFileStored[index].path),
+                            width: MediaQuery.of(context).size.width, height:50, fit: BoxFit.fill))),
 
 
-                      Positioned(top:0,right:0,
+                      Positioned(top:5,right:5,
+
                         child: InkWell(onTap :() => supportTicketProvider.pickMultipleImage(true, index: index),
                           child: Container(decoration: const BoxDecoration(color: Colors.white,
                               borderRadius: BorderRadius.all(Radius.circular(Dimensions.paddingSizeDefault))),
                               child: const Padding(padding: EdgeInsets.all(4.0),
-                                child: Icon(Icons.delete_forever_rounded,color: Colors.red,size: 15)))))]),
+                                child: Icon(Icons.delete_forever_rounded,color: Colors.red,size: 20)))))]),
                   );
                 },
                 // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
