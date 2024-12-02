@@ -15,7 +15,8 @@ import '../../location/screens/select_location_screen.dart';
 
 
 class SavedBillingAddressListScreen extends StatefulWidget {
-  const SavedBillingAddressListScreen({super.key});
+  const SavedBillingAddressListScreen({super.key, this.formCheckOut=false});
+  final bool? formCheckOut;
   @override
   State<SavedBillingAddressListScreen> createState() => _SavedBillingAddressListScreenState();
 }
@@ -38,7 +39,7 @@ class _SavedBillingAddressListScreenState extends State<SavedBillingAddressListS
         backgroundColor: ColorResources.getPrimary(context),
         child: Icon(Icons.add, color: Theme.of(context).highlightColor)),
 
-      appBar: CustomAppBar(title: getTranslated('BILLING_ADDRESS_LIST', context),),
+      appBar: CustomAppBar(title: getTranslated('BILLING_ADDRESS_LIST', context),isBackButtonExist: widget.formCheckOut!,),
 
       body: SafeArea(child: Consumer<AddressController>(
         builder: (context, locationProvider, child) {

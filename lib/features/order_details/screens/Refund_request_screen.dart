@@ -34,7 +34,7 @@ class _RefundRequestScreenState extends State<RefundRequestScreen> {
       body: SingleChildScrollView(
         child: Column(children: [
           const SizedBox(height: 10,),
-          widget.orderDetailsModel.productDetails!=null?   RefuntProductWidget(product: widget.orderDetailsModel.productDetails!,qty: widget.orderDetailsModel.qty!,):const SizedBox(),
+          widget.orderDetailsModel.productDetails!=null?   RefuntProductWidget(product: widget.orderDetailsModel.productDetails!,qty: widget.orderDetailsModel.qty,):const SizedBox(),
 
           const SizedBox(height: 10,),
         

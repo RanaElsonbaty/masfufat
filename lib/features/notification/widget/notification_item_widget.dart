@@ -62,7 +62,7 @@ class _NotificationItemWidgetState extends State<NotificationItemWidget> {
                 subtitle: Text(DateConverter.localDateToIsoStringAMPM(DateTime.parse(widget.notificationItem.createdAt!)),
                     style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall,
                         color: ColorResources.getHint(context))),
-              trailing:seen==false? Icon(Icons.remove_red_eye,color: Colors.green.shade500,size: 20,):SizedBox(),
+              trailing:seen==false? Icon(Icons.remove_red_eye,color: Colors.green.shade500,size: 20,):const SizedBox(),
             )
         
         

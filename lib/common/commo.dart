@@ -1,13 +1,8 @@
-import 'package:chat_bubbles/bubbles/bubble_normal.dart';
 import 'package:chat_bubbles/bubbles/bubble_normal_audio.dart';
 import 'package:chat_bubbles/bubbles/bubble_normal_image.dart';
-import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
 import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
-import 'package:chat_bubbles/bubbles/bubble_special_two.dart';
-import 'package:chat_bubbles/date_chips/date_chip.dart';
 import 'package:chat_bubbles/message_bars/message_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:provider/provider.dart';
 
 import '../features/support/controllers/support_ticket_controller.dart';
@@ -22,8 +17,8 @@ class TestChat extends StatefulWidget {
 }
 
 class _TestChatState extends State<TestChat> {
-  Duration duration = new Duration();
-  Duration position = new Duration();
+  Duration duration = const Duration();
+  Duration position = const Duration();
   bool isPlaying = false;
   bool isLoading = false;
   bool isPause = false;
@@ -57,7 +52,7 @@ List<Widget> message =[];
          }else if(elm.fileType=='mp3'||elm.fileType=='mp3'){
            message.add(
                BubbleNormalAudio(
-                            color: Color(0xFFE8E8EE),
+                            color: const Color(0xFFE8E8EE),
                             duration: 50,
                             position: 10,
                             isPlaying: isPlaying,
@@ -84,12 +79,9 @@ List<Widget> message =[];
 }
   @override
   Widget build(BuildContext context) {
-    final now = new DateTime.now();
-    var _changeSeek;
-    var _playAudio;
     return Scaffold(
       appBar: AppBar(
-        title: Text('widget.title'),
+        title: const Text('widget.title'),
       ),
       body: Stack(
         children: [
@@ -144,17 +136,17 @@ List<Widget> message =[];
        //            isSender: false,
        //          ),
 
-                SizedBox(
+                const SizedBox(
                   height: 100,
                 )
               ],
-            ):SizedBox(),
+            ):const SizedBox(),
           ),
           MessageBar(
             onSend: (_) => print(_),
             actions: [
               InkWell(
-                child: Icon(
+                child: const Icon(
                   Icons.add,
                   color: Colors.black,
                   size: 24,
@@ -162,9 +154,9 @@ List<Widget> message =[];
                 onTap: () {},
               ),
               Padding(
-                padding: EdgeInsets.only(left: 8, right: 8),
+                padding: const EdgeInsets.only(left: 8, right: 8),
                 child: InkWell(
-                  child: Icon(
+                  child: const Icon(
                     Icons.camera_alt,
                     color: Colors.green,
                     size: 24,

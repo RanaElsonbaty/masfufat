@@ -33,6 +33,7 @@ class _AddFundDialogueWidgetState extends State<AddFundDialogueWidget> {
   @override
   void initState() {
     // TODO: implement initState
+
     super.initState();
 
   }
@@ -133,7 +134,7 @@ class _AddFundDialogueWidgetState extends State<AddFundDialogueWidget> {
                                         onChanged: (val){
                                           paymentProvider.getAmount(val!=''?double.parse(val):0.00);
 
-                                          paymentProvider.initiate(context);
+                                          // paymentProvider.initiate(context);
                                         },
                                         style: textBold.copyWith(fontSize: Dimensions.fontSizeLarge),
                                         decoration: const InputDecoration(
@@ -162,7 +163,7 @@ class _AddFundDialogueWidgetState extends State<AddFundDialogueWidget> {
                               builder:(context, checkout, child) =>  Consumer<PaymentController>(
                                 builder:(context, paymentProvider, child) =>checkout.selectedDigitalPaymentMethodId!=1?  CustomButton(
                                   buttonText: getTranslated('add_fund', context)!,
-                                  onTap: () {
+                                  onTap: widget.inputAmountController.text.trim().isEmpty?null:() {
 
                                     if(widget.inputAmountController.text.trim().isEmpty){
                                       showCustomSnackBar('${getTranslated('please_input_amount', context)}', context);

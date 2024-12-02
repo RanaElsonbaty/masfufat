@@ -1,7 +1,7 @@
 
-import 'package:flutter/cupertino.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
@@ -85,7 +85,7 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
                         // Navigator.pop(context);
                         Navigator.pop(diagloContext);
 
-                        Dialog('Products_are_being_deleted');
+                        dialog('Products_are_being_deleted');
                         if(myShopProvider.selectIds.isNotEmpty){
                           for (var element in myShopProvider.selectIds) {
                             if(myShopProvider.selectIndex==0){
@@ -166,11 +166,9 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-            //5jy3MyLDhfKQSKutrmAWrJIzrdraNQknBfMCEdTYYcEuiDlU7CY3cIVJDdiOOVsNmAYjYAYeYs2
-              //   ZOHj3vaiM0nRwUpn1kdKwr3vkL9hadLH1s6kIXRkKPzxpaQoGBa3DK1bS7sWaoGFGFdL0xcI60q
             if (storeSetting.linkedAccountsList.isNotEmpty&&storeSetting.linkedAccountsList.first.storeDetails!=null||storeSetting.linkedAccountsList.last.storeDetails!=null)
-              Text(getTranslated('Do_you_want_to_sync_all', Get.context!)!,
-                style: GoogleFonts.titilliumWeb(
+              Text(getTranslated('Save_and_sync_now', Get.context!)!,
+                style: GoogleFonts.tajawal(
                     fontSize: 30,
                     fontWeight: FontWeight.w700
 
@@ -212,58 +210,70 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
                         child: InkWell(
                       onTap: ()async{
 
+
                       if(storeSetting.linkedAccountsList.isNotEmpty&&storeSetting.linkedAccountsList.first.storeDetails==null&&storeSetting.linkedAccountsList.last.storeDetails==null){
                         Navigator.pop(diagloContext);
                         showCustomSnackBar('${getTranslated('Unable_to_connect_to_your_marketplace', Get.context!)}', Get.context!, isError: true);
 
                         return ;
                       }
-                        Navigator.pop(diagloContext);
 
-                        Dialog('Products_are_being_synced');
+                        dialog('Products_are_being_synced');
+try{
+  if(myShopController.selectIds.isEmpty||myShopController.selectAll==true){
+  await  syncAllProductOneTime(myShopController).then((value) async{
+    await myShopController.getList();
+            myShopController. initController();
+  });
+    myShopController.clearSelect();
 
-                     try{
-                       if(widget.index==0){
+            Navigator.pop(diagloContext);
+    Navigator.pop(Get.context!);
 
-                       await addPrice(myShopController).then((value) async{
-                         if(value==true){
-                           await myShopController.syncProduct(false).then((value)async {
-                             if(value==true){
-                               await myShopController.getList();
-                               myShopController. initController();
 
-                               Navigator.pop(diagloContext);
+  }else{
+  await  syncOneProductOneTime(myShopController).then((value) async{
+    await myShopController.getList();
+    myShopController. initController();
+  });
+  myShopController.clearSelect();
+            Navigator.pop(diagloContext);
+Navigator.pop(Get.context!);
 
-                             }else{
+  }
+  // Navigator.pop(diagloContext);
+}catch(e){
+  showCustomSnackBar(e.toString(), context);
+}
 
-                               Navigator.pop(diagloContext);
-
-                             }
-
-                           });
-                         }else{
-                           Navigator.pop(diagloContext);
-
-                         }
-
-                       });}else{
-                         await myShopController.syncProduct(true).then((value)async {
-                           if(value==true){
-                             await myShopController.getList();
-                             myShopController. initController();
-                             Navigator.pop(diagloContext);
-                           }else{
-                             Navigator.pop(diagloContext);
-
-                           }
-
-                         });
-
-                       }
-                     }catch(e){
-                       Navigator.pop(diagloContext);
-
-                     }
+                     //
+                     // try{
+                     //   if(widget.index==0){
+                     //
+                     //   await addPrice(myShopController).then((value) async{
+                     //     myShopController.clearSelect();
+                     //     await myShopController.getList();
+                     //     myShopController. initController();
+                     //
+                     //   });
+                     //   }else{
+                     //     await myShopController.syncProduct(true,).then((value)async {
+                     //       if(value==true){
+                     //         await myShopController.getList();
+                     //         myShopController. initController();
+                     //         Navigator.pop(diagloContext);
+                     //       }else{
+                     //         Navigator.pop(diagloContext);
+                     //
+                     //       }
+                     //
+                     //     });
+                     //
+                     //   }
+                     // }catch(e){
+                     //   Navigator.pop(diagloContext);
+                     //
+                     // }
 
 
                       },
@@ -291,20 +301,25 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
                       ),
                       const SizedBox(width: 10,),
                       Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: Theme.of(context).primaryColor
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Text(getTranslated('no', context)!,
-                                style: GoogleFonts.titilliumWeb(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500
+                        child: InkWell(
+                          onTap: (){
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: Theme.of(context).primaryColor
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: Text(getTranslated('no', context)!,
+                                  style: GoogleFonts.titilliumWeb(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500
 
+                                  ),
                                 ),
                               ),
                             ),
@@ -322,7 +337,7 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
       ),
     );
   }
-  Future Dialog(String text){
+  Future dialog(String text){
 
     return showDialog(
 
@@ -369,57 +384,122 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
     );
   }
 
-  double profit =0.00;
-  double percentage =0.00;
-  double getProfit(double val,MyShopController myShopController,int i) {
-    //
-    if(Provider.of<MyShopController>(context,listen: false).switch2){
-      double tax =(double.parse(Provider.of<MyShopController>(context,listen: false).taxController.text)/100)*myShopController.pendingList[i].pricings.suggestedPrice;
-      // getProfit(double.parse(widget.controller.text)+tax??0.00);
-      val= val +tax;
-    }else{
-      // getProfit(double.parse(widget.controller.text)??0.00);
+  // double profit =0.00;
+  // double percentage =0.00;
+  // double getProfit(double val,MyShopController myShopController,int i) {
+  //   //
+  //   if(Provider.of<MyShopController>(context,listen: false).switch2){
+  //     double tax =(double.parse(Provider.of<MyShopController>(context,listen: false).taxController.text)/100)*myShopController.pendingList[i].pricings.suggestedPrice;
+  //     // getProfit(double.parse(widget.controller.text)+tax??0.00);
+  //     val= val +tax;
+  //   }else{
+  //     // getProfit(double.parse(widget.controller.text)??0.00);
+  //
+  //   }
+  //
+  //   double value =0.0;
+  //   value = myShopController.pendingList[i].pricings.value +
+  //       (myShopController.pendingList[i].taxType == 'percent' || myShopController.pendingList[i].taxType != null
+  //           ? ((myShopController.pendingList[i].tax / 100) * myShopController.pendingList[i].pricings.value)
+  //           : myShopController.pendingList[i].tax);
+  //
+  //
+  //   setState(() {
+  //     profit = (val - value);
+  //     percentage = (profit / value) * 100;
+  //   });
+  //   print('value: $value');
+  //
+  //   print("Profit: $profit");
+  //   print("Percentage: $percentage%");
+  //   return percentage;
+  // }
+  // Future addPrice(MyShopController myShopController)async{
+  //   double price=0.00;
+  //   for (int i=0;i<myShopController.selectIds.length;i++) {
+  //     try{
+  //       price= getProfit(double.parse(myShopController.controller[i].text),myShopController ,i);
+  //
+  //       await myShopController. addProductPrice(myShopController.selectIds[i],myShopController.controller[i].text).then((value)async {
+  //       if(value==true){
+  //           await myShopController.syncProduct(false,).then((value)async {
+  //             if(value==true){
+  //               Navigator.pop(diagloContext);
+  //             }else{
+  //               Navigator.pop(diagloContext);
+  //             }
+  //
+  //           });
+  //         }else{
+  //           Navigator.pop(diagloContext);
+  //           showCustomSnackBar('${getTranslated('Product_sync_failed', Get.context!)} sku : ${myShopController.pendingList[i].code}', Get.context!, isError: true);
+  //           return false;
+  //
+  //       }
+  //       });
+  //       print(price);
+  //       return true;
+  //
+  //     }catch(e){
+  //       print(e);
+  //     }
+  //
+  //   }
+  // }
+Future syncAllProductOneTime(MyShopController myShopController)async{
+
+  for (int i =0;i<myShopController.pendingList.length;i++) {
+    double tax=0.00;
+
+    if(myShopController.switch2){
+      tax= (((double.parse(myShopController.controller[i].text)+(((double.parse(myShopController.taxController.text)/100)*double.parse(myShopController.controller[i].text))))));
 
     }
-
-    double value =0.0;
-    value = myShopController.pendingList[i].pricings.value +
-        (myShopController.pendingList[i].taxType == 'percent' || myShopController.pendingList[i].taxType != null
-            ? ((myShopController.pendingList[i].tax / 100) * myShopController.pendingList[i].pricings.value)
-            : myShopController.pendingList[i].tax);
-
-
-    setState(() {
-      profit = (val - value);
-      percentage = (profit / value) * 100;
-    });
-    print('value: $value');
-
-    print("Profit: $profit");
-    print("Percentage: $percentage%");
-    return percentage;
-  }
-  Future addPrice(MyShopController myShopController)async{
-    double price=0.00;
-    for (int i=0;i<myShopController.pendingList.length;i++) {
-      try{
-        price= getProfit(double.parse(myShopController.controller[i].text),myShopController ,i);
-
-        await myShopController. addProductPrice(myShopController.pendingList[i].id,myShopController.controller[i].text).then((value) {
-        if(value==true){
-          return true;
-        }else{
-          showCustomSnackBar('${getTranslated('Product_sync_failed', Get.context!)} sku : ${myShopController.pendingList[i].code}', Get.context!, isError: true);
-          return false;
-        }
+          await myShopController. addProductPrice(myShopController.pendingList[i].id,(double.parse(myShopController.controller[i].text)+tax).toString()).then((value)async {
+if(value==true){
+        await myShopController. syncProduct(widget.index==0?false:true,).then((value)async {
+          if(value==true){
+                          // Navigator.pop(diagloContext);
+                        }else{
+                      showCustomSnackBar('${getTranslated('Product_sync_failed', Get.context!)} sku : ${myShopController.pendingList[i].code}', Get.context!, isError: true);
+                          // Navigator.pop(diagloContext);
+                        }
         });
-        print(price);
-        return true;
 
-      }catch(e){
-        print(e);
-      }
+}else{
+  // Navigator.pop(diagloContext);
+            showCustomSnackBar('${getTranslated('Product_sync_failed', Get.context!)} sku : ${myShopController.pendingList[i].code}', Get.context!, isError: true);
+            return false;
+}
+  });
+  }
+}
+Future syncOneProductOneTime(MyShopController myShopController)async{
+
+  for (int i =0;i<myShopController.selectIds.length;i++) {
+    double tax=0.00;
+
+    if(myShopController.switch2){
+      tax= (((double.parse(myShopController.controller[i].text)+(((double.parse(myShopController.taxController.text)/100)*double.parse(myShopController.controller[i].text))))));
 
     }
+    await myShopController. addProductPrice(myShopController.selectIds[i],(double.parse(myShopController.controller[i].text)+tax).toString()).then((value)async {
+      if(value==true){
+        await myShopController. syncOneProduct(widget.index==0?false:true,myShopController.selectIds[i]).then((value)async {
+          if(value==true){
+            // Navigator.pop(diagloContext);
+          }else{
+            showCustomSnackBar('${getTranslated('Product_sync_failed', Get.context!)} id : ${myShopController.selectIds[i]}', Get.context!, isError: true);
+            // Navigator.pop(diagloContext);
+          }
+        });
+
+      }else{
+        // Navigator.pop(diagloContext);
+        showCustomSnackBar('${getTranslated('Product_sync_failed', Get.context!)} id : ${myShopController.selectIds[i]}', Get.context!, isError: true);
+        return false;
+      }
+    });
   }
+}
 }

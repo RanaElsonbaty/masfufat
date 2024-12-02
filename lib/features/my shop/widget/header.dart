@@ -21,7 +21,7 @@ class _HeaderSectionState extends State<HeaderSection> {
   Widget build(BuildContext context) {
     return Consumer<MyShopController>(
       builder:(context, myShopProvider, child) =>  SizedBox(
-        height: widget.index==0||widget.index==2? 100:60,
+        height: widget.index==0||widget.index==2? 100:myShopProvider.selectIds.isEmpty?60:80,
         child: Column(
           children: [
 
@@ -31,14 +31,15 @@ class _HeaderSectionState extends State<HeaderSection> {
               children: [
                 // const SizedBox(width: 2,),
                 if(myShopProvider.selectIds.isNotEmpty)
-                widget.index==0||widget.index==2?
+                // widget.index==0||widget.index==2?
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Text("${getTranslated('Specific_products', context)!} ${myShopProvider.selectIds.length}",style: GoogleFonts.tajawal(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
                       ),),
-                    ):const SizedBox(),
+                    ),
+                        // :const SizedBox(),
                 if(widget.index==0||widget.index==2)
                   InkWell(
                   onTap: (){

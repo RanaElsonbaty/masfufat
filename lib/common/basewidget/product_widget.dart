@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/Store%20settings/controllers/store_setting_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
@@ -14,6 +13,7 @@ import 'package:flutter_sixvalley_ecommerce/features/product_details/screens/pro
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/favourite_button_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:vibration/vibration.dart';
 
 import '../../features/cart/controllers/cart_controller.dart';
 import '../../features/cart/domain/models/cart_model.dart';
@@ -138,6 +138,8 @@ double total =0.00;
                     )
                   ),
                 // if(ratting > 0)
+                Divider(height:0.05,color: Colors.grey.shade200,),
+                const SizedBox(height: 4,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start  ,
                   children: [
@@ -146,7 +148,7 @@ double total =0.00;
                       flex: 1,
                       child: Text("${getTranslated('price_value', context)} ${PriceConverter.convertPrice(context,
                           widget.productModel.unitPrice!, discountType: widget.productModel.discountType,
-                          discount: widget.productModel.discount ?? 0.00)}ٍ",
+                          discount: widget.productModel.discount ?? 0.00)}",
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.tajawal(color: Theme.of(context).primaryColor,fontWeight: FontWeight.w500,fontSize: 12)),
@@ -156,7 +158,7 @@ double total =0.00;
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       text: TextSpan(
-                        text:"${getTranslated('qty', context)!} :" ,
+                        text:"${getTranslated('qty', context)!} " ,
                         style: GoogleFonts.tajawal(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
@@ -167,7 +169,7 @@ double total =0.00;
                         children: [
 
                           TextSpan(
-                            text: widget.productModel.currentStock.toString()??'0',
+                            text: widget.productModel.currentStock.toString(),
 
                             style:  GoogleFonts.tajawal(
                                 fontWeight: FontWeight.w400,
@@ -192,8 +194,9 @@ double total =0.00;
                        textAlign: TextAlign.start,
                        overflow: TextOverflow.ellipsis,
                        maxLines: 1,
+
                        text: TextSpan(
-                         text:"${getTranslated('tax', context)}:" ,
+                         text:"${getTranslated('tax', context)}" ,
                          style: GoogleFonts.tajawal(
                            fontSize: 12,
                            fontWeight: FontWeight.w400,
@@ -204,7 +207,7 @@ double total =0.00;
                          children: [
 
                            TextSpan(
-                             text: PriceConverter.convertPrice(context,tax??0.0),
+                             text: PriceConverter.convertPrice(context,tax),
 
                              style:  GoogleFonts.tajawal(
                                fontWeight: FontWeight.w400,
@@ -257,7 +260,6 @@ if(ratting!=0)
                                style: GoogleFonts.tajawal(color: Theme.of(context).primaryColor,fontWeight: FontWeight.w500,fontSize: 12)),
                          ),
                          if(widget.productModel.discount!= null && widget.productModel.discount! > 0 )
-
                          Expanded(
                            child: Text(PriceConverter.convertPrice(context, widget.productModel.unitPrice),
                                maxLines: 1,
@@ -304,7 +306,10 @@ if(ratting!=0)
                             Expanded(
                               child: InkWell(
                                 onTap: ()async{
+                                  HapticFeedback.heavyImpact();
 
+                                  vibrate();
+                                  Vibration.cancel();
                            try{
                              if(inCart){
                                if(cartProvider.cartList.isEmpty){
@@ -368,7 +373,11 @@ if(ratting!=0)
                             Expanded(
                               child: InkWell(
                                 onTap: (){
-                                  // if (storeSetting.linkedAccountsList.isNotEmpty&&storeSetting.linkedAccountsList.first.storeDetails!=null||storeSetting.linkedAccountsList.last.storeDetails!=null){
+
+                                  HapticFeedback.heavyImpact();
+
+                                  vibrate();
+                                  Vibration.cancel();
 
                                     try{
 
@@ -467,10 +476,8 @@ if(ratting!=0)
                   builder:(context, myShopController, child) =>  Checkbox(
                       value: product.productSelect.contains(widget.productModel.id),
                       onChanged: (val){
-                  // if (storeSetting.linkedAccountsList.isNotEmpty&&storeSetting.linkedAccountsList.first.storeDetails!=null||storeSetting.linkedAccountsList.last.storeDetails!=null){
+                          bool sync=false;
 
-                        // for (var element in widget.products) {
-                          bool  sync=false;
                           for (var elm in myShopController.pendingList) {
                             if(elm.id==widget.productModel.id){
                               sync=true;
@@ -519,4 +526,25 @@ if(ratting!=0)
       ),
     );
   }
+Future<bool>
+vibrate() async {
+  if (await Vibration
+      .hasVibrator() ==
+      true) {
+    print('vibrate');
+    // Vibration.vibrate();
+    Vibration.vibrate(
+        pattern: [
+          1000,
+          500,
+        ]);
+    return Future(() => true);
+  } else {
+    print('cannot vibrate');
+
+    return Future(
+            () => false);
+  }
+}
+
 }

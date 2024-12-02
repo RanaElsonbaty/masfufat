@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/title_row_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/category/controllers/category_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/category/screens/category_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/category/widgets/category_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/screens/brand_and_category_product_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/controllers/localization_controller.dart';

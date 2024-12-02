@@ -1,6 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'dart:convert';
 
 
 
@@ -590,8 +589,8 @@ class ProductDetailsModel {
     if (json["hs_code"] != null) {
       _hsCode = json["hs_code"];
     }
-    if (json["length"] != null) {
-      _length = json["length"];
+    if (json["height"] != null) {
+      _length = json["height"];
     }
     if (json["width"] != null) {
       _width = json["width"];

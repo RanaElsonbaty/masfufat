@@ -1,5 +1,4 @@
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/domain/models/cart_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/shipping/controllers/shipping_controller.dart';
@@ -174,7 +173,7 @@ print(e);
                           ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: sellerList.length??0,
+                            itemCount: sellerList.length,
                             padding: const EdgeInsets.all(0),
                             itemBuilder: (context, index) {
                               bool hasPhysical = false;
@@ -213,7 +212,7 @@ print(e);
                                                 child: Row(children: [
 
                                                   Expanded(
-                                                    child: Text('${sellerGroupList[index].shopInfo!??''} (${cartProductList[index].length??''})', maxLines: 1, overflow: TextOverflow.ellipsis,
+                                                    child: Text('${sellerGroupList[index].shopInfo!} (${cartProductList[index].length})', maxLines: 1, overflow: TextOverflow.ellipsis,
                                                       textAlign: TextAlign.start, style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeLarge,
                                                           fontWeight: FontWeight.w500,
                                                           // color: Provider.of<ThemeController>(context, listen: false).darkTheme?
@@ -342,11 +341,11 @@ print(e);
                                       ListView.builder(physics: const NeverScrollableScrollPhysics(),
                                         shrinkWrap: true,
                                         padding: const EdgeInsets.all(0),
-                                        itemCount: cartProductList[index].length??0,
+                                        itemCount: cartProductList[index].length,
                                         itemBuilder: (context, i) {
                                           return CartWidget(cartModel: cartProductList[index][i],
                                             index: cartProductIndexList[index][i],
-                                            fromCheckout: widget.fromCheckout??false,
+                                            fromCheckout: widget.fromCheckout,
                                           );
                                         },
                                       ),
@@ -437,7 +436,7 @@ print(e);
 
 
                         ],
-                        ) : NoInternetOrDataScreenWidget(icon: Images.emptyCart, icCart: true,
+                        ) : const NoInternetOrDataScreenWidget(icon: Images.emptyCart, icCart: true,
                           isNoInternet: false, message: 'no_product_in_cart',),
                       ),
                     ),

@@ -48,11 +48,11 @@ class _WalletScreenState extends State<WalletScreen> {
 
     Provider.of<PaymentController>(context,listen: false).getType('wallet_charge');
     Provider.of<PaymentController>(context,listen: false).getAmount(0,notify: false);
-    Provider.of<PaymentController>(Get.context!,listen: false).getApiKey(Get.context!);
-    Provider.of<PaymentController>(Get.context!,listen: false).initiate(Get.context!);
+    // Provider.of<PaymentController>(Get.context!,listen: false).getApiKey(Get.context!);
+    Provider.of<PaymentController>(Get.context!,listen: false).initSession(Get.context!);
     Provider.of<PaymentController>(Get.context!,listen: false).cardViewStyle();
     Provider.of<PaymentController>(Get.context!,listen: false).getPaymentMethod(context, 'wallet_charge');
-    Provider.of<PaymentController>(context,listen: false).initiate(context);
+    // Provider.of<PaymentController>(context,listen: false).initiate(context);
     if(Provider.of<AuthController>(context, listen: false).isLoggedIn()) {
       Provider.of<ProfileController>(context, listen: false).getUserInfo(context);
       // Provider.of<WalletController>(context, listen: false).getWalletBonusBannerList();

@@ -277,38 +277,39 @@ class FilterItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: Dimensions.paddingSizeDefault),
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-            border: Border.all(
-                width: 1, color: Theme.of(context).hintColor.withOpacity(.1))),
-        child: Padding(
-            padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-            child: Row(
-              children: [
-                Expanded(
-                    child: Text(title ?? '',
-                        style: textRegular.copyWith(
-                            fontSize: Dimensions.fontSizeDefault))),
-                InkWell(
-                    onTap: () => Provider.of<SearchProductController>(context,
-                            listen: false)
-                        .setFilterIndex(index),
-                    child: Icon(
-                        Provider.of<SearchProductController>(context)
-                                    .filterIndex ==
-                                index
-                            ? Icons.radio_button_checked
-                            : Icons.radio_button_off,
-                        color: Provider.of<SearchProductController>(context)
-                                    .filterIndex ==
-                                index
-                            ? Theme.of(context).primaryColor
-                            : Theme.of(context).hintColor.withOpacity(.15)))
-              ],
-            )),
+    return InkWell(
+      onTap: () =>  Provider.of<SearchProductController>(context,
+          listen: false)
+          .setFilterIndex(index),
+      child: Padding(
+        padding: const EdgeInsets.only(top: Dimensions.paddingSizeDefault),
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
+              border: Border.all(
+                  width: 1, color: Theme.of(context).hintColor.withOpacity(.1))),
+          child: Padding(
+              padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+              child: Row(
+                children: [
+                  Expanded(
+                      child: Text(title ?? '',
+                          style: textRegular.copyWith(
+                              fontSize: Dimensions.fontSizeDefault))),
+                  Icon(
+                      Provider.of<SearchProductController>(context)
+                                  .filterIndex ==
+                              index
+                          ? Icons.radio_button_checked
+                          : Icons.radio_button_off,
+                      color: Provider.of<SearchProductController>(context)
+                                  .filterIndex ==
+                              index
+                          ? Theme.of(context).primaryColor
+                          : Theme.of(context).hintColor.withOpacity(.15))
+                ],
+              )),
+        ),
       ),
     );
   }

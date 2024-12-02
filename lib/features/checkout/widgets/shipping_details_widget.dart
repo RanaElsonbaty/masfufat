@@ -15,8 +15,9 @@ class ShippingDetailsWidget extends StatefulWidget {
   final bool hasPhysical;
   final bool billingAddress;
   final GlobalKey<FormState> passwordFormKey;
+  final bool? fromCheckout;
 
-  const ShippingDetailsWidget({super.key, required this.hasPhysical, required this.billingAddress, required this.passwordFormKey});
+  const ShippingDetailsWidget({super.key, required this.hasPhysical, required this.billingAddress, required this.passwordFormKey, this.fromCheckout=false});
 
   @override
   State<ShippingDetailsWidget> createState() => _ShippingDetailsWidgetState();
@@ -53,7 +54,7 @@ class _ShippingDetailsWidgetState extends State<ShippingDetailsWidget> {
 
 
                               InkWell(onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (BuildContext context) => const SavedBillingAddressListScreen())),
+                                  builder: (BuildContext context) => const SavedBillingAddressListScreen(formCheckOut: false,))),
                                 child: SizedBox(width: 20,child: Image.asset(Images.edit, scale: 3, color: Theme.of(context).primaryColor,)),),
                             ]),
 
@@ -82,33 +83,10 @@ class _ShippingDetailsWidgetState extends State<ShippingDetailsWidget> {
                           ]),
                         )),
 
-                  if(widget.billingAddress && shippingProvider.sameAsBilling)
-                    Card(child: Container(padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeDefault),
-                          color: Theme.of(context).cardColor),
-                      child: Column(crossAxisAlignment:CrossAxisAlignment.start, children: [
-                        Row(mainAxisAlignment:MainAxisAlignment.start, crossAxisAlignment:CrossAxisAlignment.start, children: [
-                          Expanded(child: Row(children: [
-                            SizedBox(width: 18, child: Image.asset(Images.billingTo)),
-                            Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
-                                child: Row(children: [
-                                    Text('${getTranslated('billing_to', context)}',
-                                        style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
-
-                                  const SizedBox(width: Dimensions.paddingSizeSmall),
-                                  Text('(${getTranslated("same_as_delivery", context)})',
-                                      style: textMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).hintColor.withOpacity(.75))),
-                                  ],
-                                ))])),
 
 
-                        ]),
-                      ],
-                      ),
-                    )),
-
-                    isGuestMode ? (!widget.hasPhysical)?
-                    CreateAccountWidget(formKey: widget.passwordFormKey) : const SizedBox() : const SizedBox(),
+                    // isGuestMode ? (!widget.hasPhysical)?
+                    // CreateAccountWidget(formKey: widget.passwordFormKey) : const SizedBox() : const SizedBox(),
 
                   ]),
               );

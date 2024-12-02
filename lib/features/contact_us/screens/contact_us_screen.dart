@@ -292,6 +292,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                     labelText: getTranslated('enter_mobile_number', context),
                     controller: phoneController,
                     required: true,
+                    allLtf: true,
                     showLabelText: false,
                     showCodePicker: true,
                     lTf: true,
@@ -302,6 +303,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                     },
                     isAmount: true,
                     inputAction: TextInputAction.next,
+                  textAlign: TextAlign.center,
                     inputType: TextInputType.phone,
                   validator: (value)=> ValidateCheck.validatePhoneNumber(value, 'phone_is_required'),
 

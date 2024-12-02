@@ -7,7 +7,6 @@ import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
-import 'package:http/http.dart';
 
 class CouponController extends ChangeNotifier {
   final CouponServiceInterface? couponRepo;
@@ -39,7 +38,7 @@ class CouponController extends ChangeNotifier {
       _isLoading = false;
       _couponCode = coupon;
       Map map = apiResponse.response!.data;
-      print('asdasdasdasdasdasdas${map}');
+      print('asdasdasdasdasdasdas$map');
       String dis = map['coupon_discount'].toString();
       if(map['coupon_discount'] !=null){
         _discount = double.parse(dis);

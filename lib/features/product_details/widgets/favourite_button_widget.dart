@@ -26,11 +26,16 @@ class FavouriteButtonWidget extends StatelessWidget {
                  context: context, builder: (_)=> const NotLoggedInBottomSheetWidget());
             } else {
 
-              wishProvider.addedIntoWish.contains(productId)?
+              if(wishProvider.addedIntoWish.contains(productId)){
+                wishProvider.removeWishList(productId,);
+              }else{
+                wishProvider.addOfflineWishList(product,wishProvider.addedIntoWish.contains(productId));
 
-              wishProvider.removeWishList(productId,) :
-              wishProvider.addWishList(productId);
-              wishProvider.addOfflineWishList(product,wishProvider.addedIntoWish.contains(productId));
+                wishProvider.addWishList(productId);
+
+              }
+
+
 
             }
           },

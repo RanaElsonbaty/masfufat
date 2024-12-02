@@ -1,12 +1,7 @@
-import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_sixvalley_ecommerce/features/brand/controllers/brand_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/category/controllers/category_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +14,6 @@ import '../../../main.dart';
 import '../../../theme/controllers/theme_controller.dart';
 import '../../../utill/dimensions.dart';
 import '../../../utill/images.dart';
-import '../../Store settings/controllers/store_setting_controller.dart';
 import '../../brand/domain/models/brand_model.dart';
 import '../../brand/widgets/brand_list_widget.dart';
 import '../../cart/controllers/cart_controller.dart';
@@ -35,6 +29,7 @@ import '../../wishlist/screens/wishlist_screen.dart';
 import '../controllers/product_controller.dart';
 import '../domain/models/product_model.dart';
 import '../widgets/bottom_Navigation_Bar_select_product.dart';
+import '../widgets/select_product_top.dart';
 
 class AllCategoryAndBrand extends StatefulWidget {
   const AllCategoryAndBrand({super.key, this.backButtom=true});
@@ -391,62 +386,63 @@ bool isBrand=false;
                     flex: 5,
                     child: Column(
                       children: [
+                        SelectProductTop( filterTap: filterTap, selectBrandName: selectBrandName,selectIndexBrand: selectIndexBrand,selectIndexCategory: selectIndexCategory, select: product.productSelect.isNotEmpty,products: pagingController.itemList??[],),
                         // select name and count / filter
-                        Consumer<ProductController>(
-                          builder:(context, product, child) =>  Consumer<CategoryController>(
-                            builder:(context, category, child) =>  Consumer<BrandController>(
-                              builder:(context, brand, child) {
-                                return Container(
-                                height: 50,
-                                width: MediaQuery.of(context).size.width/1.25,
-                                decoration: const BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(8),
-                                    topRight: Radius.circular(8)
-                                  )
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                  Text(product.productCount.toString(),style: GoogleFonts.cairo(
-                                    color: Colors.white,
-                                  ),),
-                                  Text('${category.brandCategoryList.isNotEmpty?category.brandCategoryList[selectIndexCategory].name.toString():''} ${selectIndexBrand!=null?'/':''} ${selectIndexBrand!=null?selectBrandName:""}',style: GoogleFonts.cairo(
-                                    color: Colors.white,
-                                  ),),
-                                    InkWell(onTap: () {
-                                      showModalBottomSheet(context: context,
-                                          isScrollControlled: true, backgroundColor: Colors.transparent,
-                                          builder: (c) =>  SearchFilterBottomSheet( pagingController: pagingController,)).then((value) {
-                                        setState(() {
-                                          _page=1;
-
-                                          lastPage = false;
-                                          loading=false;
-                                        });
-                                        product.clearSelectProduct();
-                                        pagingController.refresh();
-
-                                        fetchPage(page,false, Provider.of<CategoryController>(context,listen: false).categoryList[selectIndexCategory].id.toString(), Get.context!,true);
-                                        scrollController.addListener(_scrollListener);
-
-
-                                      });
-                                      _page=1;
-
-                                    },
-                                        child: Stack(children: [
-                                          Container(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall,
-                                      ),
-                                            child:  SizedBox(width: 20,height: 20,child: Image.asset(Images.filterIcon)),),])),
-
-                                ],),
-                              );
-                              },
-                            ),
-                          ),
-                        ),
+                        // Consumer<ProductController>(
+                        //   builder:(context, product, child) =>  Consumer<CategoryController>(
+                        //     builder:(context, category, child) =>  Consumer<BrandController>(
+                        //       builder:(context, brand, child) {
+                        //         return Container(
+                        //         height: 50,
+                        //         width: MediaQuery.of(context).size.width/1.25,
+                        //         decoration: const BoxDecoration(
+                        //           color: Colors.black,
+                        //           borderRadius: BorderRadius.only(
+                        //             topLeft: Radius.circular(8),
+                        //             topRight: Radius.circular(8)
+                        //           )
+                        //         ),
+                        //         child: Row(
+                        //           mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        //           children: [
+                        //           Text(product.productCount.toString(),style: GoogleFonts.cairo(
+                        //             color: Colors.white,
+                        //           ),),
+                        //           Text('${category.brandCategoryList.isNotEmpty?category.brandCategoryList[selectIndexCategory].name.toString():''} ${selectIndexBrand!=null?'/':''} ${selectIndexBrand!=null?selectBrandName:""}',style: GoogleFonts.cairo(
+                        //             color: Colors.white,
+                        //           ),),
+                        //             InkWell(onTap: () {
+                        //               showModalBottomSheet(context: context,
+                        //                   isScrollControlled: true, backgroundColor: Colors.transparent,
+                        //                   builder: (c) =>  SearchFilterBottomSheet( pagingController: pagingController,)).then((value) {
+                        //                 setState(() {
+                        //                   _page=1;
+                        //
+                        //                   lastPage = false;
+                        //                   loading=false;
+                        //                 });
+                        //                 product.clearSelectProduct();
+                        //                 pagingController.refresh();
+                        //
+                        //                 fetchPage(page,false, Provider.of<CategoryController>(context,listen: false).categoryList[selectIndexCategory].id.toString(), Get.context!,true);
+                        //                 scrollController.addListener(_scrollListener);
+                        //
+                        //
+                        //               });
+                        //               _page=1;
+                        //
+                        //             },
+                        //                 child: Stack(children: [
+                        //                   Container(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall,
+                        //               ),
+                        //                     child:  SizedBox(width: 20,height: 20,child: Image.asset(Images.filterIcon)),),])),
+                        //
+                        //         ],),
+                        //       );
+                        //       },
+                        //     ),
+                        //   ),
+                        // ),
 
 
 
@@ -509,7 +505,7 @@ bool isBrand=false;
           ),
         ),
       ),
-      bottomNavigationBar:pagingController.itemList!=null?SelectProductWidget(products: pagingController.itemList! ,):const SizedBox.shrink()
+      // bottomNavigationBar:pagingController.itemList!=null?SelectProductWidget(products: pagingController.itemList! ,):const SizedBox.shrink()
     );
   }
 
@@ -544,5 +540,25 @@ bool isBrand=false;
         });
       }
     }
+  }
+  Future filterTap()async{
+    showModalBottomSheet(context: context,
+        isScrollControlled: true, backgroundColor: Colors.transparent,
+        builder: (c) =>  SearchFilterBottomSheet( pagingController: pagingController,)).then((value) {
+      setState(() {
+        _page=1;
+
+        lastPage = false;
+        loading=false;
+      });
+      Provider.of<ProductController>(context,listen: false).clearSelectProduct();
+      pagingController.refresh();
+
+      fetchPage(page,false, Provider.of<CategoryController>(context,listen: false).categoryList[selectIndexCategory].id.toString(), Get.context!,true);
+      scrollController.addListener(_scrollListener);
+
+
+    });
+    _page=1;
   }
 }

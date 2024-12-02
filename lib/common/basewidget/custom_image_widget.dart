@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 
@@ -19,31 +18,31 @@ class CustomImageWidget extends StatefulWidget {
 
 class _CustomImageWidgetState extends State<CustomImageWidget> {
 
-  Future<void> loadImage() async {
-    try {
-      await precacheImage(NetworkImage(widget.image), Get.context!);
-    } catch (e) {
-      print('custom image precache image error $e');
-    }
-  }
-
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    loadImage();
-
-    
-
-  }
-  Widget images=const SizedBox();
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    loadImage();
-
-  }
+  // Future<void> loadImage() async {
+  //   try {
+  //     await precacheImage(NetworkImage(widget.image), Get.context!);
+  //   } catch (e) {
+  //     print('custom image precache image error $e');
+  //   }
+  // }
+  //
+  // @override
+  // void didChangeDependencies() {
+  //   // TODO: implement didChangeDependencies
+  //   super.didChangeDependencies();
+  //   loadImage();
+  //
+  //
+  //
+  // }
+  // Widget images=const SizedBox();
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   loadImage();
+  //
+  // }
 
   @override
   Widget build(BuildContext context) {

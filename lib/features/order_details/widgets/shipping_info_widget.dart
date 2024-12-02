@@ -25,7 +25,7 @@ class ShippingInfoWidget extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 11,
-                  child: Text('${getTranslated('Date_and_time_of_order', context)!} : ${DateConverter.formatDate(order!.orders!.createdAt!)}',
+                  child: Text('${getTranslated('Date_and_time_of_order', context)!} : ${DateConverter.formatDate(order!.orders!.createdAt)}',
                     overflow: TextOverflow.ellipsis,
                     style:  GoogleFonts.tajawal(
                       fontSize: 14,
@@ -53,7 +53,7 @@ class ShippingInfoWidget extends StatelessWidget {
                       );
                       Clipboard.setData( ClipboardData(
                           text:
-                          DateConverter.formatDate(order!.orders!.createdAt!)));
+                          DateConverter.formatDate(order!.orders!.createdAt)));
                     },
                     child: Image.asset(Images.copy,width: 25,color: Theme.of(context).iconTheme.color,)),
               ],
@@ -63,7 +63,7 @@ class ShippingInfoWidget extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 11,
-                  child: Text('${getTranslated('Order_status_on_Matrix_platform', context)!} : ${getTranslated(order!.orders!.orderStatus!, context)!}',
+                  child: Text('${getTranslated('Order_status_on_Matrix_platform', context)!} : ${getTranslated(order!.orders!.orderStatus, context)!}',
 
                     overflow: TextOverflow.ellipsis,
                     style:  GoogleFonts.tajawal(
@@ -85,7 +85,7 @@ class ShippingInfoWidget extends StatelessWidget {
                       );
                       Clipboard.setData( ClipboardData(
                           text:
-                          getTranslated(order!.orders!.orderStatus!, context)!));
+                          getTranslated(order!.orders!.orderStatus, context)!));
                     },
                     child: Image.asset(Images.copy,width: 25,color: Theme.of(context).iconTheme.color)),
               ],

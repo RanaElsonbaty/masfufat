@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_sixvalley_ecommerce/features/support/domain/models/support_ticket_body.dart';
-import 'package:image_picker/image_picker.dart';
 
 abstract class SupportTicketServiceInterface{
 

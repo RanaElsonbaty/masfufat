@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_sixvalley_ecommerce/features/address/screens/address_list_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/screens/auth_screen.dart';
@@ -33,7 +34,6 @@ import '../../Store settings/screen/store_setting_screen.dart';
 import '../../payment /controller/payment_controller.dart';
 import '../../setting/widgets/select_currency_bottom_sheet_widget.dart';
 import '../../setting/widgets/select_language_bottom_sheet_widget.dart';
-import '../widgets/komo.dart';
 import 'faq_screen_view.dart';
 
 class MoreScreen extends StatefulWidget {
@@ -50,6 +50,10 @@ class _MoreScreenState extends State<MoreScreen> {
 
   @override
   void initState() {
+    Provider.of<PaymentController>(context,listen: false).getPaymentMethod(context,'wallet',notify: false );
+    Provider.of<PaymentController>(context,listen: false).getType('wallet_charge');
+    Provider.of<PaymentController>(context,listen: false).getAmount(0,notify: false);
+    Provider.of<PaymentController>(context,listen: false).cardViewStyle();
     isGuestMode =
         !Provider.of<AuthController>(context, listen: false).isLoggedIn();
     if (Provider.of<AuthController>(context, listen: false).isLoggedIn()) {
@@ -58,14 +62,7 @@ class _MoreScreenState extends State<MoreScreen> {
           .getUserInfo(context);
       Provider.of<StoreSettingController>(context,listen: false)
           .getPackages();
-      Provider.of<PaymentController>(context,listen: false).getPaymentMethod(context,'wallet',notify: false );
-      Provider.of<PaymentController>(Get.context!,listen: false).getApiKey(Get.context!);
-      Provider.of<PaymentController>(Get.context!,listen: false).initiate(Get.context!);
-      Provider.of<PaymentController>(Get.context!,listen: false).cardViewStyle();
-      // Provider.of<PaymentController>(Get.context!,listen: false).getIsLoading(false,true);
-      Provider.of<PaymentController>(context,listen: false).getType('wallet_charge');
-      Provider.of<PaymentController>(context,listen: false).getAmount(0,notify: false);
-      Provider.of<PaymentController>(context,listen: false).getAmount(0,notify: false);
+
       if (Provider.of<SplashController>(context, listen: false)
           .configModel!=null&&Provider.of<SplashController>(context, listen: false)
               .configModel!
@@ -105,12 +102,12 @@ class _MoreScreenState extends State<MoreScreen> {
           SliverAppBar(
               floating: true,
               elevation: 0,
-              expandedHeight: 120,
+              expandedHeight: 120.h,
               pinned: true,
               centerTitle: false,
               automaticallyImplyLeading: false,
               backgroundColor: Theme.of(context).highlightColor,
-              collapsedHeight: 120,
+              collapsedHeight: 120.h,
               flexibleSpace: const ProfileInfoSectionWidget()),
           SliverToBoxAdapter(
             child: Container(

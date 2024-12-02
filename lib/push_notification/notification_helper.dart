@@ -37,7 +37,7 @@ class MyNotification {
     }
 
     var androidInitialize =
-    new AndroidInitializationSettings('notification_icon');
+    const AndroidInitializationSettings('notification_icon');
 
     var iOSInitialize = DarwinInitializationSettings(
       requestAlertPermission: true,
@@ -99,42 +99,42 @@ class MyNotification {
 
   static Future<void> showNotification(RemoteMessage message,
       FlutterLocalNotificationsPlugin fln, bool data) async {
-    String? _title;
-    String? _body;
-    String _orderID;
-    String? _image;
-    String? _sound;
-    _sound =Platform.isAndroid?message.notification!.android!.sound:message.notification!.apple!.sound!.name;
+    String? title;
+    String? body;
+    String orderID;
+    String? image;
+    String? sound;
+    sound =Platform.isAndroid?message.notification!.android!.sound:message.notification!.apple!.sound!.name;
     if (data) {
-      _title = message.data['title'];
-      _body = message.data['body'];
-      _orderID = message.data['order_id'];
+      title = message.data['title'];
+      body = message.data['body'];
+      orderID = message.data['order_id'];
 
       try {
-        _image = (message.data['image'] != null &&
+        image = (message.data['image'] != null &&
             message.data['image'].isNotEmpty)
             ? message.data['image'].startsWith('http')
             ? message.data['image']
             : '${AppConstants.baseUrl}/storage/app/public/notification/${message.data['image']}'
             : null;
       } catch (e) {
-        _image = '';
+        image = '';
       }
     } else {
-      _title = message.notification?.title!;
+      title = message.notification?.title!;
       if (message.notification!.body != null) {
-        _body = message.notification!.body!;
+        body = message.notification!.body!;
       } else {
-        _body = '';
+        body = '';
       }
       if (message.notification!.titleLocKey != null) {
-        _orderID = message.notification!.titleLocKey!;
+        orderID = message.notification!.titleLocKey!;
       } else {
-        _orderID = '';
+        orderID = '';
       }
 
       if (Platform.isAndroid) {
-        _image = ((message.notification!.android!.imageUrl != null &&
+        image = ((message.notification!.android!.imageUrl != null &&
             message.notification!.android!.imageUrl!.isNotEmpty)
             ? message.notification!.android!.imageUrl!.startsWith('http')
             ? message.notification!.android!.imageUrl!
@@ -142,7 +142,7 @@ class MyNotification {
             : '');
 
       } else if (Platform.isIOS) {
-        _image = ((message.notification!.apple!.imageUrl != null &&
+        image = ((message.notification!.apple!.imageUrl != null &&
             message.notification!.apple!.imageUrl!.isNotEmpty)
             ? message.notification!.apple!.imageUrl!.startsWith('http')
             ? message.notification!.apple!.imageUrl
@@ -152,32 +152,32 @@ class MyNotification {
     }
 
     try {
-      if(_sound==null&&_sound!=''){
-        _sound ='normal';
+      if(sound==null&&sound!=''){
+        sound ='normal';
       }
       if(Platform.isAndroid){
-        if( _sound =='order.wav'){
-          _sound='order';
+        if( sound =='order.wav'){
+          sound='order';
         }else{
-          _sound='normal';
+          sound='normal';
         }
       }
 
-      if (_image!=null&&_image.isNotEmpty) {
+      if (image!=null&&image.isNotEmpty) {
         try {
           await showBigPictureNotificationHiddenLargeIcon(
-              _title!, _body!, _orderID, _image, fln,_sound!);
+              title!, body!, orderID, image, fln,sound!);
         } catch (e) {
           print('showBigPictureNotificationHiddenLargeIcon => $e');
-          await showBigTextNotification(_title!, _body!, _orderID, fln,_sound!);
+          await showBigTextNotification(title!, body!, orderID, fln,sound!);
         }
       } else {
         await showBigTextNotification(
-            _title!,
-            _body!,
-            _orderID,
+            title!,
+            body!,
+            orderID,
             fln,
-            _sound!
+            sound!
         );
       }
     } catch (e) {
@@ -187,7 +187,7 @@ class MyNotification {
 
   static Future<void> showTextNotification(String title, String body,
       String orderID, FlutterLocalNotificationsPlugin fln,String sound) async {
-    var vibrationPattern = new Int64List(4);
+    var vibrationPattern = Int64List(4);
     print('showTextNotification sound -> $sound');
     AndroidNotificationDetails androidPlatformChannelSpecifics =
     AndroidNotificationDetails(
@@ -197,7 +197,7 @@ class MyNotification {
       vibrationPattern: vibrationPattern,
       importance: Importance.max,
       priority: Priority.high,
-      sound:RawResourceAndroidNotificationSound('normal'),
+      sound:const RawResourceAndroidNotificationSound('normal'),
     );
     AndroidNotificationDetails androidPlatformChannel =
     AndroidNotificationDetails(
@@ -208,7 +208,7 @@ class MyNotification {
       vibrationPattern: vibrationPattern,
       importance: Importance.max,
       priority: Priority.high,
-      sound:RawResourceAndroidNotificationSound('order'),
+      sound:const RawResourceAndroidNotificationSound('order'),
     );
     final DarwinNotificationDetails iosPlatformChannelSpecifics =
     DarwinNotificationDetails(
@@ -233,7 +233,7 @@ class MyNotification {
       contentTitle: title,
       htmlFormatContentTitle: true,
     );
-    var vibrationPattern = new Int64List(4);
+    var vibrationPattern = Int64List(4);
 
     AndroidNotificationDetails androidPlatformChannelSpecifics =
     AndroidNotificationDetails(
@@ -244,7 +244,7 @@ class MyNotification {
       priority: Priority.high,
       playSound: true,
       vibrationPattern: vibrationPattern,
-      sound:RawResourceAndroidNotificationSound("normal"),
+      sound:const RawResourceAndroidNotificationSound("normal"),
     );
     AndroidNotificationDetails androidPlatformChannel =
     AndroidNotificationDetails(
@@ -255,7 +255,7 @@ class MyNotification {
       priority: Priority.high,
       playSound: true,
       vibrationPattern: vibrationPattern,
-      sound:RawResourceAndroidNotificationSound("order"),
+      sound:const RawResourceAndroidNotificationSound("order"),
     );
 
     final DarwinNotificationDetails iosPlatformChannelSpecifics =
@@ -302,7 +302,7 @@ class MyNotification {
       summaryText: body,
       htmlFormatSummaryText: true,
     );
-    var vibrationPattern = new Int64List(4);
+    var vibrationPattern = Int64List(4);
 
     final AndroidNotificationDetails androidPlatformChannelSpecifics =
     AndroidNotificationDetails(
@@ -314,7 +314,7 @@ class MyNotification {
       styleInformation: bigPictureStyleInformation,
       importance: Importance.max,
       priority: Priority.high,
-      sound:RawResourceAndroidNotificationSound('normal'),
+      sound:const RawResourceAndroidNotificationSound('normal'),
     );  final AndroidNotificationDetails androidPlatformChannel =
     AndroidNotificationDetails(
       'order_channel_id_1',
@@ -325,7 +325,7 @@ class MyNotification {
       styleInformation: bigPictureStyleInformation,
       importance: Importance.max,
       priority: Priority.high,
-      sound:RawResourceAndroidNotificationSound("order"),
+      sound:const RawResourceAndroidNotificationSound("order"),
     );
     // RawResourceAndroidNotificationSound("notification"),
     final DarwinNotificationDetails iosPlatformChannelSpecifics =
@@ -394,8 +394,8 @@ Future<dynamic> myBackgroundMessageHandler(RemoteMessage message) async {
 Future getDeviceToken()async{
   try{
     FirebaseMessaging.instance.requestPermission();
-    FirebaseMessaging _fireBase =FirebaseMessaging.instance;
-    String? DeviceToken =await _fireBase.getToken();
+    FirebaseMessaging fireBase =FirebaseMessaging.instance;
+    String? DeviceToken =await fireBase.getToken();
     return (DeviceToken ==null)?'':DeviceToken;
   }catch(e){
     print('getDeviceToken error => $e');

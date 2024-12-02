@@ -23,6 +23,7 @@ class WalletCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Consumer<WalletController>(builder: (context, profile, _) {
       return Row(children: [
           Expanded(flex: 8,
@@ -62,6 +63,9 @@ class WalletCardWidget extends StatelessWidget {
                   // showDialog(context: context, builder: (BuildContext context) {
                   //   return AddFundDialogueWidget(focusNode: focusNode, inputAmountController: inputAmountController);
                   // });
+               // Navigator.push(context,MaterialPageRoute(builder: (context) => AddFundDialogueWidget(focusNode: focusNode, inputAmountController: inputAmountController),));
+               Provider.of<PaymentController>(context,listen: false).initiate(context);
+
                showAnimatedDialog(  willFlip: true, context,Center(child: AddFundDialogueWidget(focusNode: focusNode, inputAmountController: inputAmountController),));
                 },
                 child: Container(decoration: (const BoxDecoration(color: Colors.white, shape: BoxShape.circle)),

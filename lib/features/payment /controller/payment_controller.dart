@@ -47,13 +47,8 @@ class PaymentController extends ChangeNotifier {
   Future getApiKey(BuildContext context) async {
     ConfigModel? configModel =
         Provider.of<SplashController>(context, listen: false).configModel!;
-    if (configModel!=null) {
-      // _apiKey='BxmEsVbst5n67F8_vtxMqNzUCKLz6CMnNBgFNlsjNSqh4LKzL1ge76ZCkSEWn5kpT1qgjEPjebxrgdgh1jEoBWbC4ESHbK7nKExX0TkHGVoQRQCV-tSpRws8wEA_1z7_g_6qi1y4dt1ledcOb1nJjxdc6d9Sr2xknxlSd1nwwgwCmf2c259-EPhgvaQwr642CzDWe588yrI_yU-m-4dlvOC4kPfQrYgLlWrnNCdDj_z4S_bj9w9sv3U0ypWTSrIqB19hU2DtR7OOia5dEhRXXaGkPeAT_y0_eNL2Jn2WmELbohFK2jH80eh0KIgBMPbznFYU-sU059ukpVuOMDZmwc-tzEqyrUQT1pCCPkSNZYxGpmxmoeOkvxeqSSoyzCnwrRZdp8ery8BWx_OCRCyN6T1yO4X02ZVBY6jbhnag6YxnHDs3VDw0K8s2wsLMFppNZtQT0HzmW4bIDUCy0y_wwJoH-WtQ4pWZxEeGEoEAbtk_8vTmZMhieoW-4SMH0NfIQ5IHoDr8wVWCzhhsGLNAvNDpmP35-6p0lDfNCoKWuPUN8J5Pj0oD80LcPfMZTd2CnezPMEjMlVZJnDUh6qYVxLXoFogjuV3O-uY4PUg0dJt14LBGnJCaxBGgREqXmxkodjB0BUvI_UgQLrJ5-R1Z9VME-yYrik44J4a7uqk9aDACrGIf';
-      _apiKey = configModel.paymentMethods.fatoorah.apiKey;
-    } else {
-      _apiKey = "";
-    }
-    // _apiKey='rLtt6JWvbUHDDhsZnfpAhpYk4dxYDQkbcPTyGaKp2TYqQgG7FGZ5Th_WD53Oq8Ebz6A53njUoo1w3pjU1D4vs_ZMqFiz_j0urb_BH9Oq9VZoKFoJEDAbRZepGcQanImyYrry7Kt6MnMdgfG5jn4HngWoRdKduNNyP4kzcp3mRv7x00ahkm9LAK7ZRieg7k1PDAnBIOG3EyVSJ5kK4WLMvYr7sCwHbHcu4A5WwelxYK0GMJy37bNAarSJDFQsJ2ZvJjvMDmfWwDVFEVe_5tOomfVNt6bOg9mexbGjMrnHBnKnZR1vQbBtQieDlQepzTZMuQrSuKn-t5XZM7V6fCW7oP-uXGX-sMOajeX65JOf6XVpk29DP6ro8WTAflCDANC193yof8-f5_EYY-3hXhJj7RBXmizDpneEQDSaSz5sFk0sV5qPcARJ9zGG73vuGFyenjPPmtDtXtpx35A-BVcOSBYVIWe9kndG3nclfefjKEuZ3m4jL9Gg1h2JBvmXSMYiZtp9MR5I6pvbvylU_PP5xJFSjVTIz7IQSjcVGO41npnwIxRXNRxFOdIUHn0tjQ-7LwvEcTXyPsHXcMD8WtgBh-wxR8aKX7WPSsT1O8d8reb2aR7K3rkV3K82K_0OgawImEpwSvp9MNKynEAJQS6ZHe_J_l77652xwPNxMRTMASk1ZsJL';
+    // _apiKey = configModel.paymentMethods.fatoorah.apiKey;
+    _apiKey='rLtt6JWvbUHDDhsZnfpAhpYk4dxYDQkbcPTyGaKp2TYqQgG7FGZ5Th_WD53Oq8Ebz6A53njUoo1w3pjU1D4vs_ZMqFiz_j0urb_BH9Oq9VZoKFoJEDAbRZepGcQanImyYrry7Kt6MnMdgfG5jn4HngWoRdKduNNyP4kzcp3mRv7x00ahkm9LAK7ZRieg7k1PDAnBIOG3EyVSJ5kK4WLMvYr7sCwHbHcu4A5WwelxYK0GMJy37bNAarSJDFQsJ2ZvJjvMDmfWwDVFEVe_5tOomfVNt6bOg9mexbGjMrnHBnKnZR1vQbBtQieDlQepzTZMuQrSuKn-t5XZM7V6fCW7oP-uXGX-sMOajeX65JOf6XVpk29DP6ro8WTAflCDANC193yof8-f5_EYY-3hXhJj7RBXmizDpneEQDSaSz5sFk0sV5qPcARJ9zGG73vuGFyenjPPmtDtXtpx35A-BVcOSBYVIWe9kndG3nclfefjKEuZ3m4jL9Gg1h2JBvmXSMYiZtp9MR5I6pvbvylU_PP5xJFSjVTIz7IQSjcVGO41npnwIxRXNRxFOdIUHn0tjQ-7LwvEcTXyPsHXcMD8WtgBh-wxR8aKX7WPSsT1O8d8reb2aR7K3rkV3K82K_0OgawImEpwSvp9MNKynEAJQS6ZHe_J_l77652xwPNxMRTMASk1ZsJL';
   }
 
   String _type = '';
@@ -88,7 +83,7 @@ void getOrderId(String id){
   double get amount => _amount;
   bool visibilityObs = false;
   MFCardPaymentView mfCardView =
-      MFCardPaymentView(cardViewStyle: MFCardViewStyle());
+      MFCardPaymentView(cardViewStyle: MFCardViewStyle(), );
   MFApplePayButton mfApplePayButton = MFApplePayButton();
 
   // init my fatotra
@@ -412,6 +407,7 @@ print('error initiate ===== $e');
 
     var executePaymentRequest = MFExecutePaymentRequest(invoiceValue: amount);
     executePaymentRequest.displayCurrencyIso = displayCurrencyIso;
+   // mfCardView.;
     await mfCardView.pay(executePaymentRequest, MFLanguage.ENGLISH,
         (invoiceId) {
       debugPrint("-----------$invoiceId------------");
@@ -432,7 +428,6 @@ print('error initiate ===== $e');
          id,
          context).then((value) {
        _callback(true,'نجح الدفع','',type=='wallet_charge'?true:false);
-
          });
 
       initiateSession();

@@ -81,7 +81,6 @@ class Product {
   String? _videoUrl;
   int? _minimumOrderQty;
   int? wishList;
-  dynamic _synced;
   Brand? brand;
   ImageFullUrl? digitalFileReadyFullUrl;
   // List<DigitalVariation>? digitalVariation;

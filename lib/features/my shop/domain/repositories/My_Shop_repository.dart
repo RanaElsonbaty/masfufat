@@ -57,6 +57,7 @@ class MyShopRepository implements MyShopRepositoryInterface{
   } @override
   Future<ApiResponse>  addPriceToProduct(int id,String price) async {
     try {
+      print(price);
       var data = {
         'product_id': id,
         "price": price,
@@ -74,6 +75,21 @@ class MyShopRepository implements MyShopRepositoryInterface{
     try {
 
       Response response = await dioClient!.post(AppConstants.syncLinkedProducts,
+
+          data: {
+            'resync_deleted':sync==true?1:0,
+          }
+      );
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  }
+@override
+  Future<ApiResponse>  syncOneProduct(bool sync,int id) async {
+    try {
+
+      Response response = await dioClient!.post('${AppConstants.syncLinkedProducts}${sync==false?'?product_id=$id':''}',
 
           data: {
             'resync_deleted':sync==true?1:0,

@@ -20,7 +20,7 @@ class OrderAmountCalculation extends StatelessWidget {
         color: Theme.of(context).highlightColor,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-          AmountWidget(title: getTranslated('sub_total', context),
+          AmountWidget(title: getTranslated('Total_does_not_include_tax', context),
               amount: PriceConverter.convertPrice(context, itemTotalAmount)),
           const SizedBox(height: 5,),
 
@@ -28,35 +28,35 @@ class OrderAmountCalculation extends StatelessWidget {
           const SizedBox(height: 5,),
 
           orderProvider.orders!.orderType == "POS"? const SizedBox():
-          AmountWidget(title: getTranslated('shipping_fee', context),
+          AmountWidget(title: getTranslated('Shipping_cost', context),
               amount: PriceConverter.convertPrice(context, shippingCost)),
           const SizedBox(height: 5,),
 
  Divider(color: Colors.grey.shade300,height: 10,),
           const SizedBox(height: 5,),
 
-          AmountWidget(title: getTranslated('discount', context),
+          AmountWidget(title: getTranslated('Product_discount', context),
               amount: PriceConverter.convertPrice(context, discount)),
            Divider(color: Colors.grey.shade300,height: 10,),
 
           const SizedBox(height: 5,),
 
-          orderProvider.orders!.orderType == "POS"?
-          AmountWidget(title: getTranslated('extra_discount', context),
-              amount: PriceConverter.convertPrice(context, eeDiscount)):const SizedBox(),
-          orderProvider.orders!.orderType == "POS"?
-           Divider(color: Colors.grey.shade300,height: 10,):const SizedBox(),
+          // orderProvider.orders!.orderType == "POS"?
+          // AmountWidget(title: getTranslated('Basket_discount', context),
+          //     amount: PriceConverter.convertPrice(context, eeDiscount)):const SizedBox(),
+          // orderProvider.orders!.orderType == "POS"?
+          //  Divider(color: Colors.grey.shade300,height: 10,):const SizedBox(),
 
-          SizedBox(height:   orderProvider.orders!.orderType == "POS"?5:0,),
+          // SizedBox(height:   orderProvider.orders!.orderType == "POS"?5:0,),
 
-          AmountWidget(title: getTranslated('coupon_voucher', context),
+          AmountWidget(title: getTranslated('Basket_discount', context),
             amount: PriceConverter.convertPrice(context, orderProvider.orders!.discountAmount),),
           const SizedBox(height: 5,),
 
            Divider(color: Colors.grey.shade300,height: 10,),
           const SizedBox(height: 5,),
 
-          AmountWidget(title: getTranslated('tax', context),
+          AmountWidget(title: getTranslated('Product_tax', context),
               amount: PriceConverter.convertPrice(context, tax)),
           Divider(color: Colors.grey.shade300,height: 10,),
           const SizedBox(height: 5,),
@@ -75,7 +75,7 @@ const SizedBox(height: 5,),
             ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: AmountWidget(title: getTranslated('total_payable', context),
+              child: AmountWidget(title: getTranslated('Total', context),
                 amount: PriceConverter.convertPrice(context, (itemTotalAmount + shippingCost - eeDiscount! - orderProvider.orders!.discountAmount - discount  + tax+(shippingCost*0.15))),),
             ),
           ),]));

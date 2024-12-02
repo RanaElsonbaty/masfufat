@@ -1,10 +1,8 @@
 import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_directionality_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/order_details/controllers/order_details_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/domain/models/order_details_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/widgets/show_Modal_Bottom_Sheet.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
@@ -109,21 +107,25 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
 
                             Row(children: [
 
-                              Text("${getTranslated('price', context)} :${PriceConverter.convertPrice(context, widget.orderDetailsModel.price)}",
+                              Text("${getTranslated('price_value', context)} ${PriceConverter.convertPrice(context, widget.orderDetailsModel.price)}",
                                 style: GoogleFonts.tajawal( fontSize: 16,fontWeight: FontWeight.w400),),
                               //
+                              const Spacer(),
+                              Text('${getTranslated('qty', context)} ${widget.orderDetailsModel.qty}',
+                                  style: GoogleFonts.tajawal(fontWeight: FontWeight.w400, fontSize: 14,color: Colors.grey.shade800)),
                               // widget.orderDetailsModel.productDetails!=null&&widget.orderDetailsModel.productDetails!.taxModel!=null&&widget.orderDetailsModel.productDetails!.taxModel == 'exclude'?
+const SizedBox(width: 10,),
+                            ]),
+                            const SizedBox(height: Dimensions.marginSizeExtraSmall),
+
+                            Row(children: [
                               Expanded(
-                                child: Text('(${getTranslated('tax', context)} ${PriceConverter.calculationTaxString(context, widget.orderDetailsModel.price,widget.orderDetailsModel.productDetails!=null?widget.orderDetailsModel.productDetails!.tax??0.00:0,widget.orderDetailsModel.productDetails!=null?widget.orderDetailsModel.productDetails!.taxType:'',)})',
+                                child: Text('${getTranslated('tax', context)} ${PriceConverter.calculationTaxString(context, widget.orderDetailsModel.price,widget.orderDetailsModel.productDetails!=null?widget.orderDetailsModel.productDetails!.tax??0.00:0,widget.orderDetailsModel.productDetails!=null?widget.orderDetailsModel.productDetails!.taxType:'',)}',
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1 ,
-                                  style: GoogleFonts.tajawal(color: ColorResources.hintTextColor, fontSize: 14,fontWeight: FontWeight.w400),),
-                              )
-                            ]),  Row(children: [
+                                  style: GoogleFonts.tajawal(color: Colors.black, fontSize: 14,fontWeight: FontWeight.w400),),
+                              ),
 
-                              Text("${getTranslated('total', context)} :${PriceConverter.convertPrice(context,PriceConverter.calculationTaxDouble(context, widget.orderDetailsModel.price,widget.orderDetailsModel.productDetails!=null?widget.orderDetailsModel.productDetails!.tax??0:0,widget.orderDetailsModel.productDetails!=null?widget.orderDetailsModel.productDetails!.taxType:'',)+widget.orderDetailsModel.price!)}",
-                                style: GoogleFonts.tajawal( fontSize: 16,fontWeight: FontWeight.w400),),
-                              //
 
                             ]),
                             const SizedBox(height: Dimensions.marginSizeExtraSmall),
@@ -131,8 +133,11 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('${getTranslated('qty', context)}: ${widget.orderDetailsModel.qty}',
-                                    style: GoogleFonts.tajawal(fontWeight: FontWeight.w400, fontSize: 14)),
+                                Expanded(
+                                  child: Text("${getTranslated('total', context)} ${PriceConverter.convertPrice(context,PriceConverter.calculationTaxDouble(context, widget.orderDetailsModel.price,widget.orderDetailsModel.productDetails!=null?widget.orderDetailsModel.productDetails!.tax??0:0,widget.orderDetailsModel.productDetails!=null?widget.orderDetailsModel.productDetails!.taxType:'',)+widget.orderDetailsModel.price)}",
+                                    style: GoogleFonts.tajawal( fontSize: 16,fontWeight: FontWeight.w400),),
+                                ),
+                                //
 
                                 if (widget.orderModel.orderStatus == 'delivered'&&widget.fromRefunt==false)
                                   InkWell(
@@ -149,27 +154,33 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                                                     ),));
                                                   }
                                     },
-                                    child: Container(
-                                      height: 35,
-                                     width: 140,
+                                    child: Expanded(
+                                      child: Container(
+                                        height: 35,
+                                       // width: 140,
+                                      
+                                       decoration: BoxDecoration(
+                                         borderRadius: BorderRadius.circular(8),
+                                         color:widget.orderDetailsModel.refundRequest==0?Theme.of(context).primaryColor: Theme.of(context).primaryColor.withOpacity(0.30)
+                                       ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                                          child: Center(child: Text(widget.orderDetailsModel.refundRequest==0? getTranslated('Refund_request', context)!:getTranslated('Refund_Request_Details', context)!,
 
-                                     decoration: BoxDecoration(
-                                       borderRadius: BorderRadius.circular(8),
-                                       color:widget.orderDetailsModel.refundRequest==0?Theme.of(context).primaryColor: Theme.of(context).primaryColor.withOpacity(0.30)
-                                     ),
-                                      child: Center(child: Text(widget.orderDetailsModel.refundRequest==0? getTranslated('Refund_request', context)!:getTranslated('Refund_Request_Details', context)!,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.tajawal(
+                                            color:widget.orderDetailsModel.refundRequest==0?Colors.white: Colors.black,
 
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.tajawal(
-                                        color:widget.orderDetailsModel.refundRequest==0?Colors.white: Colors.black,
-
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 12
-                                      ),)),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12
+                                          ),)),
+                                        ),
+                                      ),
                                     ),
                                   ),
+                                const SizedBox(width: 5,),
                                 //   Expanded(
                                 //   child: Padding(
                                 //     padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -317,7 +328,7 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                 ),
               ),
 
-            if(widget.orderDetailsModel.discount! > 0) Positioned(
+            if(widget.orderDetailsModel.discount > 0) Positioned(
               top: 35,
               left: isLtr ? 20 : null,
               right: isLtr ? null : 20,
@@ -336,7 +347,7 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                   child: Text(
                     PriceConverter.percentageCalculation(
                       context,
-                      (widget.orderDetailsModel.price! * widget.orderDetailsModel.qty!),
+                      (widget.orderDetailsModel.price * widget.orderDetailsModel.qty),
                       widget.orderDetailsModel.discount,
                       getTranslated('amount', context),
                     ),

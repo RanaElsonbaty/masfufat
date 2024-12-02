@@ -1,11 +1,9 @@
 import 'package:bcrypt/bcrypt.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../../localization/language_constrants.dart';
 import '../../../utill/app_constants.dart';
 import '../../profile/controllers/profile_contrroller.dart';
 

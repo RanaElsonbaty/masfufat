@@ -1,7 +1,5 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/support/domain/models/support_reply_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/support/widgets/ofline_file_view.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/controllers/localization_controller.dart';
@@ -9,11 +7,6 @@ import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../file catch/docx.dart';
-import '../file catch/mp3.dart';
-import '../file catch/mp4.dart';
-import '../file catch/pdf.dart';
-import 'file_diaglog_widget.dart';
 import 'file_view.dart';
 
 class SupportTicketReplyWidget extends StatelessWidget {

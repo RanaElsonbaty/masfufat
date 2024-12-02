@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/controllers/product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
@@ -22,6 +21,7 @@ import '../../category/domain/models/category_model.dart';
 import '../../search_product/controllers/search_product_controller.dart';
 import '../../search_product/widgets/search_filter_bottom_sheet_widget.dart';
 import '../widgets/bottom_Navigation_Bar_select_product.dart';
+import '../widgets/select_product_top.dart';
 
 class BrandAndCategoryProductScreen extends StatefulWidget {
   final bool isBrand;
@@ -75,6 +75,7 @@ setState(() {
 
     super.initState();
     focusNode.addListener(() { });
+    Provider.of<ProductController>(context,listen: false).clearSelectProduct(notify: false);
     initData();
 
 
@@ -130,6 +131,7 @@ setState(() {
             color: Theme.of(context).primaryColor,
             child: Column(
               children: [
+
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 5),
                   child: SizedBox(
@@ -201,6 +203,10 @@ setState(() {
                       ],
                     ),
                   ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: SelectProductTop(products:pagingController.itemList??[], select: productController.productSelect.isNotEmpty,showOrgnalWidget: false,),
                 ),
            widget.isBrand==false?     Consumer<CategoryController>(
              builder:(context, categoryProvider, child) => categoryProvider.categoryList[widget.index].childes.isNotEmpty?  Container(
@@ -341,10 +347,10 @@ setState(() {
           );
         },
       ),
-        bottomNavigationBar:pagingController.itemList!=null?Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 3),
-          child: SelectProductWidget(products: pagingController.itemList! ,),
-        ):const SizedBox.shrink()
+        // bottomNavigationBar:pagingController.itemList!=null?Padding(
+        //   padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 3),
+        //   child: SelectProductWidget(products: pagingController.itemList! ,),
+        // ):const SizedBox.shrink()
 
     );
   }

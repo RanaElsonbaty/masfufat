@@ -334,13 +334,13 @@ void initData()async{
                           ),
 
 
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
-                              child: Text(getTranslated('label_us', context)!, style: textRegular.copyWith(
-                                color: ColorResources.getHint(context),
-                                fontSize: Dimensions.fontSizeLarge,
-                              )),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
+                            //   child: Text(getTranslated('label_us', context)!, style: textRegular.copyWith(
+                            //     color: ColorResources.getHint(context),
+                            //     fontSize: Dimensions.fontSizeLarge,
+                            //   )),
+                            // ),
 
                             // SizedBox(height: 50,
                             //   child: ListView.builder(

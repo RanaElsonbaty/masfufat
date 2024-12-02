@@ -9,7 +9,6 @@ import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/checkout/screens/digital_payment_order_place_screen.dart';
 import 'package:provider/provider.dart';
 
 
@@ -27,7 +26,7 @@ class CheckoutController with ChangeNotifier {
   bool _isCheckCreateAccount = false;
   bool _newUser = false;
 
-  int _paymentMethodIndex = -1;
+  int _paymentMethodIndex = 0;
   bool _onlyDigital = true;
   bool get onlyDigital => _onlyDigital;
   int? get addressIndex => _addressIndex;
@@ -163,10 +162,11 @@ void getLoading(bool val){
 
 
   String selectedDigitalPaymentMethodName = '';
-  int? selectedDigitalPaymentMethodId ;
+  int? selectedDigitalPaymentMethodId=0 ;
 
   void setDigitalPaymentMethodName(int index, String name,int id) {
     _paymentMethodIndex = index;
+    print(id);
     selectedDigitalPaymentMethodId=id;
     selectedDigitalPaymentMethodName = name;
     codChecked = false;

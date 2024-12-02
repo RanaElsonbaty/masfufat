@@ -5,11 +5,8 @@ import 'package:flutter_sixvalley_ecommerce/features/address/domain/models/addre
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
 import 'package:flutter_sixvalley_ecommerce/features/address/domain/models/label_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/address/domain/repositories/address_repository_interface.dart';
-import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
-import 'package:provider/provider.dart';
 
 
 class AddressRepository implements AddressRepoInterface<ApiResponse>{

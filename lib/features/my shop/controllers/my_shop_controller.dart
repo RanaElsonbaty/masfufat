@@ -218,12 +218,26 @@ notifyListeners();
   bool selectAll=false;
   List<int> selectIds=[];
   void selectOneProduct(int id, bool add){
+
     if(add){
       selectIds.add(id);
+      if(selectIds.length==_pendingList.length){
+        selectAll=true;
+
+      }
     }else{
       selectIds.remove(id);
+      selectAll=false;
     }
+
+
     notifyListeners();
+  }
+  void clearSelect(){
+    selectIds=[];
+    selectAll=false;
+    notifyListeners();
+
   }
   void getSelectProduct(int index){
     selectIds=[];
@@ -279,8 +293,30 @@ notifyListeners();
       return false;
     }
   }
-  Future syncProduct(bool sync)async{
-    ApiResponse response =await myShopServiceInterface.syncProduct(sync);
+  /// sync all product one time
+  Future syncProduct(bool sync,)async{
+    ApiResponse response =await myShopServiceInterface.syncProduct(sync,);
+    if(response.response!=null&&response.response!.statusCode==200){
+      print('sync product res ---> ${response.response!.data}');
+
+if(response.response!.data.toString()=='1'){
+  return true;
+
+}else{
+  String error ='${response.response!.data['error']['fields']['sku']} \n sku : ${response.response!.data['sku'].toString()}';
+  showCustomSnackBar(error, Get.context!,time: 3);
+
+  return false;
+
+}
+    }else{
+
+      return false;
+    }
+  }
+  /// sync one product
+  Future syncOneProduct(bool sync,int id)async{
+    ApiResponse response =await myShopServiceInterface.syncOneProduct(sync,id);
     if(response.response!=null&&response.response!.statusCode==200){
       print('sync product res ---> ${response.response!.data}');
 

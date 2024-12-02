@@ -1,25 +1,13 @@
-import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/chat/domain/models/message_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/chat/controllers/chat_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/controllers/localization_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import '../../../helper/date_converter.dart';
-import '../../support/file catch/docx.dart';
-import '../../support/file catch/mp3.dart';
-import '../../support/file catch/mp4.dart';
-import '../../support/file catch/pdf.dart';
-import '../../support/widgets/file_diaglog_widget.dart';
 import '../../support/widgets/file_view.dart';
 import '../../support/widgets/ofline_file_view.dart';
 
@@ -32,7 +20,6 @@ class MessageBubbleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    List files = [];
 
     if(previous != null){
       if(previous?.sentBySeller == message.sentBySeller){
@@ -44,26 +31,10 @@ class MessageBubbleWidget extends StatelessWidget {
     bool isMe = message.sentByCustomer==1;
 
 
-    // if(message.attachment != null) {
-    //   // for(List<String> attachment in message!.attachment){
-    //   //   if(attachment.type == 'image'){
-    //   //     images.add(attachment);
-    //   //   }else if (attachment.type == 'file') {
-    //   //     files.add(attachment);
-    //   //   }
-    //   // }
-    //   message!.attachment.forEach((element) {
-    //     // if(element.endsWith('png') ){
-    //     //   images.add(element);
-    //     // }else if (element.endsWith('xmls')) {
-    //     //   files.add(element);
-    //     // }
-    //   // });
-    // }
 
     return Consumer<ChatController>(
         builder: (context, chatProvider,child) {
-          String dateTime = DateConverter.localDateToIsoStringAMPM(
+          String dateTime = DateConverter.localTime(
               message.createdAt);
           String chatTime  = chatProvider.getChatTime(message.createdAt.toString(), message.createdAt.toString());
           bool isSameUserWithPreviousMessage = chatProvider.isSameUserWithPreviousMessage(previous, message);
@@ -74,20 +45,6 @@ class MessageBubbleWidget extends StatelessWidget {
         return Column(crossAxisAlignment: isMe ? CrossAxisAlignment.end:CrossAxisAlignment.start, children: [
             Row(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start, children: [
-
-            // ((!isMe && !isSameUserWithPreviousMessage) ||  (!isMe && isSameUserWithPreviousMessage)) &&
-            //           chatProvider.getChatTimeWithPrevious(message, previous).isNotEmpty ?
-            //      Padding(
-            //       padding: const EdgeInsets.only(bottom: 3),
-            //       child: Container( width: Dimensions.paddingSizeExtraLarge + 5, height: Dimensions.paddingSizeExtraLarge + 5,
-            //         decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.0),
-            //           border: Border.all(color: Theme.of(context).primaryColor)),
-            //         child: ClipRRect(borderRadius: BorderRadius.circular(20.0),
-            //           child: CustomImageWidget(
-            //             fit: BoxFit.cover, width: Dimensions.paddingSizeExtraLarge + 5,
-            //             height: Dimensions.paddingSizeExtraLarge + 5, image: '${message.attachment}'))),
-            //     )
-            //          :  !isMe ? const SizedBox(width: Dimensions.paddingSizeExtraLarge + 5,) : const SizedBox(),
 
 
                 if(message.message.isNotEmpty)
@@ -103,13 +60,11 @@ class MessageBubbleWidget extends StatelessWidget {
                         margin: isMe && isLTR ?  const EdgeInsets.fromLTRB(70, 2, 10, 2) : EdgeInsets.fromLTRB(10, 2, isLTR ? 70 : 10, 2),
                             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                             decoration: BoxDecoration(
-
                             borderRadius: isMe && (isSameUserWithNextMessage || isSameUserWithPreviousMessage) ? BorderRadius.only(
                               topRight: Radius.circular(isSameUserWithNextMessage && isLTR && chatTime =="" ? Dimensions.radiusSmall : Dimensions.radiusExtraLarge + 5),
                               bottomRight: Radius.circular(isSameUserWithPreviousMessage && isLTR && previousMessageHasChatTime =="" ? Dimensions.radiusSmall : Dimensions.radiusExtraLarge + 5),
                               topLeft: Radius.circular(isSameUserWithNextMessage && !isLTR && chatTime ==""? Dimensions.radiusSmall : Dimensions.radiusExtraLarge + 5),
                               bottomLeft: Radius.circular(isSameUserWithPreviousMessage && !isLTR && previousMessageHasChatTime ==""? Dimensions.radiusSmall :Dimensions.radiusExtraLarge + 5),
-
                             ) : !isMe && (isSameUserWithNextMessage || isSameUserWithPreviousMessage) ? BorderRadius.only(
                               topLeft: Radius.circular(isSameUserWithNextMessage && isLTR && chatTime ==""? Dimensions.radiusSmall : Dimensions.radiusExtraLarge + 5),
                               bottomLeft: Radius.circular( isSameUserWithPreviousMessage && isLTR && previousMessageHasChatTime =="" ? Dimensions.radiusSmall : Dimensions.radiusExtraLarge + 5),
@@ -140,23 +95,23 @@ class MessageBubbleWidget extends StatelessWidget {
 
 
 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
-                  child: AnimatedContainer(
-                    curve: Curves.fastOutSlowIn,
-                    duration: const Duration(milliseconds: 500),
-                    height: chatProvider.onMessageTimeShowID == message.id.toString() ? 25.0 : 0.0,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        top: chatProvider.onMessageTimeShowID == message.id.toString() ?
-                        Dimensions.paddingSizeExtraSmall : 0.0,
-                      ),
-                      child: Text(chatProvider.getOnPressChatTime(message) ?? "", style: textRegular.copyWith(
-                          fontSize: Dimensions.fontSizeSmall
-                      ),),
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+                //   child: AnimatedContainer(
+                //     curve: Curves.fastOutSlowIn,
+                //     duration: const Duration(milliseconds: 500),
+                //     height: chatProvider.onMessageTimeShowID == message.id.toString() ? 25.0 : 0.0,
+                //     child: Padding(
+                //       padding: EdgeInsets.only(
+                //         top: chatProvider.onMessageTimeShowID == message.id.toString() ?
+                //         Dimensions.paddingSizeExtraSmall : 0.0,
+                //       ),
+                //       child: Text(chatProvider.getOnPressChatTime(message) ?? "", style: textRegular.copyWith(
+                //           fontSize: Dimensions.fontSizeSmall
+                //       ),),
+                //     ),
+                //   ),
+                // ),
 
           if(message.attachment.isNotEmpty)
             Padding(

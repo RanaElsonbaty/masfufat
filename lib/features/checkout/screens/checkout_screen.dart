@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/address/controllers/address_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/address/screens/saved_address_list_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/address/screens/saved_billing_address_list_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/domain/models/cart_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/widgets/cart_bill.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/controllers/checkout_controller.dart';
@@ -244,7 +243,7 @@ else if(orderProvider.selectedDigitalPaymentMethodId==0){
                   Expanded(child: ListView(physics: const BouncingScrollPhysics(),
                       padding: const EdgeInsets.all(0), children: [
                       Padding(padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault),
-                        child: ShippingDetailsWidget(hasPhysical: widget.hasPhysical, billingAddress: _billingAddress, passwordFormKey: passwordFormKey)),
+                        child: ShippingDetailsWidget(hasPhysical: widget.hasPhysical, billingAddress: _billingAddress, passwordFormKey: passwordFormKey,fromCheckout: true,)),
 
 
 

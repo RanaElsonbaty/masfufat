@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/sync%20order/controllers/sync_order_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/sync%20order/widgets/sync_order_type_buttom_widget.dart';
+import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
+import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
@@ -40,6 +43,8 @@ class _SyncOrderScreenState extends State<SyncOrderScreen> {
         _pagingController.appendPage(newItems, nextPageKey);
       }
     } catch (error) {
+     showCustomSnackBar(getTranslated('There_is_an_unexpected_error_please_report_it_to_the_support_team_to_solve_the_problem', context), Get.
+     context!,isError: true,time: 3);
       _pagingController.error = error;
     }
   }

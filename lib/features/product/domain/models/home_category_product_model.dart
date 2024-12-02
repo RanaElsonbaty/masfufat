@@ -2,11 +2,9 @@
 //
 //     final homeCategoryProduct = homeCategoryProductFromJson(jsonString);
 
-import 'dart:convert';
 
 import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
 
-import '../../../../data/model/image_full_url.dart';
 
 // HomeCategoryProduct homeCategoryProductFromJson(String str) => HomeCategoryProduct.fromJson(json.decode(str));
 

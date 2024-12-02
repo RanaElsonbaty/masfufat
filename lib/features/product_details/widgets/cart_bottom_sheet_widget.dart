@@ -126,7 +126,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
               digitalVariantPrice = variantKey != null ? price : null;
 
               double priceWithDiscount = PriceConverter.convertWithDiscount(context,
-                  price??0.0, widget.product!.discount??0.0, widget.product!.discountType??'')!;
+                  price, widget.product!.discount??0.0, widget.product!.discountType??'')!;
               double priceWithQuantity = priceWithDiscount * details.quantity!;
 
               double total = 0, avg = 0;
@@ -429,7 +429,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                       style: GoogleFonts.tajawal(color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault)))]),
                 const SizedBox(height: Dimensions.paddingSizeSmall),
 
-                (stock!=null&&stock! == 0 && widget.product!.productType == "physical") ?
+                (stock == 0 && widget.product!.productType == "physical") ?
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault, vertical: Dimensions.paddingSizeExtraSmall),
                 child: CustomButton(
@@ -469,9 +469,9 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                             buttonText: getTranslated(stock == 0 && widget.product!.productType == "physical"?
                         'out_of_stock' : 'add_to_cart', context),
                             onTap: () {
-                              if( (stock!=null?stock!:0) < widget.product!.minimumOrderQty!  &&  widget.product!.productType == "physical" ){
+                              if( (stock) < widget.product!.minimumOrderQty!  &&  widget.product!.productType == "physical" ){
                                 showCustomSnackBar(getTranslated('out_of_stock', context), context);
-                              } else if((stock!=null?stock!:0) >= widget.product!.minimumOrderQty!  || widget.product!.productType == "digital") {
+                              } else if((stock) >= widget.product!.minimumOrderQty!  || widget.product!.productType == "digital") {
                                 Provider.of<CartController>(context, listen: false).addToCartAPI(
                                     cart, context, details.variationIndex);
                               }

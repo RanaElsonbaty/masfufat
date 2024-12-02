@@ -38,12 +38,7 @@ class _WepViewState extends State<WepView> {
 
   WebViewController? controller;
   void initData() async {
-    // cartProvider = Provider.of<CartProvider>(context,listen: false);
-    // authProvider = Provider.of<AuthProvider>(context,listen: false);
-    // splashProvider = Provider.of<SplashProvider>(context,listen: false);
-    // linkedAccountProvider = Provider.of<LinkedAccountProvider>(context,listen: false);
-    // subscriptionsProvider = Provider.of<SubscriptionsProvider>(context,listen: false);
-    // profileProvider = Provider.of<ProfileProvider>(context,listen: false);
+
     md5Convert =
         '${generateMd5('${Provider.of<ProfileController>(context, listen: false).userInfoModel!.email}${Provider.of<ProfileController>(context, listen: false).userInfoModel!.id}')}${Provider.of<ProfileController>(context, listen: false).userInfoModel!.temporaryToken}';
 

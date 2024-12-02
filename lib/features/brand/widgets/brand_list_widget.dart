@@ -101,10 +101,10 @@ class _BrandListWidgetState extends State<BrandListWidget> {
 
                   builderDelegate: PagedChildBuilderDelegate(
                     newPageErrorIndicatorBuilder: (context) {
-                      return SizedBox();
+                      return const SizedBox();
                     },
                     firstPageErrorIndicatorBuilder:  (context) {
-                      return SizedBox();
+                      return const SizedBox();
                     },
                     itemBuilder: (context, item, index) {
                     // BrandModel brand =item;

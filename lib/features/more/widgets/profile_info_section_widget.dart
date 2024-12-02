@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/profile/controllers/profile_contrroller.dart';
 import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.dart';
@@ -33,7 +34,8 @@ class ProfileInfoSectionWidget extends StatelessWidget {
               Padding(padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeDefault, 70.0,Dimensions.paddingSizeDefault, 30),
                 child: Row(children: [
                   ClipRRect(borderRadius: BorderRadius.circular(100),
-                      child: Container(width: 80,height: 80,  decoration: BoxDecoration(
+                      child: Container(width: 60.w,height: 60.w
+                        ,  decoration: BoxDecoration(
                         color: Theme.of(context).cardColor,
                         border: Border.all(color: Colors.white, width: 3),
                         shape: BoxShape.circle,),

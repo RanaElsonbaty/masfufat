@@ -44,8 +44,8 @@ class _SelectProductWidgetState extends State<SelectProductWidget> {
                         Consumer<MyShopController>(
                           builder:(context, myShopController, child) =>  InkWell(
                             onTap: ()async{
-                              if(Provider.of<MyShopController>(context!,listen: false).pendingList.isEmpty||Provider.of<MyShopController>(context!,listen: false).linkedList.isEmpty){
-                              await  Provider.of<MyShopController>(context!,listen: false).getList();
+                              if(Provider.of<MyShopController>(context,listen: false).pendingList.isEmpty||Provider.of<MyShopController>(context,listen: false).linkedList.isEmpty){
+                              await  Provider.of<MyShopController>(context,listen: false).getList();
 
                               }
                               for (var element in widget.products) {

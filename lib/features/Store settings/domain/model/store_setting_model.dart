@@ -4,7 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:flutter_sixvalley_ecommerce/features/sync%20order/domain/models/sync_order_details.dart';
 
 List<StoreSettingModel> storeSettingModelFromJson(String str) => List<StoreSettingModel>.from(json.decode(str).map((x) => StoreSettingModel.fromJson(x)));
 

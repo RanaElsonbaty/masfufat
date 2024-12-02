@@ -92,7 +92,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 ,
               const SizedBox(width: 5,),
               widget.product!=null?   FavouriteButtonWidget(backgroundColor: ColorResources.getImageBg(context),
-                  productId:widget.productId,product: widget.product!,):SizedBox.square(),
+                  productId:widget.productId,product: widget.product!,):const SizedBox.square(),
             ],),
           ),
         ),

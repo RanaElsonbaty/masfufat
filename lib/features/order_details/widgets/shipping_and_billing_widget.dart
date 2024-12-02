@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/controllers/order_details_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/order_details/widgets/icon_with_text_row_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ShippingAndBillingWidget extends StatelessWidget {
   final OrderDetailsController orderProvider;
@@ -15,8 +11,8 @@ class ShippingAndBillingWidget extends StatelessWidget {
     Container(decoration: const BoxDecoration(
       // image: DecorationImage(image: AssetImage(Images.mapBg), fit: BoxFit.cover)
     ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.0),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               // IconWithTextRowWidget(
               //   isTitle: true,

@@ -57,7 +57,7 @@ class OrderWidget extends StatelessWidget {
                           style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault, fontWeight: FontWeight.w500)))]),
                     const SizedBox(height: Dimensions.paddingSizeSmall),
 
-                    Text(DateConverter.localDateToIsoStringAMPMOrder(orderModel!.createdAt),
+                    Text(DateConverter.localTime(orderModel!.createdAt),
                         style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor, fontWeight: FontWeight.w500)),
                     const SizedBox(height: Dimensions.paddingSizeSmall),
 

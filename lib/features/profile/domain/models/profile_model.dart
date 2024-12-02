@@ -124,13 +124,13 @@ class ProfileModel {
       createdAt: DateTime.parse(json["created_at"]),
       updatedAt: DateTime.parse(json["updated_at"]),
       streetAddress:json["street_address"] ?? '',
-      country: json["country"],
-      city: json["city"],
-      zip: json["zip"],
+      country: json["country"]??'',
+      city: json["city"]??'',
+      zip: json["zip"]??'',
       houseNo: json["house_no"],
       apartmentNo: json["apartment_no"],
       cmFirebaseToken: json["cm_firebase_token"],
-      isActive: json["is_active"],
+      isActive: json["is_active"]??1,
       paymentCardLastFour: json["payment_card_last_four"],
       paymentCardBrand: json["payment_card_brand"],
       paymentCardFawryToken: json["payment_card_fawry_token"],
@@ -162,10 +162,10 @@ class ProfileModel {
       referredBy: json["referred_by"],
       appLanguage: json["app_language"],
       joinedUsing: json["joined_using"],
-      governorate: json["governorate"],
-      area: json["area"],
-      commercialRegistrationImg: json["commercial_registration_img"],
-      taxCertificateImg: json["tax_certificate_img"],
+      governorate: json["governorate"]??'',
+      area: json["area"]??'',
+      commercialRegistrationImg: json["commercial_registration_img"]??'',
+      taxCertificateImg: json["tax_certificate_img"]??'',
     );
   }
 
@@ -361,9 +361,9 @@ class StoreInformations {
     identityType:json['identity_type'] ?? "",
     commercialRegistrationImg: json["commercial_registration_img"] ?? '',
     taxCertificateImg: json["tax_certificate_img"]!=null?json["tax_certificate_img"].toString():'',
-    country: int.parse(json["country"].toString()),
-    area: int.parse(json["area"].toString()),
-    city: int.parse(json["city"].toString()),
+    country: json["country"]!=null?int.parse(json["country"].toString()):0,
+    area: json["area"]!=null?int.parse(json["area"].toString()):0,
+    city: json["city"]!=null?int.parse(json["city"].toString()):0,
   );
 
   Map<String, dynamic> toJson() => {

@@ -52,6 +52,7 @@ class CustomTextFieldWidget extends StatefulWidget {
   final Color? prefixColor;
   final Color? suffixColor;
   final bool ?lTf;
+  final bool? allLtf;
 
   const CustomTextFieldWidget({
     super.key,
@@ -90,7 +91,7 @@ class CustomTextFieldWidget extends StatefulWidget {
      this.required = false, this.suffixOnTap, this.suffix2OnTap, this.prefixOnTap,
     this.prefixColor,
     this.suffixColor,
-    this.suffixIcon2, this.lTf=false, this.backGroundColor,
+    this.suffixIcon2, this.lTf=false, this.backGroundColor, this.allLtf=false,
 
   });
 
@@ -117,7 +118,7 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
                           fontWeight: FontWeight.w500, fontSize: 16, color: Colors.red))])),
           if (widget.titleText != null) const SizedBox(height: 10),
           Directionality(
-            textDirection:widget.lTf==true&&widget.controller!.text.isNotEmpty? TextDirection.ltr:TextDirection.rtl,
+            textDirection:widget.allLtf==true?TextDirection.ltr:widget.lTf==true&&widget.controller!.text.isNotEmpty? TextDirection.ltr:TextDirection.rtl,
       
             child: TextFormField(
               maxLines: widget.maxLines,

@@ -7,7 +7,6 @@ import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/product_helper.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -21,9 +20,7 @@ class ProductTitleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    ({double? end, double? start})? priceRange = ProductHelper.getProductPriceRange(productModel);
-    double? startingPrice = priceRange.start;
-    double? endingPrice = priceRange.end;
+    ProductHelper.getProductPriceRange(productModel);
 
     return productModel != null? Container(
       padding: const EdgeInsets.symmetric(horizontal : Dimensions.homePagePadding),
@@ -115,7 +112,7 @@ const SizedBox(width: 5,),
               Expanded(
                 flex: 2,
                 child: Text("${PriceConverter.convertPrice(context,
-                    productModel!.unitPrice!+PriceConverter.calculationTaxDouble(context, productModel!.unitPrice, productModel!.tax!, productModel!.taxType!), discountType: productModel!.discountType,
+                    productModel!.unitPrice??0+PriceConverter.calculationTaxDouble(context, productModel!.unitPrice, productModel!.tax??0.00, productModel!.taxType??''), discountType: productModel!.discountType,
                     discount: productModel!.discount ?? 0.00)}ٍ",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -146,7 +143,7 @@ const SizedBox(width: 5,),
                 Expanded(
                   flex: 1,
                   child: Text("${getTranslated('price_value', context)} ${PriceConverter.convertPrice(context,
-                      productModel!.unitPrice!, discountType: productModel!.discountType,
+                      productModel!.unitPrice??0, discountType: productModel!.discountType,
                       discount: productModel!.discount ?? 0.00)}ٍ",
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -157,7 +154,7 @@ const SizedBox(width: 5,),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   text: TextSpan(
-                    text:"${getTranslated('qty', context)!} :" ,
+                    text:"${getTranslated('qty', context)!} " ,
                     style: GoogleFonts.tajawal(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -168,7 +165,7 @@ const SizedBox(width: 5,),
                     children: [
 
                       TextSpan(
-                        text: productModel!.currentStock.toString()??'0',
+                        text: productModel!.currentStock.toString(),
 
                         style:  GoogleFonts.tajawal(
                             fontWeight: FontWeight.w400,
@@ -194,7 +191,7 @@ const SizedBox(width: 5,),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   text: TextSpan(
-                    text:"${getTranslated('tax', context)}:" ,
+                    text:"${getTranslated('tax', context)}" ,
                     style: GoogleFonts.tajawal(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -205,7 +202,7 @@ const SizedBox(width: 5,),
                     children: [
 
                       TextSpan(
-                        text:PriceConverter.calculationTaxString(context, productModel!.unitPrice, productModel!.tax!, productModel!.taxType!),
+                        text:PriceConverter.calculationTaxString(context, productModel!.unitPrice, productModel!.tax??0.00, productModel!.taxType??''),
 
                         style:  GoogleFonts.tajawal(
                             fontWeight: FontWeight.w400,

@@ -1,12 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/Store%20settings/controllers/store_setting_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../common/basewidget/show_custom_snakbar_widget.dart';
 import '../../../common/basewidget/webView.dart';
@@ -233,7 +231,7 @@ class _StoreSectionState extends State<StoreSection> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       widget.store.storeDetails!=null?   Expanded(
-                        child: Text('${getTranslated('Link_status', context)!} : ${getTranslated('associatedـwith', context)!} ${widget.store.storeDetails!=null?widget.store.storeDetails!.name??'':widget.store.storeDetails!.user!=null?widget.store.storeDetails!.user!.name??'':''}',
+                        child: Text('${getTranslated('Link_status', context)!} : ${getTranslated('associatedـwith', context)!} ${widget.store.storeDetails!=null?widget.store.storeDetails!.name??'':widget.store.storeDetails!.user!=null?widget.store.storeDetails!.user!.name:''}',
                           style: GoogleFonts.tajawal(
                               fontSize: 16,
                               color: widget.store.storeDetails!=null?Colors.white:null ,

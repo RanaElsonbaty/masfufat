@@ -46,7 +46,7 @@ class ProductRepository implements ProductRepositoryInterface{
   Future<ApiResponse> getBrandOrCategoryProductList(bool isBrand,int brandId, String id,int offset,bool reloud,String search,String syncFilter,String filter,String price,bool onlyBrand) async {
     try {
       String uri;
-
+print(onlyBrand);
       if(isBrand){
         if(syncFilter.isEmpty||filter.isEmpty||search.isEmpty) {
           if(onlyBrand==true){

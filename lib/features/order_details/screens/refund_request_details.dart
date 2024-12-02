@@ -96,7 +96,7 @@ class _RefundRequestDetailsState extends State<RefundRequestDetails> {
                 ],
               ),
             ),
-            widget.orderDetailsModel.productDetails!=null? RefuntProductWidget(product: widget.orderDetailsModel.productDetails!,qty: widget.orderDetailsModel.qty!,):const SizedBox.shrink(),
+            widget.orderDetailsModel.productDetails!=null? RefuntProductWidget(product: widget.orderDetailsModel.productDetails!,qty: widget.orderDetailsModel.qty,):const SizedBox.shrink(),
             const SizedBox(height: 15,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -226,7 +226,7 @@ class _RefundRequestDetailsState extends State<RefundRequestDetails> {
                                             builder: (c) =>   bottomSheet('تبديل الصوره',()async{
 
                                            await   provider.pikeRefuntMultiImage().then((value)async {
-                                           await  provider.refundReplaceAttachment(widget.orderDetailsModel.id!.toString(),(provider.orderRefuntModel!.refundRequest.first.status!='pending'?index:index-1).toString(),value!);
+                                           await  provider.refundReplaceAttachment(widget.orderDetailsModel.id.toString(),(provider.orderRefuntModel!.refundRequest.first.status!='pending'?index:index-1).toString(),value!);
                                            await  provider.getOrderRefund(widget.orderDetailsModel.id.toString());
 
                                              Navigator.pop(Get.context!);

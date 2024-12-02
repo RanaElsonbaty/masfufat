@@ -17,8 +17,8 @@ class CategoryController extends ChangeNotifier {
 
   List<CategoryModel> get categoryList => _categoryList;
   int? get categorySelectedIndex => _categorySelectedIndex;
-  CategoryModel? _allProduct;
-  CategoryModel? get allProduct=>_allProduct;
+  // CategoryModel? _allProduct;
+  // CategoryModel? get allProduct=>_allProduct;
   Future<void> getCategoryList(bool reload) async {
     if (_categoryList.isEmpty || reload) {
       ApiResponse apiResponse = await categoryServiceInterface!.getList();
@@ -32,13 +32,13 @@ class CategoryController extends ChangeNotifier {
         });
         apiResponse.response!.data.forEach((category) => brandCategoryList.add(CategoryModel.fromJson(category)));
         _categorySelectedIndex = 0;
-        for(CategoryModel elm in _categoryList){
-          if(elm.id==0){
-            _allProduct=elm;
-            break;
-          }
+        // for(CategoryModel elm in _categoryList){
+          // if(elm.id==0){
+          //   _allProduct=elm;
+          //   break;
+          // }
 
-        }
+        // }
       } else {
         ApiChecker.checkApi( apiResponse);
       }
@@ -128,9 +128,9 @@ class CategoryController extends ChangeNotifier {
       ApiResponse apiResponse = await categoryServiceInterface!.get(id.toInt());
       if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
         _brandCategoryList.clear();
-        if(_allProduct!=null){
-        _brandCategoryList.add(_allProduct!);
-        }
+        // if(_allProduct!=null){
+        // _brandCategoryList.add(_allProduct!);
+        // }
 
         apiResponse.response!.data.forEach((category) => _brandCategoryList.add(CategoryModel.fromJson(category)));
         _categorySelectedIndex = 0;

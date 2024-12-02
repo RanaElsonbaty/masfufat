@@ -10,7 +10,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../../../common/commo.dart';
 
 class SupportTicketWidget extends StatefulWidget {
   final SupportTicketModel supportTicketModel;

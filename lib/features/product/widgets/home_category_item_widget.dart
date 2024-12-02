@@ -27,14 +27,14 @@ class HomeCategoryProductItemWidget extends StatelessWidget {
           TitleRowWidget(
             title: homeCategoryProduct[index].name,
             onTap: () {
-              final tIndex =  Provider.of<CategoryController>(context, listen: false).categoryList.indexWhere((element) => element.id == homeCategoryProduct![index].id);
+              final tIndex =  Provider.of<CategoryController>(context, listen: false).categoryList.indexWhere((element) => element.id == homeCategoryProduct[index].id);
 
               // print('homeCategoryProduct --- ${homeCategoryProduct.}')
               Navigator.push(context, MaterialPageRoute(builder: (_) => BrandAndCategoryProductScreen(
                   isBrand: false,
                   index:  tIndex,
-                  id: homeCategoryProduct![index].id.toString(),
-                  name: homeCategoryProduct![index].name)));
+                  id: homeCategoryProduct[index].id.toString(),
+                  name: homeCategoryProduct[index].name)));
             },
           ),
           const SizedBox(height: Dimensions.paddingSizeDefault),
@@ -49,18 +49,18 @@ SingleChildScrollView(
     child: ListView.builder(
       padding: const EdgeInsets.all(0),
       scrollDirection: Axis.horizontal,
-      itemCount: (isHomePage && homeCategoryProduct![index].products!.length > 4) ? 4
-              : homeCategoryProduct![index].products!.length,
+      itemCount: (isHomePage && homeCategoryProduct[index].products!.length > 4) ? 4
+              : homeCategoryProduct[index].products!.length,
       shrinkWrap: true,
       itemBuilder:(context, i) {
         return SizedBox(
           width: 200,
           child: InkWell(onTap: () {
               Navigator.push(context, PageRouteBuilder(transitionDuration: const Duration(milliseconds: 1000),
-                  pageBuilder: (context, anim1, anim2) => ProductDetails(productId: homeCategoryProduct?[index].products![i].id,
-                      slug: homeCategoryProduct?[index].products![i].slug, product: homeCategoryProduct?[index].products![i],)));
+                  pageBuilder: (context, anim1, anim2) => ProductDetails(productId: homeCategoryProduct[index].products![i].id,
+                      slug: homeCategoryProduct[index].products![i].slug, product: homeCategoryProduct[index].products![i],)));
             },
-                child: ProductWidget(productModel: homeCategoryProduct![index].products![i])),
+                child: ProductWidget(productModel: homeCategoryProduct[index].products![i])),
         );
       },
     ),

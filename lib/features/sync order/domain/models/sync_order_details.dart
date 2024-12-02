@@ -1856,7 +1856,7 @@ class ShippingAddressData {
         country: json["country"],
         latitude: json["latitude"].toString(),
         longitude: json["longitude"].toString(),
-        isBilling: json["is_billing"],
+        isBilling: json["is_billing"].toString()=='1'?1:0,
         areaId: json["area_id"].toString(),
         title: json["title"],
       );

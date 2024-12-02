@@ -54,11 +54,11 @@ class AddressModel {
     }
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    state = json['state'];
+    state = json['state'].toString()=='1'?true:false;
     country = json['country'];
     latitude = json['latitude']!=null?json['latitude'].toString():'0.000';
     longitude = json['longitude']!=null?json['longitude'].toString():'0.00';
-    isBilling = json['is_billing'];
+    isBilling = json['is_billing'].toString()=='1'?1:0;
     areaId = json['area_id'].toString();
     title = json['title'];
   }

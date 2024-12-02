@@ -94,24 +94,13 @@ Future<void> main() async {
   await di.init();
   final NotificationAppLaunchDetails? notificationAppLaunchDetails =
   await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-  int? _orderID;
   if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
-    _orderID = (notificationAppLaunchDetails!.notificationResponse?.payload !=
-        null &&
-        notificationAppLaunchDetails
-            .notificationResponse!.payload!.isNotEmpty)
-        ? int.parse(notificationAppLaunchDetails.notificationResponse!.payload
-        .toString())
-        : null;
   }
   print(
       'notification payload ---> ${notificationAppLaunchDetails!.notificationResponse?.payload}');
   final RemoteMessage? remoteMessage =
   await FirebaseMessaging.instance.getInitialMessage();
   if (remoteMessage != null) {
-    _orderID = remoteMessage.notification!.titleLocKey != null
-        ? int.parse(remoteMessage.notification!.titleLocKey.toString())
-        : null;
   }
   try {
     print('RemoteMessage start');

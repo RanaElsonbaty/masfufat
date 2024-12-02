@@ -115,17 +115,16 @@ class _CartBillState extends State<CartBill> {
 
             const Divider(height: 1, color: Color(0xFFD8D8D8)),
             const SizedBox(height: 5,),
-
-              Padding(
+            Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                Text(getTranslated('shipping_fee', context)!,style: GoogleFonts.tajawal(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                ),),
+                  Text(getTranslated('Product_tax', context)!,style: GoogleFonts.tajawal(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                  ),),
                   const Spacer(),
-                  Text(PriceConverter.convertPrice(context, shipping),style: GoogleFonts.tajawal(
+                  Text(PriceConverter.convertPrice(context,tax),style: GoogleFonts.tajawal(
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
                   ),),
@@ -141,7 +140,47 @@ class _CartBillState extends State<CartBill> {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                Text(getTranslated('discount', context)!,style: GoogleFonts.tajawal(
+                Text(getTranslated('Shipping_cost', context)!,style: GoogleFonts.tajawal(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                ),),
+                  const Spacer(),
+                  Text(PriceConverter.convertPrice(context, shipping),style: GoogleFonts.tajawal(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                  ),),
+                ],
+              ),
+            ),
+            const SizedBox(height: 5,),
+
+            const Divider(height: 1, color: Color(0xFFD8D8D8)),
+            const SizedBox(height: 5,),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Text(getTranslated('Shipping_tax', context)!,style: GoogleFonts.tajawal(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                  ),),
+                  const Spacer(),
+                  Text(PriceConverter.convertPrice(context, sipTax),style: GoogleFonts.tajawal(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                  ),),
+                ],
+              ),
+            ),
+            const SizedBox(height: 5,),
+
+            const Divider(height: 1, color: Color(0xFFD8D8D8)),
+            const SizedBox(height: 5,),
+              Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                Text(getTranslated('Discount_on_product', context)!,style: GoogleFonts.tajawal(
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
                 ),),
@@ -179,47 +218,10 @@ class _CartBillState extends State<CartBill> {
             const Divider(height: 1, color: Color(0xFFD8D8D8)),
             const SizedBox(height: 5,),
 
-              Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                Text(getTranslated('tax', context)!,style: GoogleFonts.tajawal(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                ),),
-                  const Spacer(),
-                  Text(PriceConverter.convertPrice(context,tax),style: GoogleFonts.tajawal(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                  ),),
-                ],
-              ),
-            ),
+
             const SizedBox(height: 5,),
 
-            const Divider(height: 1, color: Color(0xFFD8D8D8)),
-            const SizedBox(height: 5,),
 
-              Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                Text(getTranslated('Shipping_tax', context)!,style: GoogleFonts.tajawal(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                ),),
-                  const Spacer(),
-                  Text(PriceConverter.convertPrice(context, sipTax),style: GoogleFonts.tajawal(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                  ),),
-                ],
-              ),
-            ),
-            const SizedBox(height: 5,),
-
-            const Divider(height: 1, color: Color(0xFFD8D8D8)),
-            const SizedBox(height: 5,),
             Container(
               height: 50,
               decoration: BoxDecoration(
@@ -253,7 +255,6 @@ class _CartBillState extends State<CartBill> {
                     onTap: (){
                       bool hasNull = false;
                                     bool stockOutProduct = false;
-                      double amount = 0.0;
                       bool onlyDigital= true;
                       List<CartModel> cartList = [];
                       cartList.addAll(widget.cartList);
@@ -320,7 +321,6 @@ class _CartBillState extends State<CartBill> {
 
                       for(int i=0;i<widget.cartList.length;i++){
                         // if(cart.cartList[i].isChecked!){
-                        amount += (widget.cartList[i].price! - widget.cartList[i].discount!) * widget.cartList[i].quantity!;
                         // if (kDebugMode) {
                           print('====TaxModel == ${widget.cartList[i].taxModel}');
                         // }
@@ -333,22 +333,9 @@ class _CartBillState extends State<CartBill> {
                         }
                       }
 
-                      for(int j = 0; j< cartList.length; j++){
-                        // if(cartList[j].isChecked!) {
-                        // }
-                      }
 
-                                    //  if(configProvider.configModel!.shippingMethod =='sellerwise_shipping'){
-                                    //   for(int index = 0; index < cartProductList.length; index++) {
-                                    //     for(CartModel cart in cartProductList[index]) {
-                                    //       if(cart.productType == 'physical' && sellerGroupList[index].shippingType == 'order_wise'  &&
-                                    //           Provider.of<ShippingController>(context, listen: false).shippingList![index].shippingIndex == -1) {
-                                    //         hasNull = true;
-                                    //         break;
-                                    //       }
-                                    //     }
-                                    //   }
-                                    // }
+
+
 
                                     if (configProvider.configModel!.shippingMethod =='sellerwise_shipping') {
                                       for (int index = 0; index < sellerGroupList.length; index++) {
@@ -402,7 +389,6 @@ class _CartBillState extends State<CartBill> {
                                     // }
                                     else {
 
-                                      int sellerGroupLenght = 0;
 
                                       // for(CartModel seller in sellerGroupList) {
                                       //   if(seller.isGroupItemChecked!) {

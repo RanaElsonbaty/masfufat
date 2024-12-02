@@ -86,7 +86,7 @@ class StoreSettingController extends ChangeNotifier {
     _activeSwitch[index] = value;
     notifyListeners();
   }
-  List<Packages> _packages=[];
+  final List<Packages> _packages=[];
   List<Packages> get packages=>_packages;
   bool _showStoreSetting=false;
   bool get showStoreSetting=>_showStoreSetting;

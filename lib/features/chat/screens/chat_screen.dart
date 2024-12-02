@@ -163,17 +163,17 @@ FocusNode focusNode =FocusNode();
 
 
                   Container(
-                    color:  chatProvider.isLoading == false && ((chatProvider.pickedImageFileStored!=null && chatProvider.pickedImageFileStored.isNotEmpty) || (chatProvider.objFile != null && chatProvider.objFile!.isNotEmpty)) ?
+                    color:  chatProvider.isLoading == false && ((chatProvider.pickedImageFileStored.isNotEmpty) || (chatProvider.objFile != null && chatProvider.objFile!.isNotEmpty)) ?
                     Theme.of(context).primaryColor.withOpacity(0.1) : null,
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      ((chatProvider.pickedImageFileStored!=null && chatProvider.pickedImageFileStored.isNotEmpty)  || (chatProvider.objFile != null && chatProvider.objFile!.isNotEmpty)) ?
+                      ((chatProvider.pickedImageFileStored.isNotEmpty)  || (chatProvider.objFile != null && chatProvider.objFile!.isNotEmpty)) ?
                           const SizedBox(height: Dimensions.paddingSizeSmall) : const SizedBox(),
 
                         // Bottom TextField
 
 
 
-                      chatProvider.isLoading == false&&  chatProvider.pickedImageFileStored!=null &&chatProvider.pickedImageFileStored.isNotEmpty
+                      chatProvider.isLoading == false &&chatProvider.pickedImageFileStored.isNotEmpty
                           ? Container(
                           height: 90,
 

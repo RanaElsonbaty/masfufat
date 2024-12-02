@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_textfield_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/widget/show_Modal_Bottom_Sheet.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
@@ -14,6 +11,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../common/basewidget/show_custom_snakbar_widget.dart';
 import '../../../../localization/language_constrants.dart';
+import '../../../../main.dart';
 import '../../../splash/controllers/splash_controller.dart';
 import '../../domain/model/model.dart';
 
@@ -38,7 +36,7 @@ class _SyncProductWidgetState extends State<SyncProductWidget> {
   @override
   void initState() {
 
-      getProfit(double.parse(widget.controller.text)??0.00);
+      getProfit(double.parse(widget.controller.text));
 
 
     super.initState();
@@ -355,10 +353,10 @@ TextEditingController percentage =TextEditingController(text: '0');
                                   textAlign: TextAlign.center,
 
                                   onSubmitted: (val){
-                                    getPriceFromProfit(double.parse(val),widget.pending.linkedProduct.price>0.00?widget.pending.linkedProduct.price:widget.pending.pricings.suggestedPrice);
+                                    getPriceFromProfit(double.parse(val),widget.pending.pricings.value);
                                   },
                                   onChanged: (val){
-                                    getPriceFromProfit(double.parse(val),widget.pending.linkedProduct.price>0.00?widget.pending.linkedProduct.price:widget.pending.pricings.suggestedPrice);
+                                    getPriceFromProfit(double.parse(val),widget.pending.pricings.value);
 
                                   },
                                   inputFormatters: [
@@ -519,6 +517,40 @@ TextEditingController percentage =TextEditingController(text: '0');
                                 // ),
                               ),
                             ),
+                            const Spacer(),
+                            Consumer<MyShopController>(
+                              builder:(context, myShop, child) =>  InkWell(
+                                onTap: ()async{
+                                  print(widget.pending.id);
+                                  print(widget.controller.text);
+                                  double tax=0.00;
+
+                                  if(myShop.switch2){
+                                    tax= ((((((double.parse(myShop.taxController.text)/100)*double.parse(widget.controller.text))))));
+print('tax---->$tax');
+                                  }
+                                  dialog('Products_are_being_synced');
+                                  await myShop.addProductPrice(widget.pending.id, (double.parse(widget.controller.text)+tax).toString()).then((value)async {
+                                    await myShop.syncOneProduct(false,widget.pending.id).then((value) {
+                                    if(value==false){
+                                      showCustomSnackBar('${getTranslated('Product_sync_failed', Get.context!)} sku : ${widget.pending.code}', Get.context!, isError: true);
+
+                                    }
+                                    });
+                                    await myShop.getList();
+                                    myShop. initController();
+                                    Navigator.pop(diagloContext);
+
+                                  });
+
+
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 8,),
+                                  child: Image.asset(Images.sync,width: 25,),
+                                ),
+                              ),
+                            )
                             // const SizedBox(width: 15,),
                           ],
                         ),
@@ -544,7 +576,7 @@ TextEditingController percentage =TextEditingController(text: '0');
                           const SizedBox(width: 5,),
 
                           myShopProvider.switch2?  Row(
-                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
                             children: [
                               Text(
                                 '${getTranslated('total', context)!} :',
@@ -580,21 +612,22 @@ TextEditingController percentage =TextEditingController(text: '0');
   }
   void getProfit(double val) {
     MyShopController myShop=Provider.of<MyShopController>(context,listen: false);
-    
+    double value =widget.pending.pricings.value;
+
     if(myShop.switch2){
-      // double tax =(double.parse(myShop.taxController.text)/100)*double.parse(widget.controller.text);
-      val= val ;
-    //   +tax
+      val= val;
+          // +((((((double.parse(myShop.taxController.text)/100)*double.parse(widget.controller.text))))));
+
+    }else{
+      value =widget.pending.pricings.value
+          +
+          (widget.pending.taxType == 'percent' || widget.pending.taxType != null
+              ? ((widget.pending.tax / 100) * widget.pending.pricings.value)
+              : widget.pending.tax);
     }
 
 
-      double value =0.0;
-    value = widget.pending.pricings.value
-        +
-        (widget.pending.taxType == 'percent' || widget.pending.taxType != null
-            ? ((widget.pending.tax / 100) * widget.pending.pricings.value)
-            : widget.pending.tax);
-print(val);
+
     setState(() {
       profit.text = (val - value).toStringAsFixed(2);
       percentage.text = ((double.parse(profit .text)/ (value)) * 100).toStringAsFixed(2);
@@ -603,26 +636,25 @@ print(val);
   }
   void getPriceFromProfit(double val,double price) {
     MyShopController myShop=Provider.of<MyShopController>(context,listen: false);
+    double value =price;
 
     if(myShop.switch2){
-      double tax =(double.parse(myShop.taxController.text)/100)*double.parse(widget.controller.text);
       val= val;
-          // +tax;
+      // +((((((double.parse(myShop.taxController.text)/100)*double.parse(widget.controller.text))))));
+
+    }else{
+      value = price
+          +
+          (widget.pending.taxType == 'percent' || widget.pending.taxType != null
+              ? ((widget.pending.tax / 100) * widget.pending.pricings.value)
+              : widget.pending.tax);
     }
 
-    double value =0.0;
-    // value = price;
-    value = price
-        +
-        (widget.pending.taxType == 'percent' || widget.pending.taxType != null
-            ? ((widget.pending.tax / 100) * price)
-            : widget.pending.tax);
 
-
+print('Profit $value');
     setState(() {
-      // profit.text=(val.toStringAsFixed(2));
     widget.controller.text=(value+val).toStringAsFixed(2);
-    percentage.text = ((double.parse(profit.text) / (value)) * 100).toStringAsFixed(2);
+    percentage.text = ((val / value) * 100).toStringAsFixed(2);
     });
 
 
@@ -634,28 +666,77 @@ print(val);
 
   void getProfitFromPercentage(double val,double price) {
     MyShopController myShop=Provider.of<MyShopController>(context,listen: false);
+    double value =price;
 
-    // if(myShop.switch2){
-    //   double tax =(double.parse(myShop.taxController.text)/100)*double.parse(widget.controller.text);
-    //   val= val;
-    //       +tax;
-    // }
+    if(myShop.switch2){
+      val= val;
+          // +((((((double.parse(myShop.taxController.text)/100)*double.parse(widget.controller.text))))));
 
-    double value =0.0;
-    value = price
-    // ;
-        +
-        (widget.pending.taxType == 'percent' || widget.pending.taxType != null
-            ? ((widget.pending.tax / 100) * widget.pending.pricings.value)
-            : widget.pending.tax);
+    }else{
+      value = price
+          +
+          (widget.pending.taxType == 'percent' || widget.pending.taxType != null
+              ? ((widget.pending.tax / 100) * widget.pending.pricings.value)
+              : widget.pending.tax);
+    }
+
+
+
 
     setState(() {
-      // percentage.text=val.toString();
-
       profit .text=((val*value)/100).toStringAsFixed(2);
       widget.controller.text=(double.parse(profit.text) +value).toStringAsFixed(2);
     });
 
 
   }
+  BuildContext diagloContext=Get.context!;
+
+  Future dialog(String text){
+
+    return showDialog(
+
+      barrierDismissible: false  ,
+      context: diagloContext,
+
+      builder: (context) {
+        return  Padding(
+          padding:  EdgeInsets.symmetric(horizontal: 50.0,vertical: MediaQuery.of(context).size.width/1.7),
+          child: Container(
+            height:300,
+            decoration: BoxDecoration(
+
+              borderRadius: BorderRadius.circular(12),
+              color: Theme.of(context).cardColor,
+
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: CircularProgressIndicator(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                const SizedBox(height: 10,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text(getTranslated(text, context)!,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.visible,
+                    style: GoogleFonts.tajawal(
+                        color: Theme.of(context).iconTheme.color,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 22
+
+                    ),),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
 }

@@ -87,15 +87,7 @@ class _GuestTrackOrderScreenState extends State<GuestTrackOrderScreen> {
                     onTap: () async {
                       FocusManager.instance.primaryFocus?.unfocus();
                       String orderId = orderIdController.text.trim();
-                  bool findOrder=false;
 
-                      if(formKey.currentState?.validate() ?? false) {
-                        for (var element in orderProvider.orderModel!) {
-                          if(element.id.toString()==orderId){
-                            findOrder=true;
-                          }
-                        }
-                        if(findOrder) {
                           await orderTrackingProvider.trackOrder(
                               orderId: orderId.toString(), isUpdate: true)
                               .then((value) {
@@ -112,10 +104,7 @@ class _GuestTrackOrderScreenState extends State<GuestTrackOrderScreen> {
                               }
                             }
                           });
-                        }else{
-                        showCustomSnackBar(getTranslated('The_order_number_you_entered_was_not_found', context), context, isError: true,time: 3);
-                        }
-                      }
+
                     },
                   ),
                 ),

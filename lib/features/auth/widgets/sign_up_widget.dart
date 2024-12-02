@@ -1,4 +1,5 @@
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/domain/models/register_model.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/velidate_check.dart';
@@ -116,6 +117,7 @@ titleText: getTranslated('email', context),
                       Container(margin: const EdgeInsets.only(left: Dimensions.marginSizeDefault,
                           right: Dimensions.marginSizeDefault, top: Dimensions.marginSizeSmall),
                         child: CustomTextFieldWidget(
+
                           hintText: getTranslated('enter_mobile_number', context),
                           // labelText: getTranslated('enter_mobile_number', context),
                           controller: authProvider.phoneController,
@@ -124,11 +126,9 @@ titleText: getTranslated('email', context),
                           focusNode: authProvider.phoneFocus,
                           nextFocus: authProvider.passwordFocus,
                           required: true,
+                            allLtf: true,
                             lTf: true,
-
-
                           showCodePicker: true,
-
 
                           countryDialCode: authProvider.countryDialCode,
                           onCountryChanged: (CountryCode countryCode) {

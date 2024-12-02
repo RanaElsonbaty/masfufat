@@ -47,24 +47,12 @@ class SplashScreenState extends State<SplashScreen>
 {
   final GlobalKey<ScaffoldMessengerState> _globalKey = GlobalKey();
   late StreamSubscription<ConnectivityResult> _onConnectivityChanged;
-  // late Animation<int> _animation;
-  // AnimationController? controller;
-  // Offset _getOffset(int angle, int distance) {
-  //   return Offset.fromDirection(math.pi / 180 * angle, distance.toDouble());
-  // }
 
     @override
   void initState() {
     super.initState();
     Provider.of<SplashController>(context,listen: false).initConfigGuest(context);
-    // AnimationController controller =
-    // AnimationController(vsync: this, duration: const Duration(seconds: 20))
-    //   ..addListener(() {
-    //     setState(() {});
-    //   });
-    // _animation = _tween.animate(controller);
-    //
-    // controller.repeat();
+
 
 
 
@@ -73,17 +61,14 @@ class SplashScreenState extends State<SplashScreen>
       if(!firstTime) {
         bool isNotConnected = result != ConnectivityResult.wifi && result != ConnectivityResult.mobile;
         isNotConnected ? const SizedBox() : ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //   backgroundColor: isNotConnected ? Colors.red : Colors.green,
-        //   duration: Duration(seconds: isNotConnected ? 6000 : 3),
-        //   content: Text(isNotConnected ? getTranslated('no_connection', context)! : getTranslated('connected', context)!,
-        //     textAlign: TextAlign.center)));
         if(!isNotConnected) {
+          Provider.of<AuthController>(Get.context!,listen: false). saveToken();
           _route();
         }
       }
       firstTime = false;
     });
+    Provider.of<AuthController>(Get.context!,listen: false). saveToken();
 
     _route();
   }
@@ -94,7 +79,10 @@ class SplashScreenState extends State<SplashScreen>
     _onConnectivityChanged.cancel();
   }
   static Future<void> loadData(bool reload) async {
-  // await  Provider.of<SplashController>(Get.context!,listen: false).initConfig(Get.context!);
+    Provider.of<PaymentController>(Get.context!,listen: false).getAmount(( 0));
+    Provider.of<PaymentController>(Get.context!,listen: false).getApiKey(Get.context!);
+    Provider.of<PaymentController>(Get.context!,listen: false).initiate(Get.context!);
+    Provider.of<PaymentController>(Get.context!,listen: false).cardViewStyle();
     Provider.of<MyShopController>(Get.context!,listen: false).getList();
      Provider.of<BannerController>(Get.context!, listen: false).getBannerList(reload,'main_banner');
        Provider.of<CategoryController>(Get.context!, listen: false).getCategoryList(reload);
@@ -115,16 +103,12 @@ class SplashScreenState extends State<SplashScreen>
     if(Provider.of<AuthController>(Get.context!, listen: false).isLoggedIn()){
    await     Provider.of<ProfileController>(Get.context!, listen: false).getUserInfo(Get.context!);
     }
-    // Provider.of<PaymentController>(Get.context!,listen: false).getIsLoading(true,false);
-    //    Provider.of<PaymentController>(Get.context!,listen: false).getAmount(( 0));
-    //   Provider.of<PaymentController>(Get.context!,listen: false).getApiKey(Get.context!);
-    //  Provider.of<PaymentController>(Get.context!,listen: false).initiate(Get.context!);
-    //  Provider.of<PaymentController>(Get.context!,listen: false).getPaymentMethod(Get.context!,'cart');
-    // Provider.of<PaymentController>(Get.context!,listen: false).cardViewStyle();
+
     // Provider.of<PaymentController>(Get.context!,listen: false).getIsLoading(false,true);
   }
 
   void _route() async{
+
     await Provider.of<SplashController>(Get.context!,listen: false).getMaintenanceMode().then((value) {
       if(Provider.of<SplashController>(Get.context!, listen: false).maintenanceMode) {
         Navigator.of(Get.context!).pushReplacement(MaterialPageRoute(builder: (_) => const MaintenanceScreen()));
@@ -132,13 +116,6 @@ class SplashScreenState extends State<SplashScreen>
 
       }
     });
-    //     Timer(const Duration(seconds: 1), ()
-    //     {
-    //       Navigator.push(context,
-    //           MaterialPageRoute(builder: (context) => const AuthScreen()));
-    //     });
-    // // Provider.of<SplashController>(context, listen: false).initConfig(context).then((bool isSuccess) {
-    //   if(isSuccess) {
         String? minimumVersion = "1";
        // String appVersion = '1.0.0';
         if(Platform.isAndroid) {

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_sixvalley_ecommerce/features/Store%20settings/controllers/store_setting_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/controllers/cart_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/domain/models/product_details_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/cart_bottom_sheet_widget.dart';
+import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:vibration/vibration.dart';
 
 import '../../cart/domain/models/cart_model.dart';
 
@@ -100,6 +103,10 @@ bool sync =false;
           Expanded(
               flex: 1,
               child: InkWell(onTap: ()async {
+                HapticFeedback.heavyImpact();
+
+                vibrate();
+                Vibration.cancel();
                try{
                  if(widget.product!.id==null){
                    showCustomSnackBar(getTranslated('The_product_was_not_added_to_the_cart_successfully', context), context);
@@ -187,7 +194,11 @@ bool sync =false;
               }
               return Consumer<StoreSettingController>(
                 builder:(context, storeSetting, child) =>  InkWell(onTap: () {
-                  if (storeSetting.linkedAccountsList.isNotEmpty&&storeSetting.linkedAccountsList.first.storeDetails!=null||storeSetting.linkedAccountsList.last.storeDetails!=null){
+                  HapticFeedback.heavyImpact();
+
+                  vibrate();
+                  Vibration.cancel();
+                  // if (storeSetting.linkedAccountsList.isNotEmpty&&storeSetting.linkedAccountsList.first.storeDetails!=null||storeSetting.linkedAccountsList.last.storeDetails!=null){
 
                 try{
 
@@ -205,7 +216,7 @@ bool sync =false;
                         myShopController.getList();
                       }else{
                         showCustomSnackBar(getTranslated('Not_added_to_my_store', context), context,isError: true );
-
+PriceConverter.convertPrice(context, 0);
                       }
                     });}else{
                     showCustomSnackBar(getTranslated('Already_added', context), context,isError: true );
@@ -230,13 +241,10 @@ bool sync =false;
                     });}else{
                     showCustomSnackBar(getTranslated('Not_added_to_my_store', context), context,isError: true );
                   }
-                }}else{
-                    showCustomSnackBar(getTranslated('Unable_to_connect_to_your_marketplace', context), context,time: 3);
 
                   }
                             },
                 child: Container(
-
                   margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(4),
@@ -256,5 +264,25 @@ bool sync =false;
       );
       },
     );
+  }
+  Future<bool>
+  vibrate() async {
+    if (await Vibration
+        .hasVibrator() ==
+        true) {
+      print('vibrate');
+      // Vibration.vibrate();
+      Vibration.vibrate(
+          pattern: [
+            1000,
+            500,
+          ]);
+      return Future(() => true);
+    } else {
+      print('cannot vibrate');
+
+      return Future(
+              () => false);
+    }
   }
 }

@@ -25,7 +25,7 @@ class SyncOrderAmountCalculation extends StatelessWidget {
 
           Padding(
             padding:  const EdgeInsets.all(Dimensions.paddingSizeSmall),
-            child: AmountWidget(title: getTranslated('sub_total', context),
+            child: AmountWidget(title: getTranslated('Total_does_not_include_tax', context),
                 amount: PriceConverter.convertPrice(context, itemTotalAmount)),
           ),
 
@@ -34,7 +34,7 @@ class SyncOrderAmountCalculation extends StatelessWidget {
           orderProvider.syncOrderDetails!.orderType == "POS"? const SizedBox():
           Padding(
             padding:  const EdgeInsets.all(Dimensions.paddingSizeSmall),
-            child: AmountWidget(title: getTranslated('shipping_fee', context),
+            child: AmountWidget(title: getTranslated('Shipping_cost', context),
                 amount: PriceConverter.convertPrice(context, shippingCost)),
           ),
 
@@ -43,7 +43,7 @@ class SyncOrderAmountCalculation extends StatelessWidget {
 
           Padding(
             padding:  const EdgeInsets.all(Dimensions.paddingSizeSmall),
-            child: AmountWidget(title: getTranslated('discount', context),
+            child: AmountWidget(title: getTranslated('Product_discount', context),
                 amount: PriceConverter.convertPrice(context, discount)),
           ),
 
@@ -62,7 +62,7 @@ class SyncOrderAmountCalculation extends StatelessWidget {
 
           Padding(
             padding:  const EdgeInsets.all(Dimensions.paddingSizeSmall),
-            child: AmountWidget(title: getTranslated('coupon_voucher', context),
+            child: AmountWidget(title: getTranslated('Basket_discount', context),
               amount: PriceConverter.convertPrice(context, discount),),
           ),
 
@@ -71,7 +71,7 @@ class SyncOrderAmountCalculation extends StatelessWidget {
 
           Padding(
             padding:  const EdgeInsets.all(Dimensions.paddingSizeSmall),
-            child: AmountWidget(title: getTranslated('tax', context),
+            child: AmountWidget(title: getTranslated('Product_tax', context),
                 amount: PriceConverter.convertPrice(context, tax)),
           ),
 
@@ -98,7 +98,7 @@ class SyncOrderAmountCalculation extends StatelessWidget {
                 padding:  const EdgeInsets.all(Dimensions.paddingSizeSmall),
 
                 child: Row(children: [
-                  Text( getTranslated('total_payable', context)!,
+                  Text( getTranslated('Total', context)!,
                     style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyLarge!.color!,fontWeight: FontWeight.w400,),
                   ),
                   const Spacer(),

@@ -25,7 +25,6 @@ import '../../deal/controllers/flash_deal_controller.dart';
 import '../../more/screens/html_screen_view.dart';
 import '../../my shop/controllers/my_shop_controller.dart';
 import '../../notification/controllers/notification_controller.dart';
-import '../../payment /controller/payment_controller.dart';
 import '../../product/controllers/product_controller.dart';
 import '../../profile/controllers/profile_contrroller.dart';
 import '../../shop/controllers/shop_controller.dart';

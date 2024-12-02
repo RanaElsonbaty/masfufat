@@ -3,7 +3,6 @@ import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:collection/collection.dart' as ListSearch;
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/chat/domain/models/message_body.dart';
@@ -21,9 +20,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:provider/provider.dart';
 
-import '../../shop/controllers/shop_controller.dart';
 import '../../support/domain/models/support_reply_model.dart';
 
 enum SenderType {
@@ -174,7 +171,7 @@ bool get loading =>_loading;
 
     catModel?.chat?.forEach((element) {
       if(element.sellerInfo!=null&&element.sellerInfo!.shops!=null){
-        if(element.sellerInfo!.shops!.first.name!.compareTo(val)==1){
+        if(element.sellerInfo!.shops!.first.name.compareTo(val)==1){
           print('object');
           chat.add(element);
           // _searchChatModel.chat.a
@@ -280,7 +277,7 @@ bool get loading =>_loading;
     messageList.add([]);
     messageList.last.add(massege);
     notifyListeners();
-    ApiResponse response = await chatServiceInterface!.sendMessage(messageBody, userType != null ? userType == 0 ? 'delivery-man' : 'seller' : _userTypeIndex == 0? 'delivery-man' : 'seller', pickedImageFileStored ?? [], objFile ?? []);
+    ApiResponse response = await chatServiceInterface!.sendMessage(messageBody, userType != null ? userType == 0 ? 'delivery-man' : 'seller' : _userTypeIndex == 0? 'delivery-man' : 'seller', pickedImageFileStored, objFile ?? []);
 
     if (response.response!.statusCode == 200) {
     //   getMessageList(Get.context!, messageBody.id, 1, reload: false, userType: userType);
@@ -352,16 +349,16 @@ bool get loading =>_loading;
     _pickedFIleCrossMaxLength = false;
     if(isRemove) {
       if(index != null){
-        pickedImageFileStored?.removeAt(index);
+        pickedImageFileStored.removeAt(index);
       }
     }else {
       _pickedImageFiles = await ImagePicker().pickMultiImage(imageQuality: 40);
-      pickedImageFileStored?.addAll(_pickedImageFiles);
+      pickedImageFileStored.addAll(_pickedImageFiles);
     }
-    if(pickedImageFileStored!.length > AppConstants.maxLimitOfTotalFileSent){
+    if(pickedImageFileStored.length > AppConstants.maxLimitOfTotalFileSent){
       _pickedFIleCrossMaxLength = true;
     }
-    if( _pickedImageFiles.length == AppConstants.maxLimitOfTotalFileSent && await ImageSize.getMultipleImageSizeFromXFile(pickedImageFileStored!) > AppConstants.maxLimitOfFileSentINConversation){
+    if( _pickedImageFiles.length == AppConstants.maxLimitOfTotalFileSent && await ImageSize.getMultipleImageSizeFromXFile(pickedImageFileStored) > AppConstants.maxLimitOfFileSentINConversation){
       _pickedFIleCrossMaxLimit = true;
     }
     notifyListeners();
@@ -371,7 +368,7 @@ bool get loading =>_loading;
     try{
       XFile? file = await ImagePicker().pickVideo( source:ImageSource.gallery  );
       _pickedImageFiles.add(file!);
-      pickedImageFileStored?.addAll(_pickedImageFiles);
+      pickedImageFileStored.addAll(_pickedImageFiles);
     }catch(e){
       print('object$e');
     }
@@ -711,7 +708,7 @@ print('object');
     // final pickedFile =
     if(isRemove) {
       if(index != null){
-        pickedImageFileStored!.removeAt(index);
+        pickedImageFileStored.removeAt(index);
       }
     }else {
 
@@ -729,7 +726,7 @@ print('object');
         // support.addPhoto(
         //     file, false, false);
         for (var element in file) {
-          pickedImageFileStored!.add(XFile(element.path));
+          pickedImageFileStored.add(XFile(element.path));
 
         }
 

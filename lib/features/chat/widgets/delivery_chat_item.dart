@@ -40,7 +40,7 @@ class DeliveryChatItemWidgetState extends State<DeliveryChatItemWidget> {
     id = widget.chatProvider.userTypeIndex == 0 ?
     widget.chat!.sellerId : widget.chat!.deliveryManId;
     name = widget.chatProvider.userTypeIndex == 0 ?
-    widget.chat!.sellerInfo != null ? widget.chat!.sellerInfo!.shops![0].name??'' :
+    widget.chat!.sellerInfo != null ? widget.chat!.sellerInfo!.shops![0].name :
     'Shop not found': "${widget.chat!.deliveryMan?.fName??''} ${widget.chat!.deliveryMan?.lName??''}";
 
 

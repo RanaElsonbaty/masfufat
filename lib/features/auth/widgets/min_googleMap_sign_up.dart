@@ -7,13 +7,11 @@ import 'package:provider/provider.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:location/location.dart';
-import 'package:flutter_sixvalley_ecommerce/features/location/controllers/location_controller.dart';
 
 import 'package:flutter_google_places/flutter_google_places.dart' as loc;
 import 'package:google_api_headers/google_api_headers.dart' as header;
 import 'package:google_maps_webservice/places.dart' as places;
 
-import 'package:provider/provider.dart';
 import '../../../utill/dimensions.dart';
 
 class MinGoogleMap extends StatefulWidget {

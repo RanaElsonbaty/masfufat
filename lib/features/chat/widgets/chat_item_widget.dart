@@ -38,24 +38,21 @@ class _ChatItemWidgetState extends State<ChatItemWidget> {
   @override
   Widget build(BuildContext context) {
 
-    baseUrl = widget.chatProvider.userTypeIndex != 0 ?
+    baseUrl = widget.chatProvider.userTypeIndex != 1 ?
     Provider.of<SplashController>(context, listen: false).baseUrls!.shopImageUrl:
     Provider.of<SplashController>(context, listen: false).baseUrls!.deliveryManImageUrl;
 
 
-    id = widget.chatProvider.userTypeIndex != 0 ?
+    id = widget.chatProvider.userTypeIndex != 1 ?
     widget.chat?.sellerId??widget.chat?.adminId : widget.chat!.deliveryManId;
 
     if(Provider.of<ShopController>(context,listen: false).sellerModel!=null){
 for (var element in Provider.of<ShopController>(context,listen: false).sellerModel!) {
   if(element.seller!.id==widget.chat!.sellerId!){
-    // widget.chat!.
    setState(() {
      id =element.sellerId;
      name=element.name;
      image=element.image;
-     // id =element.id;
-
    });
   }
 }
@@ -63,11 +60,11 @@ for (var element in Provider.of<ShopController>(context,listen: false).sellerMod
       Provider.of<ShopController>(context,listen: false).getTopSellerList(true, 1, type:  '').then((value) {
         for (var element in Provider.of<ShopController>(context,listen: false).sellerModel!) {
           if(element.seller!.id==widget.chat!.sellerId!){
-            // widget.chat!.
             setState(() {
               name=element.name;
               image=element.image;
-              // id =element.id;
+              id =element.sellerId;
+
 
             });
           }
@@ -82,7 +79,7 @@ for (var element in Provider.of<ShopController>(context,listen: false).sellerMod
         final difference = vacationDate.difference(today).inDays;
         final startDate = vacationStartDate.difference(today).inDays;
 
-        if ((difference >= 0 && widget.chat!.sellerInfo!.shops![0].vacationStatus==1 && startDate <= 0)|| widget.chat!.sellerInfo!.shops![0].temporaryClose==1!) {
+        if ((difference >= 0 && widget.chat!.sellerInfo!.shops![0].vacationStatus==1 && startDate <= 0)|| widget.chat!.sellerInfo!.shops![0].temporaryClose==1) {
           vacationIsOn = true;
         } else {
           vacationIsOn = false;
@@ -97,14 +94,10 @@ for (var element in Provider.of<ShopController>(context,listen: false).sellerMod
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             InkWell( onTap: (){
-              // chatController.seenMessage( context, id,id,);
-              // if((name!.trim().isEmpty || name == 'Shop not found' || name!.trim()=='') && widget.chat?.adminId == null){
-              //   showCustomSnackBar(getTranslated('user_account_was_deleted', context), context);
-              // }else{
+
                 Navigator.push(Get.context!, MaterialPageRoute(builder: (_) =>
                     ChatScreen(id: id, name: name, image:   '$baseUrl/$image',
                         isDelivery: widget.chatProvider.userTypeIndex == 0, phone: call, shopClose: vacationIsOn,)));
-              // }
             },
               child: Container(decoration: const BoxDecoration(
                 ),
@@ -136,15 +129,12 @@ for (var element in Provider.of<ShopController>(context,listen: false).sellerMod
 
                             Row(children: [
 
-                            // (widget.chat?.adminId == 0 ) ?
-                            //   Expanded(child: Text('Provider.of<SplashController>(context, listen: false).configModel?.companyName', maxLines: 1, overflow: TextOverflow.ellipsis,
-                            //     style: Goo(fontSize: Dimensions.fontSizeDefault))):
                               Expanded(child: Text(name??'', maxLines: 1, overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeDefault,fontWeight: FontWeight.w700))),
 
                               const SizedBox(width: Dimensions.paddingSizeSmall),
 
-                              Text(DateConverter.compareDates(widget.chat!.createdAt!),
+                              Text(DateConverter.localTime(DateTime.parse(widget.chat!.createdAt!)),
                                   style: GoogleFonts.tajawal(fontSize: Dimensions.fontSizeSmall,
                                       fontWeight: FontWeight.w500,
                                       color: Theme.of(context).primaryColor)),
@@ -174,8 +164,6 @@ for (var element in Provider.of<ShopController>(context,listen: false).sellerMod
             ),
             const Divider(
               color: Colors.grey, // Set the border color
-              // indent: 16.0, // Set the indent (optional)
-              // endIndent: 16.0, // Set the endIndent (optional)
             ),
           ],
         );

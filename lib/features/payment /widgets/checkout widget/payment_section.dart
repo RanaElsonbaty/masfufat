@@ -31,8 +31,7 @@ class _CheckOutPaymentSectionState extends State<CheckOutPaymentSection> {
                       padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeDefault),
                           color: Colors.white),
-                      child:Container(
-                          child: paymentProvider.build(context, false, false)),
+                      child:paymentProvider.build(context, false, false),
                     ),
                   ),
                 ],

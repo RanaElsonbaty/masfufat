@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../../../common/basewidget/custom_image_widget.dart';
 import '../domain/models/support_reply_model.dart';
 import '../file catch/docx.dart';
 import '../file catch/mp3.dart';

@@ -9,6 +9,7 @@ class Images {
   static const String copyIcon = 'assets/images/copyIcon.png';
   static const String myStoreIcon = 'assets/images/my-store-icon.png';
   static const String heart = 'assets/images/heart.png';
+  static const String selectIcon = 'assets/images/select-icon.png';
   static const String barcode = 'assets/images/barcode.png';
   static const String heartOutLine = 'assets/images/heart-outline.png';
   static const String documentCopy = 'assets/images/document-copy.png';

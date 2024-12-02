@@ -8,6 +8,7 @@ import '../../../../common/basewidget/custom_image_widget.dart';
 import '../../../../common/basewidget/show_custom_snakbar_widget.dart';
 import '../../../../helper/price_converter.dart';
 import '../../../../localization/language_constrants.dart';
+import '../../../../main.dart';
 import '../../../../utill/images.dart';
 import '../../controllers/my_shop_controller.dart';
 import '../show_Modal_Bottom_Sheet.dart';
@@ -27,7 +28,7 @@ class _LinkedProductWidgetState extends State<LinkedProductWidget> {
     // TODO: implement initState
     super.initState();
     if(widget.unSync==false){
-    price.text=widget.linked.linkedProduct.price.toString();
+    price.text=widget.linked.linkedProduct.price.toStringAsFixed(2);
     }
   }
   @override
@@ -262,12 +263,37 @@ class _LinkedProductWidgetState extends State<LinkedProductWidget> {
                         ),
                       ),
                       const Spacer(),
-                     if(widget.unSync==false) Consumer<MyShopController>(
+                    Consumer<MyShopController>(
                         builder:(context, myShop, child) =>  InkWell(
                           onTap: ()async{
+                            dialog('Products_are_being_synced');
+                            double tax=0.00;
+
+                            if(myShop.switch2){
+                              tax= (((double.parse(price.text)+(((double.parse(myShop.taxController.text)/100)*double.parse(price.text))))));
+
+                            }
+if(widget.unSync==false){
+  await myShop.addProductPrice(widget.linked.id, (double.parse(price.text)+tax).toString()).then((value) async{
+    await myShop.getList();
+    myShop. initController();
+    Navigator.pop(diagloContext);
+  });
+}else{
+  await myShop.addProductPrice(widget.linked.id, (double.parse(price.text)+tax).toString()).then((value) async{
+    await myShop.syncOneProduct(true, widget.linked.id).then((value) async{
+      await myShop.getList();
+      myShop. initController();
+      Navigator.pop(diagloContext);
+    });
+
+});
+
+}
 print(widget.linked.id);
-                           await myShop.addProductPrice(widget.linked.id, price.text);
-                          await  myShop.resyncProduct(widget.linked.id);
+
+
+
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(top: 8,),
@@ -304,6 +330,54 @@ print(widget.linked.id);
           ],),
         ),
       ),
+    );
+  }
+  BuildContext diagloContext=Get.context!;
+
+  Future dialog(String text){
+
+    return showDialog(
+
+      barrierDismissible: false  ,
+      context: diagloContext,
+
+      builder: (context) {
+        return  Padding(
+          padding:  EdgeInsets.symmetric(horizontal: 50.0,vertical: MediaQuery.of(context).size.width/1.7),
+          child: Container(
+            height:300,
+            decoration: BoxDecoration(
+
+              borderRadius: BorderRadius.circular(12),
+              color: Theme.of(context).cardColor,
+
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: CircularProgressIndicator(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                const SizedBox(height: 10,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text(getTranslated(text, context)!,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.visible,
+                    style: GoogleFonts.tajawal(
+                        color: Theme.of(context).iconTheme.color,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 22
+
+                    ),),
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

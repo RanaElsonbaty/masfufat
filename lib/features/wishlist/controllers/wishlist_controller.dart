@@ -4,7 +4,6 @@ import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/produ
 import 'package:flutter_sixvalley_ecommerce/features/wishlist/domain/models/wishlist_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wishlist/domain/services/wishlist_service_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 
@@ -27,17 +26,18 @@ void addOfflineWishList(Product productModel,bool add){
     updatedAt: DateTime.now().toString()
 
   );
-  if(add){
+  // if(add){
     _wishList!.add(wishlistModel);
 
-  }else{
-    _wishList!.removeWhere((element) => element.product!.id==productModel.id,);
-  }
+  // }else{
+  //   _wishList!.removeWhere((element) => element.product!.id==productModel.id,);
+  // }
   notifyListeners();
 }
 
   void addWishList(int? productID) async {
     addedIntoWish.add(productID!);
+    notifyListeners();
     ApiResponse apiResponse = await wishlistServiceInterface!.add(productID);
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       // showCustomSnackBar("${getTranslated("successfully_added_to_wishlist", Get.context!)}", Get.context!, isError: false);
@@ -49,18 +49,16 @@ void addOfflineWishList(Product productModel,bool add){
   }
 
   void removeWishList(int? productID, {int? index}) async {
-    // addedIntoWish.removeAt(addedIntoWish.indexOf(productID!));
-    ApiResponse apiResponse = await wishlistServiceInterface!.delete(productID!);
+    addedIntoWish.removeAt(addedIntoWish.indexOf(productID!));
+    notifyListeners();
+    ApiResponse apiResponse = await wishlistServiceInterface!.delete(productID);
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       getWishList();
-      // showCustomSnackBar("${getTranslated("successfully_removed_from_wishlist", Get.context!)}", Get.context!, isError: false);
     } else {
       showCustomSnackBar(apiResponse.error.toString(), Get.context!);
     }
     notifyListeners();
   }
-// bool =false;
-// bool _isLoading=false;
   Future<void> getWishList() async {
     _isLoading=true;
     ApiResponse apiResponse = await wishlistServiceInterface!.getList();

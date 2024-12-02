@@ -281,7 +281,7 @@ try{
 void addPickCameraToList()async{
    for (var element in _pickImageOrVideoCam) {
      pickedImageFileStored.add(element);
-     _attachmentFile.add(await  MultipartFile.fromFile(element.path, filename: "${element.name}"));
+     _attachmentFile.add(await  MultipartFile.fromFile(element.path, filename: element.name));
 
    }
    Timer(const Duration(seconds: 1), () {

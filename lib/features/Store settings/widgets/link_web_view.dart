@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../common/basewidget/custom_app_bar_widget.dart';
-import '../../../common/basewidget/show_custom_snakbar_widget.dart';
 import '../../../main.dart';
 import '../../auth/controllers/auth_controller.dart';
 import '../../profile/controllers/profile_contrroller.dart';
