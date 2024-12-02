@@ -150,6 +150,7 @@ const SizedBox(width: 5,),
                       style: GoogleFonts.tajawal(color: Theme.of(context).primaryColor,fontWeight: FontWeight.w500,fontSize: 14)),
                 ),
 
+
                 RichText(
                   textAlign: TextAlign.start,
                   overflow: TextOverflow.ellipsis,
