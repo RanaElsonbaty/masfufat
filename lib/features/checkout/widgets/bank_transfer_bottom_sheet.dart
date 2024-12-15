@@ -469,7 +469,7 @@ class _BankTransferState extends State<BankTransfer> {
                                         }
                                       });
                                     } else if (widget.type == 'order') {
-print('dfkhsgfdjsdgfjhgdjhsgjhgjhgjhgjh');
+
                                       order
                                           .bankAndDelayedPayment(
                                               widget.orderId!,
@@ -480,6 +480,7 @@ print('dfkhsgfdjsdgfjhgdjhsgjhgjhgjhgjh');
                                               context,
                                               splash.bankTransferImage!)
                                           .then((value) {
+                                            print('object');
                                         Navigator.pop(context);
                                           if(value.response!=null){
                                         _callback(true, value.response!.data,

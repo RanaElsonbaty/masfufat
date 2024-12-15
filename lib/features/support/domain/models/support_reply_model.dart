@@ -99,7 +99,7 @@ class Attachment {
     createdAt:json["created_at"]!=null? DateTime.parse(json["created_at"]):DateTime.now(),
     updatedAt:json["updated_at"]!=null? DateTime.parse(json["updated_at"]):DateTime.now(),
     ticketConvId: json["ticket_conv_id"]??0,
-    fileUrl: json["url"]??'',
+    fileUrl: json["file_url"]??'',
   );
 
   Map<String, dynamic> toJson() => {

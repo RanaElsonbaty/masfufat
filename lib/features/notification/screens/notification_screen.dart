@@ -56,14 +56,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     pagingController.addPageRequestListener((pageKey) {
       fetchPage(page,);
     });
-    // if(widget.fromNotification){
-    //   Provider.of<SplashController>(context, listen: false).initConfig(context).then((value){
-    //     Provider.of<NotificationController>(context, listen: false).getNotificationList(1);
-    //   });
-    // }else{
-    //   Provider.of<NotificationController>(context, listen: false).getNotificationList(1);
-    //
-    // }
+
     super.initState();
   }
 
@@ -80,7 +73,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
       body: Consumer<NotificationController>(
         builder: (context, notificationController, child) {
-          return        PagedListView(
+          return   PagedListView(
             shrinkWrap: true,
             padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
             physics: const BouncingScrollPhysics(),
@@ -96,9 +89,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 return const  SizedBox.shrink();  },
               newPageErrorIndicatorBuilder: (context) {
                 return  const SizedBox.shrink();
-              // newPageProgressIndicatorBuilder: (context) {
-              //   return const ProductShimmer(isHomePage: false,
-              //       isEnabled: true);
+
               },
               noItemsFoundIndicatorBuilder: (context) {
                 return  const NoInternetOrDataScreenWidget(isNoInternet: false,

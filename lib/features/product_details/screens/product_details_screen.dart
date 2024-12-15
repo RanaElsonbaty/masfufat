@@ -25,6 +25,7 @@ import '../../../common/basewidget/custom_image_widget.dart';
 import '../../../utill/color_resources.dart';
 import '../../my shop/controllers/my_shop_controller.dart';
 import '../../product/domain/models/product_model.dart';
+import '../domain/models/product_details_model.dart';
 import '../widgets/Logistics_information_widget.dart';
 import '../widgets/favourite_button_widget.dart';
 import '../widgets/reviewComSection.dart';
@@ -51,7 +52,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     Provider.of<ProductDetailsController>(context, listen: false).getProductDetails(context, widget.productId.toString(), widget.productId.toString());
     // Provider.of<ReviewController>(context, listen: false).removePrevReview();
     // Provider.of<ProductDetailsController>(context, listen: false).removePrevLink();
-    Provider.of<ReviewController>(context, listen: false).getReviewList(widget.productId, widget.slug, context);
+    // Provider.of<ReviewController>(context, listen: false).getReviewList(widget.productId, widget.slug, context);
     // Provider.of<ProductController>(context, listen: false).removePrevRelatedProduct();
     // Provider.of<ProductController>(context, listen: false).initRelatedProductList(widget.productId.toString(), context);
     // Provider.of<ProductDetailsController>(context, listen: false).getCount(widget.productId.toString(), context);
@@ -180,7 +181,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: 4.0),
+                                            horizontal: 3.0),
                                         child: Container(
                                             decoration: BoxDecoration(
                                                 border: Border.all(width: 1,
@@ -248,7 +249,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   const ReviewAndSpecificationSectionWidget(),
 
 
-                  details.index==2?
+                  details.index==1?productFeatures(details.productDetailsModel!.props!): details.index==3?
                    Column(children: [
                     const SizedBox(height: 5,),
                     ReviewComSection(productDetailsModel:details.productDetailsModel! ,)
@@ -265,21 +266,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ),
                       ],
                     ) :const NoInternetOrDataScreenWidget(isNoInternet: false),
-
-                    // (details.productDetailsModel?.videoUrl != null && details.isValidYouTubeUrl(details.productDetailsModel!.videoUrl.toString()))?
-                    // YoutubeVideoWidget(url: details.productDetailsModel!.videoUrl.toString()):const SizedBox(),
-
-
-                    // (details.productDetailsModel != null &&Provider.of<SplashController>(context,listen: false).configModel!.showSellersSection!=1) ?
-                    // ShopInfoWidget(sellerId: details.productDetailsModel!.addedBy == 'seller'? details.productDetailsModel!.userId.toString() : "0") : const SizedBox.shrink(),
-
-                    // const SizedBox(height: Dimensions.paddingSizeLarge,),
-
-                    // Container(padding: const EdgeInsets.only(top: Dimensions.paddingSizeLarge, bottom: Dimensions.paddingSizeDefault),
-                    //     decoration: BoxDecoration(color: Theme.of(context).cardColor),
-                    //     child: const PromiseWidget()),
-
-                    // _ProductDetailsProductListWidget(scrollController: scrollController),
 
 
 
@@ -303,66 +289,83 @@ class _ProductDetailsState extends State<ProductDetails> {
       ),
     );
   }
-}
-
-class _ProductDetailsProductListWidget extends StatelessWidget {
-  const _ProductDetailsProductListWidget({
-    required this.scrollController,
-  });
-
-  final ScrollController scrollController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<ProductDetailsController>(
-        builder: (context, productDetailsController, _) {
-          return Column(children: [
-            Consumer<SplashController>(
-              builder:(context, splash, child) =>  Consumer<SellerProductController>(
-                  builder: (context, sellerProductController, _) {
-                    return (splash.configModel!.showSellersSection==1&&sellerProductController.sellerProduct != null && sellerProductController.sellerProduct != null &&
-                        sellerProductController.sellerProduct!.isNotEmpty)?
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical : Dimensions.paddingSizeDefault),
-                      child: TitleRowWidget(title: getTranslated('more_from_the_shop', context),
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (_) => TopSellerProductScreen(
-                            fromMore: true,
-                            sellerId: productDetailsController.productDetailsModel?.seller?.id,
-                            temporaryClose: productDetailsController.productDetailsModel?.seller?.shop!.temporaryClose==1,
-                            vacationStatus: productDetailsController.productDetailsModel?.seller?.shop!.vacationStatus==1,
-                            vacationEndDate: productDetailsController.productDetailsModel?.seller?.shop!.vacationEndDate,
-                            vacationStartDate: productDetailsController.productDetailsModel?.seller?.shop!.vacationStartDate,
-                            name: productDetailsController.productDetailsModel?.seller?.shop!.name,
-                            banner: productDetailsController.productDetailsModel?.seller?.shop!.banner,
-                            image: productDetailsController.productDetailsModel?.seller?.image,
-                          )));
-
-                        },
-                      ),
-                    ):const SizedBox();
-                  }
-              ),
-            ),
-
-            // Padding(padding: const EdgeInsets.symmetric(horizontal : Dimensions.paddingSizeSmall),
-            //   child: ShopProductViewList(
-            //       scrollController: scrollController, sellerId: productDetailsController.productDetailsModel!.seller!.id)),
-
-            // Consumer<ProductController>(
-            //     builder: (context, productController,_) {
-            //       return (productController.relatedProductList != null && productController.relatedProductList!.isNotEmpty)?Padding(padding: const EdgeInsets.symmetric(
-            //           vertical: Dimensions.paddingSizeExtraSmall),
-            //           child: TitleRowWidget(title: getTranslated('related_products', context), isDetailsPage: true)): const SizedBox();
-            //     }
-            // ),
-            // const SizedBox(height: 5),
-            // const Padding(padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-            //   child: RelatedProductWidget(),
-            // ),
-            const SizedBox(height: Dimensions.paddingSizeSmall),
-          ]);
-        }
-    );
+  Widget productFeatures(  List<SinglePropModel> prop){
+    return ListView.builder(
+      padding: const EdgeInsets.all(8),
+      itemCount: prop.length,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder:  (context, index) {
+        return Row(children: [
+          Text('${prop[index].property.toString()} : ',style: GoogleFonts.tajawal(
+            fontWeight: FontWeight.w500,fontSize: 16,
+          ),),   Text(prop[index].value.toString(),style: GoogleFonts.tajawal(
+            fontWeight: FontWeight.w500,fontSize: 16,
+          ),),
+        ],);
+      },);
   }
 }
+
+// class _ProductDetailsProductListWidget extends StatelessWidget {
+//   const _ProductDetailsProductListWidget({
+//     required this.scrollController,
+//   });
+//
+//   final ScrollController scrollController;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Consumer<ProductDetailsController>(
+//         builder: (context, productDetailsController, _) {
+//           return Column(children: [
+//             Consumer<SplashController>(
+//               builder:(context, splash, child) =>  Consumer<SellerProductController>(
+//                   builder: (context, sellerProductController, _) {
+//                     return (splash.configModel!.showSellersSection==1&&sellerProductController.sellerProduct != null && sellerProductController.sellerProduct != null &&
+//                         sellerProductController.sellerProduct!.isNotEmpty)?
+//                     Padding(
+//                       padding: const EdgeInsets.symmetric(vertical : Dimensions.paddingSizeDefault),
+//                       child: TitleRowWidget(title: getTranslated('more_from_the_shop', context),
+//                         onTap: (){
+//                           Navigator.push(context, MaterialPageRoute(builder: (_) => TopSellerProductScreen(
+//                             fromMore: true,
+//                             sellerId: productDetailsController.productDetailsModel?.seller?.id,
+//                             temporaryClose: productDetailsController.productDetailsModel?.seller?.shop!.temporaryClose==1,
+//                             vacationStatus: productDetailsController.productDetailsModel?.seller?.shop!.vacationStatus==1,
+//                             vacationEndDate: productDetailsController.productDetailsModel?.seller?.shop!.vacationEndDate,
+//                             vacationStartDate: productDetailsController.productDetailsModel?.seller?.shop!.vacationStartDate,
+//                             name: productDetailsController.productDetailsModel?.seller?.shop!.name,
+//                             banner: productDetailsController.productDetailsModel?.seller?.shop!.banner,
+//                             image: productDetailsController.productDetailsModel?.seller?.image,
+//                           )));
+//
+//                         },
+//                       ),
+//                     ):const SizedBox();
+//                   }
+//               ),
+//             ),
+//
+//             // Padding(padding: const EdgeInsets.symmetric(horizontal : Dimensions.paddingSizeSmall),
+//             //   child: ShopProductViewList(
+//             //       scrollController: scrollController, sellerId: productDetailsController.productDetailsModel!.seller!.id)),
+//
+//             // Consumer<ProductController>(
+//             //     builder: (context, productController,_) {
+//             //       return (productController.relatedProductList != null && productController.relatedProductList!.isNotEmpty)?Padding(padding: const EdgeInsets.symmetric(
+//             //           vertical: Dimensions.paddingSizeExtraSmall),
+//             //           child: TitleRowWidget(title: getTranslated('related_products', context), isDetailsPage: true)): const SizedBox();
+//             //     }
+//             // ),
+//             // const SizedBox(height: 5),
+//             // const Padding(padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+//             //   child: RelatedProductWidget(),
+//             // ),
+//             const SizedBox(height: Dimensions.paddingSizeSmall),
+//           ]);
+//         }
+//     );
+//   }
+//
+// }

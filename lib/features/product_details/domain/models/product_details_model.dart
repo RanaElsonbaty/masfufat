@@ -524,7 +524,7 @@ class ProductDetailsModel {
     _itemNumber = json['item_number'];
 
     if (json['display_for'] != null) {
-      print('display_for =>  ${json['display_for']}');
+      // print('display_for =>  ${json['display_for']}');
 
       _displayFor = getProductDisplayFor(json['display_for']);
     } else {
@@ -550,25 +550,32 @@ class ProductDetailsModel {
     _name = json['name'];
     _brandImg = json['brand_image'];
     _inWishList = json['in_wish_list'];
-    _props = json["props"] != null
-        ? List.generate(json["props"].length,
-            (index) => SinglePropModel.fromJson(json["props"][index]))
-        : [];
+    if(json["props"] is String ){
+      // print(json["props"]);
+      // _props =[SinglePropModel.fromJson(json["props"])];
+    }else {
+      _props = json["props"] != null
+          ? List.generate(json["props"].length,
+              (index) => SinglePropModel.fromJson(json["props"][index]))
+          : [];
+    }
     if (json['current_stock'] != null) {
       _currentStock = json['current_stock'];
     } else {
       _currentStock = null;
     }
     _desc = json['desc'];
-    print(_desc);
+    // print(_desc);
     _slug = json['slug'];
     _productType = json['product_type'];
 
     if (json['category_ids'] != null) {
+    try{
       _categoryIds = <CategoryIds>[];
       json['category_ids'].forEach((v) {
         _categoryIds!.add(CategoryIds.fromJson(v));
       });
+    }catch(e){}
     }
 
     if (json["promo"] != null) {
@@ -620,7 +627,7 @@ class ProductDetailsModel {
     _digitalProductType = json['digital_product_type'];
     _digitalFileReady = json['digital_file_ready'];
     try {
-      print(json['images']);
+      // print(json['images']);
       _images = List<String>.from(json['images']);
     } catch (e) {
       try{
@@ -664,7 +671,7 @@ class ProductDetailsModel {
       _unitPrice = double.tryParse(json['pricings']['value'].toString());
     }
     if (json['purchase_price'] != null) {
-      _purchasePrice = double.tryParse(json['purchase_price']);
+      _purchasePrice = double.tryParse(json['purchase_price'].toString());
     }
     _tax = json['tax'] != null ? double.tryParse(json['tax'].toString()) : json['tax'];
     _taxModel = json['tax_model'];
@@ -822,8 +829,8 @@ class SinglePropModel {
     }
   }
   SinglePropModel.fromJson(Map<String, dynamic> json) {
-    _property = json['property'];
-    _value = json['value'];
+    _property = json['property']??'';
+    _value = json['value']??'';
   }
 }
 
@@ -1009,7 +1016,7 @@ class Customer {
   String? get email => _email;
 
   Customer.fromJson(Map<String, dynamic> json) {
-    print('fromJsonsci ${json['customer_name']}');
+    // print('fromJsonsci ${json['customer_name']}');
     _id = json['id'];
     _fName = json['customer_name'];
     _lName = json['l_name'];

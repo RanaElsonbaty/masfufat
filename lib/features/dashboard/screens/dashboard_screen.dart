@@ -16,7 +16,8 @@ import '../../order/screens/order_page_builder.dart';
 import '../../product/screens/all_category_and_brand.dart';
 
 class DashBoardScreen extends StatefulWidget {
-  const DashBoardScreen({super.key});
+  const DashBoardScreen({super.key, this.orderError=false});
+  final bool? orderError;
   @override
   DashBoardScreenState createState() => DashBoardScreenState();
 }
@@ -35,25 +36,9 @@ class DashBoardScreenState extends State<DashBoardScreen> {
   @override
   void initState() {
     super.initState();
-
-    // if(Provider.of<AuthController>(context, listen: false).isLoggedIn()) {
-    //   Provider.of<WishListController>(context, listen: false).getWishList();
-    //   Provider.of<ChatController>(context, listen: false).getChatList(1, reload: false, userType: 0);
-    //   Provider.of<ChatController>(context, listen: false).getChatList(1, reload: false, userType: 1);
-    // }
-    //
-    // final SplashController splashController = Provider.of<SplashController>(context, listen: false);
-    // singleVendor = splashController.configModel?.businessMode == "single";
-    // Provider.of<FlashDealController>(context, listen: false).getFlashDealList(true, true);
-
-
-    // if(splashController.configModel!.activeTheme == "default") {
-    //   HomePage.loadData(false);
-    // }else if(splashController.configModel!.activeTheme == "theme_aster") {
-    //   AsterThemeHomeScreen.loadData(false);
-    // }else{
-    //   FashionThemeHomePage.loadData(false);
-    // }
+if(widget.orderError==true){
+  _setPage(3);
+}
 
       _screens = [
         NavigationModel(
@@ -72,22 +57,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
       ];
 
 
-    // Padding(padding: const EdgeInsets.only(right: 12.0),
-    //   child: IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CartScreen())),
-    //     icon: Stack(clipBehavior: Clip.none, children: [
-    //
-    //       Image.asset(Images.cartArrowDownImage, height: Dimensions.iconSizeDefault,
-    //           width: Dimensions.iconSizeDefault, color: ColorResources.getPrimary(context)),
-    //
-    //       Positioned(top: -4, right: -4,
-    //           child: Consumer<CartController>(builder: (context, cart, child) {
-    //             return CircleAvatar(radius: ResponsiveHelper.isTab(context)? 10 :  7, backgroundColor: ColorResources.red,
-    //                 child: Text(cart.cartList.length.toString(),
-    //                     style: titilliumSemiBold.copyWith(color: ColorResources.white,
-    //                         fontSize: Dimensions.fontSizeExtraSmall)));})),
-    //     ]),
-    //   ),
-    // ),
+
 
 
 
@@ -98,6 +68,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return PopScope(canPop: false,
       onPopInvoked: (val) async {
         if(_pageIndex != 0) {
@@ -130,10 +101,10 @@ class DashBoardScreenState extends State<DashBoardScreen> {
 
   void _setPage(int pageIndex) {
     setState(() {
-      if(pageIndex ==1 && _pageIndex != 1 ){
-        Provider.of<ChatController>(context, listen: false).setUserTypeIndex(context, 0);
-        Provider.of<ChatController>(context, listen: false).resetIsSearchComplete();
-      }
+      // if(pageIndex ==1 && _pageIndex != 1 ){
+      //   // Provider.of<ChatController>(context, listen: false).setUserTypeIndex(context, 0);
+      //   // Provider.of<ChatController>(context, listen: false).resetIsSearchComplete();
+      // }
       _pageIndex = pageIndex;
     });
   }

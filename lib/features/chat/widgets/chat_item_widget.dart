@@ -38,7 +38,7 @@ class _ChatItemWidgetState extends State<ChatItemWidget> {
   @override
   Widget build(BuildContext context) {
 
-    baseUrl = widget.chatProvider.userTypeIndex != 1 ?
+    baseUrl = widget.chatProvider.userTypeIndex != 0 ?
     Provider.of<SplashController>(context, listen: false).baseUrls!.shopImageUrl:
     Provider.of<SplashController>(context, listen: false).baseUrls!.deliveryManImageUrl;
 
@@ -56,7 +56,9 @@ for (var element in Provider.of<ShopController>(context,listen: false).sellerMod
    });
   }
 }
+// print(image);
 }else{
+
       Provider.of<ShopController>(context,listen: false).getTopSellerList(true, 1, type:  '').then((value) {
         for (var element in Provider.of<ShopController>(context,listen: false).sellerModel!) {
           if(element.seller!.id==widget.chat!.sellerId!){

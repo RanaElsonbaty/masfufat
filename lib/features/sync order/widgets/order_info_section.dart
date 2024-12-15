@@ -26,20 +26,29 @@ class _OrderInfoSectionState extends State<OrderInfoSection> {
     return Consumer<SyncOrderController>(
       builder:(context, syncOrderProvider, child) =>  Column(
         children: [
+Padding(
+  padding: const EdgeInsets.symmetric(horizontal: 8.0,),
+  child: Row(
+    children: [
+      Expanded(
+          flex: 1,
+          child: Text(getTranslated('Order_information', context)!,
+
+            style: GoogleFonts.tajawal(
+                fontWeight: FontWeight.w500
+
+                ,fontSize: 16                ),)),
+    ],
+  ),
+),
+          const SizedBox(height: Dimensions.paddingSizeSmall),
 
            Padding(
-             padding: const EdgeInsets.all(8.0),
+             padding: const EdgeInsets.symmetric(horizontal: 8),
              child: Row(
                crossAxisAlignment: CrossAxisAlignment.center,
                children: [
-              Expanded(
-                  flex: 1,
-                  child: Text(getTranslated('Order_information', context)!,
 
-                    style: GoogleFonts.tajawal(
-                    fontWeight: FontWeight.w500
-
-             ,fontSize: 16                ),)),
                Expanded(child: SyncOrderType(text: getTranslated('Matrix_platform', context), index: 0,)),
                Expanded(child: SyncOrderType(text: getTranslated('Store_platform', context), index: 1,)),
                        ],),

@@ -10,10 +10,11 @@ import '../../../utill/custom_themes.dart';
 import '../../product_details/domain/models/product_details_model.dart';
 import '../../product_details/screens/product_details_screen.dart';
 import '../../sync order/domain/models/Sync_order_model.dart';
+import '../../sync order/domain/models/sync_order_details.dart';
 
 class ProductSyncOrder extends StatefulWidget {
   const ProductSyncOrder({super.key, this.syncOrder, required this.products});
-  final SyncOrderModel? syncOrder;
+  final SyncOrderDetailsModel? syncOrder;
   final  List<ProductDetailsModel> products;
 
   @override
@@ -68,19 +69,19 @@ class _ProductSyncOrderState extends State<ProductSyncOrder> {
                               Text("${getTranslated('price', context)} ${PriceConverter.convertPrice(context, widget.products[index].unitPrice??0.00)}",
                                 style: GoogleFonts.tajawal( fontSize: 14,fontWeight: FontWeight.w400),),
                               const Spacer(),
-                              Text('${getTranslated('qty', context)} ${widget.syncOrder!.details![index].qty!}',
+                              Text('${getTranslated('qty', context)} ${widget.syncOrder!.externalOrder!.qtys![index]}',
 
                                   style: GoogleFonts.tajawal( fontSize: 14,fontWeight: FontWeight.w400,color: Colors.grey.shade600)),
 SizedBox(width: 10,),
                                   ]),
                             const SizedBox(height: Dimensions.marginSizeExtraSmall),
-                            Text('${getTranslated('tax', context)} ${PriceConverter.calculationTaxString(context,widget.products[index].unitPrice, widget.products[index].tax??0.00,widget.products[index].taxType)}',
+                            Text('${getTranslated('tax', context)} ${PriceConverter.calculationTaxString(context,widget.products[index].unitPrice??0, widget.products[index].tax??0.00,widget.products[index].taxType??'')}',
                               style: GoogleFonts.tajawal( fontSize: Dimensions.fontSizeDefault),),
 
 
                             const SizedBox(height: Dimensions.marginSizeExtraSmall),
 
-                            Text('${getTranslated('Total', context)} ${PriceConverter.convertPrice(context,widget.products[index].unitPrice!+PriceConverter.calculationTaxDouble(context,widget.products[index].unitPrice, widget.products[index].tax??0.00,widget.products[index].taxType))}',
+                            Text('${getTranslated('Total', context)} ${PriceConverter.convertPrice(context,widget.products[index].unitPrice??0+PriceConverter.calculationTaxDouble(context,widget.products[index].unitPrice??0, widget.products[index].tax??0.00,widget.products[index].taxType??''))}',
                               style: GoogleFonts.tajawal( fontSize: Dimensions.fontSizeDefault),),
 
 

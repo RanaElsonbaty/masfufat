@@ -41,51 +41,52 @@ class _HeaderSectionState extends State<HeaderSection> {
                     ),
                         // :const SizedBox(),
                 if(widget.index==0||widget.index==2)
-                  InkWell(
-                  onTap: (){
-                    showModalBottomSheet(context: context, builder: (BuildContext context)=> ShowModalBottomSheetShop(delete: false,index: widget.index,));
+                  Expanded(
+                    child: InkWell(
+                    onTap: (){
+                      showModalBottomSheet(context: context, builder: (BuildContext context)=> ShowModalBottomSheetShop(delete: false,index: widget.index,));
 
-                  },
-                  child: Container(
-                    height: 40,
-                    width: MediaQuery.of(context).size.width/2,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.circular(8),
+                    },
+                    child: Container(
+                      height: 40,
+                      margin: const EdgeInsets.symmetric(horizontal: 40),
+                      // widtdh: MediaQuery.of(context).size.width/2,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(8),
 
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 3.0),
+                                child: Text(getTranslated('Save_and_sync_now', context)!,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.tajawal(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                  ),
 
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 3.0),
-                              child: Text(getTranslated('Save_and_sync_now', context)!,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.tajawal(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
                                 ),
+
                               ),
                             ),
-                          ),
-                          const SizedBox(width: 5,),
-                          Image.asset(Images.syncIcon
-                            ,
-                            color: Colors.white,width: 20,),
+                            const SizedBox(width: 5,),
+                            Image.asset(Images.syncIcon,
+                              color: Colors.white,width: 20,),
 
-                        ],),
+                          ],),
+                      ),
                     ),
+                                    ),
                   ),
-                ),
-                const SizedBox(),
-                const SizedBox(),
               ],
             ),
             Padding(

@@ -206,15 +206,15 @@ FocusNode focusNode =FocusNode();
                                                 .endsWith('mp3')||chatProvider
                                                 .pickedImageFileStored[index].path
                                                 .endsWith('m4a')?WaveBubble(
-                                              appDirectory:
-                                              Directory(chatProvider
-                                                  .pickedImageFileStored[
-                                              index]
-                                                  .path),
+                                              // appDirectory:
+                                              // Directory(chatProvider
+                                              //     .pickedImageFileStored[
+                                              // index]
+                                              //     .path),
                                               width: 80,
-                                              index: index,
+                                              // index: index,
                                               isSender: true,
-                                              ofline: true,
+                                              // ofline: true,
                                               path: chatProvider
                                                   .pickedImageFileStored[
                                               index]
@@ -232,13 +232,13 @@ FocusNode focusNode =FocusNode();
                                                 .pickedImageFileStored[index].path
                                                 .endsWith('mp3')
                                                 ? WaveBubble(
-                                              appDirectory: Directory(chatProvider
-                                                  .pickedImageFileStored[index]
-                                                  .path),
+                                              // appDirectory: Directory(chatProvider
+                                              //     .pickedImageFileStored[index]
+                                              //     .path),
                                               width: 100,
-                                              index: index,
+                                              // index: index,
                                               isSender: false,
-                                              ofline: false,
+                                              // ofline: true,
                                               path: chatProvider
                                                   .pickedImageFileStored[index]
                                                   .path,
@@ -455,13 +455,13 @@ FocusNode focusNode =FocusNode();
 
                                   InkWell(
                                       onTap: (){
-                                        if (_controller.text.isEmpty ) {
+                                        if (isValidText(_controller.text)==false ) {
                                         } else {
+
                                           MessageBody messageBody = MessageBody(id : widget.id!,  message: _controller.text,file: chatProvider.pickedImageFileStored);
                                                                   chatProvider.sendMessage(messageBody, userType: widget.userType);
                                                         _controller.clear();
-                                          // chatProvider.s(widget.supportTicketModel.id,
-                                          //     _controller.text);
+
                                           _controller.text = '';
                                         }
                                       },
@@ -474,287 +474,7 @@ FocusNode focusNode =FocusNode();
                           ],
                         ),
                       )
-                      // SizedBox(
-                      //   height: 70,
-                      //   child: Card(
-                      //     color: Theme.of(context).highlightColor,
-                      //     shadowColor: Colors.grey[200],
-                      //     elevation: 2,
-                      //     margin: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                      //     shape: RoundedRectangleBorder(
-                      //         borderRadius: BorderRadius.circular(50)),
-                      //     child: Padding(
-                      //       padding: const EdgeInsets.symmetric(
-                      //           horizontal: Dimensions.paddingSizeSmall),
-                      //       child: Row(children: [
-                      //         chatProvider.isRecording == false
-                      //             ? Expanded(
-                      //             child: TextField(
-                      //                 controller: _controller,
-                      //                 focusNode: focusNode,
-                      //                 style: textRegular.copyWith(
-                      //                     fontSize: Dimensions.fontSizeDefault),
-                      //                 keyboardType: TextInputType.multiline,
-                      //                 minLines: 1,
-                      //
-                      //                 maxLines: 1,
-                      //                 decoration: InputDecoration(
-                      //                   alignLabelWithHint: true,
-                      //                   hintText: 'Type here...',
-                      //
-                      //                   hintStyle: titilliumRegular.copyWith(
-                      //                       color: ColorResources.hintTextColor),
-                      //                   border: InputBorder.none,
-                      //                   // suffixIcon:
-                      //                 )
-                      //             ))
-                      //             : Expanded(
-                      //           child: AudioWaveforms(
-                      //             enableGesture: true,
-                      //             size:
-                      //             Size(MediaQuery.of(context).size.width / 1.9, 45),
-                      //             // backgroundColor: Theme.of(context).primaryColor,
-                      //             recorderController: chatProvider.recorderController,
-                      //             waveStyle: const WaveStyle(
-                      //               waveColor: Colors.white,
-                      //               extendWaveform: true,
-                      //               showMiddleLine: false,
-                      //             ),
-                      //             decoration: BoxDecoration(
-                      //               borderRadius: BorderRadius.circular(30.0),
-                      //               color: Theme.of(context).primaryColor,
-                      //             ),
-                      //             padding: const EdgeInsets.only(left: 18),
-                      //             margin: const EdgeInsets.symmetric(horizontal: 15),
-                      //           ),
-                      //         ),
-                      //         if (focusNode.hasFocus) InkWell(
-                      //           onTap: () {
-                      //             if (_controller.text.isEmpty &&
-                      //                 chatProvider.pickedImageFileStored!.isEmpty) {
-                      //             } else {
-                      //               MessageBody messageBody = MessageBody(id : widget.id!,  message: _controller.text,file: chatProvider.pickedImageFileStored!);
-                      //                         chatProvider.sendMessage(messageBody, userType: widget.userType);
-                      //               _controller.clear();
-                      //               focusNode.unfocus();
-                      //             }
-                      //           },
-                      //           child: chatProvider.isLoading
-                      //               ? const CircularProgressIndicator()
-                      //               : Icon(Icons.send,
-                      //               color: Theme.of(context).primaryColor,
-                      //               size: Dimensions.iconSizeDefault),
-                      //         ) else
-                      //           Row(
-                      //             children: [
-                      //               InkWell(
-                      //                   onTap: () =>
-                      //                       chatProvider.pickMultipleImage(false),
-                      //                   child: Image.asset(
-                      //                     Images.attachment,
-                      //                     color:
-                      //                     Colors.grey,
-                      //                     width: 30,
-                      //                   )),
-                      //               InkWell(
-                      //                   onTap: () =>
-                      //                       chatProvider.pickMultipleMedia(false),
-                      //                   child: const Padding(
-                      //                       padding: EdgeInsets.all(8.0),
-                      //                       child: Icon(
-                      //                         Icons.file_copy_outlined,
-                      //                         size: 30,
-                      //                         color:
-                      //                         Colors.grey,
-                      //
-                      //                       ))),
-                      //               InkWell(
-                      //                   onTap: () async {
-                      //                     bool permission =
-                      //                     await _askingPermission(true);
-                      //                     if (permission==true) {
-                      //                       final cameras = await availableCameras();
-                      //                       final firstCamera = cameras.first;
-                      //                       Navigator.push(Get.context!,
-                      //                           MaterialPageRoute(
-                      //                             builder: (context) {
-                      //                               return CameraScreen(
-                      //                                 camera: firstCamera,
-                      //                               );
-                      //                             },
-                      //                           ));
-                      //                     } else {
-                      //
-                      //                     }
-                      //                   },
-                      //                   child: const Icon(
-                      //                     Icons.camera_alt_outlined,
-                      //                     color: Colors.grey,
-                      //                     size: 25,
-                      //                   )),
-                      //               const SizedBox(
-                      //                 width: 5,
-                      //               ),
-                      //               GestureDetector(
-                      //                   onLongPress: () async {
-                      //                     bool permission =
-                      //                     await _askingPermission(false);
-                      //                     if (permission == true) {
-                      //                       chatProvider.refreshWave();
-                      //                       chatProvider.startOrStopRecording();
-                      //                     }
-                      //                   },
-                      //                   onLongPressEnd: (_) async {
-                      //                     chatProvider.startOrStopRecording();
-                      //                   },
-                      //                   child: Icon(
-                      //                     chatProvider.isRecording ? Icons.stop : Icons.mic,
-                      //                     color: Colors.grey,
-                      //                     size: 25,
-                      //                   )),
-                      //             ],
-                      //           ),
-                      //       ]),
-                      //     ),
-                      //   ),
-                      // ),
-                      // focusNode.hasFocus? Padding(
-                      //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      //   child: Row(mainAxisAlignment: MainAxisAlignment.start,
-                      //     children: [
-                      //       InkWell(
-                      //           onTap: () =>
-                      //               chatProvider.pickMultipleImage(false),
-                      //           child: Image.asset(
-                      //             Images.attachment,
-                      //             color:
-                      //             Colors.grey,
-                      //             width: 30,
-                      //           )),
-                      //       InkWell(
-                      //           onTap: () =>
-                      //               chatProvider.pickMultipleMedia(false),
-                      //           child: const Padding(
-                      //               padding: EdgeInsets.all(8.0),
-                      //               child: Icon(
-                      //                 Icons.file_copy_outlined,
-                      //                 size: 30,
-                      //                 color:
-                      //                 Colors.grey,
-                      //
-                      //               ))),
-                      //       InkWell(
-                      //           onTap: () async {
-                      //             bool permission =
-                      //             await _askingPermission(true);
-                      //             if (permission==true) {
-                      //               final cameras = await availableCameras();
-                      //               final firstCamera = cameras.first;
-                      //               Navigator.push(Get.context!,
-                      //                   MaterialPageRoute(
-                      //                     builder: (context) {
-                      //                       return CameraScreen(
-                      //                         camera: firstCamera,
-                      //                       );
-                      //                     },
-                      //                   ));
-                      //             } else {
-                      //
-                      //             }
-                      //           },
-                      //           child: const Icon(
-                      //             Icons.camera_alt_outlined,
-                      //             color: Colors.grey,
-                      //             size: 25,
-                      //           )),
-                      //       const SizedBox(
-                      //         width: 5,
-                      //       ),
-                      //       GestureDetector(
-                      //           onLongPress: () async {
-                      //             bool permission =
-                      //             await _askingPermission(false);
-                      //             if (permission == true) {
-                      //               chatProvider.refreshWave();
-                      //               chatProvider.startOrStopRecording();
-                      //             }
-                      //           },
-                      //           onLongPressEnd: (_) async {
-                      //             chatProvider.startOrStopRecording();
-                      //           },
-                      //           child: Icon(
-                      //             chatProvider.isRecording ? Icons.stop : Icons.mic,
-                      //             color: Colors.grey,
-                      //             size: 25,
-                      //           )),
-                      //     ],
-                      //   ),
-                      // ):const SizedBox(),
-                        // Padding(padding: const EdgeInsets.fromLTRB( Dimensions.paddingSizeDefault,  0,
-                        //     Dimensions.paddingSizeDefault,  Dimensions.paddingSizeDefault),
-                        //   child: SizedBox(height: 60,
-                        //     child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                        //       Expanded(child: CustomTextFieldWidget(
-                        //         inputAction: TextInputAction.send,
-                        //         showLabelText: false,
-                        //         prefixIcon: Images.emoji,
-                        //         prefixColor: Theme.of(context).colorScheme.onSecondary.withOpacity(0.50),
-                        //         suffixIcon: Images.attachment,
-                        //         suffixIcon2: Images.file,
-                        //         suffixColor: Theme.of(context).primaryColor,
-                        //         isPassword: false,
-                        //         onTap: (){
-                        //           setState(() {
-                        //             emojiPicker = false;
-                        //           });
-                        //         },
-                        //         prefixOnTap: (){
-                        //           setState(() {
-                        //             emojiPicker = !emojiPicker;
-                        //             FocusManager.instance.primaryFocus?.unfocus();
-                        //           });
-                        //         },
-                        //         suffixOnTap: (){
-                        //           chatProvider.pickMultipleImage(false);
-                        //         },
-                        //         suffix2OnTap: (){
-                        //           chatProvider.pickOtherFile(false);
-                        //         },
-                        //         controller: _controller,
-                        //         labelText: getTranslated('send_a_message', context),
-                        //         hintText: getTranslated('send_a_message', context))),
-                        //       const SizedBox(width: Dimensions.paddingSizeDefault,),
-                        //
-                        //       chatProvider.isSendButtonActive? const Padding(
-                        //           padding: EdgeInsets.only(left: Dimensions.paddingSizeSmall),
-                        //           child: Center(child: CircularProgressIndicator())):
-                        //
-                        //       InkWell(onTap: (){
-                        //         if(_controller.text.isEmpty && chatProvider.pickedImageFileStored!.isEmpty && chatProvider.objFile!.isEmpty){
-                        //
-                        //         }else{
-                        //           MessageBody messageBody = MessageBody(id : widget.id!,  message: _controller.text,file: chatProvider.pickedImageFileStored!);
-                        //           chatProvider.sendMessage(messageBody, userType: widget.userType);
-                        //         }
-                        //       },
-                        //
-                        //       child: chatProvider.isLoading? const Padding(padding: EdgeInsets.all(8.0),
-                        //         child: SizedBox(width: 30, height: 30, child: CircularProgressIndicator())) :
-                        //
-                        //         Padding(
-                        //           padding: const EdgeInsets.only(bottom: 12),
-                        //           child: Container(width: 50, height: 50, decoration: BoxDecoration(
-                        //             borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                        //             border: Border.all(width: 2, color: Theme.of(context).hintColor)),
-                        //             child: Center(child: Padding(padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeExtraExtraSmall,
-                        //                 Dimensions.paddingSizeExtraExtraSmall, Dimensions.paddingSizeExtraExtraSmall,8),
-                        //                 child: Image.asset(Images.send, color: Provider.of<ThemeController>(context).darkTheme ? Colors.white: null)))),
-                        //         ),
-                        //       ),
-                        //
-                        //     ]),
-                        //   ),
-                        // ),
+
                       ],
                     ),
                   ),
@@ -765,37 +485,7 @@ FocusNode focusNode =FocusNode();
 
 
 
-                  if(emojiPicker)
-                    SizedBox(height: 250,
-                      child: EmojiPicker(
-                        onBackspacePressed: () {},
-                        textEditingController: _controller,
-                        config: Config(
-                          columns: 7,
-                          emojiSizeMax: 32 * (foundation.defaultTargetPlatform == TargetPlatform.iOS ? 1.30 : 1.0),
-                          verticalSpacing: 0,
-                          horizontalSpacing: 0,
-                          gridPadding: EdgeInsets.zero,
-                          initCategory: Category.RECENT,
-                          bgColor: const Color(0xFFF2F2F2),
-                          indicatorColor: Colors.blue,
-                          iconColor: Colors.grey,
-                          iconColorSelected: Colors.blue,
-                          backspaceColor: Colors.blue,
-                          skinToneDialogBgColor: Colors.white,
-                          skinToneIndicatorColor: Colors.grey,
-                          enableSkinTones: true,
-                          recentTabBehavior: RecentTabBehavior.RECENT,
-                          recentsLimit: 28,
-                          noRecents: const Text('No Recents', style: TextStyle(fontSize: 20, color: Colors.black26),
-                            textAlign: TextAlign.center), // Needs to be const Widget
-                          loadingIndicator: const SizedBox.shrink(), // Needs to be const Widget
-                          tabIndicatorAnimDuration: kTabScrollDuration,
-                          categoryIcons: const CategoryIcons(),
-                          buttonMode: ButtonMode.MATERIAL,
-                        ),
-                      ),
-                    ),
+
                 ]);
               }
             ),
@@ -837,6 +527,12 @@ Future<bool> _askingPermission(bool camera) async {
   }
 
 }
+bool isValidText(String text) {
+
+  String trimmedText = text.trim();
+  return trimmedText.length >= 2;
+}
+
 
 
 Future<void> _launchUrl(String url) async {

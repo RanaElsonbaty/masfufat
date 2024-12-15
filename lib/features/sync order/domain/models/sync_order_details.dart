@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import '../../../product/domain/models/product_model.dart';
+
 SyncOrderDetailsModel syncOrderDetailsModelFromJson(String str) =>
     SyncOrderDetailsModel.fromJson(json.decode(str));
 
@@ -34,7 +36,7 @@ class SyncOrderDetailsModel {
   String? couponDiscountBearer;
   dynamic shippingResponsibility;
   int? shippingMethodId;
-  int? shippingCost;
+  double? shippingCost;
   int? isShippingFree;
   String? orderGroupId;
   String? verificationCode;
@@ -154,7 +156,7 @@ class SyncOrderDetailsModel {
         couponDiscountBearer: json["coupon_discount_bearer"],
         shippingResponsibility: json["shipping_responsibility"],
         shippingMethodId: json["shipping_method_id"],
-        shippingCost: json["shipping_cost"],
+        shippingCost:json["shipping_cost"]!=null? double.parse(json["shipping_cost"].toString()):0.00,
         isShippingFree: json["is_shipping_free"],
         orderGroupId: json["order_group_id"],
         verificationCode: json["verification_code"],
@@ -880,7 +882,6 @@ class Item {
   String? weightLabel;
   ItemAmounts? amounts;
   String? notes;
-  Product? product;
   List<dynamic>? options;
   List<dynamic>? images;
   List<dynamic>? codes;
@@ -897,7 +898,6 @@ class Item {
     this.weightLabel,
     this.amounts,
     this.notes,
-    this.product,
     this.options,
     this.images,
     this.codes,
@@ -917,8 +917,6 @@ class Item {
         ? null
         : ItemAmounts.fromJson(json["amounts"]),
     notes: json["notes"],
-    product:
-    json["product"] == null ? null : Product.fromJson(json["product"]),
     options: json["options"] == null
         ? []
         : List<dynamic>.from(json["options"]!.map((x) => x)),
@@ -946,7 +944,6 @@ class Item {
     "weight_label": weightLabel,
     "amounts": amounts?.toJson(),
     "notes": notes,
-    "product": product?.toJson(),
     "options":
     options == null ? [] : List<dynamic>.from(options!.map((x) => x)),
     "images":
@@ -993,111 +990,6 @@ class ItemAmounts {
   };
 }
 
-class Product {
-  int? id;
-  String? type;
-  Promotion? promotion;
-  int? quantity;
-  String? status;
-  bool? isAvailable;
-  String? sku;
-  String? name;
-  CashOnDelivery? price;
-  CashOnDelivery? salePrice;
-  String? currency;
-  String? url;
-  String? thumbnail;
-  bool? hasSpecialPrice;
-  CashOnDelivery? regularPrice;
-  dynamic calories;
-  dynamic mpn;
-  dynamic gtin;
-  String? description;
-  dynamic favorite;
-  Features? features;
-
-  Product({
-    this.id,
-    this.type,
-    this.promotion,
-    this.quantity,
-    this.status,
-    this.isAvailable,
-    this.sku,
-    this.name,
-    this.price,
-    this.salePrice,
-    this.currency,
-    this.url,
-    this.thumbnail,
-    this.hasSpecialPrice,
-    this.regularPrice,
-    this.calories,
-    this.mpn,
-    this.gtin,
-    this.description,
-    this.favorite,
-    this.features,
-  });
-
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
-    id: int.tryParse(json["id"].toString()),
-    type: json["type"],
-    promotion: json["promotion"] == null
-        ? null
-        : Promotion.fromJson(json["promotion"]),
-    quantity: json["quantity"],
-    status: json["status"],
-    isAvailable: json["is_available"],
-    sku: json["sku"],
-    name: json["name"],
-    price: json["price"] == null
-        ? null
-        : CashOnDelivery.fromJson(json["price"]),
-    salePrice: json["sale_price"] == null
-        ? null
-        : CashOnDelivery.fromJson(json["sale_price"]),
-    currency: json["currency"],
-    url: json["url"],
-    thumbnail: json["thumbnail"],
-    hasSpecialPrice: json["has_special_price"],
-    regularPrice: json["regular_price"] == null
-        ? null
-        : CashOnDelivery.fromJson(json["regular_price"]),
-    calories: json["calories"],
-    mpn: json["mpn"],
-    gtin: json["gtin"],
-    description: json["description"],
-    favorite: json["favorite"],
-    features: json["features"] == null
-        ? null
-        : Features.fromJson(json["features"]),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "type": type,
-    "promotion": promotion?.toJson(),
-    "quantity": quantity,
-    "status": status,
-    "is_available": isAvailable,
-    "sku": sku,
-    "name": name,
-    "price": price?.toJson(),
-    "sale_price": salePrice?.toJson(),
-    "currency": currency,
-    "url": url,
-    "thumbnail": thumbnail,
-    "has_special_price": hasSpecialPrice,
-    "regular_price": regularPrice?.toJson(),
-    "calories": calories,
-    "mpn": mpn,
-    "gtin": gtin,
-    "description": description,
-    "favorite": favorite,
-    "features": features?.toJson(),
-  };
-}
 
 class Features {
   dynamic availabilityNotify;
@@ -2090,4 +1982,109 @@ class TravelHistory {
     "comment": comment,
     "entry_date": entryDate?.toIso8601String(),
   };
+
 }
+// class Detail {
+//   final int id;
+//   final int orderId;
+//   final int productId;
+//   final int sellerId;
+//   final Product productDetails;
+//   final int qty;
+//   final int price;
+//   final int tax;
+//   final int discount;
+//   final String taxModel;
+//   final String deliveryStatus;
+//   final String paymentStatus;
+//   final DateTime createdAt;
+//   final DateTime updatedAt;
+//   final dynamic shippingMethodId;
+//   final String variant;
+//   final String variation;
+//   final String discountType;
+//   final int isStockDecreased;
+//   final int refundRequest;
+//   final String pendingDelete;
+//   final dynamic preparationDetails;
+//   final dynamic digitalFileAfterSell;
+//
+//   Detail({
+//     required this.id,
+//     required this.orderId,
+//     required this.productId,
+//     required this.sellerId,
+//     required this.productDetails,
+//     required this.qty,
+//     required this.price,
+//     required this.tax,
+//     required this.discount,
+//     required this.taxModel,
+//     required this.deliveryStatus,
+//     required this.paymentStatus,
+//     required this.createdAt,
+//     required this.updatedAt,
+//     required this.shippingMethodId,
+//     required this.variant,
+//     required this.variation,
+//     required this.discountType,
+//     required this.isStockDecreased,
+//     required this.refundRequest,
+//     required this.pendingDelete,
+//     required this.preparationDetails,
+//     this.digitalFileAfterSell,
+//   });
+//
+//   factory Detail.fromJson(Map<String, dynamic> json) => Detail(
+//     id: json["id"],
+//     orderId: json["order_id"],
+//     productId: json["product_id"],
+//     sellerId: json["seller_id"],
+//     // productDetails: json["product_details"],
+//     qty: json["qty"],
+//     price: json["price"],
+//     tax: json["tax"],
+//     discount: json["discount"],
+//     taxModel: json["tax_model"],
+//     deliveryStatus: json["delivery_status"],
+//     paymentStatus: json["payment_status"],
+//     createdAt: DateTime.parse(json["created_at"]),
+//     updatedAt: DateTime.parse(json["updated_at"]),
+//     shippingMethodId: json["shipping_method_id"],
+//     variant: json["variant"],
+//     variation: json["variation"],
+//     discountType: json["discount_type"],
+//     isStockDecreased: json["is_stock_decreased"],
+//     refundRequest: json["refund_request"],
+//     pendingDelete: json["pending_delete"],
+//     preparationDetails: json["preparation_details"],
+//     digitalFileAfterSell: json["digital_file_after_sell"],
+//   );
+//
+//   Map<String, dynamic> toJson() => {
+//     "id": id,
+//     "order_id": orderId,
+//     "product_id": productId,
+//     "seller_id": sellerId,
+//     "product_details": productDetails,
+//     "qty": qty,
+//     "price": price,
+//     "tax": tax,
+//     "discount": discount,
+//     "tax_model": taxModel,
+//     "delivery_status": deliveryStatus,
+//     "payment_status": paymentStatus,
+//     "created_at": createdAt.toIso8601String(),
+//     "updated_at": updatedAt.toIso8601String(),
+//     "shipping_method_id": shippingMethodId,
+//     "variant": variant,
+//     "variation": variation,
+//     "discount_type": discountType,
+//     "is_stock_decreased": isStockDecreased,
+//     "refund_request": refundRequest,
+//     "pending_delete": pendingDelete,
+//     "preparation_details": preparationDetails,
+//     "digital_file_after_sell": digitalFileAfterSell,
+//   };
+// }
+

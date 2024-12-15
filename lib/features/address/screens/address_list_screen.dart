@@ -94,7 +94,6 @@ class _AddressListScreenState extends State<AddressListScreen> {
                               child: Container(width: 40,
                                 decoration: BoxDecoration(borderRadius:
                                BorderRadius.circular(5),
-                                  // color: Theme.of(context).primaryColor.withOpacity(.05)
                                 ),
                                 child: Padding(padding: const EdgeInsets.all(6),
                                   child: Image.asset(Images.editIcon),),),

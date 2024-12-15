@@ -35,11 +35,33 @@ class ReviewAndSpecificationSectionWidget extends StatelessWidget {
                   // if(productDetailsController.index==0)
                     Container( height: 3,color: productDetailsController.index==0? Theme.of(context).primaryColor:Theme.of(context).cardColor,)])),
           ),
+          if(productDetailsController.productDetailsModel!=null&&productDetailsController.productDetailsModel!.props!=null&&productDetailsController.productDetailsModel!.props!.isNotEmpty)
+
+          Expanded(
+
+            child: InkWell(onTap: ()=> productDetailsController.selectReviewSection(1),
+                child: Column(children: [
+                  Container(padding: const EdgeInsets.symmetric(
+                      vertical: Dimensions.paddingSizeSmall),
+                    // width:  MediaQuery.of(context).size.width/3,
+                    height: 40,
+
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
+                    ),
+                    child: Center(
+                      child: Text('${getTranslated('Product_Features', context)}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.tajawal(fontWeight:FontWeight.w400,fontSize: 14,color: productDetailsController.index==1?Theme.of(context).primaryColor:Theme.of(context).iconTheme.color),),
+                    ),),
+                  // if(productDetailsController.index==0)
+                    Container( height: 3,color: productDetailsController.index==1? Theme.of(context).primaryColor:Theme.of(context).cardColor,)])),
+          ),
           // const SizedBox(width: Dimensions.paddingSizeDefault),
 
 
             Expanded(
-              child: InkWell(onTap: ()=> productDetailsController.selectReviewSection(1),
+              child: InkWell(onTap: ()=> productDetailsController.selectReviewSection(2),
                 child: Column(children: [
                   Container(padding: const EdgeInsets.symmetric(
                       vertical: Dimensions.paddingSizeSmall),
@@ -55,10 +77,10 @@ class ReviewAndSpecificationSectionWidget extends StatelessWidget {
                       child: Text('${getTranslated('Logistics_information', context)}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style:  GoogleFonts.tajawal(fontWeight:FontWeight.w400,fontSize: 14,color:productDetailsController.index==1?Theme.of(context).primaryColor:Theme.of(context).iconTheme.color),),
+                        style:  GoogleFonts.tajawal(fontWeight:FontWeight.w400,fontSize: 14,color:productDetailsController.index==2?Theme.of(context).primaryColor:Theme.of(context).iconTheme.color),),
                     ),),
                   // if(productDetailsController.index==1)
-                    Container(height: 3,color:productDetailsController.index==1? Theme.of(context).primaryColor:Theme.of(context).cardColor,)])),
+                    Container(height: 3,color:productDetailsController.index==2? Theme.of(context).primaryColor:Theme.of(context).cardColor,)])),
             ),
           // const SizedBox(width: Dimensions.paddingSizeDefault),
 
@@ -66,7 +88,7 @@ class ReviewAndSpecificationSectionWidget extends StatelessWidget {
   if(productDetailsController.productDetailsModel!=null&&productDetailsController.productDetailsModel!.reviewsCount!=null&&productDetailsController.productDetailsModel!.reviewsCount!=0)
           Expanded(
             // flex: 1,
-            child: InkWell(onTap: ()=> productDetailsController.selectReviewSection(2),
+            child: InkWell(onTap: ()=> productDetailsController.selectReviewSection(3),
               child: Stack(clipBehavior: Clip.none, children: [
                 Column(children: [
                   Container(padding: const EdgeInsets.symmetric(
@@ -81,14 +103,14 @@ class ReviewAndSpecificationSectionWidget extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
 
                         style:  GoogleFonts.tajawal(fontWeight:FontWeight.w400,fontSize: 14,
-                          color:productDetailsController.index==2?Theme.of(context).primaryColor:Theme.of(context).iconTheme.color),),
+                          color:productDetailsController.index==3?Theme.of(context).primaryColor:Theme.of(context).iconTheme.color),),
                     ),),
 
 
                   // if(productDetailsController.isReviewSelected)
                   // if()
 
-                    Container(height: 3,color:productDetailsController.index==2? Theme.of(context).primaryColor:Theme.of(context).cardColor)]),
+                    Container(height: 3,color:productDetailsController.index==3? Theme.of(context).primaryColor:Theme.of(context).cardColor)]),
 
               ],
               ),

@@ -37,13 +37,13 @@ class _SelectProductTopState extends State<SelectProductTop> {
           if(widget.showOrgnalWidget==true&&widget.select==false){
           return Container(
           height: 50,
-          width: MediaQuery.of(context).size.width/1.25,
+          // width: MediaQuery.of(context).size.width/1.25,
           decoration:  BoxDecoration(
               color: widget.select==false? Colors.black:Theme.of(context).primaryColor,
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(8),
-                  topRight: Radius.circular(8)
-              )
+              // borderRadius: const BorderRadius.only(
+              //     topLeft: Radius.circular(8),
+              //     topRight: Radius.circular(8)
+              // )
           ),
           child:
 
@@ -69,13 +69,13 @@ class _SelectProductTopState extends State<SelectProductTop> {
         );}else if(widget.select==true){
             return Container(
               height: 50,
-              width:widget.showOrgnalWidget==true? MediaQuery.of(context).size.width/1.25:MediaQuery.of(context).size.width,
+              // width:widget.showOrgnalWidget==true? MediaQuery.of(context).size.width/1.25:MediaQuery.of(context).size.width,
               decoration:  BoxDecoration(
                   color: Theme.of(context).primaryColor,
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      topRight: Radius.circular(8)
-                  )
+                  // borderRadius: const BorderRadius.only(
+                  //     topLeft: Radius.circular(8),
+                  //     topRight: Radius.circular(8)
+                  // )
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),

@@ -18,10 +18,9 @@ class ConversationListTabview extends StatelessWidget {
       builder:(context, splash, child) {
         List<Widget> taps=[
           if(splash.configModel!.chatWithSellerStatus==true)
-
             SizedBox(
               height: 35,
-              width: MediaQuery.of(context).size.width/2.65,
+              width: splash.configModel!.chatWithDeliveryStatus==true?MediaQuery.of(context).size.width/2.65:MediaQuery.of(context).size.width/1.2,
               child:  Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -32,9 +31,11 @@ class ConversationListTabview extends StatelessWidget {
                 ),
               ),
             ),
+      if(splash.configModel!.chatWithDeliveryStatus==true)
             SizedBox(
               height: 35,
-              width: MediaQuery.of(context).size.width/2.65,
+              width:splash.configModel!.chatWithSellerStatus==true?
+              MediaQuery.of(context).size.width/2.65:MediaQuery.of(context).size.width/1.2,
 
               child:Center(
                 child: Row(
@@ -65,10 +66,6 @@ class ConversationListTabview extends StatelessWidget {
               tabAlignment: TabAlignment.center,
               dividerHeight: 0.5,
 
-              // labelPadding: EdgeInsets.only(
-              //   right: chatProvider.isActiveSuffixIcon && chatProvider.messageList.isNotEmpty ? 10 : 25,
-              // ),
-              // indicatorPadding: const EdgeInsets.only(right: 0),
               tabs:  taps,
               onTap: (index){
                 if(chatProvider.isActiveSuffixIcon){

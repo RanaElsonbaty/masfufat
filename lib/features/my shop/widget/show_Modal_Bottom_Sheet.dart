@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
+import 'dart:ui' as ui;
 import '../../../common/basewidget/show_custom_snakbar_widget.dart';
 import '../../Store settings/controllers/store_setting_controller.dart';
 import '../../Store settings/screen/store_setting_screen.dart';
@@ -337,7 +338,25 @@ Navigator.pop(Get.context!);
       ),
     );
   }
-  Future dialog(String text){
+
+  Future<ui.Image> getSvg()async{
+    const String rawSvg = '''<svg xmlns="http://www.w3.org/2000/svg" width="79" height="78" viewBox="0 0 79 78" fill="none">                                    <path d="M3.61787 0H75.5627C77.3359 0 78.7744 1.4318 78.7744 3.19677V48.4967C78.7744 64.7917 65.5046 78 49.1339 78H3.61787C1.8447 78 0.40625 76.5682 0.40625 74.8032V3.19677C0.40625 1.42905 1.8447 0 3.61787 0Z" fill="#5A409B"/>                                    <path d="M53.1346 16.1094H57.5302C60.0531 16.1094 62.0946 18.1442 62.0946 20.6526V25.0278C62.0946 27.5362 60.0503 29.571 57.5302 29.571H53.1346C50.6146 29.571 48.5703 27.5362 48.5703 25.0278V20.6526C48.5703 18.1442 50.6118 16.1094 53.1346 16.1094Z" fill="#FDCD05"/>                                </svg>''';
+    final PictureInfo pictureInfo =
+        await vg.loadPicture(const SvgStringLoader(rawSvg), null);
+
+    // You can draw the picture to a canvas:
+    // canvas.drawPicture(pictureInfo.picture);
+    // pictureInfo.picture.
+    // Or convert the picture to an image:
+    final ui.Image image = await pictureInfo.picture.toImage(80, 80);
+    // image
+    // image.
+
+    pictureInfo.picture.dispose();
+    return image;
+  }
+  Future dialog(String text) {
+    // final ui.Image image =await getSvg();
 
     return showDialog(
 
@@ -358,11 +377,14 @@ Navigator.pop(Get.context!);
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Center(
-                  child: CircularProgressIndicator(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
+              SvgPicture.string(
+                  '''''',
+            ),
+                // Center(
+                //   child: CircularProgressIndicator(
+                //     color: Theme.of(context).primaryColor,
+                //   ),
+                // ),
                 const SizedBox(height: 10,),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -457,7 +479,7 @@ Future syncAllProductOneTime(MyShopController myShopController)async{
     }
           await myShopController. addProductPrice(myShopController.pendingList[i].id,(double.parse(myShopController.controller[i].text)+tax).toString()).then((value)async {
 if(value==true){
-        await myShopController. syncProduct(widget.index==0?false:true,).then((value)async {
+        await myShopController. syncProduct(widget.index==0?false:true,false).then((value)async {
           if(value==true){
                           // Navigator.pop(diagloContext);
                         }else{
@@ -485,7 +507,7 @@ Future syncOneProductOneTime(MyShopController myShopController)async{
     }
     await myShopController. addProductPrice(myShopController.selectIds[i],(double.parse(myShopController.controller[i].text)+tax).toString()).then((value)async {
       if(value==true){
-        await myShopController. syncOneProduct(widget.index==0?false:true,myShopController.selectIds[i]).then((value)async {
+        await myShopController. syncOneProduct(widget.index==0?false:true,myShopController.selectIds[i],false).then((value)async {
           if(value==true){
             // Navigator.pop(diagloContext);
           }else{

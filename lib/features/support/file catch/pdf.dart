@@ -46,14 +46,21 @@ class _PdfWidgetState extends State<PdfWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return PdfView(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SizedBox(
+        height: 100,
+        width: 210,
+        child: PdfView(
 
-      controller: pdfController!,
-      onDocumentError: (error) {
-        print('pdfController error => $error');
-      },
-      physics: const AlwaysScrollableScrollPhysics(),
-      backgroundDecoration: const BoxDecoration(color: Colors.white),
+          controller: pdfController!,
+          onDocumentError: (error) {
+            print('pdfController error => $error');
+          },
+          physics: const AlwaysScrollableScrollPhysics(),
+          backgroundDecoration: const BoxDecoration(color: Colors.white),
+        ),
+      ),
     );
   }
 }

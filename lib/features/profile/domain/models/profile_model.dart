@@ -322,7 +322,7 @@ class StoreInformations {
   factory StoreInformations.fromJson(Map<String, dynamic> json) => StoreInformations(
     pricingLevel: json["pricing_level"]!=null? json["pricing_level"].toString():'0',
     companyName: json["company_name"],
-    name: json["name"],
+    name: json["name"]??'',
     vendorAccountNumber:json['vendor_account_number'] ?? "",
     phone: json["phone"],
     buildingNo:json['building_no']!=null?json['building_no'].toString():"",

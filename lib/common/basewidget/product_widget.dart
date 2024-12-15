@@ -77,6 +77,8 @@ double total =0.00;
               ),
               child: Stack(
                 children: [
+// ---- product image ----
+
                   CarouselSliderWidget(
                     isCategory: false,
                     productModel: widget.productModel,
@@ -125,6 +127,8 @@ double total =0.00;
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+// ---- product name ----
+
                           Text(widget.productModel.name ?? '',
                               textAlign: TextAlign.center, style: GoogleFonts.tajawal(
                           fontSize:14,
@@ -140,6 +144,8 @@ double total =0.00;
                 // if(ratting > 0)
                 Divider(height:0.05,color: Colors.grey.shade200,),
                 const SizedBox(height: 4,),
+// ---- product price ----
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start  ,
                   children: [
@@ -153,6 +159,8 @@ double total =0.00;
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.tajawal(color: Theme.of(context).primaryColor,fontWeight: FontWeight.w500,fontSize: 12)),
                     ),
+// ---- product qty ----
+
                     RichText(
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.ellipsis,
@@ -187,6 +195,7 @@ double total =0.00;
                  const SizedBox(height: 3,),
                  Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                    const SizedBox(width: 5,),
+// ---- product tax ----
 
                    Expanded(
                      flex: 1,
@@ -219,6 +228,7 @@ double total =0.00;
                        ),
                      ),
                    ),
+// ---- product rate ----
 if(ratting!=0)
                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
 
@@ -249,16 +259,20 @@ if(ratting!=0)
                        children: [
                          const SizedBox(width: 5,),
 
-                         //
+                         // ---- product total price ----
+
                          Expanded(
                            flex: 2,
                            child: Text("${getTranslated('Total_Payments', context)} ${PriceConverter.convertPrice(context,
                                widget.productModel.unitPrice!+tax, discountType: widget.productModel.discountType,
-                               discount: widget.productModel.discount ?? 0.00)}ٍ",
+                               discount: widget.productModel.discount ?? 0.00)}",
+                               // ٍ
                                maxLines: 1,
                                overflow: TextOverflow.ellipsis,
                                style: GoogleFonts.tajawal(color: Theme.of(context).primaryColor,fontWeight: FontWeight.w500,fontSize: 12)),
                          ),
+                         // ---- product discount ----
+
                          if(widget.productModel.discount!= null && widget.productModel.discount! > 0 )
                          Expanded(
                            child: Text(PriceConverter.convertPrice(context, widget.productModel.unitPrice),

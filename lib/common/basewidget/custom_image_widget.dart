@@ -55,7 +55,7 @@ class _CustomImageWidgetState extends State<CustomImageWidget> {
       placeholder: (context, url) => Image.asset(widget.placeholder?? Images.placeholder, height: widget.height, width: widget.width, fit: BoxFit.cover),
       imageUrl: widget.image, fit: widget.fit?? BoxFit.cover,
       filterQuality: FilterQuality.high,
-      useOldImageOnUrlChange:true ,
+      useOldImageOnUrlChange:false ,
       height: widget.height,width: widget.width,
       errorWidget: (c, o, s) => Image.asset(widget.placeholder?? Images.placeholder, height: widget.height, width: widget.width, fit: BoxFit.cover),
 

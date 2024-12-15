@@ -91,6 +91,7 @@ class AddressRepository implements AddressRepoInterface<ApiResponse>{
         'zip': addressModel.zip,
         'title':addressModel.addressType,
         'country': addressModel.country,
+        'state':addressModel.state!,
         'phone': addressModel.phone,
         'latitude': addressModel.latitude,
         'longitude': addressModel.longitude,

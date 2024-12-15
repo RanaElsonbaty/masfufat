@@ -141,16 +141,7 @@ notifyListeners();
   }
 
 
-  Future<void> closeSupportTicket(int? ticketID) async {
-    ApiResponse apiResponse = await supportTicketServiceInterface.closeSupportTicket(ticketID.toString());
-    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-      getSupportTicketList();
-      showCustomSnackBar('${getTranslated('ticket_closed_successfully', Get.context!)}', Get.context!, isError: false);
-    } else {
-      ApiChecker.checkApi( apiResponse);
-    }
-    notifyListeners();
-  }
+
 
 
 
@@ -196,7 +187,7 @@ notifyListeners();
         _pickedImageFiles = await ImagePicker().pickMultiImage(imageQuality: 40);
         pickedImageFileStored.addAll(_pickedImageFiles);
         for (var element in _pickedImageFiles) {
-          _attachmentFile.add(await  MultipartFile.fromFile(element.path, filename: "${element.path}${DateTime.now().toString()}"));
+          _attachmentFile.add(await  MultipartFile.fromFile(element.path, filename: element.name));
 
         }
       }catch(E){
@@ -212,7 +203,7 @@ notifyListeners();
        _pickedImageFiles.add(file!);
        pickedImageFileStored.addAll(_pickedImageFiles);
        // for (var element in _pickedImageFiles) {
-         _attachmentFile.add(await  MultipartFile.fromFile(file.path, filename: "${file.path}${DateTime.now().toString()}"));
+         _attachmentFile.add(await  MultipartFile.fromFile(file.path, filename: file.name));
        //
        // }
      }catch(e){
@@ -269,7 +260,7 @@ try{
   List<XFile> get pickImageOrVideoCam=>_pickImageOrVideoCam;
   void pickImageOrVideoCamera(XFile file)async{
     _pickImageOrVideoCam.add(file);
-    _attachmentFile.add(await  MultipartFile.fromFile(file.path, filename: "${file.path}${DateTime.now().toString()}"));
+    _attachmentFile.add(await  MultipartFile.fromFile(file.path, filename: file.name));
 
     notifyListeners();
   }
@@ -311,9 +302,9 @@ void addPickCameraToList()async{
     _musicFile = '';
     _appDirectory = await getApplicationDocumentsDirectory();
     if(Platform.isIOS){
-      _path = "${_appDirectory.path}/${DateTime.now()}.m4a";}else{
-      _path = "${_appDirectory.path}/${DateTime.now()}.mp3";
-
+      _path = "${_appDirectory.path}/${'recorde'}.m4a";
+  }else{
+      _path = "${_appDirectory.path}/${'recorde'}.mp3";
     }
     // notifyListeners();
 
@@ -351,11 +342,9 @@ void addPickCameraToList()async{
           notifyListeners();
         }
       } else {
-        // print('asdasdasdad${path}');
         await _recorderController.record(path: path!);
       }
 
-      // _recorderController.
     } catch (e) {
       debugPrint(e.toString());
     } finally {
@@ -491,5 +480,24 @@ void getSearch(String val,bool filter,String filterType){
 }
   }
 
-
+  Future<void> closeSupportTicket(int? ticketID) async {
+    ApiResponse apiResponse = await supportTicketServiceInterface.closeSupportTicket(ticketID.toString());
+    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+      getSupportTicketList();
+      showCustomSnackBar('${getTranslated('ticket_closed_successfully', Get.context!)}', Get.context!, isError: false);
+    } else {
+      ApiChecker.checkApi( apiResponse);
+    }
+    notifyListeners();
+  }
+  Future<void> deleteSupportTicket(int? ticketID) async {
+    ApiResponse apiResponse = await supportTicketServiceInterface.deleteSupportTicket(ticketID.toString());
+    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+      getSupportTicketList();
+      showCustomSnackBar('${getTranslated('The_ticket_has_been_successfully_deleted', Get.context!)}', Get.context!, isError: false);
+    } else {
+      ApiChecker.checkApi( apiResponse);
+    }
+    notifyListeners();
+  }
 }

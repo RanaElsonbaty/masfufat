@@ -18,7 +18,7 @@ class ShippingRepository implements ShippingRepositoryInterface{
   Future<ApiResponse> getShippingMethod(int? sellerId, String? type) async {
     try {
       final response = await dioClient!.get('${AppConstants.getShippingMethod}/$sellerId/$type');
-      print('asdasdasdasdasda${response.data}');
+      print('Shipping Method ----> ${response.data}');
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));

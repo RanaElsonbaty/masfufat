@@ -1,31 +1,22 @@
-
+import 'dart:io';
 import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/main.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:open_document/my_files/init.dart';
-import 'package:provider/provider.dart';
-
-import '../../../utill/app_constants.dart';
 
 class WaveBubble extends StatefulWidget {
   final bool isSender;
-  final bool ofline;
-  final int? index;
+  final bool offline;
   final String? path;
   final double? width;
-  final Directory appDirectory;
 
   const WaveBubble({
     super.key,
-    required this.appDirectory,
     this.width,
-    this.index,
     this.isSender = false,
     this.path,
-    this.ofline = false,
+    this.offline = false,
   });
 
   @override
@@ -33,138 +24,81 @@ class WaveBubble extends StatefulWidget {
 }
 
 class _WaveBubbleState extends State<WaveBubble> {
-  File? file;
-  bool isCheck = false;
-  String _platformVersion = '0';
-  String filePath = '';
-
   PlayerController controller = PlayerController();
-  // late StreamSubscription<PlayerState> playerStateSubscription;
+  String filePath = '';
+  bool isFileReady = false;
+  String progress = '0%';
+  bool error =false;
 
   final playerWaveStyle = const PlayerWaveStyle(
     fixedWaveColor: Colors.white54,
     liveWaveColor: Colors.white,
     spacing: 5,
-
   );
-  Future<String?> downloadFile(
-      {String? filePath, String? url, String? token}) async {
-    String countryCode = '';
-    Dio dio = Dio();
-    dio
-      ..options.baseUrl = AppConstants.baseUrl
-      ..options.connectTimeout =  const Duration(seconds: 60)
-      ..options.receiveTimeout =  const Duration(seconds: 60)
-      ..httpClientAdapter
-      ..options.headers = {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer $token',
-        AppConstants.langKey:
-            countryCode == 'US' ? 'en' : countryCode.toLowerCase(),
-      };
-    await dio.downloadUri(
-      Uri.parse(url!),
-      filePath,
-      // options: Options(headers: {}),
-      onReceiveProgress: (count, total) {
-        debugPrint('---Download----Rec: $count, Total: $total');
-        setState(() {
-          _platformVersion = "${((count / total) * 100).toStringAsFixed(0)}%";
-        });
-      },
-    );
-    _platformVersion = '0';
-    isCheck = true;
-    getDownloadFile();
-    _preparePlayer();
-    setState(() {});
-    return filePath;
-  }
 
-  Future getDownloadFile() async {
-    String url = widget.path!;
-    final name = await OpenDocument.getNameFile(url: url);
-    final path = await OpenDocument.getPathDocument();
-
-    setState(() {
-      filePath = "$path/$name";
-    });
-    bool isChecked = await OpenDocument.checkDocument(filePath: filePath);
-
-    setState(() {
-      isCheck = isChecked;
-    });
-    if (isCheck) {
-      _preparePlayer();
-
-    }
-  }
-  int milliseconds=0;
-  Duration duration=const Duration(seconds: 0);
-  String formattedDuration='';
   @override
   void initState() {
     super.initState();
-    controller.addListener(()async {
-     await controller.onCompletion.first.then((value) async{
-       await controller.pausePlayer();
-       setState(() {});
-
-     });
-    });
-    if (widget.isSender == true) {
-      getDownloadFile().then((value) {
-        _preparePlayer();
-
-
-
-      });
-      isCheck = true;
-
-    }
-    else {
- setState(() {
-   milliseconds = controller.maxDuration; // Example: 20 seconds
-   duration = Duration(milliseconds: milliseconds);
-   formattedDuration = duration.toString().substring(2, 7);
-
- });
-      // getDownloadFile();
-    }
-    // _preparePlayer();
+    print(widget.path??'no');
+    _preparePlayer();
   }
 
-  void _preparePlayer() async {
-
+  Future<void> _preparePlayer() async {
     try {
-     await controller.preparePlayer(
-        path: widget.ofline == false
-            ? widget.isSender == true
-                ? filePath
-                : widget.path!
-            : filePath,
-        shouldExtractWaveform: widget.index?.isEven ?? true,
+      if (widget.offline) {
+        // Handle offline file playback
+        filePath = widget.path!;
+        isFileReady = await File(filePath).exists();
+      } else {
+        print('_downloadFileIfNeeded');
+        // Handle online file playback (download if necessary)
+        filePath = await _downloadFileIfNeeded(widget.path!);
+        isFileReady = true;
+      }
+
+      // Prepare player
+      await controller.preparePlayer(
+        path: filePath,
+        shouldExtractWaveform: true,
+      );
+
+      setState(() {});
+    } catch (e) {
+      debugPrint("Error preparing player: $e");
+      error=true;
+
+    }
+  }
+
+  Future<String> _downloadFileIfNeeded(String url) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final fileName = url.split('/').last;
+    final localPath = "${directory.path}/$fileName";
+
+    if (await File(localPath).exists()) {
+
+      return localPath;
+    }
+
+    Dio dio = Dio();
+    try {
+      await dio.download(
+        url,
+        localPath,
+        onReceiveProgress: (received, total) {
+          if (total != -1) {
+            setState(() {
+              progress = "${(received / total * 100).toStringAsFixed(0)}%";
+            });
+          }
+        },
       );
     } catch (e) {
-      // print('preparePlayer => $e');
+      debugPrint("Error downloading file: $e");
+      error=true;
     }
-    try {
-      if (widget.index?.isOdd ?? false) {
-    await    controller.extractWaveformData(
-          path: filePath,
 
-          noOfSamples: playerWaveStyle.getSamplesForWidth(widget.width ?? 10),
-        );
-      }
-    } catch (e) {
-      print('extractWaveformData => $e');
-    }
-    setState(() {
-      milliseconds = controller.maxDuration; // Example: 20 seconds
-      duration = Duration(milliseconds: milliseconds);
-      formattedDuration = duration.toString().substring(2, 7);
-
-    });
+    return localPath;
   }
 
   @override
@@ -175,131 +109,69 @@ class _WaveBubbleState extends State<WaveBubble> {
 
   @override
   Widget build(BuildContext context) {
-print(widget.path);
-    return
-      Container(
-      margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(0),
-        color: Theme.of(context).primaryColor,
+
+        borderRadius: BorderRadius.circular(10),
+        color:  Theme.of(context).primaryColor,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Stack(
-            children: [
-              _platformVersion != '0'
-                  ? const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                ),
-              )
-                  : const SizedBox.shrink(),
-              _platformVersion != '0'
-                  ? Positioned(
-                left: _platformVersion != '100%' ? 16 : 14,
-                top: 18,
-                child: Text(
-                  _platformVersion,
-                  style: const TextStyle(color: Colors.white,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold),
-                ),
-              )
-                  : const SizedBox.shrink(),
-            ],
-          ),
-          _platformVersion == '0'
-              ? widget.isSender == false
-              ? IconButton(
-            onPressed: () async {
-              controller.playerState.isPlaying
-                  ? await controller.pausePlayer()
-                  : await controller.startPlayer(
-                finishMode: FinishMode.pause,
-              );
-              setState(() {});
-            },
-            icon: Icon(
-              controller.playerState.isPlaying
-                  ? Icons.stop
-                  : Icons.play_arrow,
-            ),
-            color: Colors.white,
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-          )
-              : !isCheck
+          // Download Progress Indicator
+          progress != '0%' && progress != '100%'
               ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: InkWell(
-                onTap: () async {
-                  String? url = widget.path!;
-                  final name =
-                  await OpenDocument.getNameFile(
-                      url: url);
-
-                  final path =
-                  await OpenDocument.getPathDocument();
-
-                  filePath = "$path/$name";
-                  if (!isCheck) {
-                    downloadFile(
-                        url: url,
-                        filePath: filePath,
-                        token: Provider.of<AuthController>(
-                            Get.context!,
-                            listen: false)
-                            .getUserToken());
-                  }
-                },
-                child: const Icon(
-                  Icons.download,
-                  size: 25,
-                  color: Colors.white,
-                )),
-              )
-              : IconButton(
-            onPressed: () async {
-              controller.playerState.isPlaying
-                  ? await controller.pausePlayer()
-                  : await controller.startPlayer(
-                finishMode: FinishMode.pause,
-              );
-              setState(() {});
-            },
-            icon: Icon(
-              controller.playerState.isPlaying == true
-                  ? Icons.stop
-                  : Icons.play_arrow,
+            padding: const EdgeInsets.all(8.0),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                const CircularProgressIndicator(color: Colors.white),
+                Text(
+                  progress,
+                  style: const TextStyle(color: Colors.white, fontSize: 10),
+                ),
+              ],
             ),
-            color: Colors.white,
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
           )
               : const SizedBox.shrink(),
-          isCheck?  Text(formattedDuration,style: GoogleFonts.almarai(
-              fontSize: 10,fontWeight: FontWeight.w400,color: Colors.white
-            ),):const SizedBox.shrink(),
-            const SizedBox(width: 4,),
+        // show error
+
+
+          // Play/Pause Button
+          if(error==false)
+          if (isFileReady)
+            IconButton(
+              onPressed: () async {
+                if (controller.playerState.isPlaying) {
+                  await controller.pausePlayer();
+                } else {
+                  await controller.startPlayer();
+                }
+                setState(() {});
+              },
+              icon: Icon(
+                controller.playerState.isPlaying ? Icons.pause : Icons.play_arrow,
+                color: Colors.white,
+              ),
+            ),
+            if(error)
+            Text('record not available ',style: GoogleFonts.inter(
+              fontWeight: FontWeight.w500,fontSize: 12,color: Colors.white
+            ),),
+          // Waveform
+          if(error==false)
+          if (isFileReady)
             AudioFileWaveforms(
-            size:  const Size(100, 40),
-
-            playerController: controller,
-            margin: const EdgeInsets.only(right: 10),
-            waveformType: WaveformType.fitWidth,
+              size: Size(widget.width ?? 100, 40),
+              playerController: controller,
 
 
-            backgroundColor: Colors.black,
-            // decoration: BoxDecoration(
-            //
-            // ),
 
-            playerWaveStyle: playerWaveStyle,
-          ),
-
+              margin: const EdgeInsets.only(right: 10),
+              waveformType: WaveformType.fitWidth,
+              playerWaveStyle: playerWaveStyle,
+            ),
         ],
       ),
     );

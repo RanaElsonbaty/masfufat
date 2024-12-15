@@ -98,7 +98,7 @@ class CameraScreenState extends State<CameraScreen> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 return SizedBox(
-                  height: MediaQuery.of(context).size.height-150,
+                  height: MediaQuery.of(context).size.height-203,
                   child: CameraPreview(
                     _controller!,
                   ),

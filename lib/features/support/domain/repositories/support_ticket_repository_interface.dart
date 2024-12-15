@@ -9,7 +9,7 @@ abstract class SupportTicketRepositoryInterface extends RepositoryInterface<Supp
   Future<dynamic> getSupportReplyList(String ticketID);
 
   Future<dynamic> sendReply(String ticketID, String message,   List<MultipartFile> file);
-
+  Future<dynamic> deleteSupportTicket(String ticketID);
   Future<dynamic> closeSupportTicket(String ticketID);
 
 }

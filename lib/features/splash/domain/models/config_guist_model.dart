@@ -20,6 +20,7 @@ class ConfigGuest {
   final String sellerRegistration;
   final int companyPhone;
   final String companyEmail;
+  final String companyAddress;
   final String companyLogo;
   final int deliveryCountryRestriction;
   final int deliveryZipCodeAreaRestriction;
@@ -91,6 +92,7 @@ class ConfigGuest {
     required this.countryCode,
     required this.currencyModel,
     required this.forgotPasswordVerification,
+    required this.companyAddress,
     required this.announcement,
     required this.pixelAnalytics,
     required this.refEarningStatus,
@@ -121,6 +123,7 @@ class ConfigGuest {
     sellerRegistration: json["seller_registration"],
     companyPhone: json["company_phone"],
     companyEmail: json["company_email"],
+    companyAddress: json["company_address"],
     companyLogo: json["company_logo"],
     deliveryCountryRestriction: json["delivery_country_restriction"],
     deliveryZipCodeAreaRestriction: json["delivery_zip_code_area_restriction"],
@@ -503,14 +506,17 @@ class PrivacyPolicy {
 class SocialMedia {
   final String link;
   final String icon;
+  final String name;
 
   SocialMedia({
     required this.link,
+    required this.name,
     required this.icon,
   });
 
   factory SocialMedia.fromJson(Map<String, dynamic> json) => SocialMedia(
     link: json["link"],
+    name: json["name"],
     icon: json["icon"],
   );
 

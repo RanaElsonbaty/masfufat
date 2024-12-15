@@ -217,9 +217,6 @@ PODS:
     - FlutterMacOS
   - PromisesObjC (2.4.0)
   - ReachabilitySwift (5.2.4)
-  - record_darwin (1.0.0):
-    - Flutter
-    - FlutterMacOS
   - SDWebImage (5.20.0):
     - SDWebImage/Core (= 5.20.0)
   - SDWebImage/Core (5.20.0)
@@ -285,7 +282,6 @@ DEPENDENCIES:
   - pdfx (from `.symlinks/plugins/pdfx/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - photo_manager (from `.symlinks/plugins/photo_manager/ios`)
-  - record_darwin (from `.symlinks/plugins/record_darwin/ios`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
@@ -401,8 +397,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
   photo_manager:
     :path: ".symlinks/plugins/photo_manager/ios"
-  record_darwin:
-    :path: ".symlinks/plugins/record_darwin/ios"
   share_plus:
     :path: ".symlinks/plugins/share_plus/ios"
   shared_preferences_foundation:
@@ -457,7 +451,7 @@ SPEC CHECKSUMS:
   flutter_pdfview: 25f53dd6097661e6395b17de506e6060585946bd
   fluttertoast: e9a18c7be5413da53898f660530c56f35edfba9c
   geocoding_ios: a389ea40f6f548de6e63006a2e31bf66ff80769a
-  geolocator_apple: 6cbaf322953988e009e5ecb481f07efece75c450
+  geolocator_apple: 9bcea1918ff7f0062d98345d238ae12718acfbc1
   Google-Maps-iOS-Utils: 0a484b05ed21d88c9f9ebbacb007956edd508a96
   google_maps_flutter_ios: e31555a04d1986ab130f2b9f24b6cdc861acc6d3
   google_sign_in_ios: 07375bfbf2620bc93a602c0e27160d6afc6ead38
@@ -478,13 +472,12 @@ SPEC CHECKSUMS:
   open_file_manager: cdc5849f062aa70cad3da24a0dde74955d78c1ec
   open_file_plus: 05737718530c14cf02868e3b7754d7fe4df76d8b
   package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85
-  path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
+  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   pdfx: 7b876b09de8b7a0bf444a4f82b439ffcff4ee1ec
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   photo_manager: ff695c7a1dd5bc379974953a2b5c0a293f7c4c8a
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   ReachabilitySwift: 32793e867593cfc1177f5d16491e3a197d2fccda
-  record_darwin: df0a677188e5fed18472550298e675f19ddaffbe
   SDWebImage: 73c6079366fea25fa4bb9640d5fb58f0893facd8
   share_plus: c3fef564749587fc939ef86ffb283ceac0baf9f5
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78

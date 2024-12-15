@@ -37,7 +37,7 @@ class _InboxScreenState extends State<InboxScreen> with SingleTickerProviderStat
     // isGuestMode = !Provider.of<AuthController>(context, listen: false).isLoggedIn();
     //   if(!isGuestMode) {
         load();
-        _tabController = TabController(vsync: this, length:Provider.of<SplashController>(context,listen: false).configModel!.chatWithSellerStatus? 2:1);
+        _tabController = TabController(vsync: this, length:Provider.of<SplashController>(context,listen: false).configModel!.chatWithSellerStatus?Provider.of<SplashController>(context,listen: false).configModel!.chatWithDeliveryStatus?  2:1:1);
       // }
 
     super.initState();
@@ -45,8 +45,14 @@ class _InboxScreenState extends State<InboxScreen> with SingleTickerProviderStat
 
 
   Future<void> load ()async {
-    await Provider.of<ChatController>(context, listen: false).getChatList(1, reload: false,userType: 0);
+    //
+    // await Provider.of<ChatController>(context, listen: false).getChatList(1, reload: false,userType: 0);
+    // Provider.of<ChatController>(Get.context!, listen: false).setUserTypeIndex(context, 0);
+    //
+
     await Provider.of<ChatController>(Get.context!, listen: false).getChatList(1, reload: false,userType: 1  );
+    // Provider.of<ChatController>(Get.context!, listen: false).setUserTypeIndex(context, 1);
+// print(Provider.of<ChatController>(context,listen: false).chatModel!.totalSize!);
     _tabController.addListener(() {
       Provider.of<ChatController>(context,listen: false).getChatType(_tabController.index);
     });
@@ -74,7 +80,7 @@ class _InboxScreenState extends State<InboxScreen> with SingleTickerProviderStat
         body: Consumer<ChatController>(
           builder: (context, chat, _) {
             return Column(children: [
-              // if(!isGuestMode)
+
               Padding(padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeExtraSmall,
                   Dimensions.paddingSizeDefault, Dimensions.paddingSizeDefault, Dimensions.paddingSizeSmall),
                 child: ConversationListTabview(tabController: _tabController),
@@ -90,17 +96,15 @@ class _InboxScreenState extends State<InboxScreen> with SingleTickerProviderStat
 
                 Consumer<ChatController>(
                   builder: (context, chatProvider, child) {
-
-
-                    return chatProvider.loading==false? (chatProvider.catModel!=null&&chatProvider.catModel!.chat != null && chatProvider.catModel!.chat!.isNotEmpty)?
+                    return chatProvider.loading==false? (chatProvider.chatModel!=null&&chatProvider.chatModel!.chat != null && chatProvider.chatModel!.chat!.isNotEmpty)?
                       ListView.builder(
-                        itemCount:chatProvider.search?chatProvider.searchChatModel!.chat!.length: chatProvider.catModel!.chat?.length,
+                        itemCount:chatProvider.search?chatProvider.searchChatModel!.chat!.length: chatProvider.chatModel!.chat?.length,
                         padding: const EdgeInsets.symmetric(
                             horizontal: 15,),
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4.0),
-                            child: ChatItemWidget(chat:chatProvider.search?chatProvider.searchChatModel!.chat![index]: chatProvider.catModel?.chat![index], chatProvider: chat),
+                            child: ChatItemWidget(chat:chatProvider.search?chatProvider.searchChatModel!.chat![index]: chatProvider.chatModel?.chat![index], chatProvider: chat),
                           );
                         },
                       ) : const NoInternetOrDataScreenWidget(isNoInternet: false, message: 'no_conversion', icon: Images.noInbox) : const InboxShimmerWidget();

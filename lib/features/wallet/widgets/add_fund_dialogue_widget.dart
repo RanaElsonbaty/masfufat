@@ -15,6 +15,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../localization/controllers/localization_controller.dart';
+import '../../../main.dart';
 import '../../checkout/widgets/payment_method_bottom_sheet_widget.dart';
 import '../../payment /widgets/checkout widget/payment_section.dart';
 
@@ -33,6 +34,7 @@ class _AddFundDialogueWidgetState extends State<AddFundDialogueWidget> {
   @override
   void initState() {
     // TODO: implement initState
+    Provider.of<PaymentController>(Get.context!,listen: false).initSession(Get.context!);
 
     super.initState();
 

@@ -225,90 +225,90 @@ class SyncOrderModel {
 }
 
 class Detail {
-  int? id;
-  int? orderId;
-  int? productId;
-  int? sellerId;
-  dynamic digitalFileAfterSell;
-  int? qty;
-  double? price;
-  double? tax;
-  double? discount;
-  String? taxModel;
-  String? deliveryStatus;
-  String? paymentStatus;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  dynamic shippingMethodId;
-  String? variant;
-  String? variation;
-  String? discountType;
-  int? isStockDecreased;
-  int? refundRequest;
-  String? pendingDelete;
-  Product? product;
+  final int id;
+  final int orderId;
+  final int productId;
+  final int sellerId;
+  final Product productDetails;
+  final int qty;
+  final double price;
+  final double tax;
+  final double discount;
+  final String taxModel;
+  final String deliveryStatus;
+  final String paymentStatus;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final dynamic shippingMethodId;
+  final String variant;
+  final String variation;
+  final String discountType;
+  final int isStockDecreased;
+  final int refundRequest;
+  final String pendingDelete;
+  final dynamic preparationDetails;
+  final dynamic digitalFileAfterSell;
 
   Detail({
-    this.id,
-    this.orderId,
-    this.productId,
-    this.sellerId,
+    required this.id,
+    required this.orderId,
+    required this.productId,
+    required this.sellerId,
+    required this.productDetails,
+    required this.qty,
+    required this.price,
+    required this.tax,
+    required this.discount,
+    required this.taxModel,
+    required this.deliveryStatus,
+    required this.paymentStatus,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.shippingMethodId,
+    required this.variant,
+    required this.variation,
+    required this.discountType,
+    required this.isStockDecreased,
+    required this.refundRequest,
+    required this.pendingDelete,
+    required this.preparationDetails,
     this.digitalFileAfterSell,
-    this.qty,
-    this.price,
-    this.tax,
-    this.discount,
-    this.taxModel,
-    this.deliveryStatus,
-    this.paymentStatus,
-    this.createdAt,
-    this.updatedAt,
-    this.shippingMethodId,
-    this.variant,
-    this.variation,
-    this.discountType,
-    this.isStockDecreased,
-    this.refundRequest,
-    this.pendingDelete,
-    this.product,
   });
 
-  factory Detail.fromJson(Map<String, dynamic> json) => Detail(
-    id: json["id"],
-    orderId: json["order_id"],
-    productId: json["product_id"],
-    sellerId: json["seller_id"],
-    digitalFileAfterSell: json["digital_file_after_sell"],
-    qty: json["qty"],
-    price: json["price"]?.toDouble(),
-    tax: json["tax"]?.toDouble(),
-    discount: json["discount"]?.toDouble(),
-    taxModel: json["tax_model"],
-    deliveryStatus: json["delivery_status"],
-    paymentStatus: json["payment_status"],
-    createdAt: json["created_at"] == null
-        ? null
-        : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null
-        ? null
-        : DateTime.parse(json["updated_at"]),
-    shippingMethodId: json["shipping_method_id"],
-    variant: json["variant"],
-    variation: json["variation"],
-    discountType: json["discount_type"],
-    isStockDecreased: json["is_stock_decreased"],
-    refundRequest: json["refund_request"],
-    pendingDelete: json["pending_delete"],
-    product:
-    json["product"] == null ? null : Product.fromJson(json["product"]),
-  );
+  factory Detail.fromJson(Map<String, dynamic> jsons) {
+    return Detail(
+      id: jsons["id"],
+      orderId: jsons["order_id"],
+      productId: jsons["product_id"],
+      sellerId: jsons["seller_id"],
+      productDetails: Product.fromJson( json.decode(jsons["product_details"])),
+      qty: jsons["qty"],
+      price:double.parse(jsons["price"].toString()) ,
+      tax:double.parse(jsons["tax"].toString()),
+      discount: double.parse(jsons["discount"].toString()),
+      taxModel: jsons["tax_model"],
+      deliveryStatus: jsons["delivery_status"],
+      paymentStatus: jsons["payment_status"],
+      createdAt: DateTime.parse(jsons["created_at"]),
+      updatedAt: DateTime.parse(jsons["updated_at"]),
+      shippingMethodId: jsons["shipping_method_id"],
+      variant: jsons["variant"],
+      variation: jsons["variation"],
+      discountType: jsons["discount_type"],
+      isStockDecreased: jsons["is_stock_decreased"],
+      refundRequest: jsons["refund_request"],
+      pendingDelete: jsons["pending_delete"],
+      preparationDetails: jsons["preparation_details"],
+      digitalFileAfterSell: jsons["digital_file_after_sell"],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "order_id": orderId,
     "product_id": productId,
     "seller_id": sellerId,
-    "digital_file_after_sell": digitalFileAfterSell,
+    "product_details": productDetails,
     "qty": qty,
     "price": price,
     "tax": tax,
@@ -316,8 +316,8 @@ class Detail {
     "tax_model": taxModel,
     "delivery_status": deliveryStatus,
     "payment_status": paymentStatus,
-    "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt?.toIso8601String(),
+    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt.toIso8601String(),
     "shipping_method_id": shippingMethodId,
     "variant": variant,
     "variation": variation,
@@ -325,9 +325,11 @@ class Detail {
     "is_stock_decreased": isStockDecreased,
     "refund_request": refundRequest,
     "pending_delete": pendingDelete,
-    "product": product,
+    "preparation_details": preparationDetails,
+    "digital_file_after_sell": digitalFileAfterSell,
   };
 }
+
 
 class BrandDetails {
   int? id;

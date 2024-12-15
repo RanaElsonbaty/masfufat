@@ -27,12 +27,21 @@ class _LinkedProductWidgetState extends State<LinkedProductWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if(widget.unSync==false){
-    price.text=widget.linked.linkedProduct.price.toStringAsFixed(2);
-    }
+    // if(widget.unSync==false){
+    // }
+    getPrice();
+  }
+  void getPrice()async{
+    price.text='';
+// await Future.delayed(const Duration(seconds: 1));
+  price.text=widget.linked.linkedProduct.price.toStringAsFixed(2);
   }
   @override
   Widget build(BuildContext context) {
+    getPrice();
+    print('widget.linked.linkedProduct.price ${widget.linked.linkedProduct.price}');
+    print('price.text ${price.text}');
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -263,7 +272,7 @@ class _LinkedProductWidgetState extends State<LinkedProductWidget> {
                         ),
                       ),
                       const Spacer(),
-                    Consumer<MyShopController>(
+                      widget.linked.requestStatus==true? Consumer<MyShopController>(
                         builder:(context, myShop, child) =>  InkWell(
                           onTap: ()async{
                             dialog('Products_are_being_synced');
@@ -273,23 +282,13 @@ class _LinkedProductWidgetState extends State<LinkedProductWidget> {
                               tax= (((double.parse(price.text)+(((double.parse(myShop.taxController.text)/100)*double.parse(price.text))))));
 
                             }
-if(widget.unSync==false){
-  await myShop.addProductPrice(widget.linked.id, (double.parse(price.text)+tax).toString()).then((value) async{
-    await myShop.getList();
-    myShop. initController();
-    Navigator.pop(diagloContext);
-  });
-}else{
-  await myShop.addProductPrice(widget.linked.id, (double.parse(price.text)+tax).toString()).then((value) async{
-    await myShop.syncOneProduct(true, widget.linked.id).then((value) async{
+    await myShop.addProductPrice(widget.linked.id, (double.parse(price.text)+tax).toString()).then((value) async{
+    await myShop.syncOneProduct(widget.unSync==true, widget.linked.id,widget.unSync==false).then((value) async{
       await myShop.getList();
       myShop. initController();
       Navigator.pop(diagloContext);
     });
-
-});
-
-}
+    });
 print(widget.linked.id);
 
 
@@ -300,7 +299,7 @@ print(widget.linked.id);
                             child: Image.asset(Images.sync,width: 25,),
                           ),
                         ),
-                      )
+                      ):const SizedBox.shrink()
 
 
                     ],

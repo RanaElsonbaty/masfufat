@@ -43,7 +43,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
             return Column(
             children: [
               SizedBox(
-                  height: MediaQuery.of(context).size.height-120,
+                  height: MediaQuery.of(context).size.height-172,
                   width: MediaQuery.of(context).size.width,
                   child:image.endsWith('temp')?Mp4Widget(file:File( image),
                     isSend: true, min: false,

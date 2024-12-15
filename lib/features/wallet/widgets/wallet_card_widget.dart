@@ -58,13 +58,10 @@ class WalletCardWidget extends StatelessWidget {
           ),
           Expanded(child: Consumer<PaymentController>(builder:(context, value, child) =>  Consumer<CheckoutController>(builder:   (context, value, child) =>
              InkWell(onTap: () {
+               // Provider.of<PaymentController>(context,listen: false).initiate(context);
+               //
                Provider.of<PaymentController>(Get.context!,listen: false).getPaymentMethod(context, 'wallet_charge');
 
-                  // showDialog(context: context, builder: (BuildContext context) {
-                  //   return AddFundDialogueWidget(focusNode: focusNode, inputAmountController: inputAmountController);
-                  // });
-               // Navigator.push(context,MaterialPageRoute(builder: (context) => AddFundDialogueWidget(focusNode: focusNode, inputAmountController: inputAmountController),));
-               Provider.of<PaymentController>(context,listen: false).initiate(context);
 
                showAnimatedDialog(  willFlip: true, context,Center(child: AddFundDialogueWidget(focusNode: focusNode, inputAmountController: inputAmountController),));
                 },

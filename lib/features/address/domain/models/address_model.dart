@@ -10,7 +10,7 @@ class AddressModel {
   String? email;
   String? createdAt;
   String? updatedAt;
-  bool? state;
+  String? state;
   String? country;
   String? latitude;
   String? longitude;
@@ -54,7 +54,7 @@ class AddressModel {
     }
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    state = json['state'].toString()=='1'?true:false;
+    state = json['state'].toString();
     country = json['country'];
     latitude = json['latitude']!=null?json['latitude'].toString():'0.000';
     longitude = json['longitude']!=null?json['longitude'].toString():'0.00';

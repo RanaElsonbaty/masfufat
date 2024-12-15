@@ -94,8 +94,8 @@ void getOrderId(String id){
     await MFSDK.init(apiKey, MFCountry.SAUDIARABIA, MFEnvironment.TEST);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await initSession(context);
-      await initiatePayment();
+       initSession(context);
+       initiatePayment();
     });
   }catch(e){
 print('error initiate ===== $e');
@@ -275,7 +275,9 @@ print('error initiate ===== $e');
 
     await MFSDK
         .initSession(initiateSessionRequest, MFLanguage.ENGLISH,)
-        .then((value) => loadEmbeddedPayment(value, context))
+        .then((value) {
+          return loadEmbeddedPayment(value, context);
+        })
         .catchError((error) {
       showCustomSnackBar(getTranslated('pay_dis', Get.context!), Get.context!,time: 5,isError: true);
 
@@ -300,16 +302,17 @@ print('error initiate ===== $e');
     MFExecutePaymentRequest executePaymentRequest =
         MFExecutePaymentRequest(invoiceValue: amount);
     executePaymentRequest.displayCurrencyIso = displayCurrencyIso;
-    if (Platform.isIOS) {
-      applePayPayment(session, Get.context!);
-      MFApplepay.setupApplePay(
-          session, executePaymentRequest, MFLanguage.ENGLISH);
-    }
     try {
       await loadCardView(session);
     } catch (e) {
       print('load card view error ---> $e');
     }
+    if (Platform.isIOS) {
+      applePayPayment(session, Get.context!);
+      MFApplepay.setupApplePay(
+          session, executePaymentRequest, MFLanguage.ENGLISH);
+    }
+
 
   }
 
@@ -652,7 +655,7 @@ if(response.response!=null&&response.response!.statusCode==201||response.respons
           configModel.paymentMethods.delayed.logo, 5));
     }
     for (var element in _paymentMethod) {
-      print('_paymentMethod name --> ${element.name}');
+      print('payment Method name ----> ${element.name}');
     }
    if(notify){
      notifyListeners();

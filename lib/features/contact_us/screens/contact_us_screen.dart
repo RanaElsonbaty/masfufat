@@ -38,91 +38,154 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     super.initState();
     Provider.of<AuthController>(context, listen: false).setCountryCode(CountryCode.fromCountryCode(Provider.of<SplashController>(context, listen: false).configModel!.countryCode).dialCode!, notify: false);
   }
-
+  String twitter='';
+  String instagram='';
+  String whatsapp='';
+  String youtube='';
+  String telegram='';
+void initLink(){
+  for (var element in Provider.of<SplashController>(context, listen: false).configModel!.socialMedia) {
+if(element.name=='twitter'){
+  twitter=element.name;
+}else if(element.name=='instagram'){
+  instagram=element.name;
+}else if(element.name=='Whatsapp'){
+  whatsapp=element.name;
+}else if(element.name=='youtube'){
+  youtube=element.name;
+}else if(element.name=='telegram'){
+  telegram=element.name;
+}
+  }
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(centerTitle: true,title: '${getTranslated('contact_us', context)}'),
-      body: Consumer<AuthController>(
-        builder: (context, authProvider, _) {
-          return Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.homePagePadding),
-            child: SingleChildScrollView(child: Form(
-              key: contactFormKey,
-              autovalidateMode: AutovalidateMode.disabled,
-              child: Column(children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                Image.asset(Images.appIcon, width: 160, height: 55,fit: BoxFit.fill,),
-                const SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  children: [
-                    Text(getTranslated('Contact_us', context)!,style: GoogleFonts.tajawal(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                    ),),
-                  ],
-                ),
-                const SizedBox(height:30,),
-
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: InkWell(
-                    onTap: (){
-                       _openUrl('tel:+966920031434');
-
-                    },
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 60,
-                          width: 60,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFEFECF5),
-                            shape: BoxShape.circle
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(18.0),
-                            child: Image.asset(Images.contactCall),
-                          ),
-                        ),
-                        const SizedBox(width: 5,),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(getTranslated('Unified_number', context)!,style: GoogleFonts.tajawal(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 16
-                            ),),
-                            Text('+966 920031434',
-                              textDirection: TextDirection.ltr,
-                              // textAlign: TextAlign.end,
-                              style: GoogleFonts.tajawal(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14,
-                                  color: Colors.black.withOpacity(0.60)
-                            ),),
-                          ],
-                        )
-                      ],
-                    ),
+      body: Consumer<SplashController>(
+        builder:(context, splash, child) =>  Consumer<AuthController>(
+          builder: (context, authProvider, _) {
+            return Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.homePagePadding),
+              child: SingleChildScrollView(child: Form(
+                key: contactFormKey,
+                autovalidateMode: AutovalidateMode.disabled,
+                child: Column(children: [
+                  const SizedBox(
+                    height: 30,
                   ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: InkWell(
-                    onTap: (){
-                      // _openUrl();
-                       _openUrl('mailto:care@masfufat.com');
+                  Image.asset(Images.appIcon, width: 160, height: 55,fit: BoxFit.fill,),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    children: [
+                      Text(getTranslated('Contact_us', context)!,style: GoogleFonts.tajawal(
+                        fontSize: 16,fontWeight: FontWeight.w600
+                      ),),
+                    ],
+                  ),
+                  const SizedBox(height:30,),
+
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: InkWell(
+                      onTap: (){
+                         _openUrl('tel:${splash.configModel!.companyPhone}');
 
                       },
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 60,
+                            width: 60,
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFEFECF5),
+                              shape: BoxShape.circle
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(18.0),
+                              child: Image.asset(Images.contactCall),
+                            ),
+                          ),
+                          const SizedBox(width: 5,),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(getTranslated('Unified_number', context)!,style: GoogleFonts.tajawal(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16
+                              ),),
+                              Text(splash.configModel!.companyPhone.toString(),
+                                textDirection: TextDirection.ltr,
+                                // textAlign: TextAlign.end,
+                                style: GoogleFonts.tajawal(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                    color: Colors.black.withOpacity(0.60)
+                              ),),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: InkWell(
+                      onTap: (){
+                        // _openUrl();
+                         _openUrl('mailto:${splash.configModel!.companyEmail}');
+
+                        },
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 60,
+                            width: 60,
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFEFECF5),
+                              shape: BoxShape.circle
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(18.0),
+                              child: Image.asset(Images.contactEmail),
+                            ),
+                          ),
+                          const SizedBox(width: 5,),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(getTranslated('Email', context)!,style: GoogleFonts.tajawal(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16
+                              ),),
+                              Text(splash.configModel!.companyEmail,
+                                textDirection: TextDirection.ltr,
+                                // textAlign: TextAlign.end,
+                                style: GoogleFonts.tajawal(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                    color: Colors.black.withOpacity(0.60)
+                              ),),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Container(
                           height: 60,
@@ -133,7 +196,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(18.0),
-                            child: Image.asset(Images.contactEmail),
+                            child: Image.asset(Images.contactLocation),
                           ),
                         ),
                         const SizedBox(width: 5,),
@@ -141,204 +204,163 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(getTranslated('Email', context)!,style: GoogleFonts.tajawal(
+                            Text(getTranslated('the_address', context)!,style: GoogleFonts.tajawal(
                               fontWeight: FontWeight.w700,
                               fontSize: 16
                             ),),
-                            Text('care@masfufat.com',
+                            Text(splash.configModel!.companyAddress,
                               textDirection: TextDirection.ltr,
                               // textAlign: TextAlign.end,
                               style: GoogleFonts.tajawal(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14,
-                                  color: Colors.black.withOpacity(0.60)
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                                color: Colors.black.withOpacity(0.60)
                             ),),
                           ],
                         )
                       ],
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+
+                  const SizedBox(height: 30,),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 90.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                      InkWell(
+                          onTap: (){
+
+                            _openUrl(whatsapp);
+                          },
+                          child: Image.asset(Images.whatsapp,width: 30,)),
+                      InkWell(
+                          onTap: (){
+                            _openUrl(twitter);
+
+
+                          },
+                          child: Image.asset(Images.twitter,width: 30,)),
+                      InkWell(
+                          onTap: (){
+                            _openUrl(youtube);
+
+                          },
+                          child: Image.asset(Images.threads,width: 30,)),
+                      InkWell(
+                          onTap: (){
+                            _openUrl(instagram);
+
+                          },
+                          child: Image.asset(Images.instagram,width: 30,)),
+                      InkWell(
+                          onTap: (){
+                            _openUrl(telegram);
+
+                          },
+                          child: Image.asset(Images.telegram,width: 30 ,)),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20,),
+                  Divider(color: Colors.grey.shade400,),
+                  const SizedBox(height: 20,),
+
+                  Row(
                     children: [
-                      Container(
-                        height: 60,
-                        width: 60,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFEFECF5),
-                          shape: BoxShape.circle
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(18.0),
-                          child: Image.asset(Images.contactLocation),
-                        ),
-                      ),
-                      const SizedBox(width: 5,),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(getTranslated('the_address', context)!,style: GoogleFonts.tajawal(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16
-                          ),),
-                          Text('السعودية, الرياض,حي الراشد',
-                            textDirection: TextDirection.ltr,
-                            // textAlign: TextAlign.end,
-                            style: GoogleFonts.tajawal(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                              color: Colors.black.withOpacity(0.60)
-                          ),),
-                        ],
-                      )
+                    Text(getTranslated('Contact_Form', context)!,style: GoogleFonts.tajawal(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                    ),)
                     ],
                   ),
-                ),
+                  const SizedBox(height: 20,),
 
-                const SizedBox(height: 30,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 90.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                    InkWell(
-                        onTap: (){
-                          _openUrl('https://api.whatsapp.com/send/?phone=920031391&text&type=phone_number&app_absent=0');
-                        },
-                        child: Image.asset(Images.whatsapp,width: 30,)),
-                    InkWell(
-                        onTap: (){
-                          _openUrl('https://x.com/masfufat_com?mx=2');
-
-
-                        },
-                        child: Image.asset(Images.twitter,width: 30,)),
-                    InkWell(
-                        onTap: (){
-                          _openUrl('https://www.threads.net/@masfufat_com');
-
-                        },
-                        child: Image.asset(Images.threads,width: 30,)),
-                    InkWell(
-                        onTap: (){
-                          _openUrl('https://www.instagram.com/masfufat_com/');
-
-                        },
-                        child: Image.asset(Images.instagram,width: 30,)),
-                    InkWell(
-                        onTap: (){
-                          _openUrl('https://t.me/+tu261Q8tZDU3MGJk');
-
-                        },
-                        child: Image.asset(Images.telegram,width: 30 ,)),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20,),
-                Divider(color: Colors.grey.shade400,),
-                const SizedBox(height: 20,),
-
-                Row(
-                  children: [
-                  Text(getTranslated('Contact_Form', context)!,style: GoogleFonts.tajawal(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                  ),)
-                  ],
-                ),
-                const SizedBox(height: 20,),
-                
-                // SizedBox(width: MediaQuery.of(context).size.width/2,child: Image.asset(Images.contactUsBg)),
-                CustomTextFieldWidget(
-                  // prefixIcon: Images.user,
-                  titleText: getTranslated('full_name', context),
-                  controller: fullNameController,
-                  required: true,
-                  showLabelText: false,
-
-                  labelText: getTranslated('full_name', context),
-                  hintText: getTranslated('enter_full_name', context),
-                  validator: (value)=> ValidateCheck.validateEmptyText(value, 'name_is_required'),
-                ),
-                const SizedBox(height: Dimensions.paddingSizeDefault),
-
-                CustomTextFieldWidget(
-                  titleText: getTranslated('email', context),
-                  
-                  hintText: getTranslated('email', context),
-                    // prefixIcon: Images.email,
+                  // SizedBox(width: MediaQuery.of(context).size.width/2,child: Image.asset(Images.contactUsBg)),
+                  CustomTextFieldWidget(
+                    // prefixIcon: Images.user,
+                    titleText: getTranslated('full_name', context),
+                    controller: fullNameController,
                     required: true,
-                  showLabelText: false,
-
-                    labelText: getTranslated('email', context),
-                    controller: emailController,
-                  validator: (value) =>ValidateCheck.validateEmail(value),
-
-                ),
-                const SizedBox(height: Dimensions.paddingSizeDefault),
-
-
-                CustomTextFieldWidget(
-                    hintText: '920031434',
-                    titleText: getTranslated('PHONE_NO', context),
-                    labelText: getTranslated('enter_mobile_number', context),
-                    controller: phoneController,
-                    required: true,
-                    allLtf: true,
                     showLabelText: false,
-                    showCodePicker: true,
-                    lTf: true,
-                    countryDialCode: authProvider.countryDialCode,
-                    onCountryChanged: (CountryCode countryCode) {
-                      authProvider.countryDialCode = countryCode.dialCode!;
-                      authProvider.setCountryCode(countryCode.dialCode!);
-                    },
-                    isAmount: true,
-                    inputAction: TextInputAction.next,
-                  textAlign: TextAlign.center,
-                    inputType: TextInputType.phone,
-                  validator: (value)=> ValidateCheck.validatePhoneNumber(value, 'phone_is_required'),
 
-                ),
-                const SizedBox(height: Dimensions.paddingSizeDefault),
+                    labelText: getTranslated('full_name', context),
+                    hintText: getTranslated('enter_full_name', context),
+                    validator: (value)=> ValidateCheck.validateEmptyText(value, 'name_is_required'),
+                  ),
+                  const SizedBox(height: Dimensions.paddingSizeDefault),
 
+                  CustomTextFieldWidget(
+                    titleText: getTranslated('email', context),
 
-                CustomTextFieldWidget(
-                  required: true,
-                  titleText: getTranslated('the_topic', context),
-                  labelText: getTranslated('the_topic', context),
-                  hintText: getTranslated('the_topic', context),
-                  controller: subjectController,
-                  showLabelText: false,
-                  
-                  validator: (value)=> ValidateCheck.validateEmptyText(value, 'subject_is_required'),
+                    hintText: getTranslated('email', context),
+                      // prefixIcon: Images.email,
+                      required: true,
+                    showLabelText: false,
 
-                ),
-                const SizedBox(height: Dimensions.paddingSizeDefault),
+                      labelText: getTranslated('email', context),
+                      controller: emailController,
+                    validator: (value) =>ValidateCheck.validateEmail(value),
+
+                  ),
+                  const SizedBox(height: Dimensions.paddingSizeDefault),
 
 
-                CustomTextFieldWidget(maxLines: 5,
+                  CustomTextFieldWidget(
+                      hintText: '920031434',
+                      titleText: getTranslated('PHONE_NO', context),
+                      labelText: getTranslated('enter_mobile_number', context),
+                      controller: phoneController,
+                      required: true,
+                      allLtf: true,
+                      showLabelText: false,
+                      showCodePicker: true,
+                      lTf: true,
+                      countryDialCode: authProvider.countryDialCode,
+                      onCountryChanged: (CountryCode countryCode) {
+                        authProvider.countryDialCode = countryCode.dialCode!;
+                        authProvider.setCountryCode(countryCode.dialCode!);
+                      },
+                      isAmount: true,
+                      inputAction: TextInputAction.next,
+                    textAlign: TextAlign.center,
+                      inputType: TextInputType.phone,
+                    validator: (value)=> ValidateCheck.validatePhoneNumber(value, 'phone_is_required'),
+
+                  ),
+                  const SizedBox(height: Dimensions.paddingSizeDefault),
+
+
+                  CustomTextFieldWidget(
                     required: true,
-                  showLabelText: false,
-titleText: getTranslated('message', context),
-                    controller: messageController,
-                    labelText: getTranslated('message', context),
-                    hintText: getTranslated('message', context),
-                  validator: (value)=> ValidateCheck.validateEmptyText(value, 'message_is_required'),
+                    titleText: getTranslated('the_topic', context),
+                    labelText: getTranslated('the_topic', context),
+                    hintText: getTranslated('the_topic', context),
+                    controller: subjectController,
+                    showLabelText: false,
 
-                ),
-              ],),
-            )),
-          );
-        }
+                    validator: (value)=> ValidateCheck.validateEmptyText(value, 'subject_is_required'),
+
+                  ),
+                  const SizedBox(height: Dimensions.paddingSizeDefault),
+
+
+                  CustomTextFieldWidget(maxLines: 5,
+                      required: true,
+                    showLabelText: false,
+        titleText: getTranslated('message', context),
+                      controller: messageController,
+                      labelText: getTranslated('message', context),
+                      hintText: getTranslated('message', context),
+                    validator: (value)=> ValidateCheck.validateEmptyText(value, 'message_is_required'),
+
+                  ),
+                ],),
+              )),
+            );
+          }
+        ),
       ),
       bottomNavigationBar: Consumer<ContactUsController>(
         builder: (context, profileProvider, _) {

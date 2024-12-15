@@ -44,7 +44,7 @@ class _OflineFileViewState extends State<OflineFileView> {
             width: MediaQuery.of(context).size.width/2,)
               :  widget.replyModel[widget.index].fileType.endsWith('pdf')?
 
-          PdfWidget(file: File( widget.replyModel[widget.index].fileUrl),isSend: true,):
+          PdfWidget(file: File( widget.replyModel[widget.index].fileUrl),isSend: false,):
           widget.replyModel[widget.index]
               .fileType.endsWith('docx')|| widget.replyModel[widget.index]
               .fileType .endsWith('xlsx')
@@ -55,11 +55,11 @@ class _OflineFileViewState extends State<OflineFileView> {
           )
               : widget.replyModel[widget.index].fileType.endsWith('mp3')||widget.replyModel[widget.index].fileType.endsWith('m4a')?
           WaveBubble(
-            appDirectory: Directory(widget.replyModel[widget.index].fileUrl),
-            width: MediaQuery.of(context).size.width/2,
-            index: widget.index,
+            // appDirectory: Directory(widget.replyModel[widget.index].fileUrl),
+            width:120,
+            // index: widget.index,
             isSender: true,
-            ofline: true,
+            // ofline: true,
             path:widget.replyModel[widget.index].fileUrl  ,
           ): const SizedBox.shrink()),);
   }

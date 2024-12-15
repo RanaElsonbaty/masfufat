@@ -39,27 +39,35 @@ class ProductDetailsController extends ChangeNotifier {
   int? get digitalVariationSubindex => _digitalVariationSubindex;
 
 
-
+  bool _noProductFount=false;
+  bool get noProductFount=>_noProductFount;
   Future<void> getProductDetails(BuildContext context, String productId, String slug) async {
-    _isDetails = true;
-    log("=====slug===>$slug/ $productId");
-    ApiResponse apiResponse = await productDetailsServiceInterface.get(productId);
-    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-      _isDetails = false;
-      // print('asdasdasdasdasdasd----> ${apiResponse.response!.data}');
-      _productDetailsModel = ProductDetailsModel.fromJson(apiResponse.response!.data);
-      if(_productDetailsModel != null){
-        log("=====slug===>$slug/ $productId");
-        // _productDetailsModel.w
-        // Provider.of<SellerProductController>(Get.context!, listen: false).
-        // getSellerProductList(_productDetailsModel?.addedBy == 'admin' ? '0' : productDetailsModel!.userId.toString(), 1, productId, reload: true);
-      }
-    } else {
-      _isDetails = false;
-      showCustomSnackBar(apiResponse.error.toString(), Get.context!);
-    }
-    _isDetails = false;
-    notifyListeners();
+   try{
+     _isDetails = true;
+     ApiResponse apiResponse = await productDetailsServiceInterface.get(productId);
+     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+       _isDetails = false;
+
+       if(apiResponse.response!.data.toString()=='{}'){
+         _noProductFount=true;
+       }else{
+         _noProductFount=false;
+       }
+       _productDetailsModel = ProductDetailsModel.fromJson(apiResponse.response!.data);
+     } else {
+       _noProductFount=false;
+
+       _isDetails = false;
+       // showCustomSnackBar(apiResponse.error.toString(), Get.context!);
+     }
+     _isDetails = false;
+     notifyListeners();
+   }catch(e){
+     _noProductFount=false;
+
+     _isDetails = false;
+     notifyListeners();
+   }
   }
 
 

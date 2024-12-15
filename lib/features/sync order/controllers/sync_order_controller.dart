@@ -184,8 +184,6 @@ class SyncOrderController with ChangeNotifier {
   }
 
   Future<ApiResponse> bankAndDelayedPayment(String orderID, String paymentMethod, String bank, String holderName, int addressId, BuildContext context, XFile? attachment,) async {
-    notifyListeners();
-
     ApiResponse apiResponse =
 
       await syncOrderServiceInterface.bankAndDelayedPayment(

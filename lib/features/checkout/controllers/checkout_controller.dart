@@ -3,6 +3,7 @@ import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/domain/services/checkout_service_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/features/offline_payment/domain/models/offline_payment_model.dart';
+import 'package:flutter_sixvalley_ecommerce/features/payment%20/controller/payment_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
@@ -165,8 +166,11 @@ void getLoading(bool val){
   int? selectedDigitalPaymentMethodId=0 ;
 
   void setDigitalPaymentMethodName(int index, String name,int id) {
+    if(index==0){
+      Provider.of<PaymentController>(Get.context!,listen: false).initSession(Get.context!);
+    }
     _paymentMethodIndex = index;
-    print(id);
+     print(id);
     selectedDigitalPaymentMethodId=id;
     selectedDigitalPaymentMethodName = name;
     codChecked = false;

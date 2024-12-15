@@ -254,6 +254,7 @@ class Images {
   static const String whatsapp = 'assets/images/whatsapp.png';
   static const String twitter = 'assets/images/twitter(3).png';
   static const String threads = 'assets/images/threads(2).png';
+  static const String youtube = 'assets/images/youtube.png';
   static const String instagram = 'assets/images/instagram.png';
   static const String telegram = 'assets/images/telegram.png';
 

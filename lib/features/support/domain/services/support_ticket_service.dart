@@ -32,5 +32,11 @@ class SupportTicketService implements SupportTicketServiceInterface{
   Future sendReply(String ticketID, String message,   List<MultipartFile> file) async{
     return await supportTicketRepositoryInterface.sendReply(ticketID, message, file);
   }
+  // Future<dynamic> deleteSupportTicket(String ticketID);
+
+  @override
+  Future deleteSupportTicket(String ticketID) async{
+    return await supportTicketRepositoryInterface.deleteSupportTicket(ticketID, );
+  }
 
 }

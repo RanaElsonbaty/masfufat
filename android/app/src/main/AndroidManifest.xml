@@ -149,4 +149,7 @@
                 android:resource="@xml/provider_paths" />
         </provider>
     </application>
+        <uses-sdk
+            android:minSdkVersion="26"
+            tools:overrideLibrary="com.myfatoorahflutter.myfatoorah_flutter" />
 </manifest>

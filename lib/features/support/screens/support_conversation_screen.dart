@@ -40,10 +40,24 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
   final TextEditingController _controller = TextEditingController();
   FocusNode focusNode = FocusNode();
   Timer? _updateTimer;
+void ff()async{
+  var status = await Permission.storage.request();
 
+  if (status.isGranted) {
+    // Permission granted
+    print("Storage permission granted");
+  } else if (status.isDenied) {
+    // Permission denied
+    print("Storage permission denied");
+  } else if (status.isPermanentlyDenied) {
+    // Permission permanently denied; open app settings
+    openAppSettings();
+  }
+}
   @override
   // payment_delayed
   void initState() {
+    ff();
     Provider.of<SupportTicketController>(context, listen: false)
         .getSupportTicketReplyList(context, widget.supportTicketModel.id);
     Provider.of<SupportTicketController>(context, listen: false)
@@ -70,6 +84,33 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
     return Scaffold(
       appBar: CustomAppBar(
         title: widget.supportTicketModel.subject,
+        showResetIcon: true,
+        reset: Consumer<SupportTicketController>(
+          builder:(context, support, child) =>  InkWell(
+            onTap: ()async{
+             await support.closeSupportTicket(widget.supportTicketModel.id).then((value) {
+               support.getSupportTicketList();
+               Navigator.pop(context);
+             });
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Container(
+                height: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.red,
+              ),
+                child: Padding(
+                  padding: const EdgeInsets.only (top: 9.0,left: 5,right: 5),
+                  child: Text(getTranslated('Close_the_ticket', context)!,style: GoogleFonts.tajawal(
+                    fontSize: 16,color: Colors.white,fontWeight: FontWeight.w500,
+                  ),),
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
       body:
           Consumer<SupportTicketController>(builder: (context, support, child) {
@@ -152,11 +193,11 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
                                                     support.pickedImageFileStored[index].path
                                                         .endsWith('m4a')
                                                 ?WaveBubble(
-                                      appDirectory: Directory(support.pickedImageFileStored[index].path),
+                                      // appDirectory: Directory(support.pickedImageFileStored[index].path),
                                       width: 100,
-                                      index: index,
+                                      // index: index,
                                       isSender: true,
-                                      ofline: true,
+                                      // ofline: true,
                                       path: support.pickedImageFileStored[index].path,
                                     )
                                                 : support.pickedImageFileStored[index].path
@@ -175,15 +216,15 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
                                                             .endsWith('m4a')|| support.pickedImageFileStored[index].path
                                         .endsWith('mp3')
                                                         ? WaveBubble(
-                                                            appDirectory:
-                                                                Directory(support
-                                                                    .pickedImageFileStored[
-                                                                        index]
-                                                                    .path),
+                                                            // appDirectory:
+                                                            //     Directory(support
+                                                            //         .pickedImageFileStored[
+                                                            //             index]
+                                                            //         .path),
                                                             width: 80,
-                                                            index: index,
+                                                            // index: index,
                                                             isSender: true,
-                                                            ofline: true,
+                                                            // ofline: true,
                                                             path: support
                                                                 .pickedImageFileStored[
                                                                     index]
@@ -379,24 +420,22 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
             ),
 
 
-                    // support.isLoading==false?
                     InkWell(
                           onTap: ()async{
-                            if (_controller.text.isEmpty &&_controller.text=='') {
+                            if (isValidText(_controller.text)==false&&support.pickedImageFileStored.isEmpty) {
+
                                               } else {
                                                await support.sendReply(widget.supportTicketModel.id,
                                                     _controller.text);
-                                         setState(() {
-                                           _controller.text = '';
-                                           _controller.clear();
-                                         });
+
                                               }
+                            setState(() {
+                              _controller.text = '';
+                              _controller.clear();
+                            });
 
                           },
                           child: Image.asset(Images.chatSend,width: 25,)),
-                        // : CircularProgressIndicator(
-                      // color: Theme.of(context).primaryColor,
-                    // ),
                       const SizedBox(width: 10,),
 
                     ],
@@ -427,4 +466,10 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
       }
     }
   }
+  bool isValidText(String text) {
+
+    String trimmedText = text.trim();
+    return trimmedText.length >= 2;
+  }
+
 }

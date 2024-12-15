@@ -16,10 +16,10 @@ class PriceConverter {
     }
     bool singleCurrency =Provider.of<SplashController>(context, listen: false).configModel!=null? Provider.of<SplashController>(context, listen: false).configModel!.currencyModel == 'single_currency':true;
     bool inRight = Provider.of<SplashController>(context, listen: false).configModel!=null?Provider.of<SplashController>(context, listen: false).configModel!.currencySymbolPosition == 'right':true;
-
-    return '${inRight ? '' : Provider.of<SplashController>(context, listen: false).myCurrency!.symbol} '
+String symbol=Provider.of<SplashController>(context, listen: false).myCurrency!=null?Provider.of<SplashController>(context, listen: false).myCurrency!.symbol:'ر.س';
+    return '${inRight ? '' : symbol??''} '
         '${singleCurrency ? price!.toStringAsFixed(2) : (price! * Provider.of<SplashController>(context, listen: false).myCurrency!.exchangeRate).toStringAsFixed(2)} '
-        '${inRight ? Provider.of<SplashController>(context, listen: false).myCurrency!.symbol: ''} ';
+        '${inRight ? symbol??'': ''} ';
  }
 
   static double? convertWithDiscount(BuildContext context, double? price, double? discount, String? discountType) {
@@ -62,10 +62,11 @@ class PriceConverter {
     }
     bool singleCurrency =Provider.of<SplashController>(context, listen: false).configModel!=null? Provider.of<SplashController>(context, listen: false).configModel!.currencyModel == 'single_currency':true;
     bool inRight = Provider.of<SplashController>(context, listen: false).configModel!=null?Provider.of<SplashController>(context, listen: false).configModel!.currencySymbolPosition == 'right':true;
+    String symbol=Provider.of<SplashController>(context, listen: false).myCurrency!=null?Provider.of<SplashController>(context, listen: false).myCurrency!.symbol:'ر.س';
 
-    return '${inRight ? '' : Provider.of<SplashController>(context, listen: false).myCurrency!.symbol} '
+    return '${inRight ? '' : symbol} '
         '${singleCurrency ? taxPrice.toStringAsFixed(2) : taxPrice.toStringAsFixed(2)} '
-        '${inRight ? Provider.of<SplashController>(context, listen: false).myCurrency!.symbol: ''} ';
+        '${inRight ? symbol: ''} ';
 
   }
 }

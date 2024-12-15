@@ -62,13 +62,13 @@ class SplashScreenState extends State<SplashScreen>
         bool isNotConnected = result != ConnectivityResult.wifi && result != ConnectivityResult.mobile;
         isNotConnected ? const SizedBox() : ScaffoldMessenger.of(context).hideCurrentSnackBar();
         if(!isNotConnected) {
-          Provider.of<AuthController>(Get.context!,listen: false). saveToken();
+          // Provider.of<AuthController>(Get.context!,listen: false). saveToken();
           _route();
         }
       }
       firstTime = false;
     });
-    Provider.of<AuthController>(Get.context!,listen: false). saveToken();
+    // Provider.of<AuthController>(Get.context!,listen: false). saveToken();
 
     _route();
   }

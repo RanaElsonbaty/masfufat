@@ -27,8 +27,12 @@ class _NotificationItemWidgetState extends State<NotificationItemWidget> {
     if(element==userId.toString()){
       seen=true;
     }
-    // print(widget.notificationItem.seen_by);
   }
+  }
+  void eyeTap(){
+    setState(() {
+      seen=true;
+    });
   }
   @override
   void initState() {
@@ -38,31 +42,30 @@ class _NotificationItemWidgetState extends State<NotificationItemWidget> {
   @override
   Widget build(BuildContext context) {
     return InkWell(onTap:(){
-      Provider.of<NotificationController>(context, listen: false).seenNotification(widget.notificationItem.id!,widget.index,);
+      // Provider.of<NotificationController>(context, listen: false).seenNotification(widget.notificationItem.id!,widget.index,);
       showModalBottomSheet(backgroundColor: Colors.transparent,
           context: context, builder: (context) =>
               NotificationDialogWidget(notificationModel: widget.notificationItem));},
         child: Container(margin: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
             color: Theme.of(context).cardColor,
-            child: ListTile(leading: Stack(children: [
-              ClipRRect(borderRadius: BorderRadius.circular(40),
-                  child: Container(decoration: BoxDecoration(
-                      border: Border.all(color: Theme.of(context).primaryColor.withOpacity(.15), width: .35),
-                      borderRadius: BorderRadius.circular(40)),
-                      child: CustomImageWidget(width: 50,height: 50,
-                          image: '${widget.notificationItem.image}'))),
-
-
-
-              if(widget.notificationItem.seen == null)
-                CircleAvatar(backgroundColor: Theme.of(context).colorScheme.error.withOpacity(.75),radius: 3)]),
+            child: ListTile(leading: ClipRRect(borderRadius: BorderRadius.circular(40),
+                child: Container(decoration: BoxDecoration(
+                    border: Border.all(color: Theme.of(context).primaryColor.withOpacity(.15), width: .35),
+                    borderRadius: BorderRadius.circular(40)),
+                    child: CustomImageWidget(width: 50,height: 50,
+                        image: '${widget.notificationItem.image}'))),
                 title: Text(widget.notificationItem.title??'',
                     style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault)),
 
                 subtitle: Text(DateConverter.localDateToIsoStringAMPM(DateTime.parse(widget.notificationItem.createdAt!)),
                     style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall,
                         color: ColorResources.getHint(context))),
-              trailing:seen==false? Icon(Icons.remove_red_eye,color: Colors.green.shade500,size: 20,):const SizedBox(),
+              trailing:seen==false? InkWell(
+                  onTap: (){
+                    Provider.of<NotificationController>(context, listen: false).seenNotification(widget.notificationItem.id!,widget.index,);
+                    eyeTap();
+                  },
+                  child: Icon(Icons.remove_red_eye,color: Colors.green.shade500,size: 20,)):const SizedBox(),
             )
         
         

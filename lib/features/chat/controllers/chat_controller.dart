@@ -622,8 +622,8 @@ try{
     _musicFile = '';
     _appDirectory = await getApplicationDocumentsDirectory();
     if(Platform.isIOS){
-      _path = "${_appDirectory.path}/${DateTime.now()}.m4a";}else{
-      _path = "${_appDirectory.path}/${DateTime.now()}.mp3";
+      _path = "${_appDirectory.path}/${'recorde'}.m4a";}else{
+      _path = "${_appDirectory.path}/${'recorde'}.mp3";
 
     }
     // notifyListeners();
@@ -662,7 +662,6 @@ print('object');
           notifyListeners();
         }
       } else {
-        // print('asdasdasdad${path}');
         await _recorderController.record(path: path!);
       }
 
@@ -730,10 +729,7 @@ print('object');
 
         }
 
-        // print(
-        //     "No file file ${support.file}");
-        // print(
-        //     "No file attachmentFile ${support.attachmentFile}");
+
       } else {
         print("No file selected");
       }

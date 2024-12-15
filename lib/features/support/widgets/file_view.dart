@@ -21,7 +21,7 @@ class FileView extends StatefulWidget {
 class _FileViewState extends State<FileView> {
   @override
   Widget build(BuildContext context) {
-
+// print(widget.replyModel[widget.index].fileUrl);
     return    InkWell(onTap: () {
       print( widget.replyModel[widget.index].fileType);
 if(widget.replyModel[widget.index].fileUrl.endsWith('mp3')||widget.replyModel[widget.index].fileUrl.endsWith('m4a')){}else {
@@ -54,11 +54,9 @@ if(widget.replyModel[widget.index].fileUrl.endsWith('mp3')||widget.replyModel[wi
           )
               : widget.replyModel[widget.index].fileUrl.endsWith('mp3')||widget.replyModel[widget.index].fileUrl.endsWith('m4a')?
           WaveBubble(
-            appDirectory: Directory(widget.replyModel[widget.index].fileUrl),
-            width: MediaQuery.of(context).size.width/2,
-            index: widget.index,
+            width: 120,
+            offline: false,
             isSender: true,
-            ofline: true,
             path:widget.replyModel[widget.index].fileUrl  ,
           ): const SizedBox.shrink()),);
   }

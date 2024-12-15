@@ -56,7 +56,7 @@ class SupportTicketRepository implements SupportTicketRepositoryInterface{
     try {
       var data =
       FormData.fromMap({'attachments[]': file, 'message': message});
-      // print('dfkjsfhskjfhksdjhfksdhfkshfksdhfksj$message');
+      print('dfkjsfhskjfhksdjhfksdhfkshfksdhfksj${file.first.filename}');
 
       final response = await dioClient!.post('${AppConstants.supportTicketReplyUri}$ticketID',data: data);
       return ApiResponse.withSuccess(response);
@@ -70,7 +70,16 @@ class SupportTicketRepository implements SupportTicketRepositoryInterface{
   @override
   Future<ApiResponse> closeSupportTicket(String ticketID) async {
     try {
-      final response = await dioClient!.get('${AppConstants.closeSupportTicketUri}$ticketID');
+      final response = await dioClient!.post('${AppConstants.closeSupportTicketUri}$ticketID');
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  }
+  @override
+  Future<ApiResponse> deleteSupportTicket(String ticketID) async {
+    try {
+      final response = await dioClient!.delete('${AppConstants.deleteSupportTicketUri}$ticketID');
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));

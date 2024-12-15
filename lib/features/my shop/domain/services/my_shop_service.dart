@@ -23,11 +23,11 @@ class MyShopService implements MyShopServiceInterface{
   Future addPriceToProduct(int id,String price) async{
     return myShopServiceInterface.addPriceToProduct(id,price);
   } @override
-  Future syncProduct(bool sync,) async{
-    return myShopServiceInterface.syncProduct(sync,);
+  Future syncProduct(bool sync,bool update) async{
+    return myShopServiceInterface.syncProduct(sync,update);
   } @override
- Future syncOneProduct(bool sync,int id) async{
-    return myShopServiceInterface.syncOneProduct(sync,id);
+ Future syncOneProduct(bool sync,int id,bool update) async{
+    return myShopServiceInterface.syncOneProduct(sync,id,update);
   } @override
 
 

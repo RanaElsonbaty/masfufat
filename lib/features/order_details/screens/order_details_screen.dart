@@ -16,6 +16,10 @@ import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../product/domain/models/product_model.dart';
+import '../../sync order/screens/order_checkout.dart';
+import 'OrderCheckout.dart';
+
 class OrderDetailsScreen extends StatefulWidget {
   final bool isNotification;
   final int? orderId;
@@ -79,6 +83,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 double? eeDiscount = 0;
                 double tax = 0;
                 double shippingCost = 0;
+                double coupon=0;
 
                 // orderProvider.orders.
                 if (orderProvider.orderDetails != null && orderProvider.orderDetails!.isNotEmpty) {
@@ -87,6 +92,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   }else{
                     shippingCost = orderProvider.orders?.shippingCost??0;
                   }
+                  // coupon=orderProvider.orders?.cou
 
                   for (var orderDetails in orderProvider.orderDetails!) {
                     if(orderDetails.productDetails!=null){
@@ -158,7 +164,45 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
 
                   const SizedBox(height: Dimensions.paddingSizeSmall),
-                  CancelAndSupportWidget(orderModel: orderProvider.orders,orderDetailsModel: orderProvider.orderDetails!,),
+                   if(orderProvider.orders!.paymentStatus=='unpaid')
+                     Consumer<OrderDetailsController>(builder:(context, order, child) {
+                       List<Product> product=[];
+
+                       if(orderProvider.orderDetails!=null){
+                       for (var element in orderProvider.orderDetails!) {
+                         if(element.productDetails!=null){
+                         product.add(element.productDetails!);
+                         }
+                       }
+                       }
+
+                       return InkWell(
+                         onTap: (){
+                           Navigator.push(context,MaterialPageRoute(builder: (context) => OrderNormalCheckout(itemTotalAmount: itemTotalAmount, discount:discount, tax:tax, shippingCost: shippingCost, id: widget.orderId!,
+                             total: (itemTotalAmount + shippingCost - eeDiscount! - orderProvider.orders!.discountAmount - discount  + tax+(shippingCost*0.15)),
+                             product: product, orderDetailsModel: orderProvider.orderDetails!,),));
+                         },
+                         child:  Padding(
+                           padding: const EdgeInsets.symmetric(
+                               horizontal: 8, vertical: 10),
+                           child: Container(
+                             height: 40,
+                             margin: const EdgeInsets.only(top: 4),
+                             width: MediaQuery.of(context).size.width,
+                             decoration: BoxDecoration(
+                               color: Theme.of(context).primaryColor,
+                               borderRadius: BorderRadius.circular(4),
+                             ),
+                             child: Center(
+                                 child: Text(
+                                   getTranslated('proceed', context)!,
+                                   style:  GoogleFonts.tajawal(fontSize: 20,color: Colors.white,fontWeight: FontWeight.w500),
+                                 )),
+                           ),
+                         ),
+                       );
+                     })
+                   // CancelAndSupportWidget(orderModel: orderProvider.orders,orderDetailsModel: orderProvider.orderDetails!,),
                 ],
                 ) : const NoInternetOrDataScreenWidget(isNoInternet: false, ):const OrderDetailsShimmer();
               },

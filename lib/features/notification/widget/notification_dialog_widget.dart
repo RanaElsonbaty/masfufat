@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/notification/domain/models/notification_model.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/date_converter.dart';
@@ -20,7 +21,7 @@ class NotificationDialogWidget extends StatelessWidget {
           const SizedBox(height: Dimensions.paddingSizeDefault,),
 
           InkWell(onTap: ()=>Navigator.of(context).pop(),
-            child: Container(width: 40,height: 5,decoration: BoxDecoration(
+            child: Container(width: 120,height: 5,decoration: BoxDecoration(
                 color: Theme.of(context).hintColor.withOpacity(.5),
                 borderRadius: BorderRadius.circular(20)))),
           const SizedBox(height: 20,),
@@ -42,27 +43,31 @@ class NotificationDialogWidget extends StatelessWidget {
               child: Text(notificationModel.title!, textAlign: TextAlign.center,
                 style: GoogleFonts.tajawal(color: Theme.of(context).primaryColor,
                     fontSize: Dimensions.fontSizeLarge+15))),
+        const SizedBox(height: 15,),
+
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: HtmlWidget(notificationModel.description!,textStyle: GoogleFonts.tajawal(
+          child: HtmlWidget(notificationModel.description!,
+
+
+              textStyle: GoogleFonts.tajawal(
             fontSize: 16,
+
+
             fontWeight: FontWeight.w400
           ), onTapUrl: (String url) {
             return launchUrl(Uri.parse(url),mode: LaunchMode.externalApplication);
           }),
         ),
-            // Padding(padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
-            //   child: Text(notificationModel.description!, textAlign: TextAlign.center,
-            //       style: titilliumRegular.copyWith(
-            //         fontSize: 24
-            //       ))),
+const SizedBox(height: 10,),
         Padding(padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
             child: Text(DateConverter.isoStringToLocalDateAndTime(notificationModel.createdAt!), textAlign: TextAlign.center,
-                style: titilliumRegular.copyWith(
+                style: GoogleFonts.cairo(
+                  color: Colors.grey
                     // fontSize: 25
                 ))),
 
-          const SizedBox(height: Dimensions.paddingSizeSmall)
+          const SizedBox(height: 10)
           ],
         ),
     ),

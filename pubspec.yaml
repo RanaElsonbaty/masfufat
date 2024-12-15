@@ -15,7 +15,7 @@ dependencies:
 
   flutter_barcode_scanner: ^2.0.0
   widget_zoom: ^0.0.4
-#  kommon: ^0.4.1
+  #  kommon: ^0.4.1
   photo_manager: ^3.3.0
   flutter_screenutil: ^5.9.3
   flutter_cache_manager:
@@ -41,7 +41,7 @@ dependencies:
   google_maps_webservice: any
   awesome_snackbar_content: ^0.1.0
   bcrypt: ^1.1.3
-  
+
   lazy_load_scrollview: ^1.3.0
   flutter_background_service: ^5.0.10
   shared_preferences: ^2.0.5
@@ -78,7 +78,7 @@ dependencies:
   flutter_widget_from_html: ^0.14.11
   fluttertoast: ^8.0.9
   permission_handler: ^11.1.0
-  flutter_downloader: ^1.11.7
+  flutter_downloader:
 #  flutter_inappwebview: ^5.8.0
   path: ^1.8.3
   camera:
@@ -109,13 +109,13 @@ dependencies:
   open_file_manager: ^1.0.2
 
 
-#  chat
+  #  chat
   open_file:
   open_document: ^1.0.7
-#  voice
-  record:
+  #  voice
+#  record: ^5.2.0
   audio_waveforms: ^1.0.4
-#  video
+  #  video
   video_player: ^2.9.1
   internet_file: ^1.2.0
   pdfx: ^2.6.0

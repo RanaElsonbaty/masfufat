@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../screens/sync_orde_details.dart';
 
 
+
 class SyncOrderWidget extends StatelessWidget {
   final SyncOrderModel? orderModel;
   const SyncOrderWidget({super.key, this.orderModel});

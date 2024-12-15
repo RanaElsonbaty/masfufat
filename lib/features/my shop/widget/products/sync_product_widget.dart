@@ -35,23 +35,22 @@ class SyncProductWidget extends StatefulWidget {
 class _SyncProductWidgetState extends State<SyncProductWidget> {
   @override
   void initState() {
-
-      getProfit(double.parse(widget.controller.text));
-
+    getProfit(double.parse(
+        widget.controller.text.isNotEmpty ? widget.controller.text : '0'));
 
     super.initState();
   }
- @override
+
+  @override
   void didUpdateWidget(covariant SyncProductWidget oldWidget) {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
-      getProfit(double.parse(widget.controller.text));
+    getProfit(double.parse(
+        widget.controller.text.isNotEmpty ? widget.controller.text : '0'));
   }
-TextEditingController profit =TextEditingController(text: '0');
-TextEditingController percentage =TextEditingController(text: '0');
 
-
-
+  TextEditingController profit = TextEditingController(text: '0');
+  TextEditingController percentage = TextEditingController(text: '0');
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +63,7 @@ TextEditingController percentage =TextEditingController(text: '0');
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
           child: Consumer<MyShopController>(
-            builder:(context, myShopProvider, child) =>  Column(
+            builder: (context, myShopProvider, child) => Column(
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,13 +81,11 @@ TextEditingController percentage =TextEditingController(text: '0');
                           // ,
                           side: BorderSide.none,
                           // ,
-                          fillColor:
-                              myShopProvider.selectIds.contains(widget.pending.id)
-                                  ? null
-                                  : MaterialStateProperty.all(Colors.white),
+                          fillColor: myShopProvider.selectIds
+                                  .contains(widget.pending.id)
+                              ? null
+                              : MaterialStateProperty.all(Colors.white),
 
-                          // fillColor: MaterialStateProperty.,
-                          // fillColor: const MaterialStateProperty(Colors.white),
                           checkColor: Colors.white,
 
                           activeColor: Theme.of(context).primaryColor,
@@ -168,7 +165,8 @@ TextEditingController percentage =TextEditingController(text: '0');
                             Clipboard.setData(
                                 ClipboardData(text: widget.pending.itemNumber));
                             showCustomSnackBar(
-                              getTranslated('The_text_has_been_copied', context),
+                              getTranslated(
+                                  'The_text_has_been_copied', context),
                               context,
                               isError: false,
                             );
@@ -187,7 +185,8 @@ TextEditingController percentage =TextEditingController(text: '0');
                                 child: Text(
                                   widget.pending.itemNumber.toString(),
                                   style: GoogleFonts.tajawal(
-                                      fontSize: 16, fontWeight: FontWeight.w400),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
                                 ),
                               ),
                               const Spacer(),
@@ -207,7 +206,8 @@ TextEditingController percentage =TextEditingController(text: '0');
                             Clipboard.setData(
                                 ClipboardData(text: widget.pending.code));
                             showCustomSnackBar(
-                              getTranslated('The_text_has_been_copied', context),
+                              getTranslated(
+                                  'The_text_has_been_copied', context),
                               context,
                               isError: false,
                             );
@@ -221,11 +221,12 @@ TextEditingController percentage =TextEditingController(text: '0');
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                               Padding(
-                                 padding: const EdgeInsets.only(top: 3.0),
+                                padding: const EdgeInsets.only(top: 3.0),
                                 child: Text(
                                   widget.pending.code,
                                   style: GoogleFonts.tajawal(
-                                      fontSize: 16, fontWeight: FontWeight.w400),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
                                 ),
                               ),
                               const Spacer(),
@@ -245,92 +246,103 @@ TextEditingController percentage =TextEditingController(text: '0');
                           children: [
                             Expanded(
                               child: Text(
-                                '${getTranslated('cost', context)!} :${PriceConverter.convertPrice(
-                                                  context, widget.pending.pricings.value)}',
+                                '${getTranslated('cost', context)!} :${PriceConverter.convertPrice(context, widget.pending.pricings.value)}',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.tajawal(
-                                    fontSize:  myShopProvider.switch1?14:16, fontWeight: FontWeight.w400),
+                                    fontSize: myShopProvider.switch1 ? 14 : 16,
+                                    fontWeight: FontWeight.w400),
                               ),
                             ),
-
-
-                            myShopProvider.switch1?    Expanded(
-                              flex: 1,
-                              child: Text.rich(
-                                TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: '${getTranslated('tax', context)!} :',
-                                      style: GoogleFonts.tajawal(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: PriceConverter.convertPrice(
-                                          context,
-                                         ((widget.pending.taxType == 'percent' ||
-                                              widget.pending.taxType != null)
-                                              ? ((widget.pending.tax / 100) * widget.pending.pricings.value)
-                                              : widget.pending.tax)
-                                              ),
-                                      style: GoogleFonts.tajawal(
-                                        color: Colors.red,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-
-                            ):const SizedBox.square(),
-
-                            myShopProvider.switch1?  Expanded(
-                              child: Text.rich(
-                                TextSpan(
-                                    children: [
-                                TextSpan(
-                                text: '${getTranslated('total', context)!} :',
-                                style: GoogleFonts.tajawal(
-                                  fontSize: 14, fontWeight: FontWeight.w400,
-                                ),
-                              ),
+                            myShopProvider.switch1
+                                ? Expanded(
+                                    flex: 1,
+                                    child: Text.rich(
                                       TextSpan(
-                                        text: PriceConverter.convertPrice(
-                                          context,
-                                       (widget.pending.pricings.value +
-                                              (widget.pending.taxType == 'percent' ||
-                                                  widget.pending.taxType != null
-                                                  ? ((widget.pending.tax / 100) *
-                                                  widget.pending.pricings.value)
-                                                  : widget.pending.tax)
-                                              ),),
-                                          style: GoogleFonts.tajawal(
-                                            fontSize: 14, fontWeight: FontWeight.w400,
-                                            color: Colors.green.shade500
+                                        children: [
+                                          TextSpan(
+                                            text:
+                                                '${getTranslated('tax', context)!} :',
+                                            style: GoogleFonts.tajawal(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                            ),
                                           ),
-                              
-                                        ),
+                                          TextSpan(
+                                            text: PriceConverter.convertPrice(
+                                                context,
+                                                ((widget.pending.taxType ==
+                                                            'percent' ||
+                                                        widget.pending
+                                                                .taxType !=
+                                                            null)
+                                                    ? ((widget.pending.tax /
+                                                            100) *
+                                                        widget.pending.pricings
+                                                            .value)
+                                                    : widget.pending.tax)),
+                                            style: GoogleFonts.tajawal(
+                                              color: Colors.red,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
                                         ],
-
                                       ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                            ):const SizedBox.shrink(),
+                                  )
+                                : const SizedBox.square(),
+                            myShopProvider.switch1
+                                ? Expanded(
+                                    child: Text.rich(
+                                      TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text:
+                                                '${getTranslated('total', context)!} :',
+                                            style: GoogleFonts.tajawal(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text: PriceConverter.convertPrice(
+                                              context,
+                                              (widget.pending.pricings.value +
+                                                  (widget.pending.taxType ==
+                                                              'percent' ||
+                                                          widget.pending
+                                                                  .taxType !=
+                                                              null
+                                                      ? ((widget.pending.tax /
+                                                              100) *
+                                                          widget.pending
+                                                              .pricings.value)
+                                                      : widget.pending.tax)),
+                                            ),
+                                            style: GoogleFonts.tajawal(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.green.shade500),
+                                          ),
+                                        ],
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  )
+                                : const SizedBox.shrink(),
                           ],
                         ),
-
                         const SizedBox(
                           height: 5,
-                        ),       Row(
+                        ),
+                        Row(
                           children: [
                             SizedBox(
-                              width: 110  .w,
+                              width: 110.w,
                               child: Text(
                                 '${getTranslated('Amount_and_percentage_of_profit', context)!} :',
                                 maxLines: 1,
@@ -339,88 +351,112 @@ TextEditingController percentage =TextEditingController(text: '0');
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                             ),
-                            const SizedBox(width: 5,),
+                            const SizedBox(
+                              width: 5,
+                            ),
                             Expanded(
                               child: Container(
-                                height: 35,
-                                // width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(4),
-                                  border: Border.all(width: 1,color:double.parse(profit.text)>0?Colors.green: Colors.red)
-                                ),
-                                child: TextField(
-                                  controller: profit,
-                                  textAlign: TextAlign.center,
-
-                                  onSubmitted: (val){
-                                    getPriceFromProfit(double.parse(val),widget.pending.pricings.value);
-                                  },
-                                  onChanged: (val){
-                                    getPriceFromProfit(double.parse(val),widget.pending.pricings.value);
-
-                                  },
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')), // Allow digits and decimal point
-                                  ],
-                                  decoration:  InputDecoration(
-
-                                      suffix: Padding(
-                                        padding: const EdgeInsets.only(left: 5.0,right: 5),
-
-                                        child: Text(Provider.of<SplashController>(context, listen: false).myCurrency!.symbol,style: TextStyle(color: Theme.of(context).iconTheme.color,height: .8),),
-                                      ),
-                                    border: InputBorder.none
+                                  height: 35,
+                                  // width: 100,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                      border: Border.all(
+                                          width: 1,
+                                          color: double.parse(profit.text) > 0
+                                              ? Colors.green
+                                              : Colors.red)),
+                                  child: TextField(
+                                    controller: profit,
+                                    textAlign: TextAlign.center,
+                                    onSubmitted: (val) {
+                                      getPriceFromProfit(double.parse(val),
+                                          widget.pending.pricings.value);
+                                    },
+                                    onChanged: (val) {
+                                      getPriceFromProfit(double.parse(val),
+                                          widget.pending.pricings.value);
+                                    },
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp(r'[0-9.]')),
+                                      // Allow digits and decimal point
+                                    ],
+                                    decoration: InputDecoration(
+                                        isDense: true,
+                                        contentPadding:
+                                            const EdgeInsets.fromLTRB(
+                                                0.0, 3.0, 0.0, 0.0),
+                                        suffix: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 5.0, right: 5),
+                                          child: Text(
+                                            Provider.of<SplashController>(
+                                                    context,
+                                                    listen: false)
+                                                .myCurrency!
+                                                .symbol,
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .iconTheme
+                                                    .color,
+                                                height: .8),
+                                          ),
+                                        ),
+                                        border: InputBorder.none),
+                                  )
+                                  // Text(PriceConverter.convertPrice(context,double.tryParse(profit.toStringAsFixed(2)))),
                                   ),
-                                )
-                                // Text(PriceConverter.convertPrice(context,double.tryParse(profit.toStringAsFixed(2)))),
-                              ),
                             ),
-                            const SizedBox(width: 5,),
+                            const SizedBox(
+                              width: 5,
+                            ),
                             Expanded(
                               child: Container(
-                                height: 35,
-                                // width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(4),
-                                  border: Border.all(width: 1,color: double.parse(profit.text)>0?Colors.green:Colors.red)
-                                ),
-                                child: TextField(
-                                  controller:percentage,
-
-                                  textAlign: TextAlign.center,
-                                  onSubmitted: (val){
-                                    getProfitFromPercentage(double.parse(val),widget.pending.pricings.value);
-                                  },
-
-                                  onChanged: (val){
-                                    getProfitFromPercentage(double.parse(val),widget.pending.pricings.value);
-
-                                  }, inputFormatters: [
-                                  FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')), // Allow digits and decimal point
-                                ],
-                                  decoration:  InputDecoration(
-
-                                      suffix: Padding(
-                                        padding: const EdgeInsets.only(left: 5.0,right: 5),
-                                        child: Text('%',style: TextStyle(color: Theme.of(context).iconTheme.color,height: .8),),
-                                      ),
-                                      border: InputBorder.none
-                                  ),
-                                )
-                                // Center(
-                                //   child: Text('${percentage.toStringAsFixed(2)} %'),
-                                // ),
-                              ),
+                                  height: 35,
+                                  // width: 100,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                      border: Border.all(
+                                          width: 1,
+                                          color: double.parse(profit.text) > 0
+                                              ? Colors.green
+                                              : Colors.red)),
+                                  child: TextField(
+                                    controller: percentage,
+                                    textAlign: TextAlign.center,
+                                    onSubmitted: (val) {
+                                      getProfitFromPercentage(double.parse(val),
+                                          widget.pending.pricings.value);
+                                    },
+                                    onChanged: (val) {
+                                      getProfitFromPercentage(double.parse(val),
+                                          widget.pending.pricings.value);
+                                    },
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp(r'[0-9.]')),
+                                      // Allow digits and decimal point
+                                    ],
+                                    decoration: InputDecoration(
+                                        isDense: true,
+                                        contentPadding:
+                                            const EdgeInsets.fromLTRB(
+                                                0.0, 3.0, 0.0, 0.0),
+                                        suffix: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 5.0, right: 5),
+                                          child: Text(
+                                            '%',
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .iconTheme
+                                                    .color,
+                                                height: .8),
+                                          ),
+                                        ),
+                                        border: InputBorder.none),
+                                  )),
                             ),
-                            // Padding(
-                            //   padding: const EdgeInsets.only(top: 3.0),
-                            //   child: Text(
-                            //     PriceConverter.convertPrice(
-                            //         context, widget.pending.pricings.value+(widget.pending.taxType=='percent'?((widget.pending.tax/100)*widget.pending.pricings.value):widget.pending.tax)),
-                            //     style: GoogleFonts.tajawal(
-                            //         fontSize: 16, fontWeight: FontWeight.w400),
-                            //   ),
-                            // ),
                           ],
                         ),
                         const SizedBox(
@@ -461,141 +497,183 @@ TextEditingController percentage =TextEditingController(text: '0');
                             ),
                             SizedBox(
                               width: 150,
-                              height:50,
+                              height: 50,
                               child: ClipRRect(
-                                child: TextFormField(
-                                  controller: widget.controller,
-                                  decoration: InputDecoration(
-                                    hintText:  '${widget.controller.text} ',
-                                    hintStyle: GoogleFonts.tajawal(
+                                  child: TextFormField(
+                                controller: widget.controller,
+                                decoration: InputDecoration(
+                                  hintText:
+                                      '${widget.controller.text.isNotEmpty ? widget.controller.text : ''} ',
+                                  hintStyle: GoogleFonts.tajawal(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
-                                      color: Colors.grey
-                                    ),
-                                    suffix: Padding(
-                                      padding: const EdgeInsets.only(left: 5.0,right: 5),
-
-                                      child: Text(Provider.of<SplashController>(context, listen: false).myCurrency!.symbol,style:  TextStyle(color:  Theme.of(context).iconTheme.color,height: .8),),
-                                    ),
-
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                                      color: Colors.grey),
+                                  suffix: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 5.0, right: 5),
+                                    child: Text(
+                                      Provider.of<SplashController>(context,
+                                              listen: false)
+                                          .myCurrency!
+                                          .symbol,
+                                      style: TextStyle(
+                                          color:
+                                              Theme.of(context).iconTheme.color,
+                                          height: .8),
                                     ),
                                   ),
-                                    keyboardType: const TextInputType.numberWithOptions(decimal: false),
-
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')), // Allow digits and decimal point
-                                  ],
-                                  onChanged: (val){
-                                    if(val!=''&&val.isNotEmpty){
-                                      getProfit(double.parse(val));
-
-                                    }else{
-                                      getProfit(0);
-
-                                    }
-
-                                  },
-
-                                  textAlign: TextAlign.center,
-
-                                )
-                                // CustomTextFieldWidget(
-                                //   controller: widget.controller,
-                                //   maxLines: 1,
-                                //   showBorder: true,
-                                //
-                                //   showLabelText: false,
-                                //   // borderColor: Colors.black,
-                                //   filled: true,
-                                //   // borderColor: Colors.black,
-                                //   labelText: '140 ر.س',
-                                //
-                                //   hintText: '140 ر.س',
-                                //   isAmount: true,
-                                // ),
-                              ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor),
+                                  ),
+                                ),
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: false),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'[0-9.]')),
+                                  // Allow digits and decimal point
+                                ],
+                                onChanged: (val) {
+                                  if (val != '' && val.isNotEmpty) {
+                                    getProfit(double.parse(val));
+                                  } else {
+                                    getProfit(0);
+                                  }
+                                },
+                                textAlign: TextAlign.center,
+                              )),
                             ),
                             const Spacer(),
                             Consumer<MyShopController>(
-                              builder:(context, myShop, child) =>  InkWell(
-                                onTap: ()async{
+                              builder: (context, myShop, child) => InkWell(
+                                onTap: () async {
                                   print(widget.pending.id);
                                   print(widget.controller.text);
-                                  double tax=0.00;
+                                  double tax = 0.00;
 
-                                  if(myShop.switch2){
-                                    tax= ((((((double.parse(myShop.taxController.text)/100)*double.parse(widget.controller.text))))));
-print('tax---->$tax');
+                                  if (myShop.switch2) {
+                                    tax = ((((((double.parse(
+                                                myShop.taxController.text) /
+                                            100) *
+                                        double.parse(
+                                            widget.controller.text))))));
+                                    print('tax ----> $tax');
                                   }
                                   dialog('Products_are_being_synced');
-                                  await myShop.addProductPrice(widget.pending.id, (double.parse(widget.controller.text)+tax).toString()).then((value)async {
-                                    await myShop.syncOneProduct(false,widget.pending.id).then((value) {
-                                    if(value==false){
-                                      showCustomSnackBar('${getTranslated('Product_sync_failed', Get.context!)} sku : ${widget.pending.code}', Get.context!, isError: true);
-
-                                    }
+                                  await myShop
+                                      .addProductPrice(
+                                          widget.pending.id,
+                                          (double.parse(
+                                                      widget.controller.text) +
+                                                  tax)
+                                              .toString())
+                                      .then((value) async {
+                                        print(value);
+                                    await myShop
+                                        .syncOneProduct(
+                                            false, widget.pending.id,false)
+                                        .then((value) {
+                                      if (value == false) {
+                                        showCustomSnackBar(
+                                            '${getTranslated('Product_sync_failed', Get.context!)} sku : ${widget.pending.code}',
+                                            Get.context!,
+                                            isError: true);
+                                      }
                                     });
                                     await myShop.getList();
-                                    myShop. initController();
+                                    myShop.initController();
                                     Navigator.pop(diagloContext);
-
                                   });
-
-
                                 },
                                 child: Padding(
-                                  padding: const EdgeInsets.only(top: 8,),
-                                  child: Image.asset(Images.sync,width: 25,),
+                                  padding: const EdgeInsets.only(
+                                    top: 8,
+                                  ),
+                                  child: Image.asset(
+                                    Images.sync,
+                                    width: 25,
+                                  ),
                                 ),
                               ),
                             )
                             // const SizedBox(width: 15,),
                           ],
                         ),
-                        const SizedBox(height: 5,),
-                        Row(children: [
-                          myShopProvider.switch2?    Row(
-                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                '${getTranslated('tax', context)!} :',
-                                style: GoogleFonts.tajawal(
-                                    fontSize: 16, fontWeight: FontWeight.w400),
-                              ),
-                              Text(
-                                PriceConverter.convertPrice(
-                                    context, double.parse(((((double.parse(myShopProvider.taxController.text)/100)*double.parse(widget.controller.text)))).toStringAsFixed(2))),
-                                style: GoogleFonts.tajawal(
-                                    color: Colors.red,
-                                    fontSize: 16, fontWeight: FontWeight.w400),
-                              ),
-                            ],
-                          ):const SizedBox.square(),
-                          const SizedBox(width: 5,),
-
-                          myShopProvider.switch2?  Row(
-
-                            children: [
-                              Text(
-                                '${getTranslated('total', context)!} :',
-                                style: GoogleFonts.tajawal(
-                                    fontSize: 16, fontWeight: FontWeight.w400),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 3.0),
-                                child: Text(
-                                  PriceConverter.convertPrice(
-                                      context, double.parse((double.parse(widget.controller.text)+(((double.parse(myShopProvider.taxController.text)/100)*double.parse(widget.controller.text)))).toStringAsFixed(2))),
-                                  style: GoogleFonts.tajawal(
-                                      color: Colors.green,
-                                      fontSize: 16, fontWeight: FontWeight.w400),
-                                ),
-                              ),
-                            ],
-                          ):const SizedBox.shrink(),
-                        ],)
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            myShopProvider.switch2
+                                ? Row(
+                                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        '${getTranslated('tax', context)!} :',
+                                        style: GoogleFonts.tajawal(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                      Text(
+                                        PriceConverter.convertPrice(
+                                            context,
+                                            double.parse(((((double.parse(
+                                                            myShopProvider
+                                                                .taxController
+                                                                .text) /
+                                                        100) *
+                                                    double.parse(widget
+                                                        .controller.text))))
+                                                .toStringAsFixed(2))),
+                                        style: GoogleFonts.tajawal(
+                                            color: Colors.red,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ],
+                                  )
+                                : const SizedBox.square(),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            myShopProvider.switch2
+                                ? Row(
+                                    children: [
+                                      Text(
+                                        '${getTranslated('total', context)!} :',
+                                        style: GoogleFonts.tajawal(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 3.0),
+                                        child: Text(
+                                          PriceConverter.convertPrice(
+                                              context,
+                                              double.parse((double.parse(widget
+                                                          .controller.text) +
+                                                      (((double.parse(myShopProvider
+                                                                  .taxController
+                                                                  .text) /
+                                                              100) *
+                                                          double.parse(widget
+                                                              .controller
+                                                              .text))))
+                                                  .toStringAsFixed(2))),
+                                          style: GoogleFonts.tajawal(
+                                              color: Colors.green,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : const SizedBox.shrink(),
+                          ],
+                        )
                       ],
                     ),
                   ),
@@ -610,105 +688,86 @@ print('tax---->$tax');
       ),
     );
   }
+  // https://platform.masfufat.com/product/btary-mtnklh-20100-mly-ambyr-ankr-abyd-mnfthyn-LL1pOd
   void getProfit(double val) {
-    MyShopController myShop=Provider.of<MyShopController>(context,listen: false);
-    double value =widget.pending.pricings.value;
+    MyShopController myShop =
+        Provider.of<MyShopController>(context, listen: false);
+    double value = widget.pending.pricings.value;
 
-    if(myShop.switch2){
-      val= val;
-          // +((((((double.parse(myShop.taxController.text)/100)*double.parse(widget.controller.text))))));
-
-    }else{
-      value =widget.pending.pricings.value
-          +
+    if (myShop.switch2) {
+      val = val;
+    } else {
+      value = widget.pending.pricings.value +
           (widget.pending.taxType == 'percent' || widget.pending.taxType != null
               ? ((widget.pending.tax / 100) * widget.pending.pricings.value)
               : widget.pending.tax);
     }
-
-
 
     setState(() {
       profit.text = (val - value).toStringAsFixed(2);
-      percentage.text = ((double.parse(profit .text)/ (value)) * 100).toStringAsFixed(2);
+      percentage.text =
+          ((double.parse(profit.text) / (value)) * 100).toStringAsFixed(2);
     });
-
   }
-  void getPriceFromProfit(double val,double price) {
-    MyShopController myShop=Provider.of<MyShopController>(context,listen: false);
-    double value =price;
 
-    if(myShop.switch2){
-      val= val;
-      // +((((((double.parse(myShop.taxController.text)/100)*double.parse(widget.controller.text))))));
+  void getPriceFromProfit(double val, double price) {
+    MyShopController myShop =
+        Provider.of<MyShopController>(context, listen: false);
+    double value = price;
 
-    }else{
-      value = price
-          +
+    if (myShop.switch2) {
+      val = val;
+    } else {
+      value = price +
           (widget.pending.taxType == 'percent' || widget.pending.taxType != null
               ? ((widget.pending.tax / 100) * widget.pending.pricings.value)
               : widget.pending.tax);
     }
 
-
-print('Profit $value');
+    print('Profit $value');
     setState(() {
-    widget.controller.text=(value+val).toStringAsFixed(2);
-    percentage.text = ((val / value) * 100).toStringAsFixed(2);
+      widget.controller.text = (value + val).toStringAsFixed(2);
+      percentage.text = ((val / value) * 100).toStringAsFixed(2);
     });
-
-
   }
 
+  void getProfitFromPercentage(double val, double price) {
+    MyShopController myShop =
+        Provider.of<MyShopController>(context, listen: false);
+    double value = price;
 
-
-
-
-  void getProfitFromPercentage(double val,double price) {
-    MyShopController myShop=Provider.of<MyShopController>(context,listen: false);
-    double value =price;
-
-    if(myShop.switch2){
-      val= val;
-          // +((((((double.parse(myShop.taxController.text)/100)*double.parse(widget.controller.text))))));
-
-    }else{
-      value = price
-          +
+    if (myShop.switch2) {
+      val = val;
+    } else {
+      value = price +
           (widget.pending.taxType == 'percent' || widget.pending.taxType != null
               ? ((widget.pending.tax / 100) * widget.pending.pricings.value)
               : widget.pending.tax);
     }
 
-
-
-
     setState(() {
-      profit .text=((val*value)/100).toStringAsFixed(2);
-      widget.controller.text=(double.parse(profit.text) +value).toStringAsFixed(2);
+      profit.text = ((val * value) / 100).toStringAsFixed(2);
+      widget.controller.text =
+          (double.parse(profit.text) + value).toStringAsFixed(2);
     });
-
-
   }
-  BuildContext diagloContext=Get.context!;
 
-  Future dialog(String text){
+  BuildContext diagloContext = Get.context!;
 
+  Future dialog(String text) {
     return showDialog(
-
-      barrierDismissible: false  ,
+      barrierDismissible: false,
       context: diagloContext,
-
       builder: (context) {
-        return  Padding(
-          padding:  EdgeInsets.symmetric(horizontal: 50.0,vertical: MediaQuery.of(context).size.width/1.7),
+        return Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: 50.0,
+              vertical: MediaQuery.of(context).size.width / 1.7),
           child: Container(
-            height:300,
+            height: 300,
             decoration: BoxDecoration(
-
               borderRadius: BorderRadius.circular(12),
               color: Theme.of(context).cardColor,
-
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -718,18 +777,20 @@ print('Profit $value');
                     color: Theme.of(context).primaryColor,
                   ),
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(getTranslated(text, context)!,
+                  child: Text(
+                    getTranslated(text, context)!,
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.visible,
                     style: GoogleFonts.tajawal(
                         color: Theme.of(context).iconTheme.color,
                         fontWeight: FontWeight.w600,
-                        fontSize: 22
-
-                    ),),
+                        fontSize: 22),
+                  ),
                 )
               ],
             ),
@@ -738,5 +799,4 @@ print('Profit $value');
       },
     );
   }
-
 }

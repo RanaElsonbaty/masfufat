@@ -49,17 +49,17 @@ class ProductRepository implements ProductRepositoryInterface{
 print(onlyBrand);
       if(isBrand){
         if(syncFilter.isEmpty||filter.isEmpty||search.isEmpty) {
-          if(onlyBrand==true){
-            uri = '${AppConstants.brandProductUri}$brandId&page=$offset${price !=
+          // if(onlyBrand==true){
+            uri = '${AppConstants.brandProductUri}$brandId&category=$id&page=$offset${price !=
                 '&from_price=0.0&to_price=0.0' ? price : ''}${syncFilter
                 .isNotEmpty ? '&product_type=$syncFilter' : ''}${filter.isNotEmpty
                 ? '&order_by=$filter'
                 : ""}${search.isNotEmpty ? '&search=$search' : ''}';
 
-          }else{
-            uri = '/api/v1/products_filter/$brandId/$id?page=$offset${price !=
-                '&from_price=0.0&to_price=0.0' ? price : ''}';
-          }
+          // }else{
+          //   uri = '/api/v1/products_filter/$brandId/$id?page=$offset${price !=
+          //       '&from_price=0.0&to_price=0.0' ? price : ''}';
+          // }
 
         }else {
           uri = '${AppConstants.brandProductUri}$id&page=$offset${price !=

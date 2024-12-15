@@ -17,12 +17,14 @@ class ConfigModel {
   final bool showSellerRatings;
   final bool showSellerOrders;
   final bool chatWithSellerStatus;
+  final bool chatWithDeliveryStatus;
   final bool sellersProductsCount;
   final String sellerRegistration;
   // final LinkedAccountsSallaClass? linkedAccountsSalla;
 
   final int companyPhone;
   final String companyEmail;
+  final String companyAddress;
   final String companyLogo;
   final int deliveryCountryRestriction;
   final int deliveryZipCodeAreaRestriction;
@@ -68,9 +70,11 @@ class ConfigModel {
     required this.digitalPayment,
     required this.cashOnDelivery,
     required this.sellerRegistration,
+    required this.chatWithDeliveryStatus,
     required this.sellersProductsCount,
     required this.companyPhone,
     required this.companyEmail,
+    required this.companyAddress,
     required this.companyLogo,
     required this.showSellerRatings,
     required this. showSellerOrders,
@@ -119,6 +123,7 @@ class ConfigModel {
     digitalProductSetting: json["digital_product_setting"],
     systemDefaultCurrency: json["system_default_currency"],
     chatWithSellerStatus: json['chat_with_seller_status']=='1'?true:false,
+    chatWithDeliveryStatus: json['chat_with_delivery_status']=='1'?true:false,
     showSellerOrders: json['show_seller_orders']=='1'?true:false,
     showSellerRatings: json['show_seller_ratings']=='1'?true:false,
     sellersProductsCount:json['show_sellers_products_count']!=null&&json['show_sellers_products_count']==0?false:true,
@@ -127,6 +132,7 @@ class ConfigModel {
     sellerRegistration: json["seller_registration"],
     companyPhone: json["company_phone"],
     companyEmail: json["company_email"],
+    companyAddress: json["company_address"],
     companyLogo: json["company_logo"],
     deliveryCountryRestriction: json["delivery_country_restriction"],
     deliveryZipCodeAreaRestriction: json["delivery_zip_code_area_restriction"],
@@ -545,40 +551,9 @@ class PaymentMethods {
     delayed: CashOnDelivery.fromJson(json["delayed"]),
     wallet: CashOnDelivery.fromJson(json["wallet"]),
     bankTransfer: AmazonPay.fromJson(json["bank_transfer"]),
-    // mercadopago: AmazonPay.fromJson(json["mercadopago"]),
-    // liqpay: AmazonPay.fromJson(json["liqpay"]),
-    // paypal: AmazonPay.fromJson(json["paypal"]),
-    // hyperPay: AmazonPay.fromJson(json["hyper_pay"]),
-    // foloosi: AmazonPay.fromJson(json["foloosi"]),
-    // paytm: AmazonPay.fromJson(json["paytm"]),
-    // amazonPay: AmazonPay.fromJson(json["amazon_pay"]),
-    // paytabs: AmazonPay.fromJson(json["paytabs"]),
-    // bkash: AmazonPay.fromJson(json["bkash"]),
+
     fatoorah: AmazonPay.fromJson(json["fatoorah"]),
-    // ccavenue: AmazonPay.fromJson(json["ccavenue"]),
-    // thawani: AmazonPay.fromJson(json["thawani"]),
-    // sixcash: AmazonPay.fromJson(json["sixcash"]),
-    // hubtel: AmazonPay.fromJson(json["hubtel"]),
-    // tap: AmazonPay.fromJson(json["tap"]),
-    // swish: AmazonPay.fromJson(json["swish"]),
-    // payfast: AmazonPay.fromJson(json["payfast"]),
-    // esewa: AmazonPay.fromJson(json["esewa"]),
-    // vivaWallet: AmazonPay.fromJson(json["viva_wallet"]),
-    // stripe: AmazonPay.fromJson(json["stripe"]),
-    // iyziPay: AmazonPay.fromJson(json["iyzi_pay"]),
-    // momo: AmazonPay.fromJson(json["momo"]),
-    // moncash: AmazonPay.fromJson(json["moncash"]),
-    // razorPay: AmazonPay.fromJson(json["razor_pay"]),
-    // senangPay: AmazonPay.fromJson(json["senang_pay"]),
-    // paymobAccept: AmazonPay.fromJson(json["paymob_accept"]),
-    // maxicash: AmazonPay.fromJson(json["maxicash"]),
-    // pvit: AmazonPay.fromJson(json["pvit"]),
-    // flutterwave: AmazonPay.fromJson(json["flutterwave"]),
-    // paystack: AmazonPay.fromJson(json["paystack"]),
-    // xendit: AmazonPay.fromJson(json["xendit"]),
-    // worldpay: AmazonPay.fromJson(json["worldpay"]),
-    // sslCommerz: AmazonPay.fromJson(json["ssl_commerz"]),
-    // empty: Empty.fromJson(json[""]),
+
   );
 
   Map<String, dynamic> toJson() => {
@@ -586,40 +561,9 @@ class PaymentMethods {
     "delayed": delayed.toJson(),
     "wallet": wallet.toJson(),
     "bank_transfer": bankTransfer.toJson(),
-    // "mercadopago": mercadopago.toJson(),
-    // "liqpay": liqpay.toJson(),
-    // "paypal": paypal.toJson(),
-    // "hyper_pay": hyperPay.toJson(),
-    // "foloosi": foloosi.toJson(),
-    // "paytm": paytm.toJson(),
-    // "amazon_pay": amazonPay.toJson(),
-    // "paytabs": paytabs.toJson(),
-    // "bkash": bkash.toJson(),
+
     "fatoorah": fatoorah.toJson(),
-    // "ccavenue": ccavenue.toJson(),
-    // "thawani": thawani.toJson(),
-    // "sixcash": sixcash.toJson(),
-    // "hubtel": hubtel.toJson(),
-    // "tap": tap.toJson(),
-    // "swish": swish.toJson(),
-    // "payfast": payfast.toJson(),
-    // "esewa": esewa.toJson(),
-    // "viva_wallet": vivaWallet.toJson(),
-    // "stripe": stripe.toJson(),
-    // "iyzi_pay": iyziPay.toJson(),
-    // "momo": momo.toJson(),
-    // "moncash": moncash.toJson(),
-    // "razor_pay": razorPay.toJson(),
-    // "senang_pay": senangPay.toJson(),
-    // "paymob_accept": paymobAccept.toJson(),
-    // "maxicash": maxicash.toJson(),
-    // "pvit": pvit.toJson(),
-    // "flutterwave": flutterwave.toJson(),
-    // "paystack": paystack.toJson(),
-    // "xendit": xendit.toJson(),
-    // "worldpay": worldpay.toJson(),
-    // "ssl_commerz": sslCommerz.toJson(),
-    // "": empty.toJson(),
+
   };
 }
 
@@ -784,16 +728,19 @@ class SocialLogin {
 }
 
 class SocialMedia {
+  final String name;
   final String link;
   final String icon;
 
-  SocialMedia({
+  SocialMedia( {
     required this.link,
+    required this.name,
     required this.icon,
   });
 
   factory SocialMedia.fromJson(Map<String, dynamic> json) => SocialMedia(
     link: json["link"],
+    name: json["name"],
     icon: json["icon"],
   );
 

@@ -10,6 +10,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../../utill/images.dart';
+
 
 class SupportTicketWidget extends StatefulWidget {
   final SupportTicketModel supportTicketModel;
@@ -43,20 +45,10 @@ class _SupportTicketWidgetState extends State<SupportTicketWidget> {
   }
   @override
   Widget build(BuildContext context) {
-    print(widget.supportTicketModel.status);
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeSmall, Dimensions.paddingSizeSmall, Dimensions.paddingSizeSmall, 0),
-      child: Slidable(key: const ValueKey(0),
-        endActionPane: ActionPane(extentRatio:widget.supportTicketModel.status == 'close'? 0.01 : .25,
-          motion: const ScrollMotion(), children: [
-            if(widget.supportTicketModel.status != 'close')
-            SlidableAction(onPressed: (value){
-                Provider.of<SupportTicketController>(context, listen: false).closeSupportTicket(widget.supportTicketModel.id);
-              },
-              backgroundColor: Theme.of(context).colorScheme.error.withOpacity(.05),
-              foregroundColor: Theme.of(context).colorScheme.error.withOpacity(.75),
-              icon: CupertinoIcons.clear,
-              label: getTranslated('close', context))]),
+    // print(widget.supportTicketModel.status);
+    return Consumer<SupportTicketController>(
+      builder:(context, support, child) =>  Padding(
+        padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeSmall, Dimensions.paddingSizeSmall, Dimensions.paddingSizeSmall, 0),
         child: InkWell(onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) =>
             SupportConversationScreen(
             supportTicketModel: widget.supportTicketModel,)
@@ -69,9 +61,6 @@ class _SupportTicketWidgetState extends State<SupportTicketWidget> {
 
 
               Row(children: [
-                // SizedBox(width: 15, child: Image.asset(supportTicketModel.type?.toLowerCase() == 'website problem'? Images.websiteProblem :
-                // supportTicketModel.type == 'Complaint'? Images.complaint : supportTicketModel.type == 'Partner request'?
-                // Images.partnerRequest : Images.infoQuery)),
             Container(
               // height: 25,
               // width: 25,
@@ -86,11 +75,21 @@ class _SupportTicketWidgetState extends State<SupportTicketWidget> {
                       color: Colors.black,fontWeight: FontWeight.w500,fontSize: 16)),
               ),
             ),
-          const SizedBox(width: Dimensions.paddingSizeSmall,),
-                  Expanded(child: Text(
-                     '${ getTranslated(type, context)!} ', style: GoogleFonts.tajawal(
-                    color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(.75),fontWeight: FontWeight.w500,fontSize: 16))),
-                const SizedBox(width: Dimensions.paddingSizeSmall,),
+          Spacer(),
+          InkWell(
+
+            onTap: ()async{
+            await  support.deleteSupportTicket(widget.supportTicketModel.id).then((value) {
+                support.getSupportTicketList();
+                });
+            },
+              child: Image.asset(Images.delete,width: 20,)),
+
+          // const SizedBox(width: Dimensions.paddingSizeSmall,),
+          //         Expanded(child: Text(
+          //            '${ getTranslated(type, context)!} ', style: GoogleFonts.tajawal(
+          //           color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(.75),fontWeight: FontWeight.w500,fontSize: 16))),
+          //       const SizedBox(width: Dimensions.paddingSizeSmall,),
 
 
               ]),
@@ -117,7 +116,7 @@ class _SupportTicketWidgetState extends State<SupportTicketWidget> {
               // ),
 
 
-const SizedBox(height: 10,),
+        const SizedBox(height: 10,),
 
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,

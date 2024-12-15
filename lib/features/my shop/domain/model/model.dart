@@ -133,13 +133,16 @@ class LinkedProduct {
     required this.deletionReason,
   });
 
-  factory LinkedProduct.fromJson(Map<String, dynamic> json) => LinkedProduct(
+  factory LinkedProduct.fromJson(Map<String, dynamic> json) {
+    print(json["price"]);
+    return LinkedProduct(
     id: json["id"],
     price:json["price"]!=null? double.parse(json["price"].toString()):0.00,
     dateSynced: json["date_synced"],
     deleted: json["deleted"]??'',
     deletionReason: json["deletion_reason"],
   );
+  }
 
   Map<String, dynamic> toJson() => {
     "id": id,
@@ -238,12 +241,14 @@ class Linked {
   final double? myUnitPrice;
   final LinkedPricings pricings;
   final String imageUrl;
+  final bool requestStatus;
 
-  Linked( {
+  Linked(  {
     required this.id,
     required this.deleted,
     required this.name,
     required this.hasTax,
+    required this.requestStatus,
     required this.tax,
     required this.linkedProduct,
     required this.taxType,
@@ -267,11 +272,11 @@ class Linked {
     images: json["images"],
     pricing: json["pricing"],
     linkedProduct: LinkedProduct.fromJson(json["linked_product_"]),
-
+    requestStatus:json['request_status']==null?false:json['request_status']==1?true:false,
     code: json["code"],
     myUnitPrice: json["my_unit_price"]!=null?json["my_unit_price"].toDouble():0.00,
     pricings: LinkedPricings.fromJson(json["pricings"]),
-    imageUrl: json["image_url"],
+    imageUrl: json["image_url"]??'',
   );
 
   Map<String, dynamic> toJson() => {

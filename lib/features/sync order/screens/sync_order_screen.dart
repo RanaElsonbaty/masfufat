@@ -155,7 +155,7 @@ class _SyncOrderScreenState extends State<SyncOrderScreen> {
                       return const SizedBox.shrink();
                     },
                     itemBuilder: (context, item, index) {
-                      print(item.orderStatus);
+                      // print(item.orderStatus);
                       return SyncOrderWidget(
                         orderModel: item ,
                       );

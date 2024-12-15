@@ -294,8 +294,8 @@ notifyListeners();
     }
   }
   /// sync all product one time
-  Future syncProduct(bool sync,)async{
-    ApiResponse response =await myShopServiceInterface.syncProduct(sync,);
+  Future syncProduct(bool sync,bool update)async{
+    ApiResponse response =await myShopServiceInterface.syncProduct(sync,update);
     if(response.response!=null&&response.response!.statusCode==200){
       print('sync product res ---> ${response.response!.data}');
 
@@ -315,8 +315,8 @@ if(response.response!.data.toString()=='1'){
     }
   }
   /// sync one product
-  Future syncOneProduct(bool sync,int id)async{
-    ApiResponse response =await myShopServiceInterface.syncOneProduct(sync,id);
+  Future syncOneProduct(bool sync,int id,bool update)async{
+    ApiResponse response =await myShopServiceInterface.syncOneProduct(sync,id,update);
     if(response.response!=null&&response.response!.statusCode==200){
       print('sync product res ---> ${response.response!.data}');
 

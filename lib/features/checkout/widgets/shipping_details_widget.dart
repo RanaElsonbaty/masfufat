@@ -8,6 +8,7 @@ import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/features/address/screens/saved_billing_address_list_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 
@@ -27,9 +28,10 @@ class _ShippingDetailsWidgetState extends State<ShippingDetailsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    bool isGuestMode = !Provider.of<AuthController>(context, listen: false).isLoggedIn();
+    // bool isGuestMode = !Provider.of<AuthController>(context, listen: false).isLoggedIn();
     return Consumer<CheckoutController>(
         builder: (context, shippingProvider,_) {
+          bool selectAddress=shippingProvider.addressIndex == null;
           if(shippingProvider.sameAsBilling && !widget.hasPhysical){
             shippingProvider.setSameAsBilling();
           }
@@ -39,30 +41,33 @@ class _ShippingDetailsWidgetState extends State<ShippingDetailsWidget> {
                   Dimensions.paddingSizeSmall, Dimensions.paddingSizeSmall,0),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-                      Card(child: Container(padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                      Card(child:
+                      Container(padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeDefault),
-                            color: Theme.of(context).cardColor),
+                            color:selectAddress?Colors.red: Theme.of(context).cardColor),
                           child: Column(crossAxisAlignment:CrossAxisAlignment.start, children: [
                             Row(mainAxisAlignment:MainAxisAlignment.start, crossAxisAlignment:CrossAxisAlignment.start, children: [
                               Expanded(child: Row(children: [
-                                SizedBox(width: 20, child: Image.asset(Images.billingTo,color: Theme.of(context).primaryColor,)),
+                                SizedBox(width: 20, child: Image.asset(Images.billingTo,color:selectAddress?Colors.white: Theme.of(context).primaryColor,)),
                                 Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
                                     child: Text('${getTranslated('select_a_shipping_address', context)}',
-                                        style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge))
+                                        style: GoogleFonts.tajawal(
+                                            color: selectAddress?Colors.white:Colors.black,
+                                            fontSize: Dimensions.fontSizeLarge))
                                 )
                               ])),
 
 
                               InkWell(onTap: () => Navigator.of(context).push(MaterialPageRoute(
                                   builder: (BuildContext context) => const SavedBillingAddressListScreen(formCheckOut: false,))),
-                                child: SizedBox(width: 20,child: Image.asset(Images.edit, scale: 3, color: Theme.of(context).primaryColor,)),),
+                                child: SizedBox(width: 20,child: Image.asset(Images.edit, scale: 3, color:selectAddress?Colors.white: Theme.of(context).primaryColor,)),),
                             ]),
 
 
                               const SizedBox(height: Dimensions.paddingSizeDefault,),
                             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-                              const Divider(thickness: .125),
+                               Divider(thickness: .125,color: selectAddress?Colors.white:null,),
 
                               (shippingProvider.addressIndex != null && (locationProvider.addressList?.isNotEmpty ?? false))
                                   ? Column(children: [
@@ -76,18 +81,18 @@ class _ShippingDetailsWidgetState extends State<ShippingDetailsWidget> {
                                 AddressInfoItem(icon: Images.address,
                                     title: locationProvider.addressList?[shippingProvider.addressIndex!].address??''),
                               ]) :  Text(getTranslated('add_your_address', context)!,
-                                style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
+                                style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeSmall,color: selectAddress?Colors.white:null),
                                 maxLines: 3, overflow: TextOverflow.fade,
                               ),
                             ]),
                           ]),
                         )),
-
-
-
-                    // isGuestMode ? (!widget.hasPhysical)?
-                    // CreateAccountWidget(formKey: widget.passwordFormKey) : const SizedBox() : const SizedBox(),
-
+                  
+                    if(selectAddress)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 4),
+                        child: Text(getTranslated('Select_shipping_address_required', context)!,style: GoogleFonts.tajawal(fontSize: 18,color: Colors.red),),
+                      )
                   ]),
               );
             }

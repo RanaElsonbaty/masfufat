@@ -38,7 +38,7 @@ class CouponController extends ChangeNotifier {
       _isLoading = false;
       _couponCode = coupon;
       Map map = apiResponse.response!.data;
-      print('asdasdasdasdasdasdas$map');
+      // print('asdasdasdasdasdasdas$map');
       String dis = map['coupon_discount'].toString();
       if(map['coupon_discount'] !=null){
         _discount = double.parse(dis);

@@ -71,13 +71,16 @@ class MyShopRepository implements MyShopRepositoryInterface{
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }@override
-  Future<ApiResponse>  syncProduct(bool sync) async {
+  Future<ApiResponse>  syncProduct(bool sync,bool update) async {
     try {
+      print('update $update');
 
-      Response response = await dioClient!.post(AppConstants.syncLinkedProducts,
+      Response response = await dioClient!.post('${AppConstants.syncLinkedProducts}${update==true?'?update_product=1':''}',
 
           data: {
             'resync_deleted':sync==true?1:0,
+
+
           }
       );
       return ApiResponse.withSuccess(response);
@@ -86,16 +89,20 @@ class MyShopRepository implements MyShopRepositoryInterface{
     }
   }
 @override
-  Future<ApiResponse>  syncOneProduct(bool sync,int id) async {
+  Future<ApiResponse>  syncOneProduct(bool sync,int id,bool update) async {
     try {
-
-      Response response = await dioClient!.post('${AppConstants.syncLinkedProducts}${sync==false?'?product_id=$id':''}',
+      print('update $update');
+      print('sync $sync');
+      Response response = await dioClient!.post('${AppConstants.syncLinkedProducts}?product_id=$id${update==true?'&update_product=1':''}',
 
           data: {
             'resync_deleted':sync==true?1:0,
+
           }
       );
       return ApiResponse.withSuccess(response);
+      // return ApiResponse.withError(ApiErrorHandler.getMessage('e'));
+
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
