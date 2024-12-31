@@ -39,8 +39,22 @@ class _WaveBubbleState extends State<WaveBubble> {
   @override
   void initState() {
     super.initState();
+    // controller. se(finishMode: FinishMode.stop);
+
     print(widget.path??'no');
+
     _preparePlayer();
+    controller.addListener(() {
+
+      controller.onCompletion.listen((_) {
+        setState(() {
+          // إعادة تعيين واجهة المستخدم عند انتهاء الصوت
+          controller.stopPlayer();
+        });
+      });
+  // controller.
+    }
+    );
   }
 
   Future<void> _preparePlayer() async {
@@ -62,6 +76,7 @@ class _WaveBubbleState extends State<WaveBubble> {
         shouldExtractWaveform: true,
       );
 
+
       setState(() {});
     } catch (e) {
       debugPrint("Error preparing player: $e");
@@ -76,7 +91,7 @@ class _WaveBubbleState extends State<WaveBubble> {
     final localPath = "${directory.path}/$fileName";
 
     if (await File(localPath).exists()) {
-
+print('exists file' );
       return localPath;
     }
 
@@ -143,11 +158,32 @@ class _WaveBubbleState extends State<WaveBubble> {
           if (isFileReady)
             IconButton(
               onPressed: () async {
+
                 if (controller.playerState.isPlaying) {
-                  await controller.pausePlayer();
+                  // إيقاف المشغل إذا كان يعمل
+                  try{
+                    await controller.stopPlayer();
+
+                  }catch(e){
+                    debugPrint("Error stop player: $e");
+
+                  }
                 } else {
-                  await controller.startPlayer();
+                  // إذا كان المشغل متوقفًا، قم بتهيئته وتشغيله
+                  try {
+                    await controller.preparePlayer(
+                      path: filePath,
+                      shouldExtractWaveform: true,
+                    );
+                    await controller.startPlayer(forceRefresh: true);
+                  } catch (e) {
+                    debugPrint("Error starting player: $e");
+                    setState(() {
+                      error = true;
+                    });
+                  }
                 }
+
                 setState(() {});
               },
               icon: Icon(
@@ -155,7 +191,8 @@ class _WaveBubbleState extends State<WaveBubble> {
                 color: Colors.white,
               ),
             ),
-            if(error)
+
+          if(error)
             Text('record not available ',style: GoogleFonts.inter(
               fontWeight: FontWeight.w500,fontSize: 12,color: Colors.white
             ),),
@@ -163,7 +200,7 @@ class _WaveBubbleState extends State<WaveBubble> {
           if(error==false)
           if (isFileReady)
             AudioFileWaveforms(
-              size: Size(widget.width ?? 100, 40),
+              size: const Size( 100, 40),
               playerController: controller,
 
 

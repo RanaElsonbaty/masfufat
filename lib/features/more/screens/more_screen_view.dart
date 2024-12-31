@@ -31,7 +31,7 @@ import '../../../localization/controllers/localization_controller.dart';
 import '../../../main.dart';
 import '../../Store settings/controllers/store_setting_controller.dart';
 import '../../Store settings/screen/store_setting_screen.dart';
-import '../../payment /controller/payment_controller.dart';
+import '../../payment/controller/payment_controller.dart';
 import '../../setting/widgets/select_currency_bottom_sheet_widget.dart';
 import '../../setting/widgets/select_language_bottom_sheet_widget.dart';
 import 'faq_screen_view.dart';
@@ -60,8 +60,7 @@ class _MoreScreenState extends State<MoreScreen> {
       Provider.of<SplashController>(context, listen: false).initConfig(context);
       Provider.of<ProfileController>(context, listen: false)
           .getUserInfo(context);
-      Provider.of<StoreSettingController>(context,listen: false)
-          .getPackages();
+
 
       if (Provider.of<SplashController>(context, listen: false)
           .configModel!=null&&Provider.of<SplashController>(context, listen: false)

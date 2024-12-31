@@ -208,6 +208,7 @@ class AppConstants {
   static const double maxFilter = 10000;
 
   // order status
+  static const String googleMapKey = 'AIzaSyCruxq7GI3gz6iNk2G72e-igYyz9-eXcfE';
   static const String pending = 'pending';
   static const String confirmed = 'confirmed';
   static const String processing = 'processing';

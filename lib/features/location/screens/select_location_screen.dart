@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/location/controllers/location_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
+import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -47,8 +48,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
   bool locationEdit=false;
   @override
   void initState() {
-    // mapController!.l
-          getCurrentLocation();
+      getCurrentLocation();
 
     initLocation();
 
@@ -57,13 +57,11 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
 
   void initLocation() async {
     await askingPermission();
-    await Future.delayed(const Duration(milliseconds: 100));
+    await Future.delayed(const Duration(milliseconds: 10));
     if (widget.edit) {
       getEditLocation();
     } else {
-      // lat=0.000;
-      // lon=0.000;
-      // getUserLocation();
+
     }
   }
 
@@ -108,12 +106,23 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
             zoomControlsEnabled: false,
             initialCameraPosition: CameraPosition(target: LatLng(lat, lon),zoom: 5),
             myLocationButtonEnabled: false,
+
             onLongPress: (argument) {
-              locationEdit=true;
 
             },
             onCameraMove: (position) async{
+              if(widget.edit){
+                if(widget.address!.longitude!=position.target.longitude.toString()||widget.address!.latitude!=position.target.latitude.toString()){
+                  print('address edit suc');
+                  locationEdit=true;
+
+                }else{
+                  print('no address edit suc');
+                  locationEdit=false;
+                }
+              }
               setState(() {
+
                 isMoving = true;
                 lat =position.target.latitude;
                 lon =position.target.longitude;
@@ -160,7 +169,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
                 InkWell(
                     onTap: () {
                       getCurrentLocations(context);
-                      locationEdit=true;
+                      // locationEdit=true;
                       zoom=17;
 
 
@@ -445,7 +454,7 @@ setState(() {
 
   Future<void> displayPrediction(places.Prediction p, ScaffoldState? currentState) async {
     places.GoogleMapsPlaces placess = places.GoogleMapsPlaces(
-        apiKey: 'AIzaSyCruxq7GI3gz6iNk2G72e-igYyz9-eXcfE',
+        apiKey: AppConstants.googleMapKey,
         apiHeaders: await const header.GoogleApiHeaders().getHeaders());
     places.PlacesDetailsResponse detail =
     await placess.getDetailsByPlaceId(p.placeId!);

@@ -4,6 +4,10 @@ import 'package:flutter_sixvalley_ecommerce/features/order/domain/services/order
 import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../../main.dart';
+import '../../Store settings/controllers/store_setting_controller.dart';
 
 
 
@@ -186,7 +190,7 @@ if(element.orderStatus=='pending'){
     return apiResponse;
   }
 
-  int _selectType=0;
+  int _selectType=Provider.of<StoreSettingController>(Get.context!,listen: false).showStoreSetting==false?1:0;
   int get selectType=>_selectType;
   void getOrderType(int index){
     _selectType =index;

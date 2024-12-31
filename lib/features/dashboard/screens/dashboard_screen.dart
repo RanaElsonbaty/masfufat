@@ -11,6 +11,7 @@ import 'package:flutter_sixvalley_ecommerce/features/home/screens/home_screens.d
 import 'package:flutter_sixvalley_ecommerce/features/more/screens/more_screen_view.dart';
 import 'package:provider/provider.dart';
 
+import '../../Store settings/controllers/store_setting_controller.dart';
 import '../../my shop/screen/my_shop_screen.dart';
 import '../../order/screens/order_page_builder.dart';
 import '../../product/screens/all_category_and_brand.dart';
@@ -48,7 +49,7 @@ if(widget.orderError==true){
     const HomePage()
         ),
         NavigationModel(name: 'CATEGORY', icon: Images.category, screen: const AllCategoryAndBrand(backButtom: false,)),
-
+if(Provider.of<StoreSettingController>(Get.context!,listen: false).showStoreSetting==true)
         NavigationModel(name: 'my_store', icon: Images.myStoreIcon, screen: const MyShopScreen()),
         // NavigationModel(name: 'cart', icon: Images.cartIcon, screen: const CartScreen(showBackButton: false), showCartIcon: true),
         NavigationModel(name: 'orders', icon: Images.orderIcon, screen:  const OrderPageBuilder(isBacButtonExist: false)),

@@ -88,7 +88,7 @@ class StoreSettingController extends ChangeNotifier {
   }
   final List<Packages> _packages=[];
   List<Packages> get packages=>_packages;
-  bool _showStoreSetting=false;
+  bool _showStoreSetting=true;
   bool get showStoreSetting=>_showStoreSetting;
   Future getPackages() async {
 
@@ -104,7 +104,7 @@ class StoreSettingController extends ChangeNotifier {
       });
       for (var element in _packages) {
         if(element.currentPack==true){
-          if(element.name=="الباقة المجانية (للشراء فقط)"){
+          if(element.name=="الباقة المجانية (للشراء فقط)"||element.id==17){
             _showStoreSetting=false;
           }else{
             print(element.name);

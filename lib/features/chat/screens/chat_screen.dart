@@ -142,13 +142,13 @@ FocusNode focusNode =FocusNode();
                                       message: chatProvider.messageList[index][subIndex],
                                       previous: subIndex == (chatProvider.messageList[index].length -1) ?  null :
                                       chatProvider.messageList[index].elementAt(subIndex+1),
-                                      next: chatProvider.messageList[index][subIndex-1],
+                                      next: chatProvider.messageList[index][subIndex-1], chatName: widget.name??"",
                                     );
                                   }else{
                                     return MessageBubbleWidget(
                                       message: chatProvider.messageList[index][subIndex],
                                       previous: subIndex == (chatProvider.messageList[index].length -1) ?  null :
-                                      chatProvider.messageList[index].elementAt(subIndex+1),
+                                      chatProvider.messageList[index].elementAt(subIndex+1), chatName: widget.name??'',
                                     );
                                   }
                               })

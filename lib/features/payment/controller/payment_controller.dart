@@ -6,8 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/controllers/cart_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order/controllers/order_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/payment%20/domain/model/payment_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/payment%20/domain/services/payment_service_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
@@ -21,6 +19,8 @@ import '../../checkout/widgets/order_place_dialog_widget.dart';
 import '../../checkout/widgets/payment_method_bottom_sheet_widget.dart';
 import '../../dashboard/screens/dashboard_screen.dart';
 import '../../splash/domain/models/config_model.dart';
+import '../domain/model/payment_model.dart';
+import '../domain/services/payment_service_interface.dart';
 
 class PaymentController extends ChangeNotifier {
   final PaymentServiceInterface paymentServiceInterface;

@@ -81,8 +81,9 @@ class SupportTicketController extends ChangeNotifier {
 
 
 
-  Future<ApiResponse> sendReply(int? ticketID, String message) async {
+  Future<ApiResponse?> sendReply(int? ticketID, String message) async {
     _isLoading = true;
+
   try{
     List<Attachment> fileList=[];
     notifyListeners();
@@ -103,7 +104,7 @@ class SupportTicketController extends ChangeNotifier {
         updatedAt: DateTime.now(),
         ticketAttachments: [],
         attachments: fileList, ofline: true);
-    if(_supportReplyList!=null){
+    if(_supportReplyList!=null&&_supportReplyList!.isNotEmpty){
       _supportReplyList!.add(sendModel);
 
     }else{
@@ -115,29 +116,33 @@ class SupportTicketController extends ChangeNotifier {
   }
 
     notifyListeners();
-    ApiResponse response = await supportTicketServiceInterface.sendReply(ticketID.toString(), message, attachmentFile);
-
-
+  ApiResponse response = await supportTicketServiceInterface.sendReply(ticketID.toString(), message, attachmentFile);
+  if(pickedImageFileStored.isNotEmpty){
     pickedImageFileStored.clear();
+
+  }
+  if(_pickedImageFiles.isNotEmpty){
     _pickedImageFiles.clear();
-notifyListeners();
-    if (response.response!=null&&response.response!.statusCode == 200) {
 
-      _attachmentFile=[];
+  }
+  if(_attachmentFile.isNotEmpty){
+    _attachmentFile=[];
+    _attachmentFile.clear();
+  }
+  notifyListeners();
+  if (response.response!=null&&response.response!.statusCode == 200) {
 
-      notifyListeners();
-      _pickedImageFiles = [];
-      pickedImageFileStored = [];
-      _isLoading = false;
-    } else {
-      _isLoading = false;
-    }
-    _pickedImageFiles = [];
-    pickedImageFileStored = [];
 
-    _isLoading = false;
     notifyListeners();
-    return response;
+    _isLoading = false;
+  } else {
+    _isLoading = false;
+  }
+
+  _isLoading = false;
+  notifyListeners();
+  return response;
+
   }
 
 
@@ -338,7 +343,7 @@ void addPickCameraToList()async{
           debugPrint(path);
           debugPrint("Recorded file size: ${File(path).lengthSync()}");
           pickedImageFileStored.add(XFile(path));
-
+          _attachmentFile.add(await  MultipartFile.fromFile(XFile(path).path, filename: XFile(path).name));
           notifyListeners();
         }
       } else {

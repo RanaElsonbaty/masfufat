@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/screens/reset_password_screen.dart';
@@ -121,15 +122,19 @@ TextEditingController pinController=TextEditingController();
                         ),
                       ),
 const SizedBox(height: 5,),
-                                Pinput(
-controller: pinController,
-                  validator: (s) {
-                  return int.tryParse(s!).runtimeType==int ? null : 'Pin is incorrect';
-                  },
-                  pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-                  showCursor: true,
-                  onCompleted: (pin) => print(pin),
-                  ),
+                                Directionality(
+                                  textDirection: TextDirection.ltr,
+                                  child: Pinput(
+
+                                  controller: pinController,
+                                                    validator: (s) {
+                                                    return int.tryParse(s!).runtimeType==int ? null : 'Pin is incorrect';
+                                                    },
+                                                    pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                                                    showCursor: true,
+                                                    onCompleted: (pin) => print(pin),
+                                                    ),
+                                ),
                       const SizedBox(height: 60   ,),
 
 
@@ -167,15 +172,22 @@ showCustomSnackBar(getTranslated('verify_otp', context), context);
                           ),
                         ),
                       ),
-                      const SizedBox(height: 5,),
+                      const SizedBox(height: 10,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(getTranslated('Resend_code', context)!
-                          ,
-                            style: GoogleFonts.tajawal(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18
+                          InkWell(
+                            onTap: ()async{
+                  await    authProvider.forgetPassword(widget.email).then((value) {
+
+                  });
+                            },
+                            child: Text(getTranslated('Resend_code', context)!
+                            ,
+                              style: GoogleFonts.tajawal(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16
+                              ),
                             ),
                           )
                         ],

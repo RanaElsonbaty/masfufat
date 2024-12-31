@@ -6,7 +6,7 @@ import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:provider/provider.dart';
 
-import '../../payment /controller/payment_controller.dart';
+import '../../payment/controller/payment_controller.dart';
 import 'custom_check_box_widget.dart';
 
 class ChoosePaymentWidget extends StatelessWidget {

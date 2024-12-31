@@ -51,7 +51,8 @@ class _SavedBillingAddressListScreenState extends State<SavedBillingAddressListS
                 itemCount: locationProvider.addressList?.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  return InkWell(onTap: () {Provider.of<CheckoutController>(context, listen: false).setBillingAddressIndex(index);
+                  return InkWell(onTap: () {
+                    Provider.of<CheckoutController>(context, listen: false).setBillingAddressIndex(index);
                     Navigator.pop(context);
                     },
                     child: Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),

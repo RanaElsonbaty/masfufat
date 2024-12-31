@@ -80,6 +80,7 @@ class _LinkedProductWidgetState extends State<LinkedProductWidget> {
                     onTap: ()async{
                       myShopProvider.selectOneProduct(widget.linked.id, true);
                       showModalBottomSheet(context: context,
+
                           // backgroundColor: Colors.white,
                           builder: (BuildContext context)=> const ShowModalBottomSheetShop( delete: true,));
                     },
@@ -282,13 +283,22 @@ class _LinkedProductWidgetState extends State<LinkedProductWidget> {
                               tax= (((double.parse(price.text)+(((double.parse(myShop.taxController.text)/100)*double.parse(price.text))))));
 
                             }
-    await myShop.addProductPrice(widget.linked.id, (double.parse(price.text)+tax).toString()).then((value) async{
-    await myShop.syncOneProduct(widget.unSync==true, widget.linked.id,widget.unSync==false).then((value) async{
-      await myShop.getList();
-      myShop. initController();
-      Navigator.pop(diagloContext);
-    });
-    });
+   try{
+                              print(widget.unSync);
+     await myShop.addProductPrice(widget.linked.id, (double.parse(price.text)+tax).toString()).then((value) async{
+       await myShop.syncOneProduct(widget.unSync==true, widget.linked.id,widget.unSync==false).then((value) async{
+         if(value==true){
+         await myShop.getList();
+         myShop. initController();
+         }else{
+
+         }
+         Navigator.pop(diagloContext);
+       });
+     });
+   }catch(e){
+     Navigator.pop(diagloContext);
+   }
 print(widget.linked.id);
 
 
@@ -309,11 +319,11 @@ print(widget.linked.id);
                 widget.unSync==true?  Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('${getTranslated('سبب الحذف', context)!} :',style: GoogleFonts.tajawal(
+                      Text('${getTranslated('سبب الحذف', context)!} : ',style: GoogleFonts.tajawal(
                           fontSize: 16,fontWeight: FontWeight.w400
                       ),),
                       Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
+                        padding: const EdgeInsets.only(top: 2.0),
 
                         child: Text(getTranslated(widget.linked.linkedProduct.deletionReason ?? 'null', context)??'',style: GoogleFonts.tajawal(
                             fontSize: 16,fontWeight: FontWeight.w400
@@ -333,7 +343,8 @@ print(widget.linked.id);
   }
   BuildContext diagloContext=Get.context!;
 
-  Future dialog(String text){
+  Future dialog(String text)  {
+    // final ui.Image image =await getSvg();
 
     return showDialog(
 
@@ -342,9 +353,9 @@ print(widget.linked.id);
 
       builder: (context) {
         return  Padding(
-          padding:  EdgeInsets.symmetric(horizontal: 50.0,vertical: MediaQuery.of(context).size.width/1.7),
+          padding:  EdgeInsets.symmetric(horizontal: 50.0,vertical: MediaQuery.of(context).size.width/2),
           child: Container(
-            height:300,
+            // height:300,
             decoration: BoxDecoration(
 
               borderRadius: BorderRadius.circular(12),
@@ -354,24 +365,37 @@ print(widget.linked.id);
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Center(
-                  child: CircularProgressIndicator(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
+
+
+                Image.asset(Images.logoGif,width: 100,height: 100,),
+
                 const SizedBox(height: 10,),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(getTranslated(text, context)!,
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 5),
+                  child: Text(getTranslated('Please_wait', context)!,
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.visible,
                     style: GoogleFonts.tajawal(
                         color: Theme.of(context).iconTheme.color,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 22
+                        fontWeight: FontWeight.w700,
+                        fontSize: 20
 
                     ),),
-                )
+                ),
+                const SizedBox(height: 5,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  child: Text(getTranslated('Products_are_being_synced_this_will_take_some_time_please_do_not_close_the_app', context)!,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.visible,
+
+                    style: GoogleFonts.tajawal(
+                        color: Theme.of(context).iconTheme.color,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18
+
+                    ),),
+                ),
               ],
             ),
           ),
@@ -379,4 +403,5 @@ print(widget.linked.id);
       },
     );
   }
+
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class PriceConverter {
@@ -14,11 +15,13 @@ class PriceConverter {
 
       }
     }
+    // String formattedPrice = NumberFormat.currency(locale: 'en_US', symbol: '\$').format(price);
+
     bool singleCurrency =Provider.of<SplashController>(context, listen: false).configModel!=null? Provider.of<SplashController>(context, listen: false).configModel!.currencyModel == 'single_currency':true;
     bool inRight = Provider.of<SplashController>(context, listen: false).configModel!=null?Provider.of<SplashController>(context, listen: false).configModel!.currencySymbolPosition == 'right':true;
 String symbol=Provider.of<SplashController>(context, listen: false).myCurrency!=null?Provider.of<SplashController>(context, listen: false).myCurrency!.symbol:'ر.س';
     return '${inRight ? '' : symbol??''} '
-        '${singleCurrency ? price!.toStringAsFixed(2) : (price! * Provider.of<SplashController>(context, listen: false).myCurrency!.exchangeRate).toStringAsFixed(2)} '
+        '${NumberFormat.currency(locale: "ar_SA", symbol: '').format(singleCurrency ? price!.toStringAsFixed(2) : (price! * Provider.of<SplashController>(context, listen: false).myCurrency!.exchangeRate))} '
         '${inRight ? symbol??'': ''} ';
  }
 

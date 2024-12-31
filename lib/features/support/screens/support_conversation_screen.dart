@@ -44,7 +44,7 @@ void ff()async{
   var status = await Permission.storage.request();
 
   if (status.isGranted) {
-    // Permission granted
+
     print("Storage permission granted");
   } else if (status.isDenied) {
     // Permission denied
@@ -57,7 +57,7 @@ void ff()async{
   @override
   // payment_delayed
   void initState() {
-    ff();
+    // ff();
     Provider.of<SupportTicketController>(context, listen: false)
         .getSupportTicketReplyList(context, widget.supportTicketModel.id);
     Provider.of<SupportTicketController>(context, listen: false)
@@ -135,7 +135,7 @@ void ff()async{
                           message: message,
                           dateTime: dateTime,
                           isMe: isMe,
-                          replyModel: support.supportReplyList![index]);
+                          replyModel: support.supportReplyList![index], chatName: widget.supportTicketModel.subject.toString(),);
                     },
                   )
                 : const Center(child: CircularProgressIndicator());
@@ -423,11 +423,9 @@ void ff()async{
                     InkWell(
                           onTap: ()async{
                             if (isValidText(_controller.text)==false&&support.pickedImageFileStored.isEmpty) {
-
                                               } else {
                                                await support.sendReply(widget.supportTicketModel.id,
                                                     _controller.text);
-
                                               }
                             setState(() {
                               _controller.text = '';
@@ -469,7 +467,7 @@ void ff()async{
   bool isValidText(String text) {
 
     String trimmedText = text.trim();
-    return trimmedText.length >= 2;
+    return trimmedText.length >= 1;
   }
 
 }

@@ -24,8 +24,8 @@ import '../../checkout/widgets/order_place_dialog_widget.dart';
 import '../../checkout/widgets/shipping_details_widget.dart';
 import '../../checkout/widgets/wallet_payment_widget.dart';
 import '../../dashboard/screens/dashboard_screen.dart';
-import '../../payment /controller/payment_controller.dart';
-import '../../payment /widgets/checkout widget/payment_section.dart';
+import '../../payment/controller/payment_controller.dart';
+import '../../payment/widgets/checkout widget/payment_section.dart';
 import '../../product/domain/models/product_model.dart';
 import '../domain/models/order_details_model.dart';
 

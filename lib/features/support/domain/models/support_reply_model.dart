@@ -90,7 +90,8 @@ class Attachment {
     required this.fileUrl,
   });
 
-  factory Attachment.fromJson(Map<String, dynamic> json) => Attachment(
+  factory Attachment.fromJson(Map<String, dynamic> json) {
+    return Attachment(
     id: json["id"]??0,
     ticketId: json["ticket_id"]??0,
     fileName: json["file_name"],
@@ -99,8 +100,9 @@ class Attachment {
     createdAt:json["created_at"]!=null? DateTime.parse(json["created_at"]):DateTime.now(),
     updatedAt:json["updated_at"]!=null? DateTime.parse(json["updated_at"]):DateTime.now(),
     ticketConvId: json["ticket_conv_id"]??0,
-    fileUrl: json["file_url"]??'',
+    fileUrl: json["file_url"] ?? json['url']??'',
   );
+  }
 
   Map<String, dynamic> toJson() => {
     "id": id,

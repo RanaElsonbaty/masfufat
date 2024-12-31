@@ -464,6 +464,7 @@ void initData()async{
     );
   }
   void editAddress()async{
+    print('edit Location ---> ${widget.editLocation}');
       if(widget.editLocation!){
 
 
@@ -491,7 +492,7 @@ void initData()async{
 
 
             _countryCodeController.text=element.name;
-            countryId=element.id.toString();
+            countryId=element.code.toString();
 
 
           }
@@ -532,6 +533,7 @@ void initData()async{
         String phoneNumberOnly = CountryCodeHelper.extractPhoneNumber(
             countryCode, widget.address?.phone ?? '');
         _contactPersonNumberController.text = phoneNumberOnly;
+        int ?cID;
         Provider
             .of<AddressController>(Get.context!, listen: false)
             .countyList
@@ -541,7 +543,8 @@ void initData()async{
               element.code == widget.address?.country ||
               element.id.toString() == widget.address?.country) {
             _countryCodeController.text = element.name;
-            countryId = element.id.toString();
+            countryId = element.code.toString();
+            cID=element.id;
             Provider
                 .of<LocationController>(context, listen: false)
                 .locationController
@@ -551,10 +554,8 @@ void initData()async{
         });
         Provider.of<AddressController>(context, listen: false).getCityList(
             address: true,
-            countryId).then((value) {
+            '${cID??'20'}').then((value) {
           Provider.of<AddressController>(context, listen: false).cityList.forEach((element) {
-            // print(element.name );
-            // print(widget.address?.city );
             if (widget.address?.city != null &&
                 element.id.toString() == widget.address?.city ||
                 element.name == widget.address?.city.toString()) {
@@ -584,7 +585,7 @@ void initData()async{
         _contactPersonNumberController.text = phoneNumberOnly;
       }catch(e){}
       try{
-        // widget.placemarks.first.
+
         _zipCodeController.text=widget.placemarks.first.postalCode!;
       }catch(e){}
       Provider.of<LocationController>(Get.context!, listen: false).locationController.text=widget.placemarks.first.street!;

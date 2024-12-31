@@ -23,6 +23,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 
 import '../../checkout/widgets/coupon_apply_widget.dart';
+import '../../shipping/domain/models/shipping_method_model.dart';
 import '../widgets/cart_bill.dart';
 
 class CartScreen extends StatefulWidget {
@@ -40,7 +41,13 @@ class CartScreenState extends State<CartScreen> {
     await Provider.of<CartController>(Get.context!, listen: false).getCartData(Get.context!);
     Provider.of<CartController>(Get.context!, listen: false).setCartData();
     if( Provider.of<SplashController>(Get.context!,listen: false).configModel!.shippingMethod != 'sellerwise_shipping'){
-      Provider.of<ShippingController>(Get.context!, listen: false).getAdminShippingMethodList(Get.context!);
+      Provider.of<ShippingController>(Get.context!, listen: false).getAdminShippingMethodList(Get.context!).then((value) {
+        Provider.of<ShippingController>(Get.context!, listen: false).setSelectedShippingMethod(0, 0);
+        ShippingMethodModel shipping = ShippingMethodModel();
+        shipping.id = Provider.of<ShippingController>(Get.context!, listen: false).shippingList![0].shippingMethodList![0].id;
+        shipping.duration = 'all_cart_group';
+        Provider.of<ShippingController>(Get.context!, listen: false).addShippingMethod(Get.context!, shipping.id, shipping.duration,nav: false);
+        });
     }
   }
   final TextEditingController _controller = TextEditingController();
@@ -220,23 +227,6 @@ print(e);
                                                       )),
                                                   ),
 
-                                                  // if(shopClose)
-                                                  //   JustTheTooltip(
-                                                  //     backgroundColor: Colors.black87,
-                                                  //     controller: tooltipController,
-                                                  //     preferredDirection: AxisDirection.down,
-                                                  //     tailLength: 10,
-                                                  //     tailBaseWidth: 20,
-                                                  //     content: Container(width: 150,
-                                                  //         padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                                                  //         child: Text(getTranslated('store_is_closed', context)!,
-                                                  //             style: textRegular.copyWith(color: Colors.white, fontSize: Dimensions.fontSizeDefault))),
-                                                  //     child: InkWell(onTap: ()=>  tooltipController.showTooltip(),
-                                                  //       child: Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
-                                                  //         child: SizedBox(width: 30, child: Image.asset(Images.warning, color: Theme.of(context).colorScheme.error,)),
-                                                  //       ),
-                                                  //     ),
-                                                  //   )
 
 
                                                 ]))),

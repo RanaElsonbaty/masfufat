@@ -7,11 +7,14 @@ import 'package:flutter_sixvalley_ecommerce/features/my%20shop/widget/show_Modal
 import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../common/basewidget/show_custom_snakbar_widget.dart';
 import '../../../../localization/language_constrants.dart';
 import '../../../../main.dart';
+import '../../../../utill/custom_themes.dart';
+import '../../../../utill/dimensions.dart';
 import '../../../splash/controllers/splash_controller.dart';
 import '../../domain/model/model.dart';
 
@@ -52,11 +55,20 @@ class _SyncProductWidgetState extends State<SyncProductWidget> {
   TextEditingController profit = TextEditingController(text: '0');
   TextEditingController percentage = TextEditingController(text: '0');
 
+
+  JustTheController tooltipController = JustTheController();
+  JustTheController tooltipController1 = JustTheController();
+  JustTheController tooltipController2 = JustTheController();
+  JustTheController tooltipController3 = JustTheController();
+
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(8)),
@@ -341,14 +353,30 @@ class _SyncProductWidgetState extends State<SyncProductWidget> {
                         ),
                         Row(
                           children: [
-                            SizedBox(
-                              width: 110.w,
-                              child: Text(
-                                '${getTranslated('Amount_and_percentage_of_profit', context)!} :',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.tajawal(
-                                    fontSize: 16, fontWeight: FontWeight.w400),
+                            JustTheTooltip(
+                              backgroundColor: Colors.black87,
+                              controller: tooltipController1,
+                              preferredDirection: AxisDirection.down,
+                              tailLength: 10,
+                              tailBaseWidth: 20,
+                              content: Container(
+                                  padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                  child: Text(getTranslated('Amount_and_percentage_of_profit', context)!,
+                                      style: textRegular.copyWith(color: Colors.white, fontSize: Dimensions.fontSizeDefault))),
+                              child: InkWell(
+                                onTap: (){
+                                  tooltipController1.showTooltip();
+                                },
+                                child: SizedBox(
+                                  width: 110.w,
+                                  child: Text(
+                                    '${getTranslated('Amount_and_percentage_of_profit', context)!} :',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.tajawal(
+                                        fontSize: 16, fontWeight: FontWeight.w400),
+                                  ),
+                                ),
                               ),
                             ),
                             const SizedBox(
@@ -487,63 +515,86 @@ class _SyncProductWidgetState extends State<SyncProductWidget> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text(
-                              '${getTranslated('Selling_price_in_my_store', context)!} :',
-                              style: GoogleFonts.tajawal(
-                                  fontSize: 16, fontWeight: FontWeight.w400),
+                            // SizedBox(width: 50,),
+                            JustTheTooltip(
+                              backgroundColor: Colors.black87,
+                              controller: tooltipController,
+                              preferredDirection: AxisDirection.down,
+                              tailLength: 10,
+                              tailBaseWidth: 20,
+                              content: Container(
+                                  padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                  child: Text(getTranslated('Selling_price_in_my_store', context)!,
+                                      style: textRegular.copyWith(color: Colors.white, fontSize: Dimensions.fontSizeDefault))),
+                              child: InkWell(
+                                onTap: (){
+                                  tooltipController.showTooltip();
+                                },
+                                child: SizedBox(
+                                  width: 140.w,
+                                  child: Text(
+                                    '${getTranslated('Selling_price_in_my_store', context)!} :',
+                                    style: GoogleFonts.tajawal(
+                                        fontSize: 16, fontWeight: FontWeight.w400),
+                                  ),
+                                ),
+                              ),
                             ),
                             const SizedBox(
                               width: 5,
                             ),
-                            SizedBox(
-                              width: 150,
-                              height: 50,
-                              child: ClipRRect(
-                                  child: TextFormField(
-                                controller: widget.controller,
-                                decoration: InputDecoration(
-                                  hintText:
-                                      '${widget.controller.text.isNotEmpty ? widget.controller.text : ''} ',
-                                  hintStyle: GoogleFonts.tajawal(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.grey),
-                                  suffix: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 5.0, right: 5),
-                                    child: Text(
-                                      Provider.of<SplashController>(context,
-                                              listen: false)
-                                          .myCurrency!
-                                          .symbol,
-                                      style: TextStyle(
-                                          color:
-                                              Theme.of(context).iconTheme.color,
-                                          height: .8),
+                            Expanded(
+                              flex: 5,
+                              child: SizedBox(
+                                // width: ,
+                                height: 50,
+                                child: ClipRRect(
+                                    child: TextFormField(
+                                  controller: widget.controller,
+                                  decoration: InputDecoration(
+                                    hintText:
+                                        '${widget.controller.text.isNotEmpty ? widget.controller.text : ''} ',
+                                    hintStyle: GoogleFonts.tajawal(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.grey),
+                                    suffix: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 5.0, right: 5),
+                                      child: Text(
+                                        Provider.of<SplashController>(context,
+                                                listen: false)
+                                            .myCurrency!
+                                            .symbol,
+                                        style: TextStyle(
+                                            color:
+                                                Theme.of(context).iconTheme.color,
+                                            height: .8),
+                                      ),
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context).primaryColor),
                                     ),
                                   ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Theme.of(context).primaryColor),
-                                  ),
-                                ),
-                                keyboardType:
-                                    const TextInputType.numberWithOptions(
-                                        decimal: false),
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'[0-9.]')),
-                                  // Allow digits and decimal point
-                                ],
-                                onChanged: (val) {
-                                  if (val != '' && val.isNotEmpty) {
-                                    getProfit(double.parse(val));
-                                  } else {
-                                    getProfit(0);
-                                  }
-                                },
-                                textAlign: TextAlign.center,
-                              )),
+                                  keyboardType:
+                                      const TextInputType.numberWithOptions(
+                                          decimal: false),
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9.]')),
+                                    // Allow digits and decimal point
+                                  ],
+                                  onChanged: (val) {
+                                    if (val != '' && val.isNotEmpty) {
+                                      getProfit(double.parse(val));
+                                    } else {
+                                      getProfit(0);
+                                    }
+                                  },
+                                  textAlign: TextAlign.center,
+                                )),
+                              ),
                             ),
                             const Spacer(),
                             Consumer<MyShopController>(
@@ -608,7 +659,6 @@ class _SyncProductWidgetState extends State<SyncProductWidget> {
                           children: [
                             myShopProvider.switch2
                                 ? Row(
-                                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         '${getTranslated('tax', context)!} :',
@@ -688,7 +738,6 @@ class _SyncProductWidgetState extends State<SyncProductWidget> {
       ),
     );
   }
-  // https://platform.masfufat.com/product/btary-mtnklh-20100-mly-ambyr-ankr-abyd-mnfthyn-LL1pOd
   void getProfit(double val) {
     MyShopController myShop =
         Provider.of<MyShopController>(context, listen: false);

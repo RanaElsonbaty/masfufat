@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/support/controllers/support_ticket_controller.dart';
@@ -218,7 +219,7 @@ class AddTicketScreenState extends State<AddTicketScreen> {
                   Consumer<SupportTicketController>(key: _scaffoldKey,
                     builder: (context, supportTicketProvider, _) => Padding(
                       padding: const EdgeInsets.symmetric(horizontal : Dimensions.paddingSizeDefault, vertical: Dimensions.paddingSizeSmall),
-                      child: CustomButton(buttonText: getTranslated('submit', context), onTap: () {
+                      child: CustomButton(buttonText: getTranslated('submit', context), onTap: () async{
                         if(_formKeyLogin.currentState!.validate()){
                           if(supportTicketProvider.selectedTypeIndex == -1){
                             showCustomSnackBar(getTranslated('Subject_required', context), context);
@@ -231,8 +232,14 @@ class AddTicketScreenState extends State<AddTicketScreen> {
                         } else if (_descriptionController.text.isEmpty) {
                           showCustomSnackBar(getTranslated('description_is_required', context), context);
                         }else {
+                          // List<MultipartFile>? attachments=[];
+                          // if(supportTicketProvider.pickedImageFileStored.isNotEmpty){
+                          // for (var element in supportTicketProvider.pickedImageFileStored) {
+                          //   attachments.add( MultipartFile.fromFile(element.path,filename: element.name));
+                          // }
+                          // }
                           SupportTicketBody supportTicketModel = SupportTicketBody('${getTranslated(supportTicketProvider.selectedType, context)}',
-                              _subjectController.text, _descriptionController.text, supportTicketProvider.selectedPriority);
+                              _subjectController.text, _descriptionController.text, supportTicketProvider.selectedPriority,'',supportTicketProvider.pickedImageFileStored);
                           supportTicketProvider.createSupportTicket(supportTicketModel);
                         }}
                       }),

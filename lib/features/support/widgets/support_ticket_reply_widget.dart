@@ -13,8 +13,10 @@ class SupportTicketReplyWidget extends StatelessWidget {
   final bool isMe;
   final String dateTime;
   final String? message;
+  final String chatName;
+
   final SupportReplyModel replyModel;
-  const SupportTicketReplyWidget({super.key, required this.isMe, required this.dateTime, this.message, required this.replyModel});
+  const SupportTicketReplyWidget({super.key, required this.isMe, required this.dateTime, this.message, required this.replyModel, required this.chatName});
 
   @override
   Widget build(BuildContext context) {
@@ -72,8 +74,8 @@ class SupportTicketReplyWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    replyModel.attachments.isNotEmpty? replyModel.ofline==true?OflineFileView(replyModel: replyModel.attachments, index: attachmentIndex):
-                    FileView(replyModel: replyModel.attachments, index: attachmentIndex,):const SizedBox.shrink(),
+                    replyModel.attachments.isNotEmpty? replyModel.ofline==true?OflineFileView(replyModel: replyModel.attachments, index: attachmentIndex, chatName: chatName,):
+                    FileView(replyModel: replyModel.attachments, index: attachmentIndex, chatName: chatName,):const SizedBox.shrink(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [

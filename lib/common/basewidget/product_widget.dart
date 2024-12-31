@@ -18,6 +18,7 @@ import 'package:vibration/vibration.dart';
 import '../../features/cart/controllers/cart_controller.dart';
 import '../../features/cart/domain/models/cart_model.dart';
 import '../../features/product/widgets/carousel_slider.dart';
+import '../../main.dart';
 
 
 class ProductWidget extends StatefulWidget {
@@ -373,9 +374,12 @@ if(ratting!=0)
                                       borderRadius: BorderRadius.circular(4)
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.only(top: 3.0),
-                                    child: Center(child: Text(getTranslated('buy', context)!,style: GoogleFonts.tajawal(
-                                        fontSize: 14,
+                                    padding: const EdgeInsets.only(top: 3.0,left: 2,right: 2),
+                                    child: Center(child: Text(inCart?getTranslated('Added_to_cart', context)!:getTranslated('buy', context)!,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: GoogleFonts.tajawal(
+                                        fontSize: inCart?10:14,
                                         fontWeight: FontWeight.w500,
                                         color:widget.productModel.currentStock==0?Colors.white: Theme.of(context).iconTheme.color
                                     ),)),
@@ -384,6 +388,7 @@ if(ratting!=0)
                               ),
                             ),
                             const SizedBox(width: 5,),
+                            if(Provider.of<StoreSettingController>(Get.context!,listen: false).showStoreSetting==true)
                             Expanded(
                               child: InkWell(
                                 onTap: (){
@@ -414,10 +419,11 @@ if(ratting!=0)
                               }
                             });}else{
                             // Already added
+
                             showCustomSnackBar(getTranslated('Already_added', context), context,isError: true );
                           }
                         }catch(e){
-                                      // unknown error
+                             // unknown error
                           showCustomSnackBar(getTranslated('Not_added_to_my_store', context), context,isError: true );
                         }
                                   // }else{
@@ -432,9 +438,12 @@ if(ratting!=0)
                                       borderRadius: BorderRadius.circular(4)
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.only(top: 3.0),
-                                    child: Center(child: Text(linked==false?getTranslated('sync', context)!:getTranslated('synced',context)!,style: GoogleFonts.tajawal(
-                                        fontSize: 14,
+                                    padding: const EdgeInsets.only(top: 3.0,left: 2,right: 2),
+                                    child: Center(child: Text(sync?getTranslated('Addedd_to_my_store', context)!:linked==false?getTranslated('sync', context)!:getTranslated('synced',context)!,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: GoogleFonts.tajawal(
+                                        fontSize:sync? 10:14,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.white
                                     ),)),

@@ -1,4 +1,5 @@
 
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_sixvalley_ecommerce/data/datasource/remote/dio/dio_client.dart';
@@ -99,10 +100,6 @@ import 'package:flutter_sixvalley_ecommerce/features/order_details/domain/reposi
 import 'package:flutter_sixvalley_ecommerce/features/order_details/domain/repositories/order_details_repository_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/domain/services/order_details_service.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/domain/services/order_details_service_interface.dart';
-import 'package:flutter_sixvalley_ecommerce/features/payment%20/controller/payment_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/payment%20/domain/repositories/payment_repository.dart';
-import 'package:flutter_sixvalley_ecommerce/features/payment%20/domain/services/payment_service.dart';
-import 'package:flutter_sixvalley_ecommerce/features/payment%20/domain/services/payment_service_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/controllers/product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/controllers/seller_product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/domain/repositories/product_repository.dart';
@@ -194,7 +191,11 @@ import 'data/datasource/remote/dio/logging_interceptor.dart';
 import 'features/Store settings/domain/repositories/store_setting_repository_interface.dart';
 import 'features/loyaltyPoint/domain/repositories/loyalty_point_repository.dart';
 import 'features/my shop/controllers/my_shop_controller.dart';
-import 'features/payment /domain/repositories/payment_repository_interface.dart';
+import 'features/payment/controller/payment_controller.dart';
+import 'features/payment/domain/repositories/payment_repository.dart';
+import 'features/payment/domain/repositories/payment_repository_interface.dart';
+import 'features/payment/domain/services/payment_service.dart';
+import 'features/payment/domain/services/payment_service_interface.dart';
 import 'features/search_product/domain/repositories/search_product_repository.dart';
 
 final sl = GetIt.instance;

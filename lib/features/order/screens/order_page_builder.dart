@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 
 import '../../../common/basewidget/custom_app_bar_widget.dart';
 import '../../../localization/language_constrants.dart';
+import '../../../main.dart';
+import '../../Store settings/controllers/store_setting_controller.dart';
 import '../../sync order/screens/sync_order_screen.dart';
 import 'order_screen.dart';
 
@@ -24,6 +26,8 @@ class _OrderPageBuilderState extends State<OrderPageBuilder> {
 
     Provider.of<OrderController>(context, listen: false).getOrderList(1,'ongoing').then((value) {
       if(mounted) {
+        if(Provider.of<StoreSettingController>(Get.context!,listen: false).showStoreSetting==true)
+        //
         Provider.of<OrderController>(context, listen: false).setIndex(
             0, context, notify: false);
       }
@@ -46,6 +50,7 @@ class _OrderPageBuilderState extends State<OrderPageBuilder> {
                 padding: const EdgeInsets.only(left: 0.0,right: 0,top: 8),
                 child: Row(
                   children: [
+                    if(Provider.of<StoreSettingController>(Get.context!,listen: false).showStoreSetting==true)
                     Expanded(
                       child: InkWell(
                         onTap: (){

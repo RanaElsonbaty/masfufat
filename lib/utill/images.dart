@@ -8,6 +8,7 @@ class Images {
   static const String homeIcon = 'assets/images/home-icon.png';
   static const String copyIcon = 'assets/images/copyIcon.png';
   static const String myStoreIcon = 'assets/images/my-store-icon.png';
+  static const String logoGif = 'assets/images/GIF-logo 1.gif';
   static const String heart = 'assets/images/heart.png';
   static const String selectIcon = 'assets/images/select-icon.png';
   static const String barcode = 'assets/images/barcode.png';

@@ -17,6 +17,7 @@ import 'package:flutter_sixvalley_ecommerce/features/notification/screens/notifi
 import 'package:flutter_sixvalley_ecommerce/features/onboarding/screens/onboarding_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../../Store settings/controllers/store_setting_controller.dart';
 import '../../address/controllers/address_controller.dart';
 import '../../auth/screens/auth_screen.dart';
 import '../../banner/controllers/banner_controller.dart';
@@ -27,7 +28,7 @@ import '../../deal/controllers/flash_deal_controller.dart';
 import '../../maintenance/maintenance_screen.dart';
 import '../../my shop/controllers/my_shop_controller.dart';
 import '../../notification/controllers/notification_controller.dart';
-import '../../payment /controller/payment_controller.dart';
+import '../../payment/controller/payment_controller.dart';
 import '../../product/controllers/product_controller.dart';
 import '../../profile/controllers/profile_contrroller.dart';
 import '../../shop/controllers/shop_controller.dart';
@@ -63,14 +64,14 @@ class SplashScreenState extends State<SplashScreen>
         isNotConnected ? const SizedBox() : ScaffoldMessenger.of(context).hideCurrentSnackBar();
         if(!isNotConnected) {
           // Provider.of<AuthController>(Get.context!,listen: false). saveToken();
-          _route();
+           _route();
         }
       }
       firstTime = false;
     });
     // Provider.of<AuthController>(Get.context!,listen: false). saveToken();
 
-    _route();
+     _route();
   }
 
   @override
@@ -79,6 +80,8 @@ class SplashScreenState extends State<SplashScreen>
     _onConnectivityChanged.cancel();
   }
   static Future<void> loadData(bool reload) async {
+  // await  Provider.of<StoreSettingController>(Get.context!,listen: false)
+  //       .getPackages();
     Provider.of<PaymentController>(Get.context!,listen: false).getAmount(( 0));
     Provider.of<PaymentController>(Get.context!,listen: false).getApiKey(Get.context!);
     Provider.of<PaymentController>(Get.context!,listen: false).initiate(Get.context!);
@@ -133,7 +136,7 @@ class SplashScreenState extends State<SplashScreen>
             if(Provider.of<AuthController>(Get.context!, listen: false).isLoggedIn()){
            await   Provider.of<SplashController>(Get.context!, listen: false).initConfig(context).then((value) async{
              if(value==true){
-               loadData(true);
+
 
              Provider.of<AuthController>(Get.context!, listen: false).updateToken(Get.context!);
              if(widget.body != null){
@@ -148,7 +151,7 @@ class SplashScreenState extends State<SplashScreen>
                  const InboxScreen(isBackButtonExist: true,)));
                }
              }else{
-               loadData(true);
+               await loadData(true);
                Navigator.of(Get.context!).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => const DashBoardScreen()));
              }}else{
                await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => const AuthScreen()));

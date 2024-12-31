@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/controllers/checkout_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/payment%20/controller/payment_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/features/payment/controller/payment_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/features/payment/widgets/checkout%20widget/payment_section.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.dart';
@@ -17,7 +18,6 @@ import 'package:provider/provider.dart';
 import '../../../localization/controllers/localization_controller.dart';
 import '../../../main.dart';
 import '../../checkout/widgets/payment_method_bottom_sheet_widget.dart';
-import '../../payment /widgets/checkout widget/payment_section.dart';
 
 
 class AddFundDialogueWidget extends StatefulWidget {

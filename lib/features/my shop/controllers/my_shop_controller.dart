@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
+import 'package:flutter_sixvalley_ecommerce/features/Store%20settings/screen/store_setting_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/domain/services/my_shop_service_interface.dart';
+import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 
 import '../domain/model/model.dart';
@@ -201,12 +203,16 @@ notifyListeners();
        }
        return true;
      }else{
-       showCustomSnackBar(response.response!.data, Get.context!);
+       showCustomSnackBar(getTranslated('No_accounts_linked_Click_here_to_link', Get.context!), Get.context!,onTap: (){
+         Navigator.push(Get.context!,MaterialPageRoute(builder: (context) => const StoreSettingScreen(),));
+       });
 
        return false;
      }
    }catch(e){
-     showCustomSnackBar(e.toString(), Get.context!);
+     showCustomSnackBar(getTranslated('There_is_an_unexpected_error_please_report_it_to_the_support_team_to_solve_the_problem', Get.context!), Get.context!);
+
+     // showCustomSnackBar(e.toString(), Get.context!);
 
      return false;
 

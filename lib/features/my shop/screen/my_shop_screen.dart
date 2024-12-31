@@ -6,6 +6,7 @@ import 'package:flutter_sixvalley_ecommerce/features/my%20shop/shimmers/sync_shi
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/widget/products/linked_product_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../utill/images.dart';
@@ -95,6 +96,8 @@ class _MyShopScreenState extends State<MyShopScreen> {
               physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: [
+
+
                   const SizedBox(
                     height: 5,
                   ),
@@ -207,6 +210,7 @@ class _MyShopScreenState extends State<MyShopScreen> {
                                         itemBuilder: (context, index) {
                                           return LinkedProductWidget(
                                             unSync: true,
+
                                             linked: myShopProvider.searchActive
                                                 ? myShopProvider
                                                     .deleteListSearch[index]

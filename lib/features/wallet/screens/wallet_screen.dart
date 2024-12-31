@@ -16,12 +16,12 @@ import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/not_loggedin_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wallet/widgets/transaction_filter_bottom_sheet_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/home/screens/aster_theme_home_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:provider/provider.dart';
 
-import '../../payment /controller/payment_controller.dart';
+import '../../home/screens/home_screens.dart';
+import '../../payment/controller/payment_controller.dart';
 
 
 class WalletScreen extends StatefulWidget {
@@ -160,7 +160,7 @@ class _WalletScreenState extends State<WalletScreen> {
                         ),
 
                       ) : (walletController.walletTransactionModel?.walletTransactioList?.isEmpty ?? false) ?  const NoInternetOrDataScreenWidget(
-                        isNoInternet: false, message: 'no_transaction_history', icon: Images.noTransaction,
+                        isNoInternet: false, message: 'The_wallet_has_no_records', icon: Images.noTransaction,
                       ) : const TransactionShimmer();
                     }
                   ),

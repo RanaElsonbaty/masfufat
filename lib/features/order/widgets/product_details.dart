@@ -71,18 +71,18 @@ class _ProductSyncOrderState extends State<ProductSyncOrder> {
                               const Spacer(),
                               Text('${getTranslated('qty', context)} ${widget.syncOrder!.externalOrder!.qtys![index]}',
 
-                                  style: GoogleFonts.tajawal( fontSize: 14,fontWeight: FontWeight.w400,color: Colors.grey.shade600)),
+                                  style:GoogleFonts.tajawal( fontSize: 14,fontWeight: FontWeight.w400)),
 SizedBox(width: 10,),
                                   ]),
                             const SizedBox(height: Dimensions.marginSizeExtraSmall),
                             Text('${getTranslated('tax', context)} ${PriceConverter.calculationTaxString(context,widget.products[index].unitPrice??0, widget.products[index].tax??0.00,widget.products[index].taxType??'')}',
-                              style: GoogleFonts.tajawal( fontSize: Dimensions.fontSizeDefault),),
+                              style: GoogleFonts.tajawal( fontSize: 14,fontWeight: FontWeight.w400)),
 
 
                             const SizedBox(height: Dimensions.marginSizeExtraSmall),
 
                             Text('${getTranslated('Total', context)} ${PriceConverter.convertPrice(context,widget.products[index].unitPrice??0+PriceConverter.calculationTaxDouble(context,widget.products[index].unitPrice??0, widget.products[index].tax??0.00,widget.products[index].taxType??''))}',
-                              style: GoogleFonts.tajawal( fontSize: Dimensions.fontSizeDefault),),
+                              style: GoogleFonts.tajawal( fontSize: 14,fontWeight: FontWeight.w400)),
 
 
 

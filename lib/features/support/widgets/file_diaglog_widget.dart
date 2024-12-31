@@ -9,7 +9,8 @@ import '../file catch/pdf.dart';
 
 class FileDialog extends StatelessWidget {
   final String imageUrl;
-  const FileDialog({super.key, required this.imageUrl});
+  final bool? offline;
+  const FileDialog({super.key, required this.imageUrl, this.offline=false});
 
   @override
   Widget build(BuildContext context) {
@@ -21,27 +22,35 @@ class FileDialog extends StatelessWidget {
         child: Column(mainAxisSize: MainAxisSize.min, children: [
 
           Stack(children: [
-        imageUrl.endsWith('png')?
-        CustomImageWidget(height: 400, width: 300, fit: BoxFit.fill,
-            image:imageUrl,):
+            imageUrl.endsWith('jpg')||imageUrl.endsWith('png')?
+      offline==false?  ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: CustomImageWidget(height: 400, width: 300, fit: BoxFit.fill,
+              image:imageUrl,),
+      ):
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.file(File(imageUrl,),fit: BoxFit.fill,height: 400, width: 300,))
+                :
         imageUrl.endsWith('temp')?
               Mp4Widget(
+
             file:  File(imageUrl),
             min: false,
-            isSend: true,
+            isSend: offline==false?true:false,
             height: 400,
             width: 300,)
           :  imageUrl.endsWith('pdf')?
             SizedBox(
                 height: 400,
                 width: 300,
-                child: PdfWidget(file: File(imageUrl),isSend: true,)):
+                child: PdfWidget(file: File(imageUrl),isSend: offline==false?true:false,)):
         imageUrl.endsWith('docx')
 
             ? DocxAndXlsxFile(
             file: File(imageUrl),
             fileName: imageUrl,
-            isSend: false,
+            isSend: offline==false?false:true,
             )
           : const SizedBox.shrink(),
             Align(alignment: Alignment.centerRight,

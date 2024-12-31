@@ -23,6 +23,9 @@ import 'package:flutter_google_places/flutter_google_places.dart' as loc;
 import 'package:google_api_headers/google_api_headers.dart' as header;
 import 'package:google_maps_webservice/places.dart' as places;
 import 'package:location/location.dart';
+import 'package:path/path.dart';
+
+import '../../../utill/app_constants.dart';
 
 class AuthController with ChangeNotifier {
   final AuthServiceInterface authServiceInterface;
@@ -166,43 +169,96 @@ void initPageIndex (bool first){
   }
 
 
+  // Future registration(RegisterModel register, Function callback) async {
+  //   _isLoading = true;
+  //   notifyListeners();
+  //   print(register.toJson());
+  //   ApiResponse apiResponse = await authServiceInterface.registration(register.toJson());
+  //   _isLoading = false;
+  //   if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+  //     print(apiResponse.response!.data);
+  //     Map map = apiResponse.response!.data;
+  //     String? temporaryToken = '', token = '', message = '';
+  //     try{
+  //       message = map["message"];
+  //       token = map["token"];
+  //       temporaryToken = map["temporary_token"];
+  //     }catch(e){
+  //       message = map["message"];
+  //       token = map["token"];
+  //       temporaryToken = map["temporary_token"];
+  //     }
+  //     if(token != null && token.isNotEmpty){
+  //       print('token ------> $token');
+  //      await authServiceInterface.saveUserToken(token);
+  //       await authServiceInterface.updateDeviceToken();
+  //      notifyListeners();
+  //       callback(true, token, temporaryToken, message);
+  //
+  //     }
+  //     notifyListeners();
+  //   }else{
+  //     Map map = apiResponse.response!.data;
+  //     callback(false, '', '', '${map['errors'][0]['code']} ${map['errors'][0]['message']}');
+  //     ApiChecker.checkApi(apiResponse);
+  //   }
+  //   notifyListeners();
+  // }
+
+  //updated register method
   Future registration(RegisterModel register, Function callback) async {
     _isLoading = true;
     notifyListeners();
-    print(register.toJson());
-    ApiResponse apiResponse = await authServiceInterface.registration(register.toJson());
-    _isLoading = false;
-    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-      print(apiResponse.response!.data);
-      Map map = apiResponse.response!.data;
-      String? temporaryToken = '', token = '', message = '';
-      try{
+
+    print("Registration Data: ${register.toJson()}");
+
+    try {
+      ApiResponse apiResponse = await authServiceInterface.registration(register.toJson());
+      _isLoading = false;
+
+      if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+        print('API Response: ${apiResponse.response!.data}');
+
+        Map map = apiResponse.response!.data;
+        String? temporaryToken = '', token = '', message = '';
+
         message = map["message"];
         token = map["token"];
         temporaryToken = map["temporary_token"];
-      }catch(e){
-        message = null;
-        token = null;
-        temporaryToken = null;
-      }
-      if(token != null && token.isNotEmpty){
-        print('token ------> $token');
-       await authServiceInterface.saveUserToken(token);
-        await authServiceInterface.updateDeviceToken();
-       notifyListeners();
-        callback(true, token, temporaryToken, message);
 
+        if (token != null && token.isNotEmpty) {
+          print('Token received: $token');
+
+          await authServiceInterface.saveUserToken(token);
+          await authServiceInterface.updateDeviceToken();
+
+          notifyListeners();
+          callback(true, token, temporaryToken, message);
+        } else {
+          String error = '${map['errors'][0]['message']} ${map['errors'][0]['code']} ';
+          callback(false, '', '',getTranslated(error, Get.context!));
+        }
+      } else {
+        Map map = apiResponse.response?.data ?? {};
+        String errorMessage = 'An unknown error occurred';
+
+        if (map.containsKey('errors') && map['errors'] is List && map['errors'].isNotEmpty) {
+          errorMessage = '${map['errors'][0]['code']} ${map['errors'][0]['message']}';
+        }
+
+        callback(false, '', '', errorMessage);
+        ApiChecker.checkApi(apiResponse);
       }
+    } catch (e) {
+      _isLoading = false;
       notifyListeners();
-    }else{
-      Map map = apiResponse.response!.data;
+      print("Error occurred during registration: $e");
 
-      callback(false, '', '', '${map['errors'][0]['code']} ${map['errors'][0]['message']}');
-      ApiChecker.checkApi(apiResponse);
+      callback(false, '', '', getTranslated("An_Error_Occurred", Get.context!));
     }
+
     notifyListeners();
   }
-
 
 
   Future logOut() async {
@@ -561,7 +617,7 @@ void initPageIndex (bool first){
   Future<void> displayPrediction(
       places.Prediction p, ScaffoldState? currentState) async {
     places.GoogleMapsPlaces placess = places.GoogleMapsPlaces(
-        apiKey: 'AIzaSyC2BO1gDok2Pt8pa-MFypDjiOnfZjZWruc',
+        apiKey: AppConstants.googleMapKey,
         apiHeaders: await const header.GoogleApiHeaders().getHeaders());
     places.PlacesDetailsResponse detail =
     await placess.getDetailsByPlaceId(p.placeId!);

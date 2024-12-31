@@ -12,6 +12,7 @@ import 'package:flutter_google_places/flutter_google_places.dart' as loc;
 import 'package:google_api_headers/google_api_headers.dart' as header;
 import 'package:google_maps_webservice/places.dart' as places;
 
+import '../../../utill/app_constants.dart';
 import '../../../utill/dimensions.dart';
 
 class MinGoogleMap extends StatefulWidget {
@@ -397,7 +398,7 @@ class _MinGoogleMapState extends State<MinGoogleMap> {
 
   Future<void> displayPrediction(places.Prediction p, ScaffoldState? currentState) async {
     places.GoogleMapsPlaces placess = places.GoogleMapsPlaces(
-        apiKey: 'AIzaSyCruxq7GI3gz6iNk2G72e-igYyz9-eXcfE',
+        apiKey: AppConstants.googleMapKey,
         apiHeaders: await const header.GoogleApiHeaders().getHeaders());
     places.PlacesDetailsResponse detail =
     await placess.getDetailsByPlaceId(p.placeId!);

@@ -13,6 +13,7 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakba
 import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
 
+import '../../../main.dart';
 import '../../cart/domain/models/cart_model.dart';
 
 class BottomCartWidget extends StatefulWidget {
@@ -66,11 +67,7 @@ bool sync =false;
 
 
     if(widget.product!.addedBy == 'admin'){
-      // if(widget.product != null && (Provider.of<SplashController>(context, listen: false).configModel?.inhouseTemporaryClose?.status == 1)){
-      //   temporaryClose = true;
-      // }else{
       temporaryClose = false;
-      // }
     } else {
       if(widget.product != null && widget.product!.seller != null && widget.product!.seller!.shop != null && widget.product!.seller!.shop!.temporaryClose==1){
         temporaryClose = true;
@@ -110,7 +107,6 @@ bool sync =false;
                try{
                  if(widget.product!.id==null){
                    showCustomSnackBar(getTranslated('The_product_was_not_added_to_the_cart_successfully', context), context);
-                   // Navigator.pop(context);
                    return ;
                  }
                  if(inCart){
@@ -142,12 +138,7 @@ bool sync =false;
                  if(widget.product!.currentStock==0){
                    showCustomSnackBar(getTranslated('Out_of_stock', context), context);
                  }else{
-                   // CartModelBody cart = CartModelBody(
-                   //   productId: widget.product.id,
-                   //   quantity: 1,
-                   // );
-                   // Provider.of<CartController>(context, listen: false).addToCartAPI(
-                   //     cart, context, []);}
+
                    if(vacationIsOn || temporaryClose ){
                      showCustomSnackBar(getTranslated('this_shop_is_close_now', context), context, isToaster: true);
                    }else{
@@ -167,15 +158,18 @@ bool sync =false;
                   margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(4),
-                      color: Theme.of(context).primaryColor),
-                  child: Text(getTranslated('buy', context)!,
+                      color:inCart?Theme.of(context).primaryColor: Theme.of(context).primaryColor.withOpacity(.20)),
+                  child: Text(inCart?getTranslated('Added_to_cart', context)!:getTranslated('buy', context)!,
                     style: titilliumSemiBold.copyWith(fontSize: Dimensions.fontSizeLarge,
-                        color: Colors.white),),
+                        color: inCart?Colors.white:Colors.black),),
                 ),
               )),
+          if(Provider.of<StoreSettingController>(Get.context!,listen: false).showStoreSetting==true)
+
           Expanded(child: Consumer<MyShopController>(
             builder:(context, myShopController, child) {
               bool  sync=false;
+              bool  linked=false;
 
               if(widget.product!=null){
               for (var element in myShopController.pendingList) {
@@ -188,7 +182,8 @@ bool sync =false;
                 }
               } for (var element in myShopController.linkedList) {
                 if(element.id==widget.product!.id){
-                  sync=true;
+                  linked
+                  =true;
                 }
               }
               }
@@ -198,7 +193,6 @@ bool sync =false;
 
                   vibrate();
                   Vibration.cancel();
-                  // if (storeSetting.linkedAccountsList.isNotEmpty&&storeSetting.linkedAccountsList.first.storeDetails!=null||storeSetting.linkedAccountsList.last.storeDetails!=null){
 
                 try{
 
@@ -216,7 +210,7 @@ bool sync =false;
                         myShopController.getList();
                       }else{
                         showCustomSnackBar(getTranslated('Not_added_to_my_store', context), context,isError: true );
-PriceConverter.convertPrice(context, 0);
+                PriceConverter.convertPrice(context, 0);
                       }
                     });}else{
                     showCustomSnackBar(getTranslated('Already_added', context), context,isError: true );
@@ -248,8 +242,8 @@ PriceConverter.convertPrice(context, 0);
                   margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(4),
-                      color:sync?Colors.grey.shade500:  Theme.of(context).primaryColor),
-                  child: Text(getTranslated('sync', context)!,
+                      color:linked?Colors.green:sync?Colors.grey.shade500:  Theme.of(context).primaryColor),
+                  child: Text(linked?getTranslated('synced', context)!:sync?getTranslated('Addedd_to_my_store', context)!:getTranslated('sync', context)!,
                     style: titilliumSemiBold.copyWith(fontSize: Dimensions.fontSizeLarge,
                         color: sync?Colors.white:Colors.white),),
                 ),

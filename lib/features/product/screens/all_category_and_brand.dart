@@ -237,7 +237,6 @@ bool isBrand=false;
                     SizedBox(
                       height: 80,
                       child:BrandListWidget(isHomePage: true, scrollController: ScrollController(),   selectId:selectIndexBrand , selectBrand: (BrandModel val)async{
-
                          if(selectIndexBrand==val.id){
                            await category.getCategoryList(true);
                            selectIndexCategory=0;
@@ -338,7 +337,6 @@ bool isBrand=false;
                                 loading=false;
                               });
                               pagingController.refresh();
-
                               fetchPage(page,isBrand, Provider.of<CategoryController>(context,listen: false).brandCategoryList[selectIndexCategory].id.toString(), Get.context!,true);
 
 
@@ -469,12 +467,12 @@ bool isBrand=false;
                               noMoreItemsIndicatorBuilder: (context) {
                                 return const NoInternetOrDataScreenWidget(isNoInternet: false,
                                   viewImages: false,
-                                  message: 'end_page',);
+                                  message: '',);
                               },
                               newPageErrorIndicatorBuilder: (context) {
                                 return const NoInternetOrDataScreenWidget(isNoInternet: false,
                                   viewImages: false,
-                                  message: 'end_page',);
+                                  message: '',);
                               },
                               // newPageProgressIndicatorBuilder: (context) {
                               //   return const ProductShimmer(isHomePage: false,

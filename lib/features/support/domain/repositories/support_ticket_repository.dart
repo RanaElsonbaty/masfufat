@@ -6,8 +6,10 @@ import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
 import 'package:flutter_sixvalley_ecommerce/features/support/domain/models/support_ticket_body.dart';
 import 'package:flutter_sixvalley_ecommerce/features/support/domain/repositories/support_ticket_repository_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:async';
+
+import 'package:image_picker/image_picker.dart';
+
 
 
 
@@ -20,8 +22,24 @@ class SupportTicketRepository implements SupportTicketRepositoryInterface{
   @override
   Future<ApiResponse> createNewSupportTicket(SupportTicketBody supportTicketModel,) async {
     try {
+      List<MultipartFile> files=[];
+      print(supportTicketModel.attachments);
+      if(supportTicketModel.attachments!=null) {
+        supportTicketModel.attachments!.forEach((element) async {
+          files.add(await MultipartFile.fromFile(element.path,filename: element.name));
+        });
+      }
+      print(supportTicketModel.toJson());
+      var data = FormData.fromMap({
+        'attachments[]':files,
+        'subject': supportTicketModel.subject,
+        'type': supportTicketModel.orderid,
+        'description':supportTicketModel.subject ,
+        'order_id': '',
+        "priority":supportTicketModel.description
+      });
       final response = await dioClient!.post(AppConstants.supportTicketUri,
-          data: supportTicketModel.toJson()
+          data: data
       );
       return ApiResponse.withSuccess(response);
     } catch (e) {
@@ -54,13 +72,14 @@ class SupportTicketRepository implements SupportTicketRepositoryInterface{
   @override
   Future<ApiResponse> sendReply(String ticketID, String message,   List<MultipartFile> file) async {
     try {
-      var data =
-      FormData.fromMap({'attachments[]': file, 'message': message});
-      print('dfkjsfhskjfhksdjhfksdhfkshfksdhfksj${file.first.filename}');
+      var data =file.isNotEmpty?
+      FormData.fromMap({'attachments[]': file, 'message': message}):FormData.fromMap({'attachments[]': [], 'message': message});
 
       final response = await dioClient!.post('${AppConstants.supportTicketReplyUri}$ticketID',data: data);
+
       return ApiResponse.withSuccess(response);
     } catch (e) {
+      print(e);
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }

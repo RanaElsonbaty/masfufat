@@ -23,7 +23,6 @@ import 'package:flutter_sixvalley_ecommerce/features/notification/controllers/no
 import 'package:flutter_sixvalley_ecommerce/features/onboarding/controllers/onboarding_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order/controllers/order_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/controllers/order_details_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/payment%20/controller/payment_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/controllers/product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/controllers/seller_product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/controllers/product_details_controller.dart';
@@ -56,6 +55,7 @@ import 'package:flutter_sixvalley_ecommerce/theme/light_theme.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
 import 'package:provider/provider.dart';
 import 'di_container.dart' as di;
+import 'features/payment/controller/payment_controller.dart';
 import 'helper/custom_delegate.dart';
 import 'localization/app_localization.dart';
 
@@ -112,7 +112,7 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
 
   runApp(DevicePreview(
-    enabled: true,
+    enabled: false,
     builder:(context) =>  MultiProvider(providers: [
         ChangeNotifierProvider(create: (context) => di.sl<CategoryController>()),
         ChangeNotifierProvider(create: (context) => di.sl<ShopController>()),

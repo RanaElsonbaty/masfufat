@@ -48,7 +48,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   Size widgetSize = const Size(100, 400);
 
   _loadData( BuildContext context) async{
-    Provider.of<MyShopController>(context,listen: false).getList();
+    // Provider.of<MyShopController>(context,listen: false).getList();
     Provider.of<ProductDetailsController>(context, listen: false).getProductDetails(context, widget.productId.toString(), widget.productId.toString());
     // Provider.of<ReviewController>(context, listen: false).removePrevReview();
     // Provider.of<ProductDetailsController>(context, listen: false).removePrevLink();

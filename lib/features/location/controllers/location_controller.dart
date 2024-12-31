@@ -13,6 +13,7 @@ import 'package:flutter_google_places/flutter_google_places.dart' as loc;
 import 'package:google_api_headers/google_api_headers.dart' as header;
 import 'package:google_maps_webservice/places.dart' as places;
 import 'package:location/location.dart';
+import '../../../utill/app_constants.dart';
 import '../domain/models/prediction_model.dart';
 import '../domain/services/location_service_interface.dart';
 
@@ -240,7 +241,7 @@ class LocationController with ChangeNotifier {
   Future<void> displayPrediction(
       places.Prediction p, ScaffoldState? currentState) async {
     places.GoogleMapsPlaces placess = places.GoogleMapsPlaces(
-        apiKey: 'AIzaSyC2BO1gDok2Pt8pa-MFypDjiOnfZjZWruc',
+        apiKey: AppConstants.googleMapKey,
         apiHeaders: await const header.GoogleApiHeaders().getHeaders());
     places.PlacesDetailsResponse detail =
     await placess.getDetailsByPlaceId(p.placeId!);

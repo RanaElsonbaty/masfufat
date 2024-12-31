@@ -17,6 +17,7 @@ import 'package:flutter_sixvalley_ecommerce/features/auth/screens/mobile_verify_
 import 'package:flutter_sixvalley_ecommerce/features/dashboard/screens/dashboard_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import '../../Store settings/controllers/store_setting_controller.dart';
 import '../../address/controllers/address_controller.dart';
 import '../../banner/controllers/banner_controller.dart';
 import '../../cart/controllers/cart_controller.dart';
@@ -46,8 +47,10 @@ class SignInWidgetState extends State<SignInWidget> {
   void initState() {
     super.initState();
     _formKeyLogin = GlobalKey<FormState>();
-    _emailController = TextEditingController(text: 'pslcmgvmhultygbb@email.partners');
-    _passwordController = TextEditingController(text: '12345678');
+    // pslcmgvmhultygbb@email.partners
+    // 12345678
+    _emailController = TextEditingController(text: '');
+    _passwordController = TextEditingController(text: '');
   }
 
   @override
@@ -61,6 +64,8 @@ class SignInWidgetState extends State<SignInWidget> {
   final FocusNode _passNode = FocusNode();
   LoginModel loginBody = LoginModel();
   static Future<void> loadData(bool reload) async {
+  await  Provider.of<StoreSettingController>(Get.context!,listen: false)
+        .getPackages();
 await Provider.of<SplashController>(Get.context!,listen: false).initConfig(Get.context!);
     Provider.of<BannerController>(Get.context!, listen: false).getBannerList(reload,'main_banner');
     Provider.of<CategoryController>(Get.context!, listen: false).getCategoryList(reload);
@@ -174,16 +179,14 @@ Row(
             Hero(tag: 'user',
               child: CustomTextFieldWidget(
                 hintText: getTranslated('Enter_your_email_address_or_phone_number', context),
-                // labelText: getTranslated('user_name', context),
                 focusNode: _emailNode,
                 nextFocus: _passNode,
                 isRequiredFill: true,
 
 
-                // prefixIcon: Images.username,
                 inputType: TextInputType.emailAddress,
                 controller: _emailController,
-                showLabelText: true,
+                showLabelText: false,
                   required: true,
                   validator: (value) =>ValidateCheck.validateEmail(value, ))),
             const SizedBox(height: Dimensions.paddingSizeDefault,),
@@ -201,7 +204,7 @@ Row(
           ),
           const SizedBox(height: 5,),
             CustomTextFieldWidget(
-              showLabelText: true, required: true,
+              showLabelText: false, required: true,
               hintText: '********',
               inputAction: TextInputAction.done,
               isPassword: true,

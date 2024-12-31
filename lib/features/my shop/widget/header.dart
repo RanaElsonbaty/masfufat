@@ -30,15 +30,15 @@ class _HeaderSectionState extends State<HeaderSection> {
               mainAxisAlignment:myShopProvider.selectIds.isEmpty?MainAxisAlignment.center: MainAxisAlignment.spaceBetween,
               children: [
                 // const SizedBox(width: 2,),
-                if(myShopProvider.selectIds.isNotEmpty)
-                // widget.index==0||widget.index==2?
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Text("${getTranslated('Specific_products', context)!} ${myShopProvider.selectIds.length}",style: GoogleFonts.tajawal(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
-                      ),),
-                    ),
+                // if(myShopProvider.selectIds.isNotEmpty)
+                // // widget.index==0||widget.index==2?
+                //     Padding(
+                //       padding: const EdgeInsets.symmetric(horizontal: 10),
+                //       child: Text("${getTranslated('Specific_products', context)!} ${myShopProvider.selectIds.length}",style: GoogleFonts.tajawal(
+                //         fontWeight: FontWeight.w600,
+                //         fontSize: 14,
+                //       ),),
+                //     ),
                         // :const SizedBox(),
                 if(widget.index==0||widget.index==2)
                   Expanded(
@@ -110,7 +110,7 @@ class _HeaderSectionState extends State<HeaderSection> {
                Padding(
                  padding: const EdgeInsets.only(top: 4.0),
 
-                 child: Text(getTranslated('Select_all', context)!,style: GoogleFonts.tajawal(
+                 child: Text("${getTranslated('Select_all', context)!} ${myShopProvider.selectIds.isNotEmpty?"(${myShopProvider.selectIds.length})":""}",style: GoogleFonts.tajawal(
                    fontWeight: FontWeight.w500,
                    fontSize: 14
                  ),),

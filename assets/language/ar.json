@@ -99,9 +99,21 @@
   "Delete_product": "حذف منتج",
   "Are_you_sure_you_want_to_delete_the_selected_products": "هل أنت متأكد من حذف المنتجات المختارة؟",
   "cancellation": "إلغاء",
+  "Find_specific_shipping_address": "ابحث عن عنوان شحن معين . . .",
+  "Select_the_title": "اختر العنوان",
+  "Add_new_address": "إضافة عنوان جديد",
+  "The_wallet_has_no_records": "المحفظة لا تحتوي على سجلات",
+  "No_accounts_linked_Click_here_to_link": "لا توجد حسابات مرتبطة! انقر هنا للارتباط",
+
   "confirm": "تأكيد",
+  "Choose_from_your_shipping_addresses": "اختر من عناوين الشحن الخاصة بك",
+
+  "Are_you_sure_to_save_and_sync_products": "هل انت متاكد من حفظ ومزامنة المنتجات؟",
+  "Add_Select_Address": "إضافة / تحديد عنوان",
 
   "yes": "نعم",
+  "Addedd_to_my_store": "مُضاف الى متجري",
+  "Added_to_cart": "مُضاف الى السلة",
 
   "Deleted": "تم الحذف",
   "Waiting_for_review": "في انتظار المراجعة",
@@ -337,6 +349,8 @@
   "issue_description": "اكتب مشكلتك بالتفصيل",
   "submit": "إرسال",
   "Please_select_one_or_more_products_to_delete": "يرجي تحديد منتج او اكثر للحذف",
+  "Please_wait": "يرجى الإنتظار...",
+  "Products_are_being_synced_this_will_take_some_time_please_do_not_close_the_app": "جاري مزامنة المنتجات ، يستغرق هذا بعض الوقت الرجاء عدم إغلاق التطبيق",
 
   "all_Transaction": "جميع المعاملات",
   "order_Transactions": "الطلب من الموقع",
@@ -590,7 +604,7 @@
   "cancel": "الغاء",
   "There_is_an_unknown_problem_Please_try_again_later": "هناك مشكلة غير معروفة يرجي المحاوله بعد قليل",
   "problem_with_request": "مساعدة بشأن طلب",
-  "order_not_found": "لم يتم العثور علي الطلب",
+  "order_not_found": "لم يتم العثور على الطلب",
 
   "Select_shipping_address_required": "اختيار عنوان الشحن مطلوب ",
   "payment_delayed": "الدفع الآجل",
@@ -766,7 +780,7 @@
   "Complete_payment": "إتمام الدفع",
 
   "Total_Payments": "الإجمالي",
-  "Account_not_found": "لم يتم العثور علي الحساب ",
+  "Account_not_found": "لم يتم العثور على الحساب ",
 
   "Store_platform": "منصه المتجر",
   "price_value": "السعر",
@@ -909,7 +923,7 @@
   "minimum_point_is": "الحد الأدنى هو",
   "minimum_purchase_amount": "الحد الأدنى لمبلغ الشراء",
   "minimum_password_length": "الحد الأدنى لطول كلمة المرور هو 8",
-  "ticket_closed_successfully": "The ticket has been closed successfully.",
+  "ticket_closed_successfully": "تم اغلاق التذكرة بنجاح",
   "city_is_required": "المدينة مطلوبة",
   "country_is_required": "المحافطة مطلوبة",
   "zip_code_is_required": "الرمز البريدي مطلوب",
@@ -1111,7 +1125,8 @@
 
   "Retrieve_orders": "استرجاع طلبات",
   "Purchase_orders": "شراء طلبات",
-  "All_operations": "جميع العمليات"
+  "All_operations": "جميع العمليات",
+  "An_Error_Occurred": "لقد حدث خطأ أثناء التسجيل, جاول مرة اخرى لاحقا!"
 
 
 }

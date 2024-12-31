@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
 import 'package:flutter_sixvalley_ecommerce/features/category/domain/models/category_model.dart';
@@ -21,10 +23,11 @@ class CategoryController extends ChangeNotifier {
   // CategoryModel? get allProduct=>_allProduct;
   Future<void> getCategoryList(bool reload) async {
     if (_categoryList.isEmpty || reload) {
+      _categoryList.clear();
+      brandCategoryList.clear();
       ApiResponse apiResponse = await categoryServiceInterface!.getList();
       if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-        _categoryList.clear();
-        brandCategoryList.clear();
+
 
         apiResponse.response!.data.forEach((category) {
 
@@ -52,18 +55,22 @@ class CategoryController extends ChangeNotifier {
   }
 
   Future<void> getSellerWiseCategoryList(int sellerId) async {
-      ApiResponse apiResponse = await categoryServiceInterface!.getSellerWiseCategoryList(sellerId);
+    _categoryList.clear();
+    _brandCategoryList.clear();
+    debugPrint("lengthhhhhhhhhhhhh"+categoryList.length.toString());
+
+    ApiResponse apiResponse = await categoryServiceInterface!.getSellerWiseCategoryList(sellerId);
       if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-        _categoryList.clear();
-        _brandCategoryList.clear();
+
         apiResponse.response!.data.forEach((category) => _categoryList.add(CategoryModel.fromJson(category)));
         apiResponse.response!.data.forEach((category) => _brandCategoryList.add(CategoryModel.fromJson(category)));
         _categorySelectedIndex = 0;
       } else {
         ApiChecker.checkApi( apiResponse);
       }
-      notifyListeners();
+    debugPrint("lengthhhhhhhhhhhhh"+categoryList.length.toString());
 
+    notifyListeners();
   }
 
   final List<int> _selectedCategoryIds = [];

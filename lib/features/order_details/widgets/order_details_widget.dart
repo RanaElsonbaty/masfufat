@@ -108,11 +108,11 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                             Row(children: [
 
                               Text("${getTranslated('price_value', context)} ${PriceConverter.convertPrice(context, widget.orderDetailsModel.price)}",
-                                style: GoogleFonts.tajawal( fontSize: 16,fontWeight: FontWeight.w400),),
+                                style: GoogleFonts.tajawal( fontSize: 14,fontWeight: FontWeight.w400)),
                               //
                               const Spacer(),
                               Text('${getTranslated('qty', context)} ${widget.orderDetailsModel.qty}',
-                                  style: GoogleFonts.tajawal(fontWeight: FontWeight.w400, fontSize: 14,color: Colors.grey.shade800)),
+                                  style:GoogleFonts.tajawal( fontSize: 14,fontWeight: FontWeight.w400)),
                               // widget.orderDetailsModel.productDetails!=null&&widget.orderDetailsModel.productDetails!.taxModel!=null&&widget.orderDetailsModel.productDetails!.taxModel == 'exclude'?
 const SizedBox(width: 10,),
                             ]),
@@ -123,7 +123,7 @@ const SizedBox(width: 10,),
                                 child: Text('${getTranslated('tax', context)} ${PriceConverter.calculationTaxString(context, widget.orderDetailsModel.price,widget.orderDetailsModel.productDetails!=null?widget.orderDetailsModel.productDetails!.tax??0.00:0,widget.orderDetailsModel.productDetails!=null?widget.orderDetailsModel.productDetails!.taxType:'',)}',
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1 ,
-                                  style: GoogleFonts.tajawal(color: Colors.black, fontSize: 14,fontWeight: FontWeight.w400),),
+                                  style: GoogleFonts.tajawal( fontSize: 14,fontWeight: FontWeight.w400)),
                               ),
 
 
@@ -135,7 +135,7 @@ const SizedBox(width: 10,),
                               children: [
                                 Expanded(
                                   child: Text("${getTranslated('total', context)} ${PriceConverter.convertPrice(context,PriceConverter.calculationTaxDouble(context, widget.orderDetailsModel.price,widget.orderDetailsModel.productDetails!=null?widget.orderDetailsModel.productDetails!.tax??0:0,widget.orderDetailsModel.productDetails!=null?widget.orderDetailsModel.productDetails!.taxType:'',)+widget.orderDetailsModel.price)}",
-                                    style: GoogleFonts.tajawal( fontSize: 16,fontWeight: FontWeight.w400),),
+                                    style:GoogleFonts.tajawal( fontSize: 14,fontWeight: FontWeight.w400)),
                                 ),
                                 //
 

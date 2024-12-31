@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/my%20shop/controllers/my_shop_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
+import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,7 @@ class ShowModalBottomSheetShop extends StatefulWidget {
   State<ShowModalBottomSheetShop> createState() => _ShowModalBottomSheetShopState();
 }
 
-class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
+class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> with SingleTickerProviderStateMixin{
   @override
   void initState() {
     // TODO: implement initState
@@ -35,7 +36,7 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
   BuildContext diagloContext=Get.context!;
   @override
   Widget build(BuildContext context) {
-    return  SizedBox(
+    return  Container(
 
       height: 250,
       width: MediaQuery.of(context).size.width,
@@ -165,42 +166,31 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
         child: Consumer<StoreSettingController>(
           builder:(context, storeSetting, child) =>  Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-            if (storeSetting.linkedAccountsList.isNotEmpty&&storeSetting.linkedAccountsList.first.storeDetails!=null||storeSetting.linkedAccountsList.last.storeDetails!=null)
+              Container(width: 120,height: 4,decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.grey.shade400,
+              ),),
+            const SizedBox(height: 40,),
+
+            // if (storeSetting.linkedAccountsList.isNotEmpty&&storeSetting.linkedAccountsList.first.storeDetails!=null||storeSetting.linkedAccountsList.last.storeDetails!=null)
               Text(getTranslated('Save_and_sync_now', Get.context!)!,
                 style: GoogleFonts.tajawal(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w700
-
-                ),
-              ) else Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Row(
-                  children: [
-
-                    Expanded(
-                      child: InkWell(
-                        onTap: (){
-                          Navigator.push(context,MaterialPageRoute(builder: (context) => const StoreSettingScreen()));
-                        },
-                        child: RichText(text: TextSpan(
-                            text:getTranslated('Unable_to_connect_to_your_marketplacePlease_click_the_following_link_to_authenticate', Get.context!)!, style: GoogleFonts.tajawal(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 25, color: const Color(0xFF202532)), children: [
-                          // if (widget.isRequiredFill)
-                          TextSpan(text: '  ',style: GoogleFonts.tajawal(
-                              fontWeight: FontWeight.w500, fontSize: 25, color: Colors.red)),
-                            TextSpan(text:getTranslated('Click_here', Get.context!)!, style: GoogleFonts.tajawal(
-                                fontWeight: FontWeight.w500, fontSize: 25, color: Colors.red))])),
-                      ),
-                    ),
-
-                  ],
-                ),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20)
               ),
-              const SizedBox(height: 10,),
-    if (storeSetting.linkedAccountsList.isNotEmpty&&storeSetting.linkedAccountsList.first.storeDetails!=null||storeSetting.linkedAccountsList.last.storeDetails!=null)
+              const SizedBox(height: 15,),
+              Text(getTranslated('Are_you_sure_to_save_and_sync_products', Get.context!)!,
+                style: GoogleFonts.tajawal(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18
+                )
+              ),
+
+              const SizedBox(height: 20,),
+    // Spacer(),
+    // if (storeSetting.linkedAccountsList.isNotEmpty&&storeSetting.linkedAccountsList.first.storeDetails!=null||storeSetting.linkedAccountsList.last.storeDetails!=null)
 
               Consumer<MyShopController>(
                 builder:(context, myShopController, child) =>  Consumer<StoreSettingController>(
@@ -210,21 +200,56 @@ class _ShowModalBottomSheetShopState extends State<ShowModalBottomSheetShop> {
                       Expanded(
                         child: InkWell(
                       onTap: ()async{
+                        Navigator.pop(context);
 
 
-                      if(storeSetting.linkedAccountsList.isNotEmpty&&storeSetting.linkedAccountsList.first.storeDetails==null&&storeSetting.linkedAccountsList.last.storeDetails==null){
-                        Navigator.pop(diagloContext);
-                        showCustomSnackBar('${getTranslated('Unable_to_connect_to_your_marketplace', Get.context!)}', Get.context!, isError: true);
 
-                        return ;
-                      }
 
-                        dialog('Products_are_being_synced');
+
+                      },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Theme.of(context).primaryColor.withOpacity(.3)
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: Text(getTranslated('cancel', context)!,
+                                  style: GoogleFonts.titilliumWeb(
+                                      fontSize: 18,
+                                      color: Colors.black,
+
+                                      fontWeight: FontWeight.w500
+
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10,),
+                      Expanded(
+                        child: InkWell(
+                          onTap: ()async{
+                            // dialog('Products_are_being_synced');
+
+                            if(storeSetting.linkedAccountsList.isNotEmpty&&storeSetting.linkedAccountsList.first.storeDetails==null&&storeSetting.linkedAccountsList.last.storeDetails==null){
+                              Navigator.pop(diagloContext);
+                              showCustomSnackBar('${getTranslated('Unable_to_connect_to_your_marketplace', Get.context!)}', Get.context!, isError: true);
+
+                              return ;
+                            }
+
+                            dialog('Products_are_being_synced');
 try{
   if(myShopController.selectIds.isEmpty||myShopController.selectAll==true){
   await  syncAllProductOneTime(myShopController).then((value) async{
+    if(value==true){
     await myShopController.getList();
             myShopController. initController();
+    }
   });
     myShopController.clearSelect();
 
@@ -244,77 +269,19 @@ Navigator.pop(Get.context!);
   }
   // Navigator.pop(diagloContext);
 }catch(e){
-  showCustomSnackBar(e.toString(), context);
+  showCustomSnackBar(e.toString(), Get.context!);
 }
 
-                     //
-                     // try{
-                     //   if(widget.index==0){
-                     //
-                     //   await addPrice(myShopController).then((value) async{
-                     //     myShopController.clearSelect();
-                     //     await myShopController.getList();
-                     //     myShopController. initController();
-                     //
-                     //   });
-                     //   }else{
-                     //     await myShopController.syncProduct(true,).then((value)async {
-                     //       if(value==true){
-                     //         await myShopController.getList();
-                     //         myShopController. initController();
-                     //         Navigator.pop(diagloContext);
-                     //       }else{
-                     //         Navigator.pop(diagloContext);
-                     //
-                     //       }
-                     //
-                     //     });
-                     //
-                     //   }
-                     // }catch(e){
-                     //   Navigator.pop(diagloContext);
-                     //
-                     // }
-
-
-                      },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Theme.of(context).primaryColor
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Center(
-                                child: Text(getTranslated('yes', context)!,
-                                  style: GoogleFonts.titilliumWeb(
-                                      fontSize: 18,
-                                      color: Colors.white,
-
-                                      fontWeight: FontWeight.w500
-
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10,),
-                      Expanded(
-                        child: InkWell(
-                          onTap: (){
-                            Navigator.pop(context);
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(8),
                                 color: Theme.of(context).primaryColor
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Center(
-                                child: Text(getTranslated('no', context)!,
+                                child: Text(getTranslated('confirm', context)!,
                                   style: GoogleFonts.titilliumWeb(
                                       fontSize: 18,
                                       color: Colors.white,
@@ -331,7 +298,9 @@ Navigator.pop(Get.context!);
                     ],
                   ),
                 ),
-              )
+              ),
+              // const SizedBox(height: 30,),
+
             ],
           ),
         ),
@@ -339,23 +308,8 @@ Navigator.pop(Get.context!);
     );
   }
 
-  Future<ui.Image> getSvg()async{
-    const String rawSvg = '''<svg xmlns="http://www.w3.org/2000/svg" width="79" height="78" viewBox="0 0 79 78" fill="none">                                    <path d="M3.61787 0H75.5627C77.3359 0 78.7744 1.4318 78.7744 3.19677V48.4967C78.7744 64.7917 65.5046 78 49.1339 78H3.61787C1.8447 78 0.40625 76.5682 0.40625 74.8032V3.19677C0.40625 1.42905 1.8447 0 3.61787 0Z" fill="#5A409B"/>                                    <path d="M53.1346 16.1094H57.5302C60.0531 16.1094 62.0946 18.1442 62.0946 20.6526V25.0278C62.0946 27.5362 60.0503 29.571 57.5302 29.571H53.1346C50.6146 29.571 48.5703 27.5362 48.5703 25.0278V20.6526C48.5703 18.1442 50.6118 16.1094 53.1346 16.1094Z" fill="#FDCD05"/>                                </svg>''';
-    final PictureInfo pictureInfo =
-        await vg.loadPicture(const SvgStringLoader(rawSvg), null);
 
-    // You can draw the picture to a canvas:
-    // canvas.drawPicture(pictureInfo.picture);
-    // pictureInfo.picture.
-    // Or convert the picture to an image:
-    final ui.Image image = await pictureInfo.picture.toImage(80, 80);
-    // image
-    // image.
-
-    pictureInfo.picture.dispose();
-    return image;
-  }
-  Future dialog(String text) {
+  Future dialog(String text)  {
     // final ui.Image image =await getSvg();
 
     return showDialog(
@@ -365,9 +319,9 @@ Navigator.pop(Get.context!);
 
       builder: (context) {
         return  Padding(
-          padding:  EdgeInsets.symmetric(horizontal: 50.0,vertical: MediaQuery.of(context).size.width/1.7),
+          padding:  EdgeInsets.symmetric(horizontal: 50.0,vertical: MediaQuery.of(context).size.width/2),
           child: Container(
-            height:300,
+            // height:300,
           decoration: BoxDecoration(
 
             borderRadius: BorderRadius.circular(12),
@@ -377,27 +331,37 @@ Navigator.pop(Get.context!);
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-              SvgPicture.string(
-                  '''''',
-            ),
-                // Center(
-                //   child: CircularProgressIndicator(
-                //     color: Theme.of(context).primaryColor,
-                //   ),
-                // ),
+
+
+                Image.asset(Images.logoGif,width: 100,height: 100,),
+
                 const SizedBox(height: 10,),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(getTranslated(text, context)!,
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 5),
+                  child: Text(getTranslated('Please_wait', context)!,
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.visible,
                     style: GoogleFonts.tajawal(
                     color: Theme.of(context).iconTheme.color,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 22
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20
 
                   ),),
-                )
+                ),
+                const SizedBox(height: 5,),
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  child: Text(getTranslated('Products_are_being_synced_this_will_take_some_time_please_do_not_close_the_app', context)!,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.visible,
+
+                    style: GoogleFonts.tajawal(
+                    color: Theme.of(context).iconTheme.color,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18
+
+                  ),),
+                ),
               ],
             ),
           ),

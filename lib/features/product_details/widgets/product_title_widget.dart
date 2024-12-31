@@ -107,6 +107,18 @@ const SizedBox(width: 5,),
                           fontSize: 14
                       )),
                 ),
+                const Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(top: 3.0),
+                  child: Text("${getTranslated('qty', context)!} ${productModel!.currentStock.toString()}",style:  GoogleFonts.tajawal(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            // color: Colors.grey,
+                            color: Theme.of(context).iconTheme.color
+
+                            ),),
+                ),
+
 
 
 
@@ -147,36 +159,7 @@ const SizedBox(width: 5,),
                   ),
                 ),
               ),
-              RichText(
-                textAlign: TextAlign.start,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                text: TextSpan(
-                  text:"${getTranslated('qty', context)!} " ,
-                  style: GoogleFonts.tajawal(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      // color: Colors.grey,
-                      color: Theme.of(context).iconTheme.color
 
-                  ),
-                  children: [
-
-                    TextSpan(
-                      text: productModel!.currentStock.toString(),
-
-                      style:  GoogleFonts.tajawal(
-                          fontWeight: FontWeight.w400,
-                          color: Theme.of(context).iconTheme.color
-                          ,
-                          fontSize: 14
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(width: 5,),
 
 
 
@@ -207,7 +190,7 @@ const SizedBox(width: 5,),
               const SizedBox(width: 5,),
               Expanded(
                 flex: 2,
-                child: Text("${getTranslated('total_price', context)} ${ PriceConverter.convertPrice(context,
+                child: Text("${getTranslated('total', context)} ${ PriceConverter.convertPrice(context,
           (productModel!.unitPrice!=null?productModel!.unitPrice!:0)+PriceConverter.calculationTaxDouble(context, productModel!.unitPrice, productModel!.tax??0.00, productModel!.taxType??''), discountType: productModel!.discountType,
           discount: productModel!.discount ?? 0.00)}" ,
                     maxLines: 1,

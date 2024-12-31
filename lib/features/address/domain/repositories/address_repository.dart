@@ -109,6 +109,7 @@ class AddressRepository implements AddressRepoInterface<ApiResponse>{
   @override
   Future<ApiResponse> update(Map<String, dynamic> addressModel, int addressId) async {
     try {
+      print(addressModel);
       Response response = await dioClient!.put(AppConstants.updateAddressUri, data: addressModel,options:
       Options(
         method: 'PUT',

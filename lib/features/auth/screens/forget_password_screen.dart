@@ -193,10 +193,10 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                             if(value.response?.statusCode == 200) {
                               print(value.response?.data);
                               FocusScopeNode currentFocus = FocusScope.of(context);
-                              if (!currentFocus.hasPrimaryFocus) {
+                              // if (!currentFocus.hasPrimaryFocus) {
                                 Navigator.push(context,MaterialPageRoute(builder: (context) => EmailOtpVerification(email: _controller.text,),));
                                 currentFocus.unfocus();
-                              }
+                              // }
 
                             }
                           });

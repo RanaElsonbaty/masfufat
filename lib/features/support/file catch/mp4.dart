@@ -20,6 +20,7 @@ class _Mp4WidgetState extends State<Mp4Widget> {
   bool isReady = false;
   bool isVideoPlay = false;
   void getVideo() {
+    print(widget.file.path);
     if (widget.isSend) {
       print('widget file path =>${widget.file.path} // ${widget.isSend}');
       // if (mounted) {
@@ -51,18 +52,21 @@ class _Mp4WidgetState extends State<Mp4Widget> {
 
   @override
   void initState() {
+    print('video get path');
     getVideo();
     super.initState();
   }
 
   @override
   void dispose() {
-    videoController!.dispose();
+    videoController?.dispose();
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+
     return videoController!.value.isInitialized
         ? InkWell(
             onTap:widget.min==true?null: () {
@@ -90,8 +94,11 @@ class _Mp4WidgetState extends State<Mp4Widget> {
                 ),
                 Visibility(
                   visible:widget.min==false&& isVideoPlay == false,
-                  child: Align(
-                    alignment: AlignmentDirectional.center,
+                  child: Positioned(
+                    left: 0,
+                    right: 0,
+                    top: widget.width/4.9,
+                    // padding:  EdgeInsets.only(top: widget.width/5,left: 0,right: 0),
                     child: Icon(
                       isVideoPlay ? Icons.stop : Icons.play_arrow,
                       size: 50,

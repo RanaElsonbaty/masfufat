@@ -63,7 +63,10 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
     if (isRoute) {
 
       await profileController.getUserInfo(context);
+     // await authController.registration(register, (success, token, tempToken, errorMessage) {});
       loadData(true);
+
+
       authController.companyName.clear();
       authController.certificateImage = null;
       authController.commercialRegisterImage = null;
@@ -85,6 +88,7 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
           Get.context!,
           MaterialPageRoute(builder: (_) => const DashBoardScreen()),
           (route) => false);
+
     } else {
       showCustomSnackBar(errorMessage, context);
     }
@@ -145,7 +149,7 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
   @override
   void initState() {
     super.initState();
-    Provider.of<AddressController>(context, listen: false).getCityList(address: true,'20');
+    Provider.of<AddressController>(context, listen: false).getCityList(address: false,'20');
   }
 
   @override
@@ -624,7 +628,7 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                         child: CustomButton(
                           isLoading: authProvider.isLoading,
                           onTap: authProvider.consent
-                              ? () {
+                              ? () async{
                          if(authProvider.commercialRegistrationNo.text.isEmpty){
                            showCustomSnackBar(getTranslated('Commercial_Registration_Number_Self_Employment_Document', context), context);
                          }
@@ -674,9 +678,12 @@ class _SignUpSecWidgetState extends State<SignUpSecWidget> {
                                     authProvider.registration(model, route);
                                   }
                                 }
+
                             else{
-showCustomSnackBar(getTranslated('Download_the_commercial_register', context), context);
+                            showCustomSnackBar(getTranslated('Download_the_commercial_register', context), context);
                             }
+
+
                           }
                               : null,
                           buttonText: getTranslated('sign_up', context),

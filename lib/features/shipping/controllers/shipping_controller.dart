@@ -252,17 +252,21 @@ class ShippingController extends ChangeNotifier {
 
 
 
-  Future addShippingMethod(BuildContext context, int? id, String? cartGroupId) async {
+  Future addShippingMethod(BuildContext context, int? id, String? cartGroupId,{bool nav =true}) async {
     _isLoading = true;
     notifyListeners();
     ApiResponse apiResponse = await shippingServiceInterface.addShippingMethod(id,cartGroupId);
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-      Navigator.pop(Get.context!);
+      if(nav){
+        Navigator.pop(Get.context!);
+        showCustomSnackBar(getTranslated('shipping_method_added_successfully', Get.context!), Get.context!, isError: false);
+
+      }
       getChosenShippingMethod(Get.context!);
-      showCustomSnackBar(getTranslated('shipping_method_added_successfully', Get.context!), Get.context!, isError: false);
 
     } else {
-      Navigator.pop(Get.context!);
+      if(nav){
+      Navigator.pop(Get.context!);}
       ApiChecker.checkApi(apiResponse);
     }
     _isLoading = false;

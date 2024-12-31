@@ -46,7 +46,7 @@ class _BrandAndCategoryProductScreenState extends State<BrandAndCategoryProductS
     try {
 
       final List<Product>  newItems = await Provider.of<ProductController>(context, listen: false).initBrandOrCategoryProductList(
-          isBrand,int.parse(id),isBrand?'1':id,context,pageKey,true
+          isBrand,int.parse(id),isBrand?'0':id,context,pageKey,true
       ,searchController.text,Provider.of<SearchProductController>(context, listen: false).syncSortText,
           Provider.of<SearchProductController>(context, listen: false).sortText,
           '&from_price=${ Provider.of<SearchProductController>(context, listen: false).minFilterValue.toString()}&to_price=${Provider.of<SearchProductController>(context, listen: false).maxFilterValue.toString()}'
@@ -320,12 +320,12 @@ setState(() {
                       noMoreItemsIndicatorBuilder: (context) {
                         return const NoInternetOrDataScreenWidget(isNoInternet: false,
                           viewImages: false,
-                          message: 'end_page',);
+                          message: '',);
                       },
                       newPageErrorIndicatorBuilder: (context) {
                         return const NoInternetOrDataScreenWidget(isNoInternet: false,
                           viewImages: false,
-                          message: 'end_page',);
+                          message: '',);
                       },
                       // newPageProgressIndicatorBuilder: (context) {
                       //   return const ProductShimmer(isHomePage: false,

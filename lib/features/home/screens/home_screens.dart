@@ -42,7 +42,7 @@ import 'package:provider/provider.dart';
 import '../../brand/screens/brands_screen.dart';
 import '../../brand/widgets/brand_list_widget.dart';
 import '../../cart/screens/cart_screen.dart';
-import '../../payment /controller/payment_controller.dart';
+import '../../payment/controller/payment_controller.dart';
 import '../../product/widgets/latest_product_list_widget.dart';
 import '../../wishlist/screens/wishlist_screen.dart';
 

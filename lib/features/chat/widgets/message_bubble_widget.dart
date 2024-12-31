@@ -15,7 +15,8 @@ class MessageBubbleWidget extends StatelessWidget {
   final Message message;
   final Message? previous;
   final Message? next;
-  const MessageBubbleWidget({super.key, required this.message, this.previous, this.next});
+  final String chatName;
+  const MessageBubbleWidget({super.key, required this.message, this.previous, this.next, required this.chatName});
 
   @override
   Widget build(BuildContext context) {
@@ -120,9 +121,6 @@ class MessageBubbleWidget extends StatelessWidget {
             TextDirection.rtl : TextDirection.ltr : isMe ? TextDirection.ltr : TextDirection.rtl,
               child: SizedBox(width: MediaQuery.of(context).size.width/2,
                 child: ListView.builder(
-                  // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  // childAspectRatio: 1, crossAxisCount: 2,
-                  // mainAxisSpacing: Dimensions.paddingSizeSmall, crossAxisSpacing: Dimensions.paddingSizeSmall),
                   shrinkWrap: true,
                   padding: const EdgeInsets.all(0),
 
@@ -142,9 +140,8 @@ class MessageBubbleWidget extends StatelessWidget {
                         ),
                         child: Column(
                           children: [
-
-                            message.attachment.isNotEmpty? message.ofline==true?OflineFileView(replyModel: message.attachment, index: index):
-                            FileView(replyModel: message.attachment, index: index,):const SizedBox.shrink(),
+                            message.attachment.isNotEmpty? message.ofline==true?OflineFileView(replyModel: message.attachment, index: index, chatName: chatName,chat: true,):
+                            FileView(replyModel: message.attachment, index: index, chatName: chatName,chat: true,):const SizedBox.shrink(),
 
                             const SizedBox(height: 5,),
                             Row(

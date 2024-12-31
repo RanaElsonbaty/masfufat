@@ -510,6 +510,7 @@ Future addProductToSync()async{
   try{
     await myShop.addProduct(productSelect[i]).then((val) {
       if(val==false){
+
         showCustomSnackBar('${getTranslated('Product_sync_failed',Get.context!)} id = ${productSelect[i]}', Get.context!);
       }
       if(i!=0){

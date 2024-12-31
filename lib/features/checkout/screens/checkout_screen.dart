@@ -19,7 +19,6 @@ import 'package:flutter_sixvalley_ecommerce/features/checkout/widgets/shipping_d
 import 'package:flutter_sixvalley_ecommerce/features/checkout/widgets/wallet_payment_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/coupon/controllers/coupon_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/dashboard/screens/dashboard_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/payment%20/controller/payment_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/profile/controllers/profile_contrroller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/shipping/controllers/shipping_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
@@ -29,7 +28,9 @@ import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:provider/provider.dart';
 
-import '../../payment /widgets/checkout widget/payment_section.dart';
+import '../../payment/controller/payment_controller.dart';
+import '../../payment/widgets/checkout widget/payment_section.dart';
+
 
 class CheckoutScreen extends StatefulWidget {
   final List<CartModel> cartList;
@@ -413,11 +414,6 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      // Padding(padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeDefault,
-                      //     Dimensions.paddingSizeDefault, Dimensions.paddingSizeDefault,Dimensions.paddingSizeSmall),
-                      //     child: Text(getTranslated('order_summary', context)??'',
-                      //         style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge))),
-
                       Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: Dimensions.paddingSizeDefault),

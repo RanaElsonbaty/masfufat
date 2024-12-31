@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 
 import '../../../main.dart';
 import '../../checkout/controllers/checkout_controller.dart';
-import '../../payment /controller/payment_controller.dart';
+import '../../payment/controller/payment_controller.dart';
 
 class WalletCardWidget extends StatelessWidget {
   const WalletCardWidget({super.key, required this.tooltipController, required this.focusNode,
@@ -40,7 +40,8 @@ class WalletCardWidget extends StatelessWidget {
 
                   const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
-                    JustTheTooltip(backgroundColor: Colors.black87,
+                    JustTheTooltip(
+                        backgroundColor: Colors.black87,
                       controller: tooltipController,
                       preferredDirection: AxisDirection.down,
                       tailLength: 10,
